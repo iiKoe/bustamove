@@ -7,48 +7,100 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.settings.Config;
 
+/**
+ * A Class to manage the Balls in the game.
+ */
 public class BallManager {
+	
+	/** The cannon instance to shoot out. */
 	private Cannon cannon;
+	
+	/** The ball speed. */
 	private int ball_speed;
+	
+	/** The ball radius. */
 	private int ball_rad;
 	
-	/* Projectiles */
+	/** The ball list. */
 	private ArrayList<Ball> ballList = new ArrayList<Ball>();
+	
+	/** The ball dead list. */
 	private ArrayList<Ball> ballDeadList = new ArrayList<Ball>();
 
-	/* Some balls to hit for testing */
+	/** The static ball list. */
 	private ArrayList<Ball> ballStaticList = new ArrayList<Ball>();
+	
+	/** The static ball dead list. */
 	private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
 	
+	/**
+	 * Instantiates a new ball manager.
+	 *
+	 * @param cannon the cannon to shoot the Balls out
+	 * @param ball_rad the Ball radius
+	 * @param speed the Ball speed
+	 */
 	public BallManager(Cannon cannon, int ball_rad, int speed) {
 		this.cannon = cannon;
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
 	}
 	
+	/**
+	 * Sets the ball speed.
+	 *
+	 * @param speed the new ball speed
+	 */
 	public void setBallSpeed(int speed) {
 		this.ball_speed = speed;
 	}
 
+	/**
+	 * Adds a static ball.
+	 *
+	 * @param color the color
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 */
 	public void addStaticBall(int color, int x, int y) { // FIXME add color option
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 	}
 	
+	/**
+	 * Adds a random static ball.
+	 *
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 */
 	public void addRandomStaticBall(int x, int y) {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
 	}
 
+	/**
+	 * Shoot ball.
+	 *
+	 * @param color the color of the Ball
+	 */
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
 		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad, ball_speed, (float) deg_to_rad(cannon.getAngle()))); // FIXME add color option
 	}
 	
+	/**
+	 * Shoot random colored ball.
+	 */
 	public void shootRandomBall() {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		shootBall(rand);
 	}
 	
+	/**
+	 * Draw the Balls managed by BallManager.
+	 *
+	 * @param batch the batch used to draw with
+	 * @param runtime the runtime since the start of the program
+	 */
 	public void draw(SpriteBatch batch, float runtime) {
 		/* Shoot projectile */
 		for (Ball ball : ballList) {
@@ -75,10 +127,10 @@ public class BallManager {
 				}
 			}
 			/* Does the ball hit the edge? */
-			if (ball.getX() - ball.getRad() <= Config.BOUNCE_X_MIN && rad_to_deg(ball.getAngle()) > 90) {
+			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN && rad_to_deg(ball.getAngle()) > 90) {
 				// LEFT EDGE
 				ball.setAngle((float) deg_to_rad(180) - ball.getAngle());
-			} else if (ball.getX() + ball.getRad() >= Config.BOUNCE_X_MAX && rad_to_deg(ball.getAngle()) < 90) {
+			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX && rad_to_deg(ball.getAngle()) < 90) {
 				// RIGHT EDGE
 				//ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
 				ball.setAngle((float) deg_to_rad(180) - ball.getAngle());
@@ -96,10 +148,22 @@ public class BallManager {
 		}
 	}
 	
+	/**
+	 * Degree to Radians helper function.
+	 *
+	 * @param deg the degrees
+	 * @return the radians
+	 */
 	private double deg_to_rad(double deg) {
 		return deg * Math.PI / 180.0;
 	}
 
+	/**
+	 * Radians to Degrees helper function.
+	 *
+	 * @param rad the radians
+	 * @return the degrees
+	 */
 	private double rad_to_deg(double rad) {
 		return rad * 180 / Math.PI;
 	}

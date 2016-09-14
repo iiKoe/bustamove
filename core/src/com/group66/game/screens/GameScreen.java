@@ -12,29 +12,41 @@ import com.group66.game.helpers.AssetLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 
+/**
+ * The Class for the main GameScreen of the game.
+ */
 public class GameScreen implements Screen {
-	/* Main game entity */
+	
+	/** A place to store the game instance. */
 	private BustaMove game;
 
-	/* Input handler */
+	/** The input handler. */
 	private InputHandler inputHandler = new InputHandler();
 
-	/* The cannon */
+	/** The cannon. */
 	private Cannon cannon = new Cannon(new Texture("cannon.png"),
 			Config.WIDTH / 2, 20, 50, 50);
 
-	/* Ball manager */
+	/** The ball manager. */
 	private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
 			Config.BALL_SPEED);
 
-	/* Keep track of the runtime for animations */
+	/** The run time needed for animations. */
 	private float runTime = 0;
 
 	// // TODO MAKE ALL THIS DEPENDEND ON BALL SIZE AND RES
 	// used for localizing startingBalls
+	/** The odd row. */
 	private int[] oddRow = { 0, 16, 32, 48, 64, 80, 96, 112 };
+	
+	/** The even row. */
 	private int[] evenRow = { 8, 24, 40, 56, 72, 88, 104 };
 
+	/**
+	 * Instantiates the game screen.
+	 *
+	 * @param game the game instance
+	 */
 	public GameScreen(BustaMove game) {
 		this.game = game;
 		setup_keys();
@@ -67,10 +79,16 @@ public class GameScreen implements Screen {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Screen#show()
+	 */
 	@Override
 	public void show() {
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Screen#render(float)
+	 */
 	@Override
 	public void render(float delta) {
 		/* Update the runtime */
@@ -98,32 +116,49 @@ public class GameScreen implements Screen {
 		game.batch.end();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	 */
 	@Override
 	public void resize(int width, int height) {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Screen#pause()
+	 */
 	@Override
 	public void pause() {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Screen#resume()
+	 */
 	@Override
 	public void resume() {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Screen#hide()
+	 */
 	@Override
 	public void hide() {
 
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Screen#dispose()
+	 */
 	@Override
 	public void dispose() {
 		// img.dispose();
 	}
 
-	/* Setup keys ued in the game */
+	/**
+	 * Setup the keys used in the game screen keys.
+	 */
 	private void setup_keys() {
 		// Setup the game keys
 		inputHandler.registerKeyMap("Shoot", Keys.SPACE);
