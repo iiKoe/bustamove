@@ -32,8 +32,8 @@ public class BallManager {
 		this.cannon = cannon;
 	}
 
-	public void addStaticBall() { // FIXME add color option
-		ballStaticList.add(new Ball(0, Gdx.input.getX(), BustaMove.HEIGHT - Gdx.input.getY(), 0, 0.0f));
+	public void addStaticBall(int color) { // FIXME add color option
+		ballStaticList.add(new Ball(color, Gdx.input.getX(), BustaMove.HEIGHT - Gdx.input.getY(), 0, 0.0f));
 	}
 	
 	public void addRandomStaticBall(int x, int y) {
@@ -41,9 +41,14 @@ public class BallManager {
 		ballStaticList.add(new Ball(rand, x, y, 0, 0.0f));
 	}
 
-	public void shootBall() {
+	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
-		ballList.add(new Ball(0, cannon.getX(), cannon.getY(), BALL_SPEED, (float) deg_to_rad(cannon.getAngle()))); // FIXME add color option
+		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), BALL_SPEED, (float) deg_to_rad(cannon.getAngle()))); // FIXME add color option
+	}
+	
+	public void shootRandomBall() {
+		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+		shootBall(rand);
 	}
 	
 	public void draw(SpriteBatch batch, float runtime) {

@@ -98,14 +98,14 @@ public class GameScreen implements Screen {
 		inputHandler.registerKeyJustPressedFunc("Place Ball",
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
-						ballManager.addStaticBall();
+						ballManager.addStaticBall(Ball.BLUE); //This is mainly for testing, so just add a blue ball
 					}
 				});
 
 		inputHandler.registerKeyJustPressedFunc("Shoot",
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
-						ballManager.shootBall();
+						ballManager.shootRandomBall();
 					}
 				});
 	}
