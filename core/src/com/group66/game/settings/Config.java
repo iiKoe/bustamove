@@ -37,11 +37,14 @@ public class Config {
 	/** The Constant for the BALL_SPEED. */
 	public static final int BALL_SPEED = 400;
 	
-	/** The Constant for the BALL_RAD (radius). */
-	public static final int BALL_RAD = 8;
+	/** The Constant for the NUM_BALLS_ROW (number of balls per row). */
+	public static final int NUM_BALLS_ROW = 8;
 	
 	/** The Constant for the BALL_DIAM (diameter). */
-	public static final int BALL_DIAM = BALL_RAD*2;
+	public static final int BALL_DIAM = (BOUNCE_X_MAX - BOUNCE_X_MIN)/NUM_BALLS_ROW;
+	
+	/** The Constant for the BALL_RAD (radius). */
+	public static final int BALL_RAD = BALL_DIAM/2;
 	
 	/* Cannon settings */
 	public static final int CANNON_HEIGHT = 80;

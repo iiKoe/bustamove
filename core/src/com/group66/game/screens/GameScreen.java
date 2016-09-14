@@ -198,12 +198,13 @@ public class GameScreen implements Screen {
 				for (int i = 0; i < line.length(); i++) {
 					int xpos = Config.BOUNCE_X_MIN + (2 * i + 1)
 							* Config.BALL_RAD;
+					System.out.println("X pos: " + xpos);
 
 					// shift odd rows
 					if (linenr % 2 != 0)
 						xpos += Config.BALL_RAD;
 
-					ballManager.addRandomStaticBall(xpos, ypos);
+					ballManager.addStaticBall(0, xpos, ypos); //TODO get the color from the text file
 				}
 				linenr++;
 			}
