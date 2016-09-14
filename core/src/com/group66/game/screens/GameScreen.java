@@ -1,8 +1,11 @@
 package com.group66.game.screens;
 
+import java.util.Scanner;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group66.game.BustaMove;
@@ -50,6 +53,7 @@ public class GameScreen implements Screen {
 		//ballManager.addRandomStaticBall(20, 50);
 		// first row have 8 balls, second 7, third 8, forth 7
 		/* TODO THIS IS UGLY AS HELL, make a better level loading mechanism */
+		/*
 		for (int i = 0; i < 8; i++) {
 			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + oddRow[i], 
 					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 0);
@@ -66,7 +70,8 @@ public class GameScreen implements Screen {
 			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + evenRow[i - 23], 
 					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 48);
 		}
-
+		*/
+		loadLevel();
 	}
 
 	/* Setup keys ued in the game */
@@ -174,4 +179,32 @@ public class GameScreen implements Screen {
 		// img.dispose();
 	}
 
+	private void loadLevel() {
+		String levelFilePath = "testlevel.txt";
+		
+		try{
+			FileHandle handle = Gdx.files.internal(levelFilePath);
+			Scanner s = new Scanner(handle.read());
+			int linenr = 0;
+			while(s.hasNextLine()) {
+				String line = s.nextLine();
+				int ypos = BustaMove.BOUNCE_Y_MAX - (2*linenr + 1)*Ball.BALL_RAD;
+				for (int i = 0; i < line.length(); i++) {
+					int xpos = BustaMove.BOUNCE_X_MIN + (2*i+1)*Ball.BALL_RAD;
+					
+					//shift odd rows
+					if(linenr % 2 != 0)
+						xpos += Ball.BALL_RAD;
+					
+					ballManager.addRandomStaticBall(xpos, ypos);
+				}
+				linenr++;
+			}
+			
+			s.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
