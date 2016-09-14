@@ -10,13 +10,19 @@ import com.badlogic.gdx.Gdx;
 
 
 public class InputHandler {
+	// Keymap
+	private Map<String, Collection<Integer>> keyMap = new HashMap<String, Collection<Integer>>();
+	
+	// Register a function to be executed on a key press
+	private Map<String, Collection<KeyCommand>> multiFunctionMapKP = new HashMap<String, Collection<KeyCommand>>();
+	
+	// Register a function to be executed on a key JUST press
+	private Map<String, Collection<KeyCommand>> multiFunctionMapKJP = new HashMap<String, Collection<KeyCommand>>();
 	
 	public interface KeyCommand {
 		void runCommand();
 	}
-	
-	// Keymap
-	Map<String, Collection<Integer>> keyMap = new HashMap<String, Collection<Integer>>();
+
 	public void registerKeyMap(String keyname, int key) {
 		// Init if key is not yet registered
 		if (keyMap.get(keyname) == null)
@@ -25,9 +31,6 @@ public class InputHandler {
 		keyMap.get(keyname).add(key);
 	}
 	
-
-	// Register a function to be executed on a key press
-	Map<String, Collection<KeyCommand>> multiFunctionMapKP = new HashMap<String, Collection<KeyCommand>>();
 	public void registerKeyPressedFunc(String key, KeyCommand com) {
 
 		// Init if key is not yet registered
@@ -37,7 +40,6 @@ public class InputHandler {
 		multiFunctionMapKP.get(key).add(com);
 	}
 	
-	Map<String, Collection<KeyCommand>> multiFunctionMapKJP = new HashMap<String, Collection<KeyCommand>>();
 	public void registerKeyJustPressedFunc(String key, KeyCommand com) {
 		// Init if key is not yet registered
 		if (multiFunctionMapKJP.get(key) == null)

@@ -6,11 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.screens.MainMenuScreen;
 import com.group66.game.settings.Config;
 
-public class BustaMove extends Game {
-	
-	//public static final int WIDTH = 400;
-	//public static final int HEIGHT = 600;
-	
+public class BustaMove extends Game {	
 	public SpriteBatch batch;
 	public OrthographicCamera camera;
 	

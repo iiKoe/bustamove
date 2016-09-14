@@ -1,7 +1,6 @@
 package com.group66.game.settings;
 
 public class Config {
-	
 	/* Resolution settings */
 	// TODO make a bit nicer
 	public static final int WIDTH = 128 + 20;
@@ -19,7 +18,4 @@ public class Config {
 	
 	/* Cannon setting */
 	public static final float CANNON_AIM_DELTA = 1;
-	
-	
-
 }

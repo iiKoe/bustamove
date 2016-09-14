@@ -6,14 +6,11 @@ import com.badlogic.gdx.math.Circle;
 import com.group66.game.helpers.AssetLoader;
 
 public class Ball {
-	
 	public static final int BLUE = 0;
 	public static final int GREEN = 1;
 	public static final int RED = 2;
 	public static final int YELLOW = 3;
 	public static final int MAX_COLORS = 4;
-	
-
 	
 	private Circle hitbox;
 	private float angle;
@@ -94,5 +91,4 @@ public class Ball {
         }
 		batch.draw(tr, hitbox.x - rad, hitbox.y - rad, rad*2, rad*2);
 	}
-	
 }

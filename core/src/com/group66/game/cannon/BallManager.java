@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.settings.Config;
 
 public class BallManager {
-
 	private Cannon cannon;
 	private int ball_speed;
 	private int ball_rad;
@@ -25,14 +24,6 @@ public class BallManager {
 		this.cannon = cannon;
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
-	}
-	
-	private double deg_to_rad(double deg) {
-		return deg * Math.PI / 180.0;
-	}
-
-	private double rad_to_deg(double rad) {
-		return rad * 180 / Math.PI;
 	}
 	
 	public void setBallSpeed(int speed) {
@@ -103,5 +94,13 @@ public class BallManager {
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
 		}
+	}
+	
+	private double deg_to_rad(double deg) {
+		return deg * Math.PI / 180.0;
+	}
+
+	private double rad_to_deg(double rad) {
+		return rad * 180 / Math.PI;
 	}
 }
