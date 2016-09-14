@@ -1,8 +1,11 @@
 package com.group66.game.screens;
 
+import java.util.Scanner;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.group66.game.BustaMove;
@@ -12,11 +15,12 @@ import com.group66.game.helpers.AssetLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class for the main GameScreen of the game.
  */
 public class GameScreen implements Screen {
-	
+
 	/** A place to store the game instance. */
 	private BustaMove game;
 
@@ -25,7 +29,8 @@ public class GameScreen implements Screen {
 
 	/** The cannon. */
 	private Cannon cannon = new Cannon(new Texture("cannon.png"),
-			Config.WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH, Config.CANNON_HEIGHT);
+			Config.WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
+			Config.CANNON_HEIGHT);
 
 	/** The ball manager. */
 	private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
@@ -34,59 +39,32 @@ public class GameScreen implements Screen {
 	/** The run time needed for animations. */
 	private float runTime = 0;
 
-	// // TODO MAKE ALL THIS DEPENDEND ON BALL SIZE AND RES
-	// used for localizing startingBalls
-	/** The odd row. */
-	private int[] oddRow = { 0, 16, 32, 48, 64, 80, 96, 112 };
-	
-	/** The even row. */
-	private int[] evenRow = { 8, 24, 40, 56, 72, 88, 104 };
-
 	/**
 	 * Instantiates the game screen.
-	 *
-	 * @param game the game instance
+	 * 
+	 * @param game
+	 *            the game instance
 	 */
 	public GameScreen(BustaMove game) {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
 
-		/* OMAR */
-		// // TODO MAKE ALL THIS DEPENDEND ON BALL SIZE AND RES
-		// ballManager.addRandomStaticBall(20, 50);
-		// first row have 8 balls, second 7, third 8, forth 7
-		/* TODO THIS IS UGLY AS HELL, make a better level loading mechanism */
-		for (int i = 0; i < 8; i++) {
-			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN
-					+ Config.BALL_RAD + oddRow[i], Config.BOUNCE_Y_MAX
-					- Config.BALL_RAD - 0);
-		}
-		for (int i = 8; i < 15; i++) {
-			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN
-					+ Config.BALL_RAD + evenRow[i - 8], Config.BOUNCE_Y_MAX
-					- Config.BALL_RAD - 16);
-		}
-		for (int i = 15; i < 23; i++) {
-			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN
-					+ Config.BALL_RAD + oddRow[i - 15], Config.BOUNCE_Y_MAX
-					- Config.BALL_RAD - 32);
-		}
-		for (int i = 23; i < 30; i++) {
-			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN
-					+ Config.BALL_RAD + evenRow[i - 23], Config.BOUNCE_Y_MAX
-					- Config.BALL_RAD - 48);
-		}
+		loadLevel();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.Screen#show()
 	 */
 	@Override
 	public void show() {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.Screen#render(float)
 	 */
 	@Override
@@ -105,7 +83,8 @@ public class GameScreen implements Screen {
 
 		/* Draw the background */
 		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN, Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
 
 		/* Draw the balls */
 		ballManager.draw(game.batch, runTime);
@@ -116,7 +95,9 @@ public class GameScreen implements Screen {
 		game.batch.end();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.Screen#resize(int, int)
 	 */
 	@Override
@@ -124,7 +105,9 @@ public class GameScreen implements Screen {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.Screen#pause()
 	 */
 	@Override
@@ -132,7 +115,9 @@ public class GameScreen implements Screen {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.Screen#resume()
 	 */
 	@Override
@@ -140,7 +125,9 @@ public class GameScreen implements Screen {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.Screen#hide()
 	 */
 	@Override
@@ -148,7 +135,9 @@ public class GameScreen implements Screen {
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see com.badlogic.gdx.Screen#dispose()
 	 */
 	@Override
@@ -190,5 +179,38 @@ public class GameScreen implements Screen {
 						ballManager.shootRandomBall();
 					}
 				});
+	}
+
+	/**
+	 * Load a test level.
+	 */
+	private void loadLevel() {
+		String levelFilePath = "testlevel.txt";
+
+		try {
+			FileHandle handle = Gdx.files.internal(levelFilePath);
+			Scanner s = new Scanner(handle.read());
+			int linenr = 0;
+			while (s.hasNextLine()) {
+				String line = s.nextLine();
+				int ypos = Config.BOUNCE_Y_MAX - (2 * linenr + 1)
+						* Config.BALL_RAD;
+				for (int i = 0; i < line.length(); i++) {
+					int xpos = Config.BOUNCE_X_MIN + (2 * i + 1)
+							* Config.BALL_RAD;
+
+					// shift odd rows
+					if (linenr % 2 != 0)
+						xpos += Config.BALL_RAD;
+
+					ballManager.addRandomStaticBall(xpos, ypos);
+				}
+				linenr++;
+			}
+
+			s.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
