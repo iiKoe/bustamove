@@ -6,20 +6,21 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Cannon {
 
-	float angle;
-	int x, y;
-	int height, width;
-	Texture cannon_texture;
-	TextureRegion cannon_texture_region;
+	private float angle;
+	private int x, y;
+	private int height, width;
+	private Texture cannon_texture;
+	private TextureRegion cannon_texture_region;
 	
-	public Cannon(int x, int y, int height, int width) {
+	public Cannon(Texture texture, int x, int y, int height, int width) {
 		this.angle =  90;
 		this.x = x;
 		this.y = y;
 		this.height = height;
 		this.width = width;
-		cannon_texture = new Texture("cannon.png");
-		cannon_texture_region = new TextureRegion(cannon_texture);
+		
+		this.cannon_texture = texture;
+		this.cannon_texture_region = new TextureRegion(cannon_texture);
 	}
 	
 	public void cannonAimAdjust(float angle_adj) {

@@ -1,6 +1,5 @@
 package com.group66.game.cannon;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
@@ -14,21 +13,23 @@ public class Ball {
 	public static final int YELLOW = 3;
 	public static final int MAX_COLORS = 4;
 	
-	public static final int BALL_RAD = 8;
+
 	
-	Circle hitbox;
-	float a;
-	int speed;
-	float time;
-	Texture ball_texture;
-	int color;
+	private Circle hitbox;
+	private float angle;
+	private int speed;
+	private float time;
+	private int color;
+	private int rad;
 	
-	public Ball(int color, int x, int y, int speed, float angle) {
-		time = 4;
+	public Ball(int color, int x, int y, int rad, int speed, float angle) {
+		this.time = 4;
 		this.speed = speed;
-		a =  angle;
-		hitbox = new Circle(x, y, BALL_RAD);
+		this.angle =  angle;
+		this.rad = rad;
 		this.color = color;
+		
+		hitbox = new Circle(x, y, this.rad);
 	}
 	
 	public float getX() {
@@ -40,20 +41,20 @@ public class Ball {
 	}
 	
 	public void setAngle(float angle) {
-		a = angle;
+		this.angle = angle;
 	}
 	
 	public float getAngle() {
-		return a;
+		return angle;
 	}
 	
 	public int getRad() {
-		return BALL_RAD;
+		return rad;
 	}
 	
 	public void update(float delta) {
-		hitbox.x += speed * (float)Math.cos(a) * delta;
-		hitbox.y += speed * (float)Math.sin(a) * delta;
+		hitbox.x += speed * (float)Math.cos(this.angle) * delta;
+		hitbox.y += speed * (float)Math.sin(this.angle) * delta;
 		time -= delta;
 	}
 	
@@ -91,7 +92,7 @@ public class Ball {
         default:
         	return;
         }
-		batch.draw(tr, hitbox.x - BALL_RAD, hitbox.y - BALL_RAD, BALL_RAD*2, BALL_RAD*2);
+		batch.draw(tr, hitbox.x - rad, hitbox.y - rad, rad*2, rad*2);
 	}
 	
 }

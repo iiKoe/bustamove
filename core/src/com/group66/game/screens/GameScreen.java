@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.input.InputHandler;
+import com.group66.game.settings.Config;
 
 public class GameScreen implements Screen {
 	public static final float MOVE_SPEED = 100;
@@ -22,10 +23,10 @@ public class GameScreen implements Screen {
 	InputHandler inputHandler = new InputHandler();
 
 	/* The cannon */
-	Cannon cannon = new Cannon(BustaMove.WIDTH / 2, 20, 50, 50);
+	Cannon cannon = new Cannon(new Texture("cannon.png"), Config.WIDTH / 2, 20, 50, 50);
 
 	/* Ball manager */
-	BallManager ballManager = new BallManager(cannon);
+	BallManager ballManager = new BallManager(cannon, Config.BALL_RAD, Config.BALL_SPEED);
 
 	/* Render border */
 	ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -51,20 +52,20 @@ public class GameScreen implements Screen {
 		// first row have 8 balls, second 7, third 8, forth 7
 		/* TODO THIS IS UGLY AS HELL, make a better level loading mechanism */
 		for (int i = 0; i < 8; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + oddRow[i], 
-					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 0);
+			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN + Config.BALL_RAD + oddRow[i], 
+					Config.BOUNCE_Y_MAX - Config.BALL_RAD - 0);
 		}
 		for (int i = 8; i < 15; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + evenRow[i - 8], 
-					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 16);
+			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN + Config.BALL_RAD + evenRow[i - 8], 
+					Config.BOUNCE_Y_MAX - Config.BALL_RAD - 16);
 		}
 		for (int i = 15; i < 23; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + oddRow[i - 15], 
-					BustaMove.BOUNCE_Y_MAX  - Ball.BALL_RAD - 32);
+			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN + Config.BALL_RAD + oddRow[i - 15], 
+					Config.BOUNCE_Y_MAX  - Config.BALL_RAD - 32);
 		}
 		for (int i = 23; i < 30; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + evenRow[i - 23], 
-					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 48);
+			ballManager.addRandomStaticBall(Config.BOUNCE_X_MIN + Config.BALL_RAD + evenRow[i - 23], 
+					Config.BOUNCE_Y_MAX - Config.BALL_RAD - 48);
 		}
 
 	}
@@ -84,21 +85,14 @@ public class GameScreen implements Screen {
 		inputHandler.registerKeyPressedFunc("Aim Left",
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
-						cannon.cannonAimAdjust(1.0f);
+						cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
 					}
 				});
 
 		inputHandler.registerKeyPressedFunc("Aim Right",
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
-						cannon.cannonAimAdjust(-1.0f);
-					}
-				});
-
-		inputHandler.registerKeyJustPressedFunc("Place Ball",
-				new InputHandler.KeyCommand() {
-					public void runCommand() {
-						ballManager.addStaticBall(Ball.BLUE); //This is mainly for testing, so just add a blue ball
+						cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
 					}
 				});
 
@@ -125,20 +119,11 @@ public class GameScreen implements Screen {
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		/*
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.BLUE);
-		shapeRenderer.rect(BustaMove.BOUNCE_X_MIN, BustaMove.BOUNCE_Y_MIN,
-				BustaMove.BOUNCE_X_MAX - BustaMove.BOUNCE_X_MIN,
-				BustaMove.BOUNCE_Y_MAX - BustaMove.BOUNCE_Y_MIN);
-		shapeRenderer.end();
-		*/
-
 		game.batch.begin();
 		game.batch.enableBlending();
 		
 		/* Draw the background */
-		game.batch.draw(AssetLoader.bg, BustaMove.BOUNCE_X_MIN, BustaMove.BOUNCE_Y_MIN, 128, 220);
+		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN, Config.BOUNCE_Y_MIN, 128, 220);
 		
 		/* Draw the balls */
 		ballManager.draw(game.batch, runTime);
