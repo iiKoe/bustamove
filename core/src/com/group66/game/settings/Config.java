@@ -44,6 +44,12 @@ public class Config {
 	public static final int BALL_DIAM = BALL_RAD*2;
 	
 	/* Cannon settings */
+	public static final int CANNON_HEIGHT = 80;
+	
+	public static final int CANNON_WIDTH = 80;
+	
+	public static final int CANNON_Y_OFFSET = 50;
+	
 	/** The Constant for theCANNON_AIM_DELTA (the step size of a cannon aim adjust). */
 	public static final float CANNON_AIM_DELTA = 1;
 }

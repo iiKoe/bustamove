@@ -25,7 +25,7 @@ public class GameScreen implements Screen {
 
 	/** The cannon. */
 	private Cannon cannon = new Cannon(new Texture("cannon.png"),
-			Config.WIDTH / 2, 20, 50, 50);
+			Config.WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH, Config.CANNON_HEIGHT);
 
 	/** The ball manager. */
 	private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
@@ -105,7 +105,7 @@ public class GameScreen implements Screen {
 
 		/* Draw the background */
 		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MIN, 128, 220);
+				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN, Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
 
 		/* Draw the balls */
 		ballManager.draw(game.batch, runTime);
