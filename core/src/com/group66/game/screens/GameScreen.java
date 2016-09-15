@@ -189,7 +189,7 @@ public class GameScreen implements Screen {
 
 		try {
 			FileHandle handle = Gdx.files.internal(levelFilePath);
-			Scanner s = new Scanner(handle.read());
+			Scanner s = new Scanner(handle.read(), "UTF-8");
 			int linenr = 0;
 			while (s.hasNextLine()) {
 				String line = s.nextLine();
