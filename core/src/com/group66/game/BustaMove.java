@@ -41,7 +41,7 @@ public class BustaMove extends Game {
 	 * @see com.badlogic.gdx.ApplicationListener#create()
 	 */
 	@Override
-	public void create () {
+	public void create() {
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 	}
@@ -50,7 +50,7 @@ public class BustaMove extends Game {
 	 * @see com.badlogic.gdx.Game#render()
 	 */
 	@Override
-	public void render () {
+	public void render() {
 		super.render();
 	}
 }

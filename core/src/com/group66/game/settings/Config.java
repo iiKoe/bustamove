@@ -16,7 +16,7 @@ public class Config {
 	public static final int BORDER_SIZE_BOT = 10;
 			
 	/** The Constant for the game WIDTH. */
-	public static final int WIDTH = 600 + BORDER_SIZE_SIDES*2;
+	public static final int WIDTH = 600 + BORDER_SIZE_SIDES * 2;
 	
 	/** The Constant for the game HEIGHT. */
 	public static final int HEIGHT = 880 + BORDER_SIZE_TOP + BORDER_SIZE_BOT;
@@ -41,10 +41,10 @@ public class Config {
 	public static final int NUM_BALLS_ROW = 8;
 	
 	/** The Constant for the BALL_DIAM (diameter). */
-	public static final int BALL_DIAM = (BOUNCE_X_MAX - BOUNCE_X_MIN)/NUM_BALLS_ROW;
+	public static final int BALL_DIAM = (BOUNCE_X_MAX - BOUNCE_X_MIN) / NUM_BALLS_ROW;
 	
 	/** The Constant for the BALL_RAD (radius). */
-	public static final int BALL_RAD = BALL_DIAM/2;
+	public static final int BALL_RAD = BALL_DIAM / 2;
 	
 	/* Cannon settings */
 	/** The Constant CANNON_HEIGHT. */

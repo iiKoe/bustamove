@@ -201,10 +201,12 @@ public class GameScreen implements Screen {
 					System.out.println("X pos: " + xpos);
 
 					// shift odd rows
-					if (linenr % 2 != 0)
+					if (linenr % 2 != 0) {
 						xpos += Config.BALL_RAD;
+					}
 
-					ballManager.addStaticBall(0, xpos, ypos); //TODO get the color from the text file
+					 //TODO get the color from the text file
+					ballManager.addStaticBall(0, xpos, ypos);
 				}
 				linenr++;
 			}
