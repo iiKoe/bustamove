@@ -24,6 +24,9 @@ public class Cannon {
 	/** The cannon texture region. */
 	private TextureRegion cannon_texture_region;
 	
+	/** The minimum and maximum angle of the cannon. */
+	private float min_angle, max_angle;
+	
 	/**
 	 * Instantiates a new cannon.
 	 *
@@ -33,28 +36,26 @@ public class Cannon {
 	 * @param height the height of the cannon
 	 * @param width the width of the cannon
 	 */
-	public Cannon(Texture texture, int x, int y, int height, int width) {
+	public Cannon(Texture texture, int x, int y, int height, int width, float min_angle, float max_angle) {
 		this.angle =  90;
 		this.x = x;
 		this.y = y;
 		this.height = height;
 		this.width = width;
+		this.min_angle = min_angle;
+		this.max_angle = max_angle;
 		
 		this.cannon_texture = texture;
 		this.cannon_texture_region = new TextureRegion(cannon_texture);
 	}
 	
 	/**
-	 * Adjust the angle of the Cannon. Minimum=1 degree Maximum=179 degrees
+	 * Adjust the angle of the Cannon.
 	 *
 	 * @param angle_adj the angle which we add to the current Cannon angle
 	 */
 	public void cannonAimAdjust(float angle_adj) {
-		angle += angle_adj;
-		if (angle >= 180)
-			angle = 179;
-		else if (angle <= 0)
-			angle = 1;
+		this.angle = checkAngle(this.angle + angle_adj);
 	}
 	
 	/**
@@ -63,7 +64,7 @@ public class Cannon {
 	 * @param angle the new angle
 	 */
 	public void setAngle(float angle) {
-		this.angle = angle;
+		this.angle = checkAngle(this.angle + angle);
 	}
 	
 	/**
@@ -128,5 +129,19 @@ public class Cannon {
 	public void draw(SpriteBatch batch) {
 		//batch.draw(cannon_texture, hitbox.x, hitbox.y, BALL_RAD, BALL_RAD);
 		batch.draw(cannon_texture_region, x - width/2f, y - height/2f, width/2f, height/2f, width, height, 1, 1, angle, true);
+	}
+	
+	/**
+	 * Check if the cannon angle is within boundaries.
+	 *
+	 * @param a the angle
+	 * @return the angle within boundaries
+	 */
+	private float checkAngle(float a) {
+		if (a > this.max_angle)
+			a = this.max_angle;
+		else if (a < this.min_angle)
+			a = this.min_angle;
+		return a;
 	}
 }

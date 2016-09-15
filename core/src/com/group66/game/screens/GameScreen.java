@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
 	/** The cannon. */
 	private Cannon cannon = new Cannon(new Texture("cannon.png"),
 			Config.WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
-			Config.CANNON_HEIGHT);
+			Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
 
 	/** The ball manager. */
 	private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
