@@ -7,16 +7,37 @@ import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
 
-
-
+/**
+ * A class to manage and handle the user input via the keyboard.
+ */
 public class InputHandler {
 	
+	/** The key map. */
+	private Map<String, Collection<Integer>> keyMap = new HashMap<String, Collection<Integer>>();
+	
+	/** The multi function map for KeyPressed. */
+	private Map<String, Collection<KeyCommand>> multiFunctionMapKP = new HashMap<String, Collection<KeyCommand>>();
+	
+	/** The multi function map KeyJustPressed. */
+	private Map<String, Collection<KeyCommand>> multiFunctionMapKJP = new HashMap<String, Collection<KeyCommand>>();
+	
+	/**
+	 * The Interface KeyCommand to store the function to be called when a Key is pressed.
+	 */
 	public interface KeyCommand {
+		
+		/**
+		 * The function in which the commands to be run when a key is press are placed.
+		 */
 		void runCommand();
 	}
-	
-	// Keymap
-	Map<String, Collection<Integer>> keyMap = new HashMap<String, Collection<Integer>>();
+
+	/**
+	 * Register key map.
+	 *
+	 * @param keyname the String key name which will be acosiated with the keyboard key passed as key
+	 * @param key the keybord key to be mapped to the key name
+	 */
 	public void registerKeyMap(String keyname, int key) {
 		// Init if key is not yet registered
 		if (keyMap.get(keyname) == null)
@@ -25,19 +46,27 @@ public class InputHandler {
 		keyMap.get(keyname).add(key);
 	}
 	
-
-	// Register a function to be executed on a key press
-	Map<String, Collection<KeyCommand>> multiFunctionMapKP = new HashMap<String, Collection<KeyCommand>>();
-	public void registerKeyPressedFunc(String key, KeyCommand com) {
+	/**
+	 * Register a function for a key pressed given the key name.
+	 *
+	 * @param keyname the key name String registered with registerKeyMap()
+	 * @param com the command to be run when the Key is Pressed
+	 */
+	public void registerKeyPressedFunc(String keyname, KeyCommand com) {
 
 		// Init if key is not yet registered
-		if (multiFunctionMapKP.get(key) == null)
-			multiFunctionMapKP.put(key, new ArrayList<KeyCommand>());
+		if (multiFunctionMapKP.get(keyname) == null)
+			multiFunctionMapKP.put(keyname, new ArrayList<KeyCommand>());
 
-		multiFunctionMapKP.get(key).add(com);
+		multiFunctionMapKP.get(keyname).add(com);
 	}
 	
-	Map<String, Collection<KeyCommand>> multiFunctionMapKJP = new HashMap<String, Collection<KeyCommand>>();
+	/**
+	 * Register a function for a key JUST pressed given the key name.
+	 *
+	 * @param keyname the key name String registered with registerKeyMap()
+	 * @param com the command to be run when the Key is JUST Pressed
+	 */
 	public void registerKeyJustPressedFunc(String key, KeyCommand com) {
 		// Init if key is not yet registered
 		if (multiFunctionMapKJP.get(key) == null)
@@ -46,6 +75,9 @@ public class InputHandler {
 		multiFunctionMapKJP.get(key).add(com);
 	}
 	
+	/**
+	 * Check for the key presses and execute the commands registered to a key if it is pressed.
+	 */
 	public void run () {
 		// KeyPressed
 		for (Map.Entry<String, Collection<KeyCommand>> entry :multiFunctionMapKP.entrySet()) {

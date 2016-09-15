@@ -6,22 +6,37 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A AssetLoader for sprite textures.
+ */
 public class AssetLoader {
 
+    /** The background texture. */
     public static Texture bgTexture;
+    
+    /** The background texture region. */
     public static TextureRegion bg;
     
+    /** The ball texture. */
     public static Texture ballTexture;
+    
+    /** The ball texture regions. */
     public static TextureRegion blue1, blue2, blue3, green1, green2, green3, red1, red2, red3, yellow1, yellow2, yellow3;
+    
+    /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation, yellowAnimation;
 
+    /**
+     * Load the sprites.
+     */
     public static void load() {
 
     	//creating the background
         bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
         bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         bg = new TextureRegion(bgTexture, 0, 0, 128, 220);
-
+        
         //loading the textures for the balls
         ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
         ballTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
@@ -60,10 +75,12 @@ public class AssetLoader {
 
     }
 
-    public static void dispose() {
+    /**
+     * Dispose of the textures.
+     */
+    public static void dispose() { // TODO dispose all textures
         // We must dispose of the texture when we are finished.
         bgTexture.dispose();
         ballTexture.dispose();
     }
-
 }

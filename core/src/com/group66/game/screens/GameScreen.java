@@ -1,75 +1,153 @@
 package com.group66.game.screens;
 
+import java.util.Scanner;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.Texture;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.input.InputHandler;
+import com.group66.game.settings.Config;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class for the main GameScreen of the game.
+ */
 public class GameScreen implements Screen {
-	public static final float MOVE_SPEED = 100;
 
-	/* Main game entity */
-	BustaMove game;
+	/** A place to store the game instance. */
+	private BustaMove game;
 
-	/* Input handler */
-	InputHandler inputHandler = new InputHandler();
+	/** The input handler. */
+	private InputHandler inputHandler = new InputHandler();
 
-	/* The cannon */
-	Cannon cannon = new Cannon(BustaMove.WIDTH / 2, 20, 50, 50);
+	/** The cannon. */
+	private Cannon cannon = new Cannon(new Texture("cannon.png"),
+			Config.WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
+			Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
 
-	/* Ball manager */
-	BallManager ballManager = new BallManager(cannon);
+	/** The ball manager. */
+	private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
+			Config.BALL_SPEED);
 
-	/* Render border */
-	ShapeRenderer shapeRenderer = new ShapeRenderer();
-	
-	/* Keep track of the runtime for animations */
-	private float runTime=0;
+	/** The run time needed for animations. */
+	private float runTime = 0;
 
-	//// TODO MAKE ALL THIS DEPENDEND ON BALL SIZE AND RES
-	// used for localizing startingBalls
-	private int[] oddRow = { 0, 16, 32, 48, 64, 80, 96, 112 };
-	private int[] evenRow = { 8, 24, 40, 56, 72, 88, 104 };
-	// used for random color generation, for getColors function
-	int[] ballColors = new int[30];
-	
+	/**
+	 * Instantiates the game screen.
+	 * 
+	 * @param game
+	 *            the game instance
+	 */
 	public GameScreen(BustaMove game) {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
 
-		/* OMAR */
-		//// TODO MAKE ALL THIS DEPENDEND ON BALL SIZE AND RES
-		//ballManager.addRandomStaticBall(20, 50);
-		// first row have 8 balls, second 7, third 8, forth 7
-		/* TODO THIS IS UGLY AS HELL, make a better level loading mechanism */
-		for (int i = 0; i < 8; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + oddRow[i], 
-					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 0);
-		}
-		for (int i = 8; i < 15; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + evenRow[i - 8], 
-					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 16);
-		}
-		for (int i = 15; i < 23; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + oddRow[i - 15], 
-					BustaMove.BOUNCE_Y_MAX  - Ball.BALL_RAD - 32);
-		}
-		for (int i = 23; i < 30; i++) {
-			ballManager.addRandomStaticBall(BustaMove.BOUNCE_X_MIN + Ball.BALL_RAD + evenRow[i - 23], 
-					BustaMove.BOUNCE_Y_MAX - Ball.BALL_RAD - 48);
-		}
+		loadLevel();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#show()
+	 */
+	@Override
+	public void show() {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#render(float)
+	 */
+	@Override
+	public void render(float delta) {
+		/* Update the runtime */
+		runTime += delta;
+
+		/* Handle input keys */
+		inputHandler.run();
+
+		Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		game.batch.begin();
+		game.batch.enableBlending();
+
+		/* Draw the background */
+		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
+				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+
+		/* Draw the balls */
+		ballManager.draw(game.batch, runTime);
+
+		/* Draw the cannon */
+		cannon.draw(game.batch);
+
+		game.batch.end();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resize(int, int)
+	 */
+	@Override
+	public void resize(int width, int height) {
 
 	}
 
-	/* Setup keys ued in the game */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#pause()
+	 */
+	@Override
+	public void pause() {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#resume()
+	 */
+	@Override
+	public void resume() {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#hide()
+	 */
+	@Override
+	public void hide() {
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.badlogic.gdx.Screen#dispose()
+	 */
+	@Override
+	public void dispose() {
+		// img.dispose();
+	}
+
+	/**
+	 * Setup the keys used in the game screen keys.
+	 */
 	private void setup_keys() {
 		// Setup the game keys
 		inputHandler.registerKeyMap("Shoot", Keys.SPACE);
@@ -84,94 +162,56 @@ public class GameScreen implements Screen {
 		inputHandler.registerKeyPressedFunc("Aim Left",
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
-						cannon.cannonAimAdjust(1.0f);
+						cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
 					}
 				});
 
 		inputHandler.registerKeyPressedFunc("Aim Right",
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
-						cannon.cannonAimAdjust(-1.0f);
-					}
-				});
-
-		inputHandler.registerKeyJustPressedFunc("Place Ball",
-				new InputHandler.KeyCommand() {
-					public void runCommand() {
-						ballManager.addStaticBall();
+						cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
 					}
 				});
 
 		inputHandler.registerKeyJustPressedFunc("Shoot",
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
-						ballManager.shootBall();
+						ballManager.shootRandomBall();
 					}
 				});
 	}
 
-	@Override
-	public void show() {
+	/**
+	 * Load a test level.
+	 */
+	private void loadLevel() {
+		String levelFilePath = "testlevel.txt";
+
+		try {
+			FileHandle handle = Gdx.files.internal(levelFilePath);
+			Scanner s = new Scanner(handle.read());
+			int linenr = 0;
+			while (s.hasNextLine()) {
+				String line = s.nextLine();
+				int ypos = Config.BOUNCE_Y_MAX - (2 * linenr + 1)
+						* Config.BALL_RAD;
+				for (int i = 0; i < line.length(); i++) {
+					int xpos = Config.BOUNCE_X_MIN + (2 * i + 1)
+							* Config.BALL_RAD;
+					System.out.println("X pos: " + xpos);
+
+					// shift odd rows
+					if (linenr % 2 != 0)
+						xpos += Config.BALL_RAD;
+
+					ballManager.addStaticBall(0, xpos, ypos); //TODO get the color from the text file
+				}
+				linenr++;
+			}
+
+			s.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
-
-	@Override
-	public void render(float delta) {
-		/* Update the runtime */
-		runTime+=delta;
-
-		/* Handle input keys */
-		inputHandler.run();
-
-		Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		/*
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.BLUE);
-		shapeRenderer.rect(BustaMove.BOUNCE_X_MIN, BustaMove.BOUNCE_Y_MIN,
-				BustaMove.BOUNCE_X_MAX - BustaMove.BOUNCE_X_MIN,
-				BustaMove.BOUNCE_Y_MAX - BustaMove.BOUNCE_Y_MIN);
-		shapeRenderer.end();
-		*/
-
-		game.batch.begin();
-		game.batch.enableBlending();
-		
-		/* Draw the background */
-		game.batch.draw(AssetLoader.bg, BustaMove.BOUNCE_X_MIN, BustaMove.BOUNCE_Y_MIN, 128, 220);
-		
-		/* Draw the balls */
-		ballManager.draw(game.batch, runTime);
-		
-		/* Draw the cannon */
-		cannon.draw(game.batch);
-
-		game.batch.end();
-	}
-
-	@Override
-	public void resize(int width, int height) {
-
-	}
-
-	@Override
-	public void pause() {
-
-	}
-
-	@Override
-	public void resume() {
-
-	}
-
-	@Override
-	public void hide() {
-
-	}
-
-	@Override
-	public void dispose() {
-		// img.dispose();
-	}
-
 }

@@ -4,42 +4,51 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.screens.MainMenuScreen;
+import com.group66.game.settings.Config;
 
-public class BustaMove extends Game {
+/**
+ * The BustaMove main game class.
+ */
+public class BustaMove extends Game {	
 	
-	//public static final int WIDTH = 400;
-	//public static final int HEIGHT = 600;
-	
-	// TODO make a bit nicer
-	public static final int WIDTH = 128 + 20;
-	public static final int HEIGHT = 220 + 20;
-	
-	public static final int BOUNCE_X_MIN = 10;
-	public static final int BOUNCE_X_MAX = WIDTH - 10;
-
-	public static final int BOUNCE_Y_MIN = 10;
-	public static final int BOUNCE_Y_MAX = HEIGHT - 10;
-
-	
+	/** The batch. */
 	public SpriteBatch batch;
+	
+	/** The camera. */
 	public OrthographicCamera camera;
 	
+	/**
+	 * Gets the game height.
+	 *
+	 * @return the game height
+	 */
 	public int getGameHeight() {
-		return HEIGHT;
+		return Config.HEIGHT;
 		//return Gdx.graphics.getHeight();
 	}
 	
+	/**
+	 * Gets the game width.
+	 *
+	 * @return the game width
+	 */
 	public int getGameWidth() {
-		return WIDTH;
+		return Config.WIDTH;
 		//return Gdx.graphics.getWidth();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.ApplicationListener#create()
+	 */
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 	}
 
+	/* (non-Javadoc)
+	 * @see com.badlogic.gdx.Game#render()
+	 */
 	@Override
 	public void render () {
 		super.render();
