@@ -11,31 +11,31 @@ import com.group66.game.settings.Config;
  * A Class to manage the Balls in the game.
  */
 public class BallManager {
-	
+
 	/** The cannon instance to shoot out. */
 	private Cannon cannon;
-	
+
 	/** The ball speed. */
 	private int ball_speed;
-	
+
 	/** The ball radius. */
 	private int ball_rad;
-	
+
 	/** The ball list. */
 	private ArrayList<Ball> ballList = new ArrayList<Ball>();
-	
+
 	/** The ball dead list. */
 	private ArrayList<Ball> ballDeadList = new ArrayList<Ball>();
 
 	/** The static ball list. */
 	private ArrayList<Ball> ballStaticList = new ArrayList<Ball>();
-	
+
 	/** The static ball dead list. */
 	private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
-	
+
 	/**
 	 * Instantiates a new ball manager.
-	 *
+	 * 
 	 * @param cannon the cannon to shoot the Balls out
 	 * @param ball_rad the Ball radius
 	 * @param speed the Ball speed
@@ -45,10 +45,10 @@ public class BallManager {
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
 	}
-	
+
 	/**
 	 * Sets the ball speed.
-	 *
+	 * 
 	 * @param speed the new ball speed
 	 */
 	public void setBallSpeed(int speed) {
@@ -57,18 +57,18 @@ public class BallManager {
 
 	/**
 	 * Adds a static ball.
-	 *
+	 * 
 	 * @param color the color
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
-	public void addStaticBall(int color, int x, int y) { // FIXME add color option
+	public void addStaticBall(int color, int x, int y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 	}
-	
+
 	/**
 	 * Adds a random static ball.
-	 *
+	 * 
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
@@ -79,14 +79,15 @@ public class BallManager {
 
 	/**
 	 * Shoot ball.
-	 *
+	 * 
 	 * @param color the color of the Ball
 	 */
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
-		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad, ball_speed, (float) Math.toRadians(cannon.getAngle()))); // FIXME add color option
+		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
+				ball_speed, (float) Math.toRadians(cannon.getAngle())));
 	}
-	
+
 	/**
 	 * Shoot random colored ball.
 	 */
@@ -94,10 +95,10 @@ public class BallManager {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		shootBall(rand);
 	}
-	
+
 	/**
 	 * Draw the Balls managed by BallManager.
-	 *
+	 * 
 	 * @param batch the batch used to draw with
 	 * @param runtime the runtime since the start of the program
 	 */
@@ -111,10 +112,11 @@ public class BallManager {
 		for (Ball ball : ballStaticList) {
 			ball.draw(batch, runtime);
 		}
-		
+
 		/* Shoot projectile */
 		for (Ball ball : ballList) {
-			ball.update(Gdx.graphics.getDeltaTime()); // TODO is it nicer to pass down delta?
+			// TODO is it nicer to pass down delta?
+			ball.update(Gdx.graphics.getDeltaTime());
 			if (ball.isDead()) {
 				ballDeadList.add(ball);
 			}
@@ -127,12 +129,14 @@ public class BallManager {
 				}
 			}
 			/* Does the ball hit the edge? */
-			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN && Math.toDegrees(ball.getAngle()) > 90) {
+			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN
+					&& Math.toDegrees(ball.getAngle()) > 90) {
 				// LEFT EDGE
 				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX && Math.toDegrees(ball.getAngle()) < 90) {
+			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
+					&& Math.toDegrees(ball.getAngle()) < 90) {
 				// RIGHT EDGE
-				//ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
+				// ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
 				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
 			}
 		}
@@ -140,7 +144,6 @@ public class BallManager {
 			ballList.remove(ballDeadList.get(0));
 			ballDeadList.remove(0);
 		}
-
 
 		while (ballStaticDeadList.size() != 0) {
 			ballStaticList.remove(ballStaticDeadList.get(0));

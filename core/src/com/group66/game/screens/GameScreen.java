@@ -189,7 +189,7 @@ public class GameScreen implements Screen {
 
 		try {
 			FileHandle handle = Gdx.files.internal(levelFilePath);
-			Scanner s = new Scanner(handle.read());
+			Scanner s = new Scanner(handle.read(), "UTF-8");
 			int linenr = 0;
 			while (s.hasNextLine()) {
 				String line = s.nextLine();
@@ -201,10 +201,12 @@ public class GameScreen implements Screen {
 					System.out.println("X pos: " + xpos);
 
 					// shift odd rows
-					if (linenr % 2 != 0)
+					if (linenr % 2 != 0) {
 						xpos += Config.BALL_RAD;
+					}
 
-					ballManager.addStaticBall(0, xpos, ypos); //TODO get the color from the text file
+					 //TODO get the color from the text file
+					ballManager.addStaticBall(0, xpos, ypos);
 				}
 				linenr++;
 			}
