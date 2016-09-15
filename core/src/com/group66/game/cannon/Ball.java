@@ -173,16 +173,16 @@ public class Ball {
 
 		TextureRegion tr;
 		switch (color) {
-		case (0):
+		case 0:
 			tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
 			break;
-		case (1):
+		case 1:
 			tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
 			break;
-		case (2):
+		case 2:
 			tr = AssetLoader.redAnimation.getKeyFrame(runtime);
 			break;
-		case (3):
+		case 3:
 			tr = AssetLoader.yellowAnimation.getKeyFrame(runtime);
 			break;
 		default:

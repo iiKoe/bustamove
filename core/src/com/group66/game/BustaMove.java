@@ -45,12 +45,4 @@ public class BustaMove extends Game {
 		batch = new SpriteBatch();
 		this.setScreen(new MainMenuScreen(this));
 	}
-
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.Game#render()
-	 */
-	@Override
-	public void render() {
-		super.render();
-	}
 }
