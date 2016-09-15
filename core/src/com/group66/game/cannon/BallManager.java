@@ -36,12 +36,9 @@ public class BallManager {
 	/**
 	 * Instantiates a new ball manager.
 	 * 
-	 * @param cannon
-	 *            the cannon to shoot the Balls out
-	 * @param ball_rad
-	 *            the Ball radius
-	 * @param speed
-	 *            the Ball speed
+	 * @param cannon the cannon to shoot the Balls out
+	 * @param ball_rad the Ball radius
+	 * @param speed the Ball speed
 	 */
 	public BallManager(Cannon cannon, int ball_rad, int speed) {
 		this.cannon = cannon;
@@ -52,8 +49,7 @@ public class BallManager {
 	/**
 	 * Sets the ball speed.
 	 * 
-	 * @param speed
-	 *            the new ball speed
+	 * @param speed the new ball speed
 	 */
 	public void setBallSpeed(int speed) {
 		this.ball_speed = speed;
@@ -62,12 +58,9 @@ public class BallManager {
 	/**
 	 * Adds a static ball.
 	 * 
-	 * @param color
-	 *            the color
-	 * @param x
-	 *            the x coordinate
-	 * @param y
-	 *            the y coordinate
+	 * @param color the color
+	 * @param x the x coordinate
+	 * @param y the y coordinate
 	 */
 	public void addStaticBall(int color, int x, int y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
@@ -76,10 +69,8 @@ public class BallManager {
 	/**
 	 * Adds a random static ball.
 	 * 
-	 * @param x
-	 *            the x coordinate
-	 * @param y
-	 *            the y coordinate
+	 * @param x the x coordinate
+	 * @param y the y coordinate
 	 */
 	public void addRandomStaticBall(int x, int y) {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
@@ -89,8 +80,7 @@ public class BallManager {
 	/**
 	 * Shoot ball.
 	 * 
-	 * @param color
-	 *            the color of the Ball
+	 * @param color the color of the Ball
 	 */
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
@@ -109,10 +99,8 @@ public class BallManager {
 	/**
 	 * Draw the Balls managed by BallManager.
 	 * 
-	 * @param batch
-	 *            the batch used to draw with
-	 * @param runtime
-	 *            the runtime since the start of the program
+	 * @param batch the batch used to draw with
+	 * @param runtime the runtime since the start of the program
 	 */
 	public void draw(SpriteBatch batch, float runtime) {
 		/* Shoot projectile */

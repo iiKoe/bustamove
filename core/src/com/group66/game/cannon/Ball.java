@@ -46,18 +46,12 @@ public class Ball {
 	/**
 	 * Instantiates a new ball.
 	 * 
-	 * @param color
-	 *            the color can not be or exceed MAX_COLORS
-	 * @param x
-	 *            the x coordinate of the Ball
-	 * @param y
-	 *            the y coordinate of the Ball
-	 * @param rad
-	 *            the radius of the Ball
-	 * @param speed
-	 *            the speed of the Ball
-	 * @param angle
-	 *            the angle of the Ball
+	 * @param color the color can not be or exceed MAX_COLORS
+	 * @param x the x coordinate of the Ball
+	 * @param y the y coordinate of the Ball
+	 * @param rad the radius of the Ball
+	 * @param speed the speed of the Ball
+	 * @param angle the angle of the Ball
 	 */
 	public Ball(int color, int x, int y, int rad, int speed, float angle) {
 		this.time = 4;
@@ -163,10 +157,8 @@ public class Ball {
 	/**
 	 * Draw the Ball.
 	 * 
-	 * @param batch
-	 *            the batch used to draw with
-	 * @param runtime
-	 *            the runtime since the start of the program
+	 * @param batch the batch used to draw with
+	 * @param runtime the runtime since the start of the program
 	 */
 	public void draw(SpriteBatch batch, float runtime) {
 		// batch.draw(ball_texture, ); // TODO calc actual x and y
