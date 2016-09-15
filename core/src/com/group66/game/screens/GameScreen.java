@@ -14,6 +14,7 @@ import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
+import com.group66.game.helpers.TextDrawer;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -38,6 +39,9 @@ public class GameScreen implements Screen {
 
 	/** The run time needed for animations. */
 	private float runTime = 0;
+	
+	/** needed to draw text, draw score */
+	private TextDrawer textDrawer;
 
 	/**
 	 * Instantiates the game screen.
@@ -49,7 +53,7 @@ public class GameScreen implements Screen {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
-
+		
 		loadLevel();
 	}
 
@@ -85,6 +89,12 @@ public class GameScreen implements Screen {
 		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+		
+		/* Draw text*/
+		//textDrawer.draw(game.batch, "Hello", 5, 5);
+		
+		/* Draw the score */
+		textDrawer.draw(game.batch, 5);
 
 		/* Draw the balls */
 		ballManager.draw(game.batch, runTime);
