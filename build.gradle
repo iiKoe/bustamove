@@ -6,6 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
+		classpath "net.saliman:gradle-cobertura-plugin:2.3.2"
     }
 }
 
@@ -16,6 +17,7 @@ allprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
     apply plugin: 'pmd'
+    apply plugin: 'net.saliman.cobertura'
 
     version = '1.0'
     ext {
