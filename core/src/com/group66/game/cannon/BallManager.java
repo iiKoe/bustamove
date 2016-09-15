@@ -84,7 +84,7 @@ public class BallManager {
 	 */
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
-		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad, ball_speed, (float) deg_to_rad(cannon.getAngle()))); // FIXME add color option
+		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad, ball_speed, (float) Math.toRadians(cannon.getAngle()))); // FIXME add color option
 	}
 	
 	/**
@@ -127,13 +127,13 @@ public class BallManager {
 				}
 			}
 			/* Does the ball hit the edge? */
-			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN && rad_to_deg(ball.getAngle()) > 90) {
+			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN && Math.toDegrees(ball.getAngle()) > 90) {
 				// LEFT EDGE
-				ball.setAngle((float) deg_to_rad(180) - ball.getAngle());
-			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX && rad_to_deg(ball.getAngle()) < 90) {
+				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX && Math.toDegrees(ball.getAngle()) < 90) {
 				// RIGHT EDGE
 				//ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
-				ball.setAngle((float) deg_to_rad(180) - ball.getAngle());
+				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
 			}
 		}
 		while (ballDeadList.size() != 0) {
@@ -146,25 +146,5 @@ public class BallManager {
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
 		}
-	}
-	
-	/**
-	 * Degree to Radians helper function.
-	 *
-	 * @param deg the degrees
-	 * @return the radians
-	 */
-	private double deg_to_rad(double deg) {
-		return deg * Math.PI / 180.0;
-	}
-
-	/**
-	 * Radians to Degrees helper function.
-	 *
-	 * @param rad the radians
-	 * @return the degrees
-	 */
-	private double rad_to_deg(double rad) {
-		return rad * 180 / Math.PI;
 	}
 }
