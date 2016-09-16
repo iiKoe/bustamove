@@ -41,7 +41,7 @@ public class GameScreen implements Screen {
 	private float runTime = 0;
 	
 	/** needed to draw text, draw score */
-	private TextDrawer textDrawer;
+	private TextDrawer textDrawer = new TextDrawer();
 
 	/**
 	 * Instantiates the game screen.
@@ -90,12 +90,12 @@ public class GameScreen implements Screen {
 				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
 		
-		/* Draw text*/
-		//textDrawer.draw(game.batch, "Hello", 5, 5);
-		
 		/* Draw the score */
-		textDrawer.draw(game.batch, 5);
-
+		textDrawer.drawScore(game.batch, 5);
+		
+		/* Draw text*/
+		textDrawer.draw(game.batch, "Omar Drew Me", 10, 80);
+		
 		/* Draw the balls */
 		ballManager.draw(game.batch, runTime);
 

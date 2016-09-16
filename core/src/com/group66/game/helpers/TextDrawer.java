@@ -10,23 +10,23 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TextDrawer {
 	
-	BitmapFont myFont;
-	private int score;
+	public BitmapFont myFont;
 		
 	// Generates the font and its settings. Need to run once.
 	public TextDrawer(){
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Courier New.ttf"));
+		
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Courier.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 12; //font size
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()>? "; //list of printable chars
+		parameter.size = 36; //font size
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()?:"; //list of printable chars
 		myFont = generator.generateFont(parameter);
 		myFont.setColor(Color.WHITE);
 		generator.dispose();
 	}
 	
 	//function for drawing the player score
-	public void draw(SpriteBatch batch, int score){
-		myFont.draw(batch, "Score:", 0, 30);
+	public void drawScore(SpriteBatch batch, int score){
+		myFont.draw(batch, "Score: " + Integer.toString(score), 10, 40);
 	}
 	
 	//function for drawing any text needed. Starts coordinates from the top left corner
