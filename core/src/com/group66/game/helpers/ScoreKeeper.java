@@ -17,13 +17,12 @@ public class ScoreKeeper {
 
 	//calculating the new score
 	public void setCurrentScore(int poppingBalls, int hangingBalls) {
-		this.currentScore = this.currentScore + (poppingBalls + (2^hangingBalls))* 10; //CHECK is this correct?
+		this.currentScore = this.currentScore + (poppingBalls + (2^hangingBalls))* 10;
 	}
 	
 	//update score shown on screen
 	public void dispScore (int currentScore) {
-		
-		
+	
 	}
 
 }

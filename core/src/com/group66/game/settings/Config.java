@@ -68,4 +68,11 @@ public class Config {
 	/** The font size used in drawing text */
 	public static final int FONT_SIZE =24;
 	
+	/** The x coordinate location of the displayed player score */
+	public static final int SCORE_X_LOCATION = 430;
+	
+	/** The y coordinate location of the displayed player score */
+	public static final int SCORE_Y_LOCATION = 40;
+	
+	
 }
