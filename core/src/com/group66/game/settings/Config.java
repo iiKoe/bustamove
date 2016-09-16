@@ -64,4 +64,8 @@ public class Config {
 	
 	/** The Constant CANNON_MAX_ANGLE. */
 	public static final float CANNON_MAX_ANGLE = 179;
+	
+	/** The font size used in drawing text */
+	public static final int FONT_SIZE =24;
+	
 }

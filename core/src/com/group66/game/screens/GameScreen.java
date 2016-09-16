@@ -91,10 +91,8 @@ public class GameScreen implements Screen {
 				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
 		
 		/* Draw the score */
-		textDrawer.drawScore(game.batch, 5);
+		textDrawer.drawScore(game.batch, 99999);
 		
-		/* Draw text*/
-		textDrawer.draw(game.batch, "Omar Drew Me", 10, 80);
 		
 		/* Draw the balls */
 		ballManager.draw(game.batch, runTime);
