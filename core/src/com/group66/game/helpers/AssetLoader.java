@@ -40,8 +40,13 @@ public class AssetLoader {
     public static Texture ballTexture;
     
     /** The ball texture regions. */
+<<<<<<< HEAD
     public static TextureRegion blue1, blue2, blue3, 
     green1, green2, green3, red1, red2, red3, yellow1, yellow2, yellow3;
+=======
+    public static TextureRegion blue1, blue2, blue3, green1, green2, green3, 
+    	red1, red2, red3, yellow1, yellow2, yellow3;
+>>>>>>> refs/remotes/origin/develop
     
     /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation, yellowAnimation;

@@ -40,6 +40,9 @@ public class GameScreen implements Screen {
 	/** The run time needed for animations. */
 	private float runTime = 0;
 	
+	//for testing
+	//ShapeRenderer shapeRenderer = new ShapeRenderer();
+	
 	/** needed to draw text, draw score */
 	private TextDrawer textDrawer = new TextDrawer();
 
@@ -92,7 +95,7 @@ public class GameScreen implements Screen {
 
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		
 		game.batch.begin();
 		game.batch.enableBlending();
 
@@ -226,9 +229,11 @@ public class GameScreen implements Screen {
 
 					 //TODO get the color from the text file
 					ballManager.addStaticBall(0, xpos, ypos);
+					
 				}
 				linenr++;
 			}
+			
 
 			s.close();
 		} catch (Exception e) {

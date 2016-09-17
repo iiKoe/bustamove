@@ -23,12 +23,12 @@ import com.group66.game.BustaMove;
  */
 public class MainMenuScreen implements Screen {
 
-    /** The Constant PLAY_BUTTON_WIDTH. */
-    private static final int PLAY_BUTTON_WIDTH = 50;
+	/** The Constant PLAY_BUTTON_WIDTH. */
+	private static final int PLAY_BUTTON_WIDTH = 50;
 
-    /** The Constant PLAY_BUTTON_HEIGHT. */
-    private static final int PLAY_BUTTON_HEIGHT = 50;
-
+	/** The Constant PLAY_BUTTON_HEIGHT. */
+	private static final int PLAY_BUTTON_HEIGHT = 50;
+    
     // TODO: either make scalable or move to config
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 50;
@@ -210,16 +210,15 @@ public class MainMenuScreen implements Screen {
 
     }
 
-    /**
-     * Gets the center width.
-     *
-     * @param size
-     *            the size
-     * @return the center width
-     */
-    private int getCenterWidth(int size) {
-        return game.getGameWidth() / 2 - size / 2;
-    }
+	/**
+	 * Gets the center width.
+	 *
+	 * @param size the size
+	 * @return the center width
+	 */
+	private int getCenterWidth(int size) {
+		return game.getGameWidth() / 2 - size / 2;
+	}
 
     /**
      * Gets the center height.

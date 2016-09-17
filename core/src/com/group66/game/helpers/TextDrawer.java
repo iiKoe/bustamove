@@ -20,15 +20,22 @@ public class TextDrawer {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Courier.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = Config.FONT_SIZE; //font size
-		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()?:"; //list of printable chars
+		parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()?:"; 
+		//list of printable chars
 		myFont = generator.generateFont(parameter);
 		myFont.setColor(Color.WHITE);
 		generator.dispose();
 	}
 	
 	//function for drawing the player score
+<<<<<<< HEAD
 	public void drawScore(SpriteBatch batch, int score) {
 		myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_X_LOCATION, Config.SCORE_Y_LOCATION);
+=======
+	public void drawScore(SpriteBatch batch, int score){
+		myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_X_LOCATION, 
+				Config.SCORE_Y_LOCATION);
+>>>>>>> refs/remotes/origin/develop
 	}
 	
 	
