@@ -28,14 +28,8 @@ public class TextDrawer {
 	}
 	
 	//function for drawing the player score
-<<<<<<< HEAD
 	public void drawScore(SpriteBatch batch, int score) {
 		myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_X_LOCATION, Config.SCORE_Y_LOCATION);
-=======
-	public void drawScore(SpriteBatch batch, int score){
-		myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_X_LOCATION, 
-				Config.SCORE_Y_LOCATION);
->>>>>>> refs/remotes/origin/develop
 	}
 	
 	

@@ -17,7 +17,6 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.settings.Config;
 
