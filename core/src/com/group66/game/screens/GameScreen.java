@@ -45,12 +45,16 @@ public class GameScreen implements Screen {
 	 * @param game
 	 *            the game instance
 	 */
-	public GameScreen(BustaMove game) {
+	public GameScreen(BustaMove game, Boolean randomLevel) {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
 
 		loadLevel();
+	}
+	
+	public GameScreen(BustaMove game){
+		this(game, false);
 	}
 
 	/*
