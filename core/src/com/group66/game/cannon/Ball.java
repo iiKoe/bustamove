@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 
 // TODO: Auto-generated Javadoc
@@ -33,6 +34,11 @@ public class Ball {
 
 	/** The Ball hitbox. */
 	private Circle hitbox;
+
+	/** Hitbox for detecting neighbor balls */
+	private Circle neighborBox;
+
+	private Rectangle topHitbox;
 
 	/** The angle in which the Ball moves. */
 	private float angle;
@@ -71,6 +77,32 @@ public class Ball {
 		this.speed = speed;
 		this.angle = angle;
 		this.radius = rad;
+		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+
+		hitbox = new Circle(x, y, this.radius);
+		neighborBox = new Circle(x, y, this.radius * 1.2f);
+		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
+	}
+
+	/**
+	 * Instantiates a new ball.
+	 *
+	 * @param color the color (must be one of the defined colors, can not be or exceed MAX_COLORS
+	 * @param x the x coordinate of the Ball
+	 * @param y the y coordinate of the Ball
+	 * @param rad the radius of the Ball
+	 * @param speed the speed of the Ball
+	 * @param angle the angle of the Ball
+	 * @param graph the needs to be added to
+	 */
+	public Ball(int color, int x, int y, int rad, int speed, float angle, BallGraph graph) {
+		this.time = 4;
+		this.speed = speed;
+		this.angle =  angle;
+		this.radius = rad;
+		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+		graph.insertBall(this);
+
 		// TODO Add color range check for integers equal or
 		// larger then MAX_COLORS
 		this.color = color;
@@ -78,6 +110,8 @@ public class Ball {
 		this.runtime = 0f;
 
 		hitbox = new Circle(x, y, this.radius);
+		neighborBox = new Circle(x, y, this.radius * 1.2f);
+		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
 	}
 
 	/**
@@ -90,12 +124,36 @@ public class Ball {
 	}
 
 	/**
+	 * Gets the y coordinate
+	 * @return the y coordinate
+	 */
+	public float getY() {
+		return hitbox.y;
+	}
+
+	/**
 	 * Gets the hitbox.
 	 * 
 	 * @return the hitbox
 	 */
 	public Circle getHitbox() {
 		return hitbox;
+	}
+
+	/**
+	 * Gets the neighbor box
+	 * @return the neighborbox
+	 */
+	public Circle getNeighborBox() {
+		return neighborBox;
+	}
+
+	/**
+	 * get top hitbox
+	 * @return the tophitbox
+	 */
+	public Rectangle getTopHitbox() {
+		return topHitbox;
 	}
 
 	/**
@@ -132,6 +190,14 @@ public class Ball {
 	 */
 	public int getRadius() {
 		return radius;
+	}
+	/**
+	 * Gets the color.
+	 * 
+	 * @return the color
+	 */
+	public int getColor() {
+		return color;
 	}
 
 	/**
@@ -170,12 +236,12 @@ public class Ball {
 	}
 
 	/**
-	 * The effect that happens if a ball gets hit.
+	 * Is next to.
+	 * @param c the circle object
+	 * @return true, if the neighborBoxes overlap.
 	 */
-	public void hitEffect() {
-		System.out.println("Ball hit!");
-		this.popStart();
-		// TODO add destroyed animation
+	public boolean isNextTo(Circle c) {
+		return c.overlaps(neighborBox);
 	}
 	
 	/**
@@ -216,6 +282,24 @@ public class Ball {
 		this.runtime = 0;
 		pop_status = PopStatus.POPPING;
 		System.out.println("Popping Started!");
+	}
+
+	/**
+	 * Insert the into a graph
+	 * 
+	 * @param graph
+	 */
+	public void addToGraph(BallGraph graph) {
+		graph.insertBall(this);
+	}
+
+	/**
+	 * Delete the ball from a graph
+	 * 
+	 * @param graph
+	 */
+	public void deleteBallFromGraph(BallGraph graph) {
+		graph.removeBall(this);
 	}
 
 	/**
