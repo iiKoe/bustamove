@@ -12,11 +12,17 @@ public class Cannon {
 	/** The angle of the cannon. */
 	private float angle;
 	
-	/** The x and y coordinate of the cannon. */
-	private int x, y;
+	/** The x coordinate of the cannon. */
+	private int x;
 	
-	/** The height and width of the cannon. */
-	private int height, width;
+	/** The y coordinate of the cannon. */
+	private int y;
+	
+	/** The height of the cannon. */
+	private int height;
+	
+	/** The width of the cannon. */
+	private int width;
 	
 	/** The cannon texture. */
 	private Texture cannon_texture;
@@ -24,8 +30,11 @@ public class Cannon {
 	/** The cannon texture region. */
 	private TextureRegion cannon_texture_region;
 	
-	/** The minimum and maximum angle of the cannon. */
-	private float min_angle, max_angle;
+	/** The minimum angle of the cannon. */
+	private float min_angle;
+	
+	/** The maximum angle of the cannon. */
+	private float max_angle;
 	
 	/**
 	 * Instantiates a new cannon.
@@ -36,7 +45,8 @@ public class Cannon {
 	 * @param height the height of the cannon
 	 * @param width the width of the cannon
 	 */
-	public Cannon(Texture texture, int x, int y, int height, int width, float min_angle, float max_angle) {
+	public Cannon(Texture texture, int x, int y, int height, int width,
+			float min_angle, float max_angle) {
 		this.angle =  90;
 		this.x = x;
 		this.y = y;
@@ -128,7 +138,8 @@ public class Cannon {
 	 */
 	public void draw(SpriteBatch batch) {
 		//batch.draw(cannon_texture, hitbox.x, hitbox.y, BALL_RAD, BALL_RAD);
-		batch.draw(cannon_texture_region, x - width/2f, y - height/2f, width/2f, height/2f, width, height, 1, 1, angle, true);
+		batch.draw(cannon_texture_region, x - width / 2f, y - height / 2f, 
+				width / 2f, height / 2f, width, height, 1, 1, angle, true);
 	}
 	
 	/**
@@ -138,10 +149,11 @@ public class Cannon {
 	 * @return the angle within boundaries
 	 */
 	private float checkAngle(float a) {
-		if (a > this.max_angle)
+		if (a > this.max_angle) {
 			a = this.max_angle;
-		else if (a < this.min_angle)
+		} else if (a < this.min_angle) {
 			a = this.min_angle;
+		}
 		return a;
 	}
 }

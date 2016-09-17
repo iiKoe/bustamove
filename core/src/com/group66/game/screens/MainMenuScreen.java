@@ -52,7 +52,8 @@ public class MainMenuScreen implements Screen {
 				&& game.getGameHeight() - Gdx.input.getY() < getCenterHeight(PLAY_BUTTON_HEIGHT)
 						+ PLAY_BUTTON_HEIGHT
 				&& game.getGameHeight() - Gdx.input.getY() > getCenterHeight(PLAY_BUTTON_HEIGHT)) {
-			game.batch.draw(playButtonActive, getCenterWidth(PLAY_BUTTON_WIDTH),
+			game.batch.draw(playButtonActive,
+					getCenterWidth(PLAY_BUTTON_WIDTH),
 					getCenterHeight(PLAY_BUTTON_HEIGHT), PLAY_BUTTON_WIDTH,
 					PLAY_BUTTON_HEIGHT);
 			if (Gdx.input.isTouched()) {
