@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 
-// TODO: Auto-generated Javadoc
 /**
  * A basic Ball class.
  */
@@ -263,19 +262,19 @@ public class Ball {
 	public void popStart() {
 		switch (color) {
 		case BLUE:
-				pop_animation = AssetLoader.getBluePopAnimation();
+			pop_animation = AssetLoader.getBluePopAnimation();
 			break;
 		case GREEN:
-				pop_animation = AssetLoader.getGreenPopAnimation();
+			pop_animation = AssetLoader.getGreenPopAnimation();
 			break;
 		case RED:
-				pop_animation = AssetLoader.getRedPopAnimation();
+			pop_animation = AssetLoader.getRedPopAnimation();
 			break;
 		case YELLOW:
-				pop_animation = AssetLoader.getYellowPopAnimation();
+			pop_animation = AssetLoader.getYellowPopAnimation();
 			break;
 		default:
-				pop_animation = AssetLoader.getBluePopAnimation(); // Error
+			pop_animation = AssetLoader.getBluePopAnimation(); // Error
 			return;
 		}
 		
@@ -306,7 +305,7 @@ public class Ball {
 	 * Draw the Ball.
 	 * 
 	 * @param batch the batch used to draw with
-	 * @param runtime the runtime since the start of the program
+	 * @param delta the delta since the last draw
 	 */
 	public void draw(SpriteBatch batch, float delta) {
 		this.runtime += delta;
@@ -324,16 +323,16 @@ public class Ball {
 		} else {
 			switch (color) {
 			case 0:
-					tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+				tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
 				break;
 			case 1:
-					tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+				tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
 				break;
 			case 2:
-					tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+				tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
 				break;
 			case 3:
-					tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+				tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
 				break;
 			default:
 				return;

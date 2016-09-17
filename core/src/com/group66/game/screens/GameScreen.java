@@ -16,7 +16,6 @@ import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 import com.group66.game.helpers.TextDrawer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class for the main GameScreen of the game.
  */

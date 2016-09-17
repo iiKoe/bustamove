@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.settings.Config;
 
-// TODO: Auto-generated Javadoc
 /**
  * A Class to manage the Balls in the game.
  */

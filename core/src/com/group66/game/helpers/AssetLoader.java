@@ -34,8 +34,14 @@ public class AssetLoader {
 	
 	/** The ball animation texture regions. */
 	public static TextureRegion[] BluePopTextureRegions = new TextureRegion[7];
+	
+	/** The Green pop texture regions. */
 	public static TextureRegion[] GreenPopTextureRegions = new TextureRegion[7];
+	
+	/** The Red pop texture regions. */
 	public static TextureRegion[] RedPopTextureRegions = new TextureRegion[7];
+	
+	/** The Yellow pop texture regions. */
 	public static TextureRegion[] YellowPopTextureRegions = new TextureRegion[7];
 
     /**
@@ -128,44 +134,72 @@ public class AssetLoader {
         YellowPopTextureRegions[6] = new TextureRegion(ballPopTexture, 212, 99, 32, 32);
     }
     
+    /**
+     * Gets the blue pop animation.
+     *
+     * @return a blue pop animation instance
+     */
     public static Animation getBluePopAnimation() {
     	Animation bluePopAnimation;
     	
-		TextureRegion[] bluePopTR = { BluePopTextureRegions[0], BluePopTextureRegions[1], BluePopTextureRegions[2],
-				BluePopTextureRegions[3], BluePopTextureRegions[4], BluePopTextureRegions[5], BluePopTextureRegions[6]};
+		TextureRegion[] bluePopTR = { BluePopTextureRegions[0], 
+				BluePopTextureRegions[1], BluePopTextureRegions[2],
+				BluePopTextureRegions[3], BluePopTextureRegions[4], 
+				BluePopTextureRegions[5], BluePopTextureRegions[6]};
 		bluePopAnimation = new Animation(0.1f, bluePopTR);
 		bluePopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
 		return bluePopAnimation;
     }
     
+    /**
+     * Gets a green pop animation instance.
+     *
+     * @return the green pop animation
+     */
     public static Animation getGreenPopAnimation() {
     	Animation greenPopAnimation;
     	
-		TextureRegion[] greenPopTR = { GreenPopTextureRegions[0], GreenPopTextureRegions[1], GreenPopTextureRegions[2],
-				GreenPopTextureRegions[3], GreenPopTextureRegions[4], GreenPopTextureRegions[5], GreenPopTextureRegions[6]};
+		TextureRegion[] greenPopTR = { GreenPopTextureRegions[0], 
+				GreenPopTextureRegions[1], GreenPopTextureRegions[2],
+				GreenPopTextureRegions[3], GreenPopTextureRegions[4], 
+				GreenPopTextureRegions[5], GreenPopTextureRegions[6]};
 		greenPopAnimation = new Animation(0.1f, greenPopTR);
 		greenPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
 		return greenPopAnimation;
     }
     
+    /**
+     * Gets a red pop animation instance.
+     *
+     * @return the red pop animation
+     */
     public static Animation getRedPopAnimation() {
     	Animation redPopAnimation;
     	
-		TextureRegion[] redPopTR = { RedPopTextureRegions[0], RedPopTextureRegions[1], RedPopTextureRegions[2],
-				RedPopTextureRegions[3], RedPopTextureRegions[4], RedPopTextureRegions[5], RedPopTextureRegions[6]};
+		TextureRegion[] redPopTR = { RedPopTextureRegions[0], 
+				RedPopTextureRegions[1], RedPopTextureRegions[2],
+				RedPopTextureRegions[3], RedPopTextureRegions[4], 
+				RedPopTextureRegions[5], RedPopTextureRegions[6]};
 		redPopAnimation = new Animation(0.1f, redPopTR);
 		redPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
 		return redPopAnimation;
     }
     
+    /**
+     * Gets a yellow pop animation instance.
+     *
+     * @return the yellow pop animation
+     */
     public static Animation getYellowPopAnimation() {
     	Animation yellowPopAnimation;
     	
-		TextureRegion[] yellowPopTR = { YellowPopTextureRegions[0], YellowPopTextureRegions[1], YellowPopTextureRegions[2],
-				YellowPopTextureRegions[3], YellowPopTextureRegions[4], YellowPopTextureRegions[5], YellowPopTextureRegions[6]};
+		TextureRegion[] yellowPopTR = { YellowPopTextureRegions[0], 
+				YellowPopTextureRegions[1], YellowPopTextureRegions[2],
+				YellowPopTextureRegions[3], YellowPopTextureRegions[4], 
+				YellowPopTextureRegions[5], YellowPopTextureRegions[6]};
 		yellowPopAnimation = new Animation(0.1f, yellowPopTR);
 		yellowPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
