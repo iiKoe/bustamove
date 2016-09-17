@@ -19,7 +19,7 @@ public class LevelLoader {
 
         try {
             FileHandle handle = Gdx.files.internal(levelFilePath);
-            Scanner s = new Scanner(handle.read());
+            Scanner s = new Scanner(handle.read(), "UTF-8");
             int linenr = 0;
             while (s.hasNextLine()) {
                 String line = s.nextLine();
@@ -29,8 +29,9 @@ public class LevelLoader {
                     System.out.println("X pos: " + xpos);
 
                     // shift odd rows
-                    if (linenr % 2 != 0)
+                    if (linenr % 2 != 0) {
                         xpos += Config.BALL_RAD;
+                    }
 
                     if (line.charAt(i) != ' ') {
                         int ballIndex = Integer.parseInt("" + line.charAt(i));
