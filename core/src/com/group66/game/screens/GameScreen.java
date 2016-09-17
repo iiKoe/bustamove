@@ -16,7 +16,6 @@ import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 import com.group66.game.helpers.TextDrawer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class for the main GameScreen of the game.
  */
@@ -36,9 +35,6 @@ public class GameScreen implements Screen {
 	/** The ball manager. */
 	private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
 			Config.BALL_SPEED);
-
-	/** The run time needed for animations. */
-	private float runTime = 0;
 	
 	//for testing
 	//ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -87,8 +83,6 @@ public class GameScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		/* Update the runtime */
-		runTime += delta;
 
 		/* Handle input keys */
 		inputHandler.run();
@@ -109,7 +103,7 @@ public class GameScreen implements Screen {
 		
 		
 		/* Draw the balls */
-		ballManager.draw(game.batch, runTime);
+		ballManager.draw(game.batch, delta);
 
 		/* Draw the cannon */
 		cannon.draw(game.batch);

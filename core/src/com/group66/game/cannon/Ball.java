@@ -1,5 +1,6 @@
 package com.group66.game.cannon;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
@@ -10,6 +11,10 @@ import com.group66.game.helpers.AssetLoader;
  * A basic Ball class.
  */
 public class Ball {
+	
+	private enum PopStatus {
+	    NONE, POPPING, DONE 
+	}
 
 	/** The Constant that represents a BLUE ball. */
 	public static final int BLUE = 0;
@@ -48,6 +53,13 @@ public class Ball {
 
 	/** The radius of the Ball. */
 	private int radius;
+	
+	/** The runtime used for animations */
+	private float runtime;
+	
+	private PopStatus pop_status;
+	
+	private Animation pop_animation;
 
 	/**
 	 * Instantiates a new ball.
@@ -60,7 +72,7 @@ public class Ball {
 	 * @param angle the angle of the Ball
 	 */
 	public Ball(int color, int x, int y, int rad, int speed, float angle) {
-		this.time = 4;
+		this.time = 10;
 		this.speed = speed;
 		this.angle = angle;
 		this.radius = rad;
@@ -93,6 +105,8 @@ public class Ball {
 		// TODO Add color range check for integers equal or
 		// larger then MAX_COLORS
 		this.color = color;
+		this.pop_status = PopStatus.NONE;
+		this.runtime = 0f;
 
 		hitbox = new Circle(x, y, this.radius);
 		neighborBox = new Circle(x, y, this.radius * 1.2f);
@@ -144,11 +158,19 @@ public class Ball {
 	/**
 	 * Sets the angle.
 	 * 
-	 * @param angle
-	 *            the new angle
+	 * @param angle the new angle
 	 */
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+	
+	/**
+	 * Sets the speed.
+	 * 
+	 * @param speed the new speed
+	 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 	/**
@@ -220,21 +242,45 @@ public class Ball {
 	public boolean isNextTo(Circle c) {
 		return c.overlaps(neighborBox);
 	}
-
+	
 	/**
-	 * The effect that happens if a ball gets hit.
+	 * Pop done.
+	 *
+	 * @return true, if pop animation is done.
 	 */
-	public void hitEffect() {
-		System.out.println("Ball hit!");
-		// TODO add destroyed animation
+	public boolean popDone() {
+		if (pop_status == PopStatus.DONE) {
+			pop_status = PopStatus.NONE;
+			return true;
+		}
+		return false;
 	}
-
+	
 	/**
-	 * Set the speed at which the ball moves
-	 * @param speed
+	 * Start the Pop animation.
 	 */
-	public void setSpeed(int speed) {
-		this.speed = speed;
+	public void popStart() {
+		switch (color) {
+		case BLUE:
+			pop_animation = AssetLoader.getBluePopAnimation();
+			break;
+		case GREEN:
+			pop_animation = AssetLoader.getGreenPopAnimation();
+			break;
+		case RED:
+			pop_animation = AssetLoader.getRedPopAnimation();
+			break;
+		case YELLOW:
+			pop_animation = AssetLoader.getYellowPopAnimation();
+			break;
+		default:
+			pop_animation = AssetLoader.getBluePopAnimation(); // Error
+			return;
+		}
+		
+		this.runtime = 0;
+		pop_status = PopStatus.POPPING;
+		System.out.println("Popping Started!");
 	}
 
 	/**
@@ -259,28 +305,41 @@ public class Ball {
 	 * Draw the Ball.
 	 * 
 	 * @param batch the batch used to draw with
-	 * @param runtime the runtime since the start of the program
+	 * @param delta the delta since the last draw
 	 */
-	public void draw(SpriteBatch batch, float runtime) {
+	public void draw(SpriteBatch batch, float delta) {
+		this.runtime += delta;
 		// batch.draw(ball_texture, ); // TODO calc actual x and y
 
 		TextureRegion tr;
-		switch (color) {
-		case 0:
-			tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
-			break; 
-		case 1:
-			tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
-			break;
-		case 2:
-			tr = AssetLoader.redAnimation.getKeyFrame(runtime);
-			break;
-		case 3:
-			tr = AssetLoader.yellowAnimation.getKeyFrame(runtime);
-			break;
-		default:
-			return;
+		// TODO What to draw when popping is done? Nothing?
+		if (pop_status == PopStatus.POPPING) {
+			tr = pop_animation.getKeyFrame(this.runtime);
+			if (pop_animation.isAnimationFinished(this.runtime)) {
+				pop_status = PopStatus.DONE;
+				this.runtime = 0;
+				System.out.println("Popping Done!");
+			}
+		} else {
+			switch (color) {
+			case 0:
+				tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+				break;
+			case 1:
+				tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+				break;
+			case 2:
+				tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+				break;
+			case 3:
+				tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+				break;
+			default:
+				return;
+			}
 		}
-		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius, this.radius * 2, this.radius * 2);
+		
+		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
+				this.radius * 2, this.radius * 2);
 	}
 }
