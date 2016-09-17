@@ -44,6 +44,8 @@ public class GameScreen implements Screen {
 	 * 
 	 * @param game
 	 *            the game instance
+	 * @param randomLevel
+	 *            determines if a set level or a random level is used
 	 */
 	public GameScreen(BustaMove game, Boolean randomLevel) {
 		this.game = game;
@@ -53,7 +55,12 @@ public class GameScreen implements Screen {
 		loadLevel();
 	}
 	
-	public GameScreen(BustaMove game){
+	/**
+	 * Instantiates the game screen.
+	 * @param game
+	 *            the game instance
+	 */
+	public GameScreen(BustaMove game) {
 		this(game, false);
 	}
 

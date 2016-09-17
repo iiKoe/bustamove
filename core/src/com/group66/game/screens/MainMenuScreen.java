@@ -84,17 +84,17 @@ public class MainMenuScreen implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
-        TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
-        TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
-        TextButton scoresButton = new TextButton("High scores", textButtonStyle);
-        TextButton exitButton = new TextButton("Exit", textButtonStyle);
-
         int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING);
+        
+        TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
         levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2, yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
         randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
                 yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        TextButton scoresButton = new TextButton("High scores", textButtonStyle);
         scoresButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
                 yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        TextButton exitButton = new TextButton("Exit", textButtonStyle);
         exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
                 yoffset - 4 * (BUTTON_HEIGHT + BUTTON_SPACING));
         stage.addActor(levelButton);
@@ -135,26 +135,8 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        game.batch.begin();
-
-        /*
-         * if (Gdx.input.getX() < getCenterWidth(PLAY_BUTTON_WIDTH) +
-         * PLAY_BUTTON_WIDTH && Gdx.input.getX() >
-         * getCenterWidth(PLAY_BUTTON_WIDTH) && game.getGameHeight() -
-         * Gdx.input.getY() < getCenterHeight(PLAY_BUTTON_HEIGHT) +
-         * PLAY_BUTTON_HEIGHT && game.getGameHeight() - Gdx.input.getY() >
-         * getCenterHeight(PLAY_BUTTON_HEIGHT)) {
-         * game.batch.draw(playButtonActive, getCenterWidth(PLAY_BUTTON_WIDTH),
-         * getCenterHeight(PLAY_BUTTON_HEIGHT), PLAY_BUTTON_WIDTH,
-         * PLAY_BUTTON_HEIGHT); if (Gdx.input.isTouched()) { this.dispose();
-         * game.setScreen(new GameScreen(game)); } } else {
-         * game.batch.draw(playButtonInactive,
-         * getCenterWidth(PLAY_BUTTON_WIDTH),
-         * getCenterHeight(PLAY_BUTTON_HEIGHT), PLAY_BUTTON_WIDTH,
-         * PLAY_BUTTON_HEIGHT); }
-         */
-
-        game.batch.end();
+        //game.batch.begin();
+        //game.batch.end();
 
         stage.act();
         stage.draw();
