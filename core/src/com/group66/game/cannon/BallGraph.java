@@ -183,24 +183,6 @@ public class BallGraph {
 	}
 	
 	/**
-	 * Prints all edges in the graph. Outdated, was for testing
-	 */
-	/*public void printAllEdges(){
-		Set<Ball> vert = graph.vertexSet();
-		for(Ball e:vert){
-			//System.out.println("Edges of vertex "+main.Main.balls.indexOf(e)+":");
-			for(DefaultEdge v:graph.edgesOf(e)){
-				Ball u = graph.getEdgeTarget(v);
-				//System.out.print(main.Main.balls.indexOf(u)+", ");
-			}
-			//System.out.println();
-		}
-		
-	} */
-	
-	
-
-	/**
 	 * This function returns a list of all the balls in the graph.
 	 * @param exclude, a ball that will be excluded from the list. (meant for the top ball)
 	 * @return A list of all the balls in the graph

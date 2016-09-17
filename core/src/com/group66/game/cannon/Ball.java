@@ -268,16 +268,16 @@ public class Ball {
 		switch (color) {
 		case 0:
 			tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
-		break; 
+			break; 
 		case 1:
 			tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
-		break;
+			break;
 		case 2:
 			tr = AssetLoader.redAnimation.getKeyFrame(runtime);
-		break;
+			break;
 		case 3:
 			tr = AssetLoader.yellowAnimation.getKeyFrame(runtime);
-		break;
+			break;
 		default:
 			return;
 		}
