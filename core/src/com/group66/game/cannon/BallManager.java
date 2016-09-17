@@ -11,28 +11,34 @@ import com.group66.game.settings.Config;
  * A Class to manage the Balls in the game.
  */
 public class BallManager {
-	
+
 	/** The cannon instance to shoot out. */
 	private Cannon cannon;
-	
+
+	/** The graph where all the connections between balls are stored. */
+	private BallGraph ballGraph = new BallGraph();
+
 	/** The ball speed. */
 	private int ball_speed;
-	
+
 	/** The ball radius. */
 	private int ball_rad;
-	
+
 	/** The ball list. */
 	private ArrayList<Ball> ballList = new ArrayList<Ball>();
-	
+
 	/** The ball dead list. */
 	private ArrayList<Ball> ballDeadList = new ArrayList<Ball>();
 
 	/** The static ball list. */
 	private ArrayList<Ball> ballStaticList = new ArrayList<Ball>();
-	
+
 	/** The static ball dead list. */
 	private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
-	
+
+	/** The ball to be added to static List */
+	private ArrayList<Ball> ballToBeAdded = new ArrayList<Ball>();
+
 	/**
 	 * Instantiates a new ball manager.
 	 *
@@ -44,8 +50,9 @@ public class BallManager {
 		this.cannon = cannon;
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
+		addStaticBall(-1, 0, 0);
 	}
-	
+
 	/**
 	 * Sets the ball speed.
 	 *
@@ -64,8 +71,9 @@ public class BallManager {
 	 */
 	public void addStaticBall(int color, int x, int y) { // FIXME add color option
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
+		ballStaticList.get(ballStaticList.size()-1).addToGraph(ballGraph);
 	}
-	
+
 	/**
 	 * Adds a random static ball.
 	 *
@@ -86,7 +94,7 @@ public class BallManager {
 		// TODO add math so ball comes out the top of the cannon?
 		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad, ball_speed, (float) Math.toRadians(cannon.getAngle()))); // FIXME add color option
 	}
-	
+
 	/**
 	 * Shoot random colored ball.
 	 */
@@ -94,7 +102,7 @@ public class BallManager {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		shootBall(rand);
 	}
-	
+
 	/**
 	 * Draw the Balls managed by BallManager.
 	 *
@@ -111,7 +119,7 @@ public class BallManager {
 		for (Ball ball : ballStaticList) {
 			ball.draw(batch, runtime);
 		}
-		
+
 		/* Shoot projectile */
 		for (Ball ball : ballList) {
 			ball.update(Gdx.graphics.getDeltaTime()); // TODO is it nicer to pass down delta?
@@ -123,7 +131,8 @@ public class BallManager {
 				if (t.doesHit(ball.getHitbox())) {
 					t.hitEffect();
 					ballDeadList.add(ball);
-					ballStaticDeadList.add(t);
+					ball.setSpeed(0);
+					ballToBeAdded.add(ball);
 				}
 			}
 			/* Does the ball hit the edge? */
@@ -143,8 +152,29 @@ public class BallManager {
 
 
 		while (ballStaticDeadList.size() != 0) {
+			ballGraph.removeBall(ballStaticDeadList.get(0));
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
+			System.out.println("number of balls left: " + ballGraph.numberOfBalls());
+			if(ballStaticDeadList.size()==0) {
+				for(Ball e:ballGraph.getFreeBalls()) {
+					ballStaticDeadList.add(e);
+					System.out.println("ball added to deadlist(free)");
+				}
+			}
+		}
+
+		while (ballToBeAdded.size() != 0) {
+			addStaticBall(ballToBeAdded.get(0).getColor(), (int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
+			ballToBeAdded.remove(0);
+			if(ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size()-1))>=3) {
+				for(Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size()-1))){
+					System.out.println("ball added to deadlist (adjacent)");
+					ballStaticDeadList.add(e);
+				}
+			}
+
+
 		}
 	}
 }

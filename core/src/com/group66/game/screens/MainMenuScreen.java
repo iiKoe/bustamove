@@ -13,7 +13,7 @@ public class MainMenuScreen implements Screen {
 
 	/** The Constant PLAY_BUTTON_WIDTH. */
 	private static final int PLAY_BUTTON_WIDTH = 50;
-	
+
 	/** The Constant PLAY_BUTTON_HEIGHT. */
 	private static final int PLAY_BUTTON_HEIGHT = 50;
 
@@ -22,7 +22,7 @@ public class MainMenuScreen implements Screen {
 
 	/** The play button active texture. */
 	private Texture playButtonActive;
-	
+
 	/** The play button inactive texture. */
 	private Texture playButtonInactive;
 
@@ -50,7 +50,7 @@ public class MainMenuScreen implements Screen {
 				+ PLAY_BUTTON_WIDTH
 				&& Gdx.input.getX() > getCenterWidth(PLAY_BUTTON_WIDTH)
 				&& game.getGameHeight() - Gdx.input.getY() < getCenterHeight(PLAY_BUTTON_HEIGHT)
-						+ PLAY_BUTTON_HEIGHT
+				+ PLAY_BUTTON_HEIGHT
 				&& game.getGameHeight() - Gdx.input.getY() > getCenterHeight(PLAY_BUTTON_HEIGHT)) {
 			game.batch.draw(playButtonActive, getCenterWidth(PLAY_BUTTON_WIDTH),
 					getCenterHeight(PLAY_BUTTON_HEIGHT), PLAY_BUTTON_WIDTH,
@@ -68,7 +68,7 @@ public class MainMenuScreen implements Screen {
 
 		game.batch.end();
 	}
-	
+
 
 	/* (non-Javadoc)
 	 * @see com.badlogic.gdx.Screen#show()
@@ -114,7 +114,7 @@ public class MainMenuScreen implements Screen {
 	public void dispose() {
 
 	}
-	
+
 	/**
 	 * Gets the center width.
 	 *
