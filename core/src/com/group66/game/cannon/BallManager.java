@@ -33,7 +33,7 @@ public class BallManager {
 	/** The static ball list. */
 	private ArrayList<Ball> ballStaticList = new ArrayList<Ball>();
 	
-	/**  The ball to be added to static List. */
+	/** The static ball dead list. */
 	private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
 	
 	/** The ball pop animation list. */
