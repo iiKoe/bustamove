@@ -41,7 +41,7 @@ public class BallManager {
 
 	/**
 	 * Instantiates a new ball manager.
-	 *
+	 * 
 	 * @param cannon the cannon to shoot the Balls out
 	 * @param ball_rad the Ball radius
 	 * @param speed the Ball speed
@@ -55,7 +55,7 @@ public class BallManager {
 
 	/**
 	 * Sets the ball speed.
-	 *
+	 * 
 	 * @param speed the new ball speed
 	 */
 	public void setBallSpeed(int speed) {
@@ -64,19 +64,19 @@ public class BallManager {
 
 	/**
 	 * Adds a static ball.
-	 *
+	 * 
 	 * @param color the color
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
-	public void addStaticBall(int color, int x, int y) { // FIXME add color option
+	public void addStaticBall(int color, int x, int y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 		ballStaticList.get(ballStaticList.size()-1).addToGraph(ballGraph);
 	}
 
 	/**
 	 * Adds a random static ball.
-	 *
+	 * 
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
@@ -87,12 +87,13 @@ public class BallManager {
 
 	/**
 	 * Shoot ball.
-	 *
+	 * 
 	 * @param color the color of the Ball
 	 */
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
-		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad, ball_speed, (float) Math.toRadians(cannon.getAngle()))); // FIXME add color option
+		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
+				ball_speed, (float) Math.toRadians(cannon.getAngle())));
 	}
 
 	/**
@@ -105,7 +106,7 @@ public class BallManager {
 
 	/**
 	 * Draw the Balls managed by BallManager.
-	 *
+	 * 
 	 * @param batch the batch used to draw with
 	 * @param runtime the runtime since the start of the program
 	 */
@@ -122,7 +123,8 @@ public class BallManager {
 
 		/* Shoot projectile */
 		for (Ball ball : ballList) {
-			ball.update(Gdx.graphics.getDeltaTime()); // TODO is it nicer to pass down delta?
+			// TODO is it nicer to pass down delta?
+			ball.update(Gdx.graphics.getDeltaTime());
 			if (ball.isDead()) {
 				ballDeadList.add(ball);
 			}
@@ -136,12 +138,14 @@ public class BallManager {
 				}
 			}
 			/* Does the ball hit the edge? */
-			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN && Math.toDegrees(ball.getAngle()) > 90) {
+			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN
+					&& Math.toDegrees(ball.getAngle()) > 90) {
 				// LEFT EDGE
 				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX && Math.toDegrees(ball.getAngle()) < 90) {
+			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
+					&& Math.toDegrees(ball.getAngle()) < 90) {
 				// RIGHT EDGE
-				//ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
+				// ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
 				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
 			}
 		}
@@ -149,7 +153,6 @@ public class BallManager {
 			ballList.remove(ballDeadList.get(0));
 			ballDeadList.remove(0);
 		}
-
 
 		while (ballStaticDeadList.size() != 0) {
 			ballGraph.removeBall(ballStaticDeadList.get(0));

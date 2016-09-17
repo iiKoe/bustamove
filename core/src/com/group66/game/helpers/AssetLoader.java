@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class AssetLoader {
 
+
     /** The background texture. */
     public static Texture bgTexture;
     
@@ -33,12 +34,12 @@ public class AssetLoader {
     public static void load() {
 
     	//creating the background
-        bgTexture = new Texture(Gdx.files.internal("data/purplebg.png"));
+        bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
         bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         bg = new TextureRegion(bgTexture, 0, 0, 128, 220);
         
         //loading the textures for the balls
-        ballTexture = new Texture(Gdx.files.internal("data/ballTextures.png"));
+        ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
         ballTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         
         //creating the blue ball animation
@@ -83,4 +84,5 @@ public class AssetLoader {
         bgTexture.dispose();
         ballTexture.dispose();
     }
+
 }

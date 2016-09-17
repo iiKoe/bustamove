@@ -40,21 +40,19 @@ public class Ball {
 	/** The speed at which the ball moves. */
 	private int speed;
 
-
 	/** Stores the time passed since the start for use with the animation. */
 	private float time;
 
 	/** The color of the Ball. */
 	private int color;
 
-
 	/** The radius of the Ball. */
 	private int radius;
 
 	/**
 	 * Instantiates a new ball.
-	 *
-	 * @param color the color (must be one of the defined colors, can not be or exceed MAX_COLORS
+	 * 
+	 * @param color the color can not be or exceed MAX_COLORS
 	 * @param x the x coordinate of the Ball
 	 * @param y the y coordinate of the Ball
 	 * @param rad the radius of the Ball
@@ -64,7 +62,7 @@ public class Ball {
 	public Ball(int color, int x, int y, int rad, int speed, float angle) {
 		this.time = 4;
 		this.speed = speed;
-		this.angle =  angle;
+		this.angle = angle;
 		this.radius = rad;
 		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
 
@@ -92,15 +90,18 @@ public class Ball {
 		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
 		graph.insertBall(this);
 
+		// TODO Add color range check for integers equal or
+		// larger then MAX_COLORS
+		this.color = color;
+
 		hitbox = new Circle(x, y, this.radius);
 		neighborBox = new Circle(x, y, this.radius*1.2f);
 		topHitbox = new Rectangle(x-this.radius, y-this.radius, this.radius*2.0f, this.radius*2.0f);
 	}
 
-
 	/**
 	 * Gets the x coordinate.
-	 *
+	 * 
 	 * @return the x coordinate
 	 */
 	public float getX() {
@@ -117,7 +118,7 @@ public class Ball {
 
 	/**
 	 * Gets the hitbox.
-	 *
+	 * 
 	 * @return the hitbox
 	 */
 	public Circle getHitbox() {
@@ -142,8 +143,9 @@ public class Ball {
 
 	/**
 	 * Sets the angle.
-	 *
-	 * @param angle the new angle
+	 * 
+	 * @param angle
+	 *            the new angle
 	 */
 	public void setAngle(float angle) {
 		this.angle = angle;
@@ -151,7 +153,7 @@ public class Ball {
 
 	/**
 	 * Gets the angle.
-	 *
+	 * 
 	 * @return the angle
 	 */
 	public float getAngle() {
@@ -160,7 +162,7 @@ public class Ball {
 
 	/**
 	 * Gets the radius.
-	 *
+	 * 
 	 * @return the radius
 	 */
 	public int getRadius() {
@@ -177,30 +179,33 @@ public class Ball {
 
 	/**
 	 * Update.
-	 *
-	 * @param delta the change in time since the last update
+	 * 
+	 * @param delta
+	 *            the change in time since the last update
 	 */
 	public void update(float delta) {
-		hitbox.x += speed * (float)Math.cos(this.angle) * delta;
-		hitbox.y += speed * (float)Math.sin(this.angle) * delta;
+		hitbox.x += speed * (float) Math.cos(this.angle) * delta;
+		hitbox.y += speed * (float) Math.sin(this.angle) * delta;
 		time -= delta;
 	}
 
 	/**
 	 * Checks if a ball should be dead.
-	 *
+	 * 
 	 * @return true, if should be dead
 	 */
 	public boolean isDead() {
-		if (time < 0)
+		if (time < 0) {
 			return true;
+		}
 		return false;
 	}
 
 	/**
 	 * Does hit.
-	 *
-	 * @param c the Circle object
+	 * 
+	 * @param c
+	 *            the Circle object
 	 * @return true, if the hitboxes overlap
 	 */
 	public boolean doesHit(Circle c) {
@@ -221,7 +226,7 @@ public class Ball {
 	 */
 	public void hitEffect() {
 		System.out.println("Ball hit!");
-		//TODO add destroyed animation
+		// TODO add destroyed animation
 	}
 
 	/**
@@ -252,12 +257,12 @@ public class Ball {
 
 	/**
 	 * Draw the Ball.
-	 *
+	 * 
 	 * @param batch the batch used to draw with
 	 * @param runtime the runtime since the start of the program
 	 */
 	public void draw(SpriteBatch batch, float runtime) {
-		//batch.draw(ball_texture, ); // TODO calc actual x and y
+		// batch.draw(ball_texture, ); // TODO calc actual x and y
 
 		TextureRegion tr;
 		switch (color){

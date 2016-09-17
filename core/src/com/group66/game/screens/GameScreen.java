@@ -14,6 +14,7 @@ import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
+import com.group66.game.helpers.TextDrawer;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -41,6 +42,9 @@ public class GameScreen implements Screen {
 	
 	//for testing
 	//ShapeRenderer shapeRenderer = new ShapeRenderer();
+	
+	/** needed to draw text, draw score */
+	private TextDrawer textDrawer = new TextDrawer();
 
 	/**
 	 * Instantiates the game screen.
@@ -52,7 +56,7 @@ public class GameScreen implements Screen {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
-
+		
 		loadLevel();
 	}
 
@@ -88,7 +92,11 @@ public class GameScreen implements Screen {
 		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-
+		
+		/* Draw the score */
+		textDrawer.drawScore(game.batch, 99999);
+		
+		
 		/* Draw the balls */
 		ballManager.draw(game.batch, runTime);
 
@@ -192,7 +200,7 @@ public class GameScreen implements Screen {
 
 		try {
 			FileHandle handle = Gdx.files.internal(levelFilePath);
-			Scanner s = new Scanner(handle.read());
+			Scanner s = new Scanner(handle.read(), "UTF-8");
 			int linenr = 0;
 			while (s.hasNextLine()) {
 				String line = s.nextLine();
@@ -204,10 +212,12 @@ public class GameScreen implements Screen {
 					System.out.println("X pos: " + xpos);
 
 					// shift odd rows
-					if (linenr % 2 != 0)
+					if (linenr % 2 != 0) {
 						xpos += Config.BALL_RAD;
+					}
 
-					ballManager.addStaticBall(0, xpos, ypos); //TODO get the color from the text file
+					 //TODO get the color from the text file
+					ballManager.addStaticBall(0, xpos, ypos);
 					
 				}
 				linenr++;
