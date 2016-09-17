@@ -3,6 +3,7 @@ package com.group66.game.cannon;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
+import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 
 /**
@@ -27,6 +28,11 @@ public class Ball {
 
 	/** The Ball hitbox. */
 	private Circle hitbox;
+
+	/** Hitbox for detecting neighbor balls */
+	private Circle neighborBox;
+
+	private Rectangle topHitbox;
 
 	/** The angle in which the Ball moves. */
 	private float angle;
@@ -58,11 +64,39 @@ public class Ball {
 		this.speed = speed;
 		this.angle = angle;
 		this.radius = rad;
+		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+
+		hitbox = new Circle(x, y, this.radius);
+		neighborBox = new Circle(x, y, this.radius * 1.2f);
+		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
+	}
+
+	/**
+	 * Instantiates a new ball.
+	 *
+	 * @param color the color (must be one of the defined colors, can not be or exceed MAX_COLORS
+	 * @param x the x coordinate of the Ball
+	 * @param y the y coordinate of the Ball
+	 * @param rad the radius of the Ball
+	 * @param speed the speed of the Ball
+	 * @param angle the angle of the Ball
+	 * @param graph the needs to be added to
+	 */
+	public Ball(int color, int x, int y, int rad, int speed, float angle, BallGraph graph) {
+		this.time = 4;
+		this.speed = speed;
+		this.angle =  angle;
+		this.radius = rad;
+		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+		graph.insertBall(this);
+
 		// TODO Add color range check for integers equal or
 		// larger then MAX_COLORS
 		this.color = color;
 
 		hitbox = new Circle(x, y, this.radius);
+		neighborBox = new Circle(x, y, this.radius * 1.2f);
+		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
 	}
 
 	/**
@@ -75,12 +109,36 @@ public class Ball {
 	}
 
 	/**
+	 * Gets the y coordinate
+	 * @return the y coordinate
+	 */
+	public float getY() {
+		return hitbox.y;
+	}
+
+	/**
 	 * Gets the hitbox.
 	 * 
 	 * @return the hitbox
 	 */
 	public Circle getHitbox() {
 		return hitbox;
+	}
+
+	/**
+	 * Gets the neighbor box
+	 * @return the neighborbox
+	 */
+	public Circle getNeighborBox() {
+		return neighborBox;
+	}
+
+	/**
+	 * get top hitbox
+	 * @return the tophitbox
+	 */
+	public Rectangle getTopHitbox() {
+		return topHitbox;
 	}
 
 	/**
@@ -109,6 +167,14 @@ public class Ball {
 	 */
 	public int getRadius() {
 		return radius;
+	}
+	/**
+	 * Gets the color.
+	 * 
+	 * @return the color
+	 */
+	public int getColor() {
+		return color;
 	}
 
 	/**
@@ -147,11 +213,46 @@ public class Ball {
 	}
 
 	/**
+	 * Is next to.
+	 * @param c the circle object
+	 * @return true, if the neighborBoxes overlap.
+	 */
+	public boolean isNextTo(Circle c) {
+		return c.overlaps(neighborBox);
+	}
+
+	/**
 	 * The effect that happens if a ball gets hit.
 	 */
 	public void hitEffect() {
 		System.out.println("Ball hit!");
 		// TODO add destroyed animation
+	}
+
+	/**
+	 * Set the speed at which the ball moves
+	 * @param speed
+	 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
+	}
+
+	/**
+	 * Insert the into a graph
+	 * 
+	 * @param graph
+	 */
+	public void addToGraph(BallGraph graph) {
+		graph.insertBall(this);
+	}
+
+	/**
+	 * Delete the ball from a graph
+	 * 
+	 * @param graph
+	 */
+	public void deleteBallFromGraph(BallGraph graph) {
+		graph.removeBall(this);
 	}
 
 	/**
@@ -167,7 +268,7 @@ public class Ball {
 		switch (color) {
 		case 0:
 			tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
-			break;
+			break; 
 		case 1:
 			tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
 			break;
@@ -180,7 +281,6 @@ public class Ball {
 		default:
 			return;
 		}
-		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
-				this.radius * 2, this.radius * 2);
+		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius, this.radius * 2, this.radius * 2);
 	}
 }
