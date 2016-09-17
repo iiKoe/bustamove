@@ -1,6 +1,7 @@
 package com.group66.game.cannon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
@@ -32,6 +33,9 @@ public class BallManager {
 
 	/** The static ball dead list. */
 	private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
+	
+	/** The ball pop animation list. */
+	private ArrayList<Ball> ballPopList = new ArrayList<Ball>();
 
 	/**
 	 * Instantiates a new ball manager.
@@ -124,7 +128,9 @@ public class BallManager {
 				/* Does the ball hit a target ball? */
 				if (t.doesHit(ball.getHitbox())) {
 					t.hitEffect();
-					ballDeadList.add(ball);
+					ballPopList.add(ball);
+					ball.hitEffect();
+					ball.popStart();
 					ballStaticDeadList.add(t);
 				}
 			}
@@ -140,6 +146,16 @@ public class BallManager {
 				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
 			}
 		}
+		
+		// Itterate the Pop Animation list
+		for (Iterator<Ball> it = ballPopList.iterator(); it.hasNext();) {
+			Ball b = it.next();
+			if (b.popDone() == true) {
+				it.remove();
+				ballDeadList.add(b);
+			}
+		}
+		
 		while (ballDeadList.size() != 0) {
 			ballList.remove(ballDeadList.get(0));
 			ballDeadList.remove(0);

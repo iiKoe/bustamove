@@ -1,14 +1,20 @@
 package com.group66.game.cannon;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.group66.game.helpers.AssetLoader;
 
+// TODO: Auto-generated Javadoc
 /**
  * A basic Ball class.
  */
 public class Ball {
+	
+	private enum PopStatus {
+	    NONE, POPPING, DONE 
+	}
 
 	/** The Constant that represents a BLUE ball. */
 	public static final int BLUE = 0;
@@ -42,6 +48,10 @@ public class Ball {
 
 	/** The radius of the Ball. */
 	private int radius;
+	
+	private PopStatus pop_status;
+	
+	private Animation pop_animation;
 
 	/**
 	 * Instantiates a new ball.
@@ -54,13 +64,14 @@ public class Ball {
 	 * @param angle the angle of the Ball
 	 */
 	public Ball(int color, int x, int y, int rad, int speed, float angle) {
-		this.time = 4;
+		this.time = 10;
 		this.speed = speed;
 		this.angle = angle;
 		this.radius = rad;
 		// TODO Add color range check for integers equal or
 		// larger then MAX_COLORS
 		this.color = color;
+		this.pop_status = PopStatus.NONE;
 
 		hitbox = new Circle(x, y, this.radius);
 	}
@@ -151,7 +162,46 @@ public class Ball {
 	 */
 	public void hitEffect() {
 		System.out.println("Ball hit!");
+		this.speed = 0;
 		// TODO add destroyed animation
+	}
+	
+	/**
+	 * Pop done.
+	 *
+	 * @return true, if pop animation is done.
+	 */
+	public boolean popDone() {
+		if (pop_status == PopStatus.DONE) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Start the Pop animation.
+	 */
+	public void popStart() {
+		switch (color) {
+		case BLUE:
+				pop_animation = AssetLoader.getBluePopAnimation();
+			break;
+		case GREEN:
+				pop_animation = AssetLoader.getGreenPopAnimation();
+			break;
+		case RED:
+				pop_animation = AssetLoader.getRedPopAnimation();
+			break;
+		case YELLOW:
+				pop_animation = AssetLoader.getYellowPopAnimation();
+			break;
+		default:
+				pop_animation = AssetLoader.getBluePopAnimation(); // Error
+			return;
+		}
+		
+		pop_status = PopStatus.POPPING;
+		System.out.println("Popping Started!");
 	}
 
 	/**
@@ -164,22 +214,33 @@ public class Ball {
 		// batch.draw(ball_texture, ); // TODO calc actual x and y
 
 		TextureRegion tr;
-		switch (color) {
-		case 0:
-			tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
-			break;
-		case 1:
-			tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
-			break;
-		case 2:
-			tr = AssetLoader.redAnimation.getKeyFrame(runtime);
-			break;
-		case 3:
-			tr = AssetLoader.yellowAnimation.getKeyFrame(runtime);
-			break;
-		default:
-			return;
+		// TODO What to draw when popping is done? Nothing?
+		if (pop_status == PopStatus.POPPING) {
+			tr = pop_animation.getKeyFrame(runtime);
+			System.out.println("Popping");
+			if (pop_animation.isAnimationFinished(runtime)) {
+				pop_status = PopStatus.DONE;
+				System.out.println("Popping Done!");
+			}
+		} else {
+			switch (color) {
+			case 0:
+					tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
+				break;
+			case 1:
+					tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
+				break;
+			case 2:
+					tr = AssetLoader.redAnimation.getKeyFrame(runtime);
+				break;
+			case 3:
+					tr = AssetLoader.yellowAnimation.getKeyFrame(runtime);
+				break;
+			default:
+				return;
+			}
 		}
+		
 		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
 				this.radius * 2, this.radius * 2);
 	}

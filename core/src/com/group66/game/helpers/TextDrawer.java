@@ -3,10 +3,9 @@ package com.group66.game.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.group66.game.settings.Config;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.settings.Config;
 
 
