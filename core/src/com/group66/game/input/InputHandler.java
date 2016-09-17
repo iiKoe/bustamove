@@ -23,7 +23,7 @@ public class InputHandler {
 	/** The multi function map KeyJustPressed. */
 	private Map<String, Collection<KeyCommand>> multiFunctionMapKJP = 
 			new HashMap<String, Collection<KeyCommand>>();
-	
+
 	/**
 	 * The Interface KeyCommand to store the function to be called when a Key is pressed.
 	 */
