@@ -64,4 +64,15 @@ public class Config {
 	
 	/** The Constant CANNON_MAX_ANGLE. */
 	public static final float CANNON_MAX_ANGLE = 179;
+	
+	/** The font size used in drawing text */
+	public static final int FONT_SIZE =24;
+	
+	/** The x coordinate location of the displayed player score */
+	public static final int SCORE_X_LOCATION = 430;
+	
+	/** The y coordinate location of the displayed player score */
+	public static final int SCORE_Y_LOCATION = 40;
+	
+	
 }
