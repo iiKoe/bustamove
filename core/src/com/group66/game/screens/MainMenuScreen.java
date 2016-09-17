@@ -14,6 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.group66.game.helpers.AssetLoader;
+import com.group66.game.settings.Config;
 import com.group66.game.BustaMove;
 
 /**
@@ -54,7 +56,7 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         playButtonActive = new Texture("ball-red.png");
         playButtonInactive = new Texture("ball-blue.png");
-
+        AssetLoader.load();
         createScreen();
     }
 
@@ -84,19 +86,24 @@ public class MainMenuScreen implements Screen {
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
-        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING);
+        //all magic numbers in this section are offsets values adjusted to get better looks
+        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 75;
         
         TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
-        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2, yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        
         TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
-        randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
+        
         TextButton scoresButton = new TextButton("High scores", textButtonStyle);
-        scoresButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        scoresButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
+                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        
         TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 4 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        
         stage.addActor(levelButton);
         stage.addActor(randomButton);
         stage.addActor(scoresButton);
@@ -135,9 +142,15 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //game.batch.begin();
-        //game.batch.end();
-
+		
+        /* Draw the background */
+        game.batch.begin();
+		game.batch.enableBlending();
+		game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
+				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+		game.batch.end();
+		
         stage.act();
         stage.draw();
     }

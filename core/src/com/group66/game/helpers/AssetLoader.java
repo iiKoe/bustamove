@@ -12,11 +12,16 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class AssetLoader {
 
-
-    /** The background texture. */
+    /** MenuScreen background texture. */
+    public static Texture mmbgTexture;
+    
+    /** MenuScreen background texture region. */
+    public static TextureRegion mmbg;
+    
+    /** GameScreen background texture. */
     public static Texture bgTexture;
     
-    /** The background texture region. */
+    /** GameScreen background texture region. */
     public static TextureRegion bg;
     
     /** The ball texture. */
@@ -32,7 +37,12 @@ public class AssetLoader {
      * Load the sprites.
      */
     public static void load() {
-
+    	
+    	//Creating the MainMenu background
+    	mmbgTexture = new Texture(Gdx.files.internal("main_menu.png"));
+        mmbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        mmbg = new TextureRegion(mmbgTexture, 0, 0, 600, 880);
+        
     	//creating the background
         bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
         bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
