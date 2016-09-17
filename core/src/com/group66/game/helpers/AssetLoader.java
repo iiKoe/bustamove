@@ -92,40 +92,40 @@ public class AssetLoader {
         ballPopTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 
 		// creating the blue ball animation
-        BluePopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        BluePopTextureRegions[1] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        BluePopTextureRegions[2] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        BluePopTextureRegions[3] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        BluePopTextureRegions[4] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        BluePopTextureRegions[5] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        BluePopTextureRegions[6] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
+        BluePopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 0, 20, 20);
+        BluePopTextureRegions[1] = new TextureRegion(ballPopTexture, 28, 0, 23, 23);
+        BluePopTextureRegions[2] = new TextureRegion(ballPopTexture, 61, 0, 24, 24);
+        BluePopTextureRegions[3] = new TextureRegion(ballPopTexture, 95, 0, 33, 30);
+        BluePopTextureRegions[4] = new TextureRegion(ballPopTexture, 134, 0, 32, 32);
+        BluePopTextureRegions[5] = new TextureRegion(ballPopTexture, 171, 0, 34, 31);
+        BluePopTextureRegions[6] = new TextureRegion(ballPopTexture, 212, 0, 32, 32);
 
 		// creating the green ball animation
-        GreenPopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        GreenPopTextureRegions[1] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        GreenPopTextureRegions[2] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        GreenPopTextureRegions[3] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        GreenPopTextureRegions[4] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        GreenPopTextureRegions[5] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        GreenPopTextureRegions[6] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
+        GreenPopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 33, 20, 20);
+        GreenPopTextureRegions[1] = new TextureRegion(ballPopTexture, 28, 33, 23, 23);
+        GreenPopTextureRegions[2] = new TextureRegion(ballPopTexture, 61, 33, 24, 24);
+        GreenPopTextureRegions[3] = new TextureRegion(ballPopTexture, 95, 33, 33, 30);
+        GreenPopTextureRegions[4] = new TextureRegion(ballPopTexture, 134, 33, 32, 32);
+        GreenPopTextureRegions[5] = new TextureRegion(ballPopTexture, 171, 33, 34, 31);
+        GreenPopTextureRegions[6] = new TextureRegion(ballPopTexture, 212, 33, 32, 32);
 
 		// creating the red ball animation
-        RedPopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        RedPopTextureRegions[1] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        RedPopTextureRegions[2] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        RedPopTextureRegions[3] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        RedPopTextureRegions[4] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        RedPopTextureRegions[5] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        RedPopTextureRegions[6] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
+        RedPopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 66, 20, 20);
+        RedPopTextureRegions[1] = new TextureRegion(ballPopTexture, 28, 66, 23, 23);
+        RedPopTextureRegions[2] = new TextureRegion(ballPopTexture, 61, 66, 24, 24);
+        RedPopTextureRegions[3] = new TextureRegion(ballPopTexture, 95, 66, 33, 30);
+        RedPopTextureRegions[4] = new TextureRegion(ballPopTexture, 134, 66, 32, 32);
+        RedPopTextureRegions[5] = new TextureRegion(ballPopTexture, 171, 66, 34, 31);
+        RedPopTextureRegions[6] = new TextureRegion(ballPopTexture, 212, 66, 32, 32);
 
 		// creating the yellow ball animation
-        YellowPopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        YellowPopTextureRegions[1] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        YellowPopTextureRegions[2] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        YellowPopTextureRegions[3] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        YellowPopTextureRegions[4] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        YellowPopTextureRegions[5] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
-        YellowPopTextureRegions[6] = new TextureRegion(ballPopTexture, 0, 0, 16, 16);
+        YellowPopTextureRegions[0] = new TextureRegion(ballPopTexture, 0, 99, 20, 20);
+        YellowPopTextureRegions[1] = new TextureRegion(ballPopTexture, 28, 99, 23, 23);
+        YellowPopTextureRegions[2] = new TextureRegion(ballPopTexture, 61, 99, 24, 24);
+        YellowPopTextureRegions[3] = new TextureRegion(ballPopTexture, 95, 99, 33, 30);
+        YellowPopTextureRegions[4] = new TextureRegion(ballPopTexture, 134, 99, 32, 32);
+        YellowPopTextureRegions[5] = new TextureRegion(ballPopTexture, 171, 99, 34, 34);
+        YellowPopTextureRegions[6] = new TextureRegion(ballPopTexture, 212, 99, 32, 32);
     }
     
     public static Animation getBluePopAnimation() {
@@ -133,7 +133,7 @@ public class AssetLoader {
     	
 		TextureRegion[] bluePopTR = { BluePopTextureRegions[0], BluePopTextureRegions[1], BluePopTextureRegions[2],
 				BluePopTextureRegions[3], BluePopTextureRegions[4], BluePopTextureRegions[5], BluePopTextureRegions[6]};
-		bluePopAnimation = new Animation(0.33f, bluePopTR);
+		bluePopAnimation = new Animation(0.1f, bluePopTR);
 		bluePopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
 		return bluePopAnimation;
@@ -144,7 +144,7 @@ public class AssetLoader {
     	
 		TextureRegion[] greenPopTR = { GreenPopTextureRegions[0], GreenPopTextureRegions[1], GreenPopTextureRegions[2],
 				GreenPopTextureRegions[3], GreenPopTextureRegions[4], GreenPopTextureRegions[5], GreenPopTextureRegions[6]};
-		greenPopAnimation = new Animation(0.33f, greenPopTR);
+		greenPopAnimation = new Animation(0.1f, greenPopTR);
 		greenPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
 		return greenPopAnimation;
@@ -155,7 +155,7 @@ public class AssetLoader {
     	
 		TextureRegion[] redPopTR = { RedPopTextureRegions[0], RedPopTextureRegions[1], RedPopTextureRegions[2],
 				RedPopTextureRegions[3], RedPopTextureRegions[4], RedPopTextureRegions[5], RedPopTextureRegions[6]};
-		redPopAnimation = new Animation(0.33f, redPopTR);
+		redPopAnimation = new Animation(0.1f, redPopTR);
 		redPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
 		return redPopAnimation;
@@ -166,7 +166,7 @@ public class AssetLoader {
     	
 		TextureRegion[] yellowPopTR = { YellowPopTextureRegions[0], YellowPopTextureRegions[1], YellowPopTextureRegions[2],
 				YellowPopTextureRegions[3], YellowPopTextureRegions[4], YellowPopTextureRegions[5], YellowPopTextureRegions[6]};
-		yellowPopAnimation = new Animation(0.33f, yellowPopTR);
+		yellowPopAnimation = new Animation(0.1f, yellowPopTR);
 		yellowPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 		
 		return yellowPopAnimation;

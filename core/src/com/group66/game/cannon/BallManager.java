@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.settings.Config;
 
@@ -30,9 +29,6 @@ public class BallManager {
 
 	/** The static ball list. */
 	private ArrayList<Ball> ballStaticList = new ArrayList<Ball>();
-
-	/** The static ball dead list. */
-	private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
 	
 	/** The ball pop animation list. */
 	private ArrayList<Ball> ballPopList = new ArrayList<Ball>();
@@ -88,8 +84,10 @@ public class BallManager {
 	 */
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
-		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
-				ball_speed, (float) Math.toRadians(cannon.getAngle())));
+		if (canShoot()) {
+			ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
+					ball_speed, (float) Math.toRadians(cannon.getAngle())));
+		}
 	}
 
 	/**
@@ -99,6 +97,13 @@ public class BallManager {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		shootBall(rand);
 	}
+	
+	public boolean canShoot() {
+		if (ballList.size() > 0) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Draw the Balls managed by BallManager.
@@ -106,64 +111,72 @@ public class BallManager {
 	 * @param batch the batch used to draw with
 	 * @param runtime the runtime since the start of the program
 	 */
-	public void draw(SpriteBatch batch, float runtime) {
-		/* Shoot projectile */
-		for (Ball ball : ballList) {
-			ball.draw(batch, runtime);
-		}
-
-		/* Draw static target balls */
-		for (Ball ball : ballStaticList) {
-			ball.draw(batch, runtime);
-		}
-
-		/* Shoot projectile */
-		for (Ball ball : ballList) {
-			// TODO is it nicer to pass down delta?
-			ball.update(Gdx.graphics.getDeltaTime());
-			if (ball.isDead()) {
-				ballDeadList.add(ball);
-			}
-			for (Ball t : ballStaticList) {
-				/* Does the ball hit a target ball? */
-				if (t.doesHit(ball.getHitbox())) {
-					t.hitEffect();
-					ballPopList.add(ball);
-					ball.hitEffect();
-					ball.popStart();
-					ballStaticDeadList.add(t);
-				}
-			}
-			/* Does the ball hit the edge? */
-			if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN
-					&& Math.toDegrees(ball.getAngle()) > 90) {
-				// LEFT EDGE
-				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
-					&& Math.toDegrees(ball.getAngle()) < 90) {
-				// RIGHT EDGE
-				// ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
-				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-			}
-		}
+	public void draw(SpriteBatch batch, float delta) {
 		
 		// Itterate the Pop Animation list
 		for (Iterator<Ball> it = ballPopList.iterator(); it.hasNext();) {
 			Ball b = it.next();
 			if (b.popDone() == true) {
 				it.remove();
-				ballDeadList.add(b);
 			}
+			ballStaticList.remove(b);
+			ballList.remove(b);
 		}
 		
 		while (ballDeadList.size() != 0) {
 			ballList.remove(ballDeadList.get(0));
+			ballStaticList.remove(ballDeadList.get(0));
 			ballDeadList.remove(0);
 		}
+		
+		/* Shoot projectile */
+		for (Ball ball : ballList) {
+			ball.draw(batch, delta);
+		}
 
-		while (ballStaticDeadList.size() != 0) {
-			ballStaticList.remove(ballStaticDeadList.get(0));
-			ballStaticDeadList.remove(0);
+		/* Draw static target balls */
+		for (Ball ball : ballStaticList) {
+			ball.draw(batch, delta);
+		}
+		
+		/* Draw popping balls */
+		for (Ball ball : ballPopList) {
+			ball.draw(batch, delta);
+		}
+
+		/* Shoot projectile */
+		for (Ball ball : ballList) {			
+			ball.update(delta);	
+			bounceEdge(ball);
+			
+			if (ball.isDead()) {
+				ballDeadList.add(ball);
+			}
+			
+			for (Ball sb : ballStaticList) {
+				/* Does the ball hit a target ball? */
+				if (sb.doesHit(ball.getHitbox())) {
+					ball.setSpeed(0);
+					sb.hitEffect();
+					ball.hitEffect();
+					ballPopList.add(ball);
+					ballPopList.add(sb);
+				}
+			}
+		}
+	}
+	
+	private void bounceEdge(Ball ball) {
+		/* Does the ball hit the edge? */
+		if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN
+				&& Math.toDegrees(ball.getAngle()) > 90) {
+			// LEFT EDGE
+			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
+				&& Math.toDegrees(ball.getAngle()) < 90) {
+			// RIGHT EDGE
+			// ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
+			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
 		}
 	}
 }

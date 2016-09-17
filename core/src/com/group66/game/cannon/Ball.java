@@ -49,6 +49,9 @@ public class Ball {
 	/** The radius of the Ball. */
 	private int radius;
 	
+	/** The runtime used for animations */
+	private float runtime;
+	
 	private PopStatus pop_status;
 	
 	private Animation pop_animation;
@@ -72,6 +75,7 @@ public class Ball {
 		// larger then MAX_COLORS
 		this.color = color;
 		this.pop_status = PopStatus.NONE;
+		this.runtime = 0f;
 
 		hitbox = new Circle(x, y, this.radius);
 	}
@@ -97,11 +101,19 @@ public class Ball {
 	/**
 	 * Sets the angle.
 	 * 
-	 * @param angle
-	 *            the new angle
+	 * @param angle the new angle
 	 */
 	public void setAngle(float angle) {
 		this.angle = angle;
+	}
+	
+	/**
+	 * Sets the speed.
+	 * 
+	 * @param speed the new speed
+	 */
+	public void setSpeed(int speed) {
+		this.speed = speed;
 	}
 
 	/**
@@ -162,7 +174,7 @@ public class Ball {
 	 */
 	public void hitEffect() {
 		System.out.println("Ball hit!");
-		this.speed = 0;
+		this.popStart();
 		// TODO add destroyed animation
 	}
 	
@@ -173,6 +185,7 @@ public class Ball {
 	 */
 	public boolean popDone() {
 		if (pop_status == PopStatus.DONE) {
+			pop_status = PopStatus.NONE;
 			return true;
 		}
 		return false;
@@ -200,6 +213,7 @@ public class Ball {
 			return;
 		}
 		
+		this.runtime = 0;
 		pop_status = PopStatus.POPPING;
 		System.out.println("Popping Started!");
 	}
@@ -210,31 +224,32 @@ public class Ball {
 	 * @param batch the batch used to draw with
 	 * @param runtime the runtime since the start of the program
 	 */
-	public void draw(SpriteBatch batch, float runtime) {
+	public void draw(SpriteBatch batch, float delta) {
+		this.runtime += delta;
 		// batch.draw(ball_texture, ); // TODO calc actual x and y
 
 		TextureRegion tr;
 		// TODO What to draw when popping is done? Nothing?
 		if (pop_status == PopStatus.POPPING) {
-			tr = pop_animation.getKeyFrame(runtime);
-			System.out.println("Popping");
-			if (pop_animation.isAnimationFinished(runtime)) {
+			tr = pop_animation.getKeyFrame(this.runtime);
+			if (pop_animation.isAnimationFinished(this.runtime)) {
 				pop_status = PopStatus.DONE;
+				this.runtime = 0;
 				System.out.println("Popping Done!");
 			}
 		} else {
 			switch (color) {
 			case 0:
-					tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
+					tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
 				break;
 			case 1:
-					tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
+					tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
 				break;
 			case 2:
-					tr = AssetLoader.redAnimation.getKeyFrame(runtime);
+					tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
 				break;
 			case 3:
-					tr = AssetLoader.yellowAnimation.getKeyFrame(runtime);
+					tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
 				break;
 			default:
 				return;
