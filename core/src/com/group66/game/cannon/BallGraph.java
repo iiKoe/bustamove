@@ -1,12 +1,4 @@
-/**
- * 
- */
 package com.group66.game.cannon;
-
-/**
- * @author Jeroen
- *
- */
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -20,14 +12,9 @@ import org.jgrapht.graph.SimpleGraph;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.settings.Config;
 
-/**
- *  A class to keep track of all the connections between balls. It uses of a graph data structure.
- * @author Jeroen
- *
- */
 public class BallGraph {
 	
-	/** top hitbox to detect wheter the balls are still connected. */
+	/** top hitbox to detect whether the balls are still connected. */
 	private Rectangle topHitbox; 
 	
 	private Ball top;
@@ -86,7 +73,7 @@ public class BallGraph {
 
 	/**
 	 * Removes a ball from the graph
-	 * @param remove, the ball to be removed from the graph
+	 * @param remove the ball to be removed from the graph
 	 */
 	public void removeBall(Ball remove) {
 		graph.removeVertex(remove);
@@ -115,7 +102,7 @@ public class BallGraph {
 
 	/**
 	 * Gives a list of adjacent balls of the same color
-	 * @param ball, the ball of whose adjacent balls should be checked
+	 * @param ball the ball of whose adjacent balls should be checked
 	 * @return ArrayList<Ball> a list of the adjacent balls
 	 */
 	public ArrayList<Ball> getAdjacentBalls(Ball ball) {
@@ -183,7 +170,7 @@ public class BallGraph {
 	
 	/**
 	 * This function returns a list of all the balls in the graph.
-	 * @param exclude, a ball that will be excluded from the list. (meant for the top ball)
+	 * @param exclude a ball that will be excluded from the list. (meant for the top ball)
 	 * @return A list of all the balls in the graph
 	 */
 	public ArrayList<Ball> getBalls(Ball exclude) {
