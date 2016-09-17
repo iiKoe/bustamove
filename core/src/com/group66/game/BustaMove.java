@@ -3,7 +3,7 @@ package com.group66.game;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.group66.game.screens.MainMenuScreen;
+import com.group66.game.screens.*;
 import com.group66.game.settings.Config;
 
 /**
