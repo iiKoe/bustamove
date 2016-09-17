@@ -138,8 +138,11 @@ public class Cannon {
 	 */
 	public void draw(SpriteBatch batch) {
 		//batch.draw(cannon_texture, hitbox.x, hitbox.y, BALL_RAD, BALL_RAD);
-		batch.draw(cannon_texture_region, x - width / 2f, y - height / 2f, 
-				width / 2f, height / 2f, width, height, 1, 1, angle, true);
+
+		batch.draw(cannon_texture_region, x - width/2f-3, y - height/2f +23, width/2f, height/2f, width, height, 5/2, 1, angle, true);
+
+		//batch.draw(cannon_texture_region, x - width / 2f, y - height / 2f, 	width / 2f, height / 2f, width, height, 1, 1, angle, true);
+
 	}
 	
 	/**
