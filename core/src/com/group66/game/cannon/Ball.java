@@ -67,8 +67,8 @@ public class Ball {
 		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
 
 		hitbox = new Circle(x, y, this.radius);
-		neighborBox = new Circle(x, y, this.radius*1.2f);
-		topHitbox = new Rectangle(x-this.radius, y-this.radius, this.radius*2.0f, this.radius*2.0f);
+		neighborBox = new Circle(x, y, this.radius * 1.2f);
+		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
 	}
 
 	/**
@@ -95,8 +95,8 @@ public class Ball {
 		this.color = color;
 
 		hitbox = new Circle(x, y, this.radius);
-		neighborBox = new Circle(x, y, this.radius*1.2f);
-		topHitbox = new Rectangle(x-this.radius, y-this.radius, this.radius*2.0f, this.radius*2.0f);
+		neighborBox = new Circle(x, y, this.radius * 1.2f);
+		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
 	}
 
 	/**
@@ -265,22 +265,22 @@ public class Ball {
 		// batch.draw(ball_texture, ); // TODO calc actual x and y
 
 		TextureRegion tr;
-		switch (color){
-		case(0):
+		switch (color) {
+		case 0:
 			tr = AssetLoader.blueAnimation.getKeyFrame(runtime);
 		break; 
-		case(1):
+		case 1:
 			tr = AssetLoader.greenAnimation.getKeyFrame(runtime);
 		break;
-		case(2):
+		case 2:
 			tr = AssetLoader.redAnimation.getKeyFrame(runtime);
 		break;
-		case(3):
+		case 3:
 			tr = AssetLoader.yellowAnimation.getKeyFrame(runtime);
 		break;
 		default:
 			return;
 		}
-		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius, this.radius*2, this.radius*2);
+		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius, this.radius * 2, this.radius * 2);
 	}
 }

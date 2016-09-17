@@ -71,7 +71,7 @@ public class BallManager {
 	 */
 	public void addStaticBall(int color, int x, int y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
-		ballStaticList.get(ballStaticList.size()-1).addToGraph(ballGraph);
+		ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
 	}
 
 	/**
@@ -159,8 +159,8 @@ public class BallManager {
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
 			System.out.println("number of balls left: " + ballGraph.numberOfBalls());
-			if(ballStaticDeadList.size()==0) {
-				for(Ball e:ballGraph.getFreeBalls()) {
+			if (ballStaticDeadList.size() == 0) {
+				for (Ball e:ballGraph.getFreeBalls()) {
 					ballStaticDeadList.add(e);
 					System.out.println("ball added to deadlist(free)");
 				}
@@ -168,10 +168,11 @@ public class BallManager {
 		}
 
 		while (ballToBeAdded.size() != 0) {
-			addStaticBall(ballToBeAdded.get(0).getColor(), (int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
+			addStaticBall(ballToBeAdded.get(0).getColor(), 
+					(int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
 			ballToBeAdded.remove(0);
-			if(ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size()-1))>=3) {
-				for(Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size()-1))){
+			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
+				for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
 					System.out.println("ball added to deadlist (adjacent)");
 					ballStaticDeadList.add(e);
 				}

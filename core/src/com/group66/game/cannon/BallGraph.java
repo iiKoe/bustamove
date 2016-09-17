@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
-import org.jgrapht.*;
+import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
@@ -44,7 +44,7 @@ public class BallGraph {
 	 */
 	public BallGraph() {
 		graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
-		topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX-10, Config.WIDTH, 10.0f);
+		topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
 		top = new Ball(-1,9999,9999,0,0,0.0f);
 		graph.addVertex(top);
 		
@@ -57,30 +57,28 @@ public class BallGraph {
 	 */
 	public int numberOfBalls() {
 		// -1 to compensate for the top vertex
-		return graph.vertexSet().size()-1;
+		return graph.vertexSet().size() - 1;
 	}
 
 	/**
 	 * Adds a ball to the graph
-	 * @param insert, the ball to be inserted
+	 * @param insert the ball to be inserted
 	 * 
 	 */
 	public void insertBall(Ball insert) {
-		if(insert!=null) {
+		if (insert != null) {
 			graph.addVertex(insert);
-			if(this.topHitbox.overlaps(insert.getTopHitbox())) {
+			if (this.topHitbox.overlaps(insert.getTopHitbox())) {
 				System.out.println("Is connected to top");
 				this.connectBalls(insert, top);
 			}
-			if(this.getBalls().size()>0){
+			if (this.getBalls().size() > 0) {
 
-				for(Ball e:this.getBalls()) {
-					if(e!=insert) {
-						//System.out.println("Do they touch?");
-						if(insert.isNextTo(e.getNeighborBox())) {
-							System.out.println("Balls connected");
-							this.connectBalls(insert, e);
-						}
+				for (Ball e:this.getBalls()) {
+					if (e != insert && insert.isNextTo(e.getNeighborBox())) {
+
+						System.out.println("Balls connected");
+						this.connectBalls(insert, e);
 					}
 				}
 			}
@@ -97,8 +95,8 @@ public class BallGraph {
 
 	/**
 	 * This function creates a connection between to balls. (An edge in the graph)
-	 * @param ball1, ball that needs to be connected to ball2
-	 * @param ball2, ball that needs to be connected to ball1
+	 * @param ball1 ball that needs to be connected to ball2
+	 * @param ball2 ball that needs to be connected to ball1
 	 */
 	public void connectBalls(Ball ball1, Ball ball2) {
 		graph.addEdge(ball1, ball2);
@@ -110,8 +108,9 @@ public class BallGraph {
 	 * @return integer with the number of adjacent balls
 	 */
 	public int numberOfAdjacentBalls(Ball ball) {
-		if(ball==null)
+		if (ball == null) {
 			return 0;
+		}
 		return getAdjacentBalls(ball).size();
 	}
 
@@ -120,9 +119,10 @@ public class BallGraph {
 	 * @param ball, the ball of whose adjacent balls should be checked
 	 * @return ArrayList<Ball> a list of the adjacent balls
 	 */
-	public ArrayList<Ball> getAdjacentBalls(Ball ball){
-		if(ball==null)
+	public ArrayList<Ball> getAdjacentBalls(Ball ball) {
+		if (ball == null) {
 			return null;
+		}
 		//queue of balls to be processed
 		Queue<Ball> Q = new LinkedList<Ball>();
 		//List of adjacent balls
@@ -131,27 +131,21 @@ public class BallGraph {
 		Q.add(ball);
 		ret.add(ball);
 		//Process all the balls in the queue
-		while(!Q.isEmpty()){
+		while (!Q.isEmpty()) {
 			Ball t = Q.remove();
 			//investigate all the edges of the ball
-			for(DefaultEdge e:graph.edgesOf(t)){
+			for (DefaultEdge e:graph.edgesOf(t)) {
 				//Check target of the edge
 				Ball o = graph.getEdgeTarget(e);
-				if (o.getColor() == ball.getColor()){
-					if(!ret.contains(o)){
-						Q.add(o);
-						ret.add(o);
-					}
-
+				if (o.getColor() == ball.getColor() && !ret.contains(o)) {
+					Q.add(o);
+					ret.add(o);
 				}
 				//check source of the edge
 				o = graph.getEdgeSource(e);
-				if (o.getColor() == ball.getColor()){
-					if(!ret.contains(o)){
-						Q.add(o);
-						ret.add(o);
-					}
-
+				if (o.getColor() == ball.getColor() && !ret.contains(o)) {
+					Q.add(o);
+					ret.add(o);
 				}
 			}
 		}
@@ -172,14 +166,17 @@ public class BallGraph {
 	 * @return an ArrayList<Ball> of the balls that are not connected to the top ball
 	 */
 	public ArrayList<Ball> getFreeBalls(Ball top) {
-		ConnectivityInspector<Ball, DefaultEdge> inspector = new ConnectivityInspector<Ball, DefaultEdge>(graph);
+		ConnectivityInspector<Ball, DefaultEdge> inspector = 
+				new ConnectivityInspector<Ball, DefaultEdge>(graph);
 		ArrayList<Ball> ret = new ArrayList<Ball>();
-		if(inspector.connectedSets().size()==1)
+		if (inspector.connectedSets().size() == 1) {
 			return ret;
-		for(Set<Ball> e:inspector.connectedSets()){
-			if(!e.contains(top)){
-				for(Ball f:e)
+		}
+		for (Set<Ball> e:inspector.connectedSets()) {
+			if (!e.contains(top)) {
+				for (Ball f:e) {
 					ret.add(f);
+				}
 			}
 		}
 		return ret;
@@ -210,9 +207,10 @@ public class BallGraph {
 	 */
 	public ArrayList<Ball> getBalls(Ball exclude) {
 		ArrayList<Ball> ret = new ArrayList<Ball>();
-		for(Ball e:graph.vertexSet()){
-			if(e!=exclude)
+		for (Ball e:graph.vertexSet()) {
+			if (e != exclude) {
 				ret.add(e);
+			}
 		}
 		return ret;
 	}

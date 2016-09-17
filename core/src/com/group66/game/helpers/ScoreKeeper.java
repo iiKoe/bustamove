@@ -21,7 +21,7 @@ public class ScoreKeeper {
 	}
 
 	//update score shown on screen
-	public void dispScore (int currentScore) {
+	public void dispScore(int currentScore) {
 
 	}
 
