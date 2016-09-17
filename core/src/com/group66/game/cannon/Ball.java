@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.AudioManager;
 
 /**
  * A basic Ball class.
@@ -152,6 +153,7 @@ public class Ball {
 	public void hitEffect() {
 		System.out.println("Ball hit!");
 		// TODO add destroyed animation
+		AudioManager.ballpop();
 	}
 
 	/**

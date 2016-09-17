@@ -12,6 +12,7 @@ import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.AudioManager;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 
@@ -49,6 +50,7 @@ public class GameScreen implements Screen {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
+		AudioManager.startMusic();
 
 		loadLevel();
 	}
@@ -143,6 +145,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		// img.dispose();
+	    AudioManager.stopMusic();
 	}
 
 	/**

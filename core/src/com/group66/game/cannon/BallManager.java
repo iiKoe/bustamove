@@ -5,6 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.group66.game.helpers.AudioManager;
 import com.group66.game.settings.Config;
 
 /**
@@ -86,6 +87,7 @@ public class BallManager {
 		// TODO add math so ball comes out the top of the cannon?
 		ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 				ball_speed, (float) Math.toRadians(cannon.getAngle())));
+		AudioManager.shoot();
 	}
 
 	/**
@@ -133,11 +135,13 @@ public class BallManager {
 					&& Math.toDegrees(ball.getAngle()) > 90) {
 				// LEFT EDGE
 				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+				AudioManager.wallhit();
 			} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
 					&& Math.toDegrees(ball.getAngle()) < 90) {
 				// RIGHT EDGE
 				// ball.setAngle((float) deg_to_rad(90) + ball.getAngle());
 				ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+				AudioManager.wallhit();
 			}
 		}
 		while (ballDeadList.size() != 0) {
