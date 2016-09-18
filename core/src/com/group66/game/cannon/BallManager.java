@@ -185,7 +185,6 @@ public class BallManager {
 		for (Ball b : ballStaticList) {
 			// TODO fix the != check
 			if (b.getY() - Config.BALL_DIAM <= Config.BOUNCE_Y_MIN  && b.getY() != 0) {
-				System.out.println("Y: " + b.getY());
 				return true;
 			}
 		}
@@ -383,7 +382,7 @@ public class BallManager {
 			Ball b = it.next();
 			if (b.popDone() == true) {
 				it.remove();
-				System.out.println("Pop list size: " + ballPopList.size());
+				//System.out.println("Pop list size: " + ballPopList.size());
 			}
 		}
 		

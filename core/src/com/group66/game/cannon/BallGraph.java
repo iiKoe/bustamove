@@ -214,8 +214,8 @@ public class BallGraph {
 	public boolean placeTaken(float x, float y) {
 		ArrayList<Ball> checkb = getBalls(this.top);
 		for (Ball cb : checkb) {
-			if (Math.abs(cb.getX() - x) < Config.BALL_RAD / 1 &&
-					Math.abs(cb.getY() - y) < Config.BALL_RAD / 1) {
+			if (Math.abs(cb.getX() - x) < Config.BALL_RAD / 1 
+					&& Math.abs(cb.getY() - y) < Config.BALL_RAD / 1) {
 				return true;
 			}
 		}
