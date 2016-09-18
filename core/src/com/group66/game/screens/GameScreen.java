@@ -55,8 +55,11 @@ public class GameScreen implements Screen {
 		AssetLoader.load();
 		AudioManager.startMusic();
 
-		LevelLoader.loadLevel(ballManager);
-		//LevelLoader.generateLevel(ballManager);
+		if (!randomLevel) {
+		    LevelLoader.loadLevel(ballManager);
+		} else {
+		    LevelLoader.generateLevel(ballManager);
+		}
 	}
 	
 	/**
