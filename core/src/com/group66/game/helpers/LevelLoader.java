@@ -18,9 +18,11 @@ public class LevelLoader {
         String levelFilePath = "testlevel.txt";
 
         try {
+            //load the file
             FileHandle handle = Gdx.files.internal(levelFilePath);
             Scanner s = new Scanner(handle.read(), "UTF-8");
             int linenr = 0;
+            //read every line of the file
             while (s.hasNextLine()) {
                 String line = s.nextLine();
                 int ypos = Config.BOUNCE_Y_MAX - (2 * linenr + 1) * Config.BALL_RAD;
@@ -32,8 +34,8 @@ public class LevelLoader {
                     if (linenr % 2 != 0) {
                         xpos += Config.BALL_RAD;
                     }
-
-                    if (line.charAt(i) != ' ') {
+                    //spaces or dashes are used for empty spaces
+                    if (line.charAt(i) != ' ' && line.charAt(i) != '-') {
                         int ballIndex = Integer.parseInt("" + line.charAt(i));
                         ballManager.addStaticBall(ballIndex, xpos, ypos);
                     }
@@ -53,6 +55,7 @@ public class LevelLoader {
     public static void generateLevel(BallManager ballManager) {
         Random r = new Random();
         int numRows = 2 + r.nextInt(5); // 2-6 rows
+        //go over each row
         for (int i = 0; i < numRows; i++) {
             int ypos = Config.BOUNCE_Y_MAX - (2 * i + 1) * Config.BALL_RAD;
 
@@ -62,6 +65,7 @@ public class LevelLoader {
                 numBalls--; // one less on the odd rows
                 xoffset = Config.BALL_RAD;
             }
+            //fill the row with balls
             for (int j = 0; j < numBalls; j++) {
                 int xpos = Config.BOUNCE_X_MIN + (2 * j + 1) * Config.BALL_RAD + xoffset;
                 int ballIndex = r.nextInt(Ball.MAX_COLORS + 1);
