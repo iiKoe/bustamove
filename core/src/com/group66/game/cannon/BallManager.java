@@ -86,7 +86,7 @@ public class BallManager {
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
-	public void addStaticBall(int color, int x, int y) { 
+	public void addStaticBall(int color, float x, float y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 		ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
 	}
@@ -97,7 +97,7 @@ public class BallManager {
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
-	public void addRandomStaticBall(int x, int y) {
+	public void addRandomStaticBall(float x, float y) {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
 	}
@@ -130,7 +130,7 @@ public class BallManager {
 	 * @return true, if successful
 	 */
 	public boolean canShoot() {
-		if (ballList.size() > 0 || ballPopList.size() != 0) {
+		if (ballList.size() > 0 || ballPopList.size() > 1) {
 			return false;
 		}
 		return true;
@@ -191,8 +191,6 @@ public class BallManager {
 		for (Ball ball : ballPopList) {
 			ball.draw(batch, delta);
 		}
-		
-
 	}
 	
 	/**
@@ -224,36 +222,65 @@ public class BallManager {
 	}
 	
 	/**
-	 * Snap ball to grid.
+	 * Snap ball to grid. TODO Make less HACKY
 	 *
 	 * @param b the ball
 	 * @param hit_ball the hit ball
 	 */
-	private void snapBallToGrid(Ball b, Ball hit_ball) {
+	private void snapBallToGrid(Ball b, Ball hitb) {
 		// Check what the closest "snap" coordinate is
-		float x, y, hit_x, hit_y;
+		float x, y, hit_x, hit_y, new_x, new_y;
+		float alt_x, alt_y;
+		float fin_x = 0, fin_y = 0;
 		
 		x = b.getX();
 		y = b.getY();
 		
-		hit_x = hit_ball.getX();
-		hit_y = hit_ball.getY();
+		hit_x = hitb.getX();
+		hit_y = hitb.getY();
 		
 		/* Snap to the Y pos */
 		System.out.println("y: " + y + " hit_y: " + hit_y);
 		if (Math.abs(y - hit_y) > Config.BALL_RAD) {
-			b.setY(hit_y - Config.BALL_DIAM);
+			new_y = hit_y - Config.BALL_DIAM;
+			alt_y = hit_y;
 		} else {
-			b.setY(hit_y);
+			new_y = hit_y;
+			alt_y = hit_y - Config.BALL_DIAM;
 		}
 		
 		/* Snap to the X pos */
 		System.out.println("x: " + x + " hit_x: " + hit_x);
 		if (Math.abs(x - hit_x) > Config.BALL_RAD / 2) {
-			b.setX(hit_x + Config.BALL_RAD);
+			new_x = hit_x + Config.BALL_RAD;
+			alt_x = hit_x - Config.BALL_RAD;
 		} else {
-			b.setX(hit_x - Config.BALL_RAD);
+			new_x = hit_x - Config.BALL_RAD;
+			alt_x = hit_x + Config.BALL_RAD;
+			
 		}
+		
+		// Ugly, but easy
+		if (!ballGraph.placeTaken(new_x, new_y)) {
+			fin_x = new_x;
+			fin_y = new_y;
+		} else if (!ballGraph.placeTaken(alt_x, alt_y)) {
+			fin_x = alt_x;
+			fin_y = alt_y;
+		} else if (!ballGraph.placeTaken(alt_x, new_y)) {
+			fin_x = alt_x;
+			fin_y = new_y;
+		} else if (!ballGraph.placeTaken(new_x, alt_y)) {
+			fin_x = new_x;
+			fin_y = alt_y;
+		} else {
+			System.out.println("Problem finding new spot");
+			fin_x = new_x;
+			fin_y = new_y;
+		}
+	
+		b.setX(fin_x);
+		b.setY(fin_y);
 		System.out.println("Old x: " + x + " New x: " + b.getX());
 		System.out.println("Old y: " + y + " New x: " + b.getY());
 	}
@@ -277,6 +304,7 @@ public class BallManager {
 				/* Does the ball hit a target ball? */
 				if (t.doesHit(ball.getHitbox())) {
 					ball.setSpeed(0);
+					// A hack for now
 					snapBallToGrid(ball, t);
 					ballDeadList.add(ball);
 					ballToBeAdded.add(ball);
@@ -322,6 +350,7 @@ public class BallManager {
 			Ball b = it.next();
 			if (b.popDone() == true) {
 				it.remove();
+				System.out.println("Pop list size: " + ballPopList.size());
 			}
 		}
 		
