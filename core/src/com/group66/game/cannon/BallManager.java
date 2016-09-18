@@ -114,6 +114,7 @@ public class BallManager {
 					ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
 			cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 					0, (float) Math.toRadians(cannon.getAngle())));
+			GameScreen.timeKeeper.deltaTimeReset();
 		}
 	}
 
