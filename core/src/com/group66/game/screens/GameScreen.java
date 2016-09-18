@@ -66,8 +66,12 @@ public class GameScreen implements Screen {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
-		LevelLoader.loadLevel(ballManager);
-		//LevelLoader.generateLevel(ballManager);
+
+		if (!randomLevel) {
+		    LevelLoader.loadLevel(ballManager);
+		} else {
+		    LevelLoader.generateLevel(ballManager);
+		}
 
 	}
 	
