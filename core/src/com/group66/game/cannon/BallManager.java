@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.settings.Config;
 
 /**
@@ -14,15 +15,19 @@ public class BallManager {
 
 	/** The cannon instance to shoot out. */
 	private Cannon cannon;
+	
+	private Rectangle roofHitbox;
 
 	/** The graph where all the connections between balls are stored. */
-	private BallGraph ballGraph = new BallGraph();
+	private BallGraph ballGraph;
 
 	/** The ball speed. */
 	private int ball_speed;
 
 	/** The ball radius. */
 	private int ball_rad;
+	
+	private int ball_count;
 
 	/** The ball list. */
 	private ArrayList<Ball> ballList = new ArrayList<Ball>();
@@ -53,6 +58,11 @@ public class BallManager {
 		this.cannon = cannon;
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
+		this.ball_count = 0;
+		
+		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
+		this.ballGraph = new BallGraph(roofHitbox);
+		
 		addStaticBall(-1, 0, 0);
 	}
 
@@ -98,6 +108,7 @@ public class BallManager {
 		if (canShoot()) {
 			ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 					ball_speed, (float) Math.toRadians(cannon.getAngle())));
+			this.ball_count++;
 		}
 	}
 
@@ -115,10 +126,19 @@ public class BallManager {
 	 * @return true, if successful
 	 */
 	public boolean canShoot() {
-		if (ballList.size() > 0) {
+		if (ballList.size() > 0 || ballPopList.size() != 0) {
 			return false;
 		}
 		return true;
+	}
+	
+	public void moveRowDown() {
+		// Move the top hitbox down
+		this.roofHitbox.y -= Config.BALL_DIAM;
+		// Move all the balls down
+		for (Ball b : this.ballStaticList) {
+			b.moveDown(Config.BALL_DIAM);
+		}
 	}
 
 	/**
@@ -145,6 +165,13 @@ public class BallManager {
 		/* Draw popping balls */
 		for (Ball ball : ballPopList) {
 			ball.draw(batch, delta);
+		}
+		
+		/* Check if balls need to move down */
+		if (this.ball_count >= Config.NBALLS_ROW_DOWN && canShoot()) {
+			System.out.println("Move balls down");
+			moveRowDown();
+			this.ball_count = 0;
 		}
 	}
 	

@@ -11,7 +11,6 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 
 import com.badlogic.gdx.math.Rectangle;
-import com.group66.game.settings.Config;
 
 public class BallGraph {
 	
@@ -29,9 +28,10 @@ public class BallGraph {
 	 * Instantiates a new Ball graph.
 	 * 
 	 */
-	public BallGraph() {
+	public BallGraph(Rectangle roofHitbox) {
 		graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
-		topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
+		//topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
+		this.topHitbox = roofHitbox;
 		top = new Ball(-1,9999,9999,0,0,0.0f);
 		graph.addVertex(top);
 		

@@ -28,7 +28,7 @@ public class Ball {
 	/** The Constant that represents a YELLOW ball. */
 	public static final int YELLOW = 3;
 
-	/** The Constant that represents the maximum number of availible colors. */
+	/** The Constant that represents the maximum number of available colors. */
 	public static final int MAX_COLORS = 4;
 
 	/** The Ball hitbox. */
@@ -197,6 +197,12 @@ public class Ball {
 	 */
 	public int getColor() {
 		return color;
+	}
+	
+	public void moveDown(float dy) {
+		this.hitbox.y -= dy;
+		this.neighborBox.y -= dy;
+		this.topHitbox.y -= dy;
 	}
 
 	/**
