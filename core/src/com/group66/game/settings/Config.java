@@ -6,7 +6,7 @@ package com.group66.game.settings;
 public class Config {
 	// TODO make a bit nicer
 	/* General game settings */
-	public static final int NBALLS_ROW_DOWN = 2;
+	public static final int NBALLS_ROW_DOWN = 8;
 	
 	/* Resolution settings */
 	/** The Constant for the border size BORDER_SIZE_X (the sides). */

@@ -317,7 +317,7 @@ public class Ball {
 		
 		this.runtime = 0;
 		pop_status = PopStatus.POPPING;
-		System.out.println("Popping Started!");
+		//System.out.println("Popping Started!");
 	}
 
 	/**
@@ -355,7 +355,7 @@ public class Ball {
 			if (pop_animation.isAnimationFinished(this.runtime)) {
 				pop_status = PopStatus.DONE;
 				this.runtime = 0;
-				System.out.println("Popping Done!");
+				//System.out.println("Popping Done!");
 			}
 		} else {
 			switch (color) {

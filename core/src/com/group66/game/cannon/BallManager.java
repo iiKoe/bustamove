@@ -229,60 +229,63 @@ public class BallManager {
 	 */
 	private void snapBallToGrid(Ball b, Ball hitb) {
 		// Check what the closest "snap" coordinate is
-		float x, y, new_x, new_y;
-		float alt_x, alt_y;
-		float fin_x = 0, fin_y = 0;
-		
-		x = b.getX();
-		y = b.getY();
 		
 		float hit_x = hitb.getX();
 		float hit_y = hitb.getY();
 		
-		/* Snap to the Y pos */
-		System.out.println("y: " + y + " hit_y: " + hit_y);
-		if (Math.abs(y - hit_y) > Config.BALL_RAD) {
-			new_y = hit_y - Config.BALL_DIAM;
-			alt_y = hit_y;
-		} else {
-			new_y = hit_y;
-			alt_y = hit_y - Config.BALL_DIAM;
-		}
+		float o1_x = hit_x - Config.BALL_DIAM;
+		float o1_y = hit_y;
 		
-		/* Snap to the X pos */
-		System.out.println("x: " + x + " hit_x: " + hit_x);
-		if (Math.abs(x - hit_x) > Config.BALL_RAD / 2) {
-			new_x = hit_x + Config.BALL_RAD;
-			alt_x = hit_x - Config.BALL_RAD;
-		} else {
-			new_x = hit_x - Config.BALL_RAD;
-			alt_x = hit_x + Config.BALL_RAD;
+		float o2_x = hit_x - Config.BALL_RAD;
+		float o2_y = hit_y - Config.BALL_DIAM;
+		
+		float o3_x = hit_x + Config.BALL_RAD;
+		float o3_y = hit_y - Config.BALL_DIAM;
+		
+		float o4_x = hit_x + Config.BALL_DIAM;
+		float o4_y = hit_y;
+		
+		float x = b.getX();
+		float y = b.getY();
+		
+		float do1 = Math.abs(x - o1_x) + Math.abs(y - o1_y);
+		float do2 = Math.abs(x - o2_x) + Math.abs(y - o2_y);
+		float do3 = Math.abs(x - o3_x) + Math.abs(y - o3_y);
+		float do4 = Math.abs(x - o4_x) + Math.abs(y - o4_y);
+		
+		// Check bounds
+		if (o4_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+			do4 = Float.MAX_VALUE;
+		}
+		if (o3_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+			do3 = Float.MAX_VALUE;
+		}
+		if (o1_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+			do1 = Float.MAX_VALUE;
+		}
+		if (o2_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+			do2 = Float.MAX_VALUE;
+		}
 			
+		// Check best option
+		if (do1 < do2 && do1 < do3 && do1 < do4) {
+			b.setX(o1_x);
+			b.setY(o1_y);
+			System.out.println("Option 1");
+		} else if (do2 < do1 && do2 < do3 && do2 < do4) {
+			b.setX(o2_x);
+			b.setY(o2_y);
+			System.out.println("Option 2");
+		} else if (do3 < do1 && do3 < do2 && do3 < do4) {
+			b.setX(o3_x);
+			b.setY(o3_y);
+			System.out.println("Option 3");
+		} else {
+			b.setX(o4_x);
+			b.setY(o4_y);
+			System.out.println("Option 4");
 		}
 		
-		// Ugly, but easy
-		if (!ballGraph.placeTaken(new_x, new_y)) {
-			fin_x = new_x;
-			fin_y = new_y;
-		} else if (!ballGraph.placeTaken(alt_x, alt_y)) {
-			fin_x = alt_x;
-			fin_y = alt_y;
-		} else if (!ballGraph.placeTaken(alt_x, new_y)) {
-			fin_x = alt_x;
-			fin_y = new_y;
-		} else if (!ballGraph.placeTaken(new_x, alt_y)) {
-			fin_x = new_x;
-			fin_y = alt_y;
-		} else {
-			System.out.println("Problem finding new spot");
-			fin_x = new_x;
-			fin_y = new_y;
-		}
-	
-		b.setX(fin_x);
-		b.setY(fin_y);
-		System.out.println("Old x: " + x + " New x: " + b.getX());
-		System.out.println("Old y: " + y + " New x: " + b.getY());
 	}
 	
 	/**
@@ -350,7 +353,7 @@ public class BallManager {
 			Ball b = it.next();
 			if (b.popDone() == true) {
 				it.remove();
-				System.out.println("Pop list size: " + ballPopList.size());
+				//System.out.println("Pop list size: " + ballPopList.size());
 			}
 		}
 		
