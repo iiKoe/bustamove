@@ -169,6 +169,15 @@ public class BallManager {
 	}
 	
 	/**
+	 * Gets the roof hitbox.
+	 *
+	 * @return the roof hitbox
+	 */
+	public Rectangle getRoofHitbox() {
+		return this.roofHitbox;
+	}
+	
+	/**
 	 * Move row down.
 	 */
 	public void moveRowDown() {
