@@ -91,7 +91,7 @@ public class GameScreen implements Screen {
 		
 		game.batch.begin();
 		game.batch.enableBlending();
-
+		
 		/* Draw the background */
 		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
@@ -113,6 +113,11 @@ public class GameScreen implements Screen {
 
 		/* Draw the cannon */
 		cannon.draw(game.batch);
+		
+		/* Check if game-over condition is reached */
+		if (ballManager.isGameOver()) {
+			game.setScreen(new YouLoseScreen(game));
+		}
 
 		game.batch.end();
 	}

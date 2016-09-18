@@ -165,6 +165,22 @@ public class BallManager {
 			b.moveDown(Config.BALL_DIAM);
 		}
 	}
+	
+	/**
+	 * Checks if it's game over.
+	 *
+	 * @return true, if is game over
+	 */
+	public boolean isGameOver() {
+		for (Ball b : ballStaticList) {
+			// TODO fix the != check
+			if (b.getY() - Config.BALL_DIAM <= Config.BOUNCE_Y_MIN  && b.getY() != 0) {
+				System.out.println("Y: " + b.getY());
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * Draw the Balls managed by BallManager.
@@ -225,7 +241,7 @@ public class BallManager {
 	 * Snap ball to grid. TODO Make less HACKY
 	 *
 	 * @param b the ball
-	 * @param hit_ball the hit ball
+	 * @param hitb the hitb
 	 */
 	private void snapBallToGrid(Ball b, Ball hitb) {
 		// Check what the closest "snap" coordinate is
