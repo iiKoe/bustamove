@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
@@ -16,15 +17,21 @@ public class BallManager {
 	
 	/** The cannon instance to shoot out. */
 	private Cannon cannon;
+	
+	/** The roof hitbox. */
+	private Rectangle roofHitbox;
 
 	/** The graph where all the connections between balls are stored. */
-	private BallGraph ballGraph = new BallGraph();
+	private BallGraph ballGraph;
 
 	/** The ball speed. */
 	private int ball_speed;
 
 	/** The ball radius. */
-	private int ball_rad;
+	private float ball_rad;
+	
+	/** The ball count. */
+	private int ball_count;
 
 	/** The ball list. */
 	private ArrayList<Ball> ballList = new ArrayList<Ball>();
@@ -54,10 +61,14 @@ public class BallManager {
 	 * @param ball_rad the Ball radius
 	 * @param speed the Ball speed
 	 */
-	public BallManager(Cannon cannon, int ball_rad, int speed) {
+	public BallManager(Cannon cannon, float ball_rad, int speed) {
 		this.cannon = cannon;
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
+		this.ball_count = 0;
+		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
+		this.ballGraph = new BallGraph(roofHitbox);
+		
 		//addStaticBall(-1, 0, 0);
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ball_rad, 0, 0.0f));
@@ -79,7 +90,7 @@ public class BallManager {
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
-	public void addStaticBall(int color, int x, int y) { 
+	public void addStaticBall(int color, float x, float y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 		ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
 	}
@@ -90,7 +101,7 @@ public class BallManager {
 	 * @param x the x coordinate
 	 * @param y the y coordinate
 	 */
-	public void addRandomStaticBall(int x, int y) {
+	public void addRandomStaticBall(float x, float y) {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
 	}
@@ -111,6 +122,7 @@ public class BallManager {
 					ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
 			cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 					0, (float) Math.toRadians(cannon.getAngle())));
+			this.ball_count++;
 		}
 	}
 
@@ -128,10 +140,55 @@ public class BallManager {
 	 * @return true, if successful
 	 */
 	public boolean canShoot() {
-		if (ballList.size() > 0) {
+		if (ballList.size() > 0 || ballPopList.size() > 1) {
 			return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * Gets the ball count.
+	 *
+	 * @return the ball count
+	 */
+	public int getBallCount() {
+		return this.ball_count;
+	}
+	
+	/**
+	 * Sets the ball count.
+	 *
+	 * @param bc the new ball count
+	 */
+	public void setBallCount(int bc) {
+		this.ball_count = bc;
+	}
+	
+	/**
+	 * Move row down.
+	 */
+	public void moveRowDown() {
+		// Move the top hitbox down
+		this.roofHitbox.y -= Config.BALL_DIAM;
+		// Move all the balls down
+		for (Ball b : this.ballStaticList) {
+			b.moveDown(Config.BALL_DIAM);
+		}
+	}
+	
+	/**
+	 * Checks if it's game over.
+	 *
+	 * @return true, if is game over
+	 */
+	public boolean isGameOver() {
+		for (Ball b : ballStaticList) {
+			// TODO fix the != check
+			if (b.getY() - Config.BALL_DIAM <= Config.BOUNCE_Y_MIN  && b.getY() != 0) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -195,6 +252,72 @@ public class BallManager {
 	}
 	
 	/**
+	 * Snap ball to grid. TODO Make less HACKY
+	 *
+	 * @param b the ball
+	 * @param hitb the hitb
+	 */
+	private void snapBallToGrid(Ball b, Ball hitb) {
+		// Check what the closest "snap" coordinate is
+		
+		float hit_x = hitb.getX();
+		float hit_y = hitb.getY();
+		
+		float o1_x = hit_x - Config.BALL_DIAM;
+		float o1_y = hit_y;
+		
+		float o2_x = hit_x - Config.BALL_RAD;
+		float o2_y = hit_y - Config.BALL_DIAM;
+		
+		float o3_x = hit_x + Config.BALL_RAD;
+		float o3_y = hit_y - Config.BALL_DIAM;
+		
+		float o4_x = hit_x + Config.BALL_DIAM;
+		float o4_y = hit_y;
+		
+		float x = b.getX();
+		float y = b.getY();
+		
+		float do1 = Math.abs(x - o1_x) + Math.abs(y - o1_y);
+		float do2 = Math.abs(x - o2_x) + Math.abs(y - o2_y);
+		float do3 = Math.abs(x - o3_x) + Math.abs(y - o3_y);
+		float do4 = Math.abs(x - o4_x) + Math.abs(y - o4_y);
+		
+		// Check bounds
+		if (o4_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+			do4 = Float.MAX_VALUE;
+		}
+		if (o3_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+			do3 = Float.MAX_VALUE;
+		}
+		if (o1_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+			do1 = Float.MAX_VALUE;
+		}
+		if (o2_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+			do2 = Float.MAX_VALUE;
+		}
+			
+		// Check best option
+		if (do1 < do2 && do1 < do3 && do1 < do4) {
+			b.setX(o1_x);
+			b.setY(o1_y);
+			//System.out.println("Option 1");
+		} else if (do2 < do1 && do2 < do3 && do2 < do4) {
+			b.setX(o2_x);
+			b.setY(o2_y);
+			//System.out.println("Option 2");
+		} else if (do3 < do1 && do3 < do2 && do3 < do4) {
+			b.setX(o3_x);
+			b.setY(o3_y);
+			//System.out.println("Option 3");
+		} else {
+			b.setX(o4_x);
+			b.setY(o4_y);
+			//System.out.println("Option 4");
+		}
+	}
+	
+	/**
 	 * Update balls, this includes the ball lists and the graph.
 	 *
 	 * @param delta the delta
@@ -213,6 +336,8 @@ public class BallManager {
 				/* Does the ball hit a target ball? */
 				if (t.doesHit(ball.getHitbox())) {
 					ball.setSpeed(0);
+					// A hack for now
+					snapBallToGrid(ball, t);
 					ballDeadList.add(ball);
 					ballToBeAdded.add(ball);
 				}
@@ -229,12 +354,12 @@ public class BallManager {
 			ballGraph.removeBall(ballStaticDeadList.get(0));
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
-			System.out.println("number of balls left: " + ballGraph.numberOfBalls());
+			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			if (ballStaticDeadList.size() == 0) {
 				for (Ball e:ballGraph.getFreeBalls()) {
 					ballStaticDeadList.add(e);
 					startPop(e);
-					System.out.println("ball added to deadlist(free)");
+					//System.out.println("ball added to deadlist(free)");
 				}
 			}
 		}
@@ -245,7 +370,7 @@ public class BallManager {
 			ballToBeAdded.remove(0);
 			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
 				for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
-					System.out.println("ball added to deadlist (adjacent)");
+					//System.out.println("ball added to deadlist (adjacent)");
 					ballStaticDeadList.add(e);
 					startPop(e);
 				}
@@ -257,6 +382,7 @@ public class BallManager {
 			Ball b = it.next();
 			if (b.popDone() == true) {
 				it.remove();
+				//System.out.println("Pop list size: " + ballPopList.size());
 			}
 		}
 		

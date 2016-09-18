@@ -22,13 +22,7 @@ import com.group66.game.BustaMove;
  * A Class for the MainMenuScreen of the game.
  */
 public class YouWinScreen implements Screen {
-
-    /** The Constant PLAY_BUTTON_WIDTH. */
-    private static final int PLAY_BUTTON_WIDTH = 50;
-
-    /** The Constant PLAY_BUTTON_HEIGHT. */
-    private static final int PLAY_BUTTON_HEIGHT = 50;
-
+	
     // TODO: either make scalable or move to config
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 50;
@@ -36,12 +30,6 @@ public class YouWinScreen implements Screen {
 
     /** A place to store the game instance. */
     private BustaMove game;
-
-    /** The play button active texture. */
-    private Texture playButtonActive;
-
-    /** The play button inactive texture. */
-    private Texture playButtonInactive;
 
     private Stage stage;
     private Skin skin;
@@ -193,27 +181,5 @@ public class YouWinScreen implements Screen {
     @Override
     public void dispose() {
 
-    }
-
-    /**
-     * Gets the center width.
-     *
-     * @param size
-     *            the size
-     * @return the center width
-     */
-    private int getCenterWidth(int size) {
-        return game.getGameWidth() / 2 - size / 2;
-    }
-
-    /**
-     * Gets the center height.
-     *
-     * @param size
-     *            the size
-     * @return the center height
-     */
-    private int getCenterHeight(int size) {
-        return game.getGameHeight() / 2 - size / 2;
     }
 }
