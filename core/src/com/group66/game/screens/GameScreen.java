@@ -14,7 +14,6 @@ import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 import com.group66.game.helpers.TextDrawer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class for the main GameScreen of the game.
  */
@@ -34,9 +33,9 @@ public class GameScreen implements Screen {
 	/** The ball manager. */
 	private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
 			Config.BALL_SPEED);
-
-	/** The run time needed for animations. */
-	private float runTime = 0;
+	
+	//for testing
+	//ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
 	/** needed to draw text, draw score */
 	private TextDrawer textDrawer = new TextDrawer();
@@ -46,14 +45,25 @@ public class GameScreen implements Screen {
 	 * 
 	 * @param game
 	 *            the game instance
+	 * @param randomLevel
+	 *            determines if a set level or a random level is used
 	 */
-	public GameScreen(BustaMove game) {
+	public GameScreen(BustaMove game, Boolean randomLevel) {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
 
 		LevelLoader.loadLevel(ballManager);
 		//LevelLoader.generateLevel(ballManager);
+	}
+	
+	/**
+	 * Instantiates the game screen.
+	 * @param game
+	 *            the game instance
+	 */
+	public GameScreen(BustaMove game) {
+		this(game, false);
 	}
 
 	/*
@@ -72,15 +82,13 @@ public class GameScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-		/* Update the runtime */
-		runTime += delta;
 
 		/* Handle input keys */
 		inputHandler.run();
 
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		
 		game.batch.begin();
 		game.batch.enableBlending();
 
@@ -94,7 +102,7 @@ public class GameScreen implements Screen {
 		
 		
 		/* Draw the balls */
-		ballManager.draw(game.batch, runTime);
+		ballManager.draw(game.batch, delta);
 
 		/* Draw the cannon */
 		cannon.draw(game.batch);
