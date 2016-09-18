@@ -169,6 +169,15 @@ public class BallManager {
 	}
 	
 	/**
+	 * Gets the roof hitbox.
+	 *
+	 * @return the roof hitbox
+	 */
+	public Rectangle getRoofHitbox() {
+		return this.roofHitbox;
+	}
+	
+	/**
 	 * Move row down.
 	 */
 	public void moveRowDown() {
@@ -336,6 +345,13 @@ public class BallManager {
 			ball.update(delta);
 			if (ball.isDead()) {
 				ballDeadList.add(ball);
+			}
+			if (ball.getTopHitbox().overlaps(roofHitbox)) {
+				System.out.println("Attach ball to top");
+				ball.setSpeed(0);
+				ball.setY(ball.getY() + 10);
+				ballDeadList.add(ball);
+				ballToBeAdded.add(ball);
 			}
 			for (Ball t : ballStaticList) {
 				/* Does the ball hit a target ball? */
