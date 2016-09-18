@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
 	 *            determines if a set level or a random level is used
 	 */
 	public GameScreen(BustaMove game, Boolean randomLevel) {
-		this.game = game;
+		GameScreen.game = game;
 		setup_keys();
 		AssetLoader.load();
 
@@ -109,7 +109,7 @@ public class GameScreen implements Screen {
 		
 		game.batch.begin();
 		game.batch.enableBlending();
-
+		
 		/* Draw the background */
 		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
@@ -124,12 +124,24 @@ public class GameScreen implements Screen {
 		/* Draw the score */
 		textDrawer.drawScore(game.batch, scoreKeeper.getCurrentScore());
 		
-		
 		/* Draw the balls */
 		ballManager.draw(game.batch, delta);
+		
+		/* Check if balls need to move down */
+		if (ballManager.getBallCount() >= Config.NBALLS_ROW_DOWN 
+				&& ballManager.canShoot()) {
+			System.out.println("Move balls down");
+			ballManager.moveRowDown();
+			ballManager.setBallCount(0);
+		}
 
 		/* Draw the cannon */
 		cannon.draw(game.batch);
+		
+		/* Check if game-over condition is reached */
+		if (ballManager.isGameOver()) {
+			game.setScreen(new YouLoseScreen(game));
+		}
 
 		game.batch.end();
 	}
