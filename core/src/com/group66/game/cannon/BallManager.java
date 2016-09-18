@@ -218,10 +218,11 @@ public class BallManager {
 			ballStaticDeadList.remove(0);
 			System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			if (ballStaticDeadList.size() == 0) {
+				GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
 				for (Ball e:ballGraph.getFreeBalls()) {
 					ballStaticDeadList.add(e);
 					startPop(e);
-					System.out.println("ball added to deadlist(free)");
+					System.out.println("ball added to deadlist (free)");
 				}
 			}
 		}

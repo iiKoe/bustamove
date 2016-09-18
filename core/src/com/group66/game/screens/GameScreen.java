@@ -10,6 +10,7 @@ import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.LevelLoader;
+import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 import com.group66.game.helpers.TextDrawer;
@@ -31,6 +32,9 @@ public class GameScreen implements Screen {
 	
 	/** The TimeKeeper */
 	public static TimeKeeper timeKeeper = new TimeKeeper();
+	
+	/** The score keeper*/
+	public static ScoreKeeper scoreKeeper = new ScoreKeeper();
 
 	/** The input handler. */
 	private InputHandler inputHandler = new InputHandler();
@@ -62,9 +66,6 @@ public class GameScreen implements Screen {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
-		loadLevel();
-
-
 		LevelLoader.loadLevel(ballManager);
 		//LevelLoader.generateLevel(ballManager);
 
@@ -117,7 +118,7 @@ public class GameScreen implements Screen {
 		timeKeeper.didHeShoot();
 		
 		/* Draw the score */
-		textDrawer.drawScore(game.batch, 99999);
+		textDrawer.drawScore(game.batch, scoreKeeper.getCurrentScore());
 		
 		
 		/* Draw the balls */

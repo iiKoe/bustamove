@@ -16,7 +16,7 @@ public class TimeKeeper {
 	private double deltaTime;
 	
 	/* TextDrawer object to draw stuff on the screen */
-	private TextDrawer textDrawer = new TextDrawer();
+	//private TextDrawer textDrawer = new TextDrawer();
 		
 	public TimeKeeper() {
 		this.universalTime = 0;
@@ -26,7 +26,8 @@ public class TimeKeeper {
 	// universalTime counter
 	public void universalTimeCounter(float delta) {
 		this.universalTime = this.universalTime + delta;
-		textDrawer.draw(GameScreen.game.batch, Double.toString(this.universalTime), 250, 250);
+		//Draw text on screen -- testing purposes
+		//textDrawer.draw(GameScreen.game.batch, Double.toString(this.universalTime), 250, 250);
 		//System.out.println(this.universalTime);
 	}
 	
