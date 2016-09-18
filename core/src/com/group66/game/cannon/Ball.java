@@ -76,7 +76,8 @@ public class Ball {
 		this.speed = speed;
 		this.angle = angle;
 		this.radius = rad;
-		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+		// TODO Add color range check for integers equal or larger then MAX_COLORS
+		this.color = color % MAX_COLORS;
 
 		hitbox = new Circle(x, y, this.radius);
 		neighborBox = new Circle(x, y, this.radius * 1.2f);
