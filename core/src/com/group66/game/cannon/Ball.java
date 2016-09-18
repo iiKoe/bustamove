@@ -105,7 +105,7 @@ public class Ball {
 
 		// TODO Add color range check for integers equal or
 		// larger then MAX_COLORS
-		this.color = color;
+		this.color = color % MAX_COLORS;
 		this.pop_status = PopStatus.NONE;
 		this.runtime = 0f;
 

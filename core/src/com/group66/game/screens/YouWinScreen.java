@@ -21,14 +21,14 @@ import com.group66.game.BustaMove;
 /**
  * A Class for the MainMenuScreen of the game.
  */
-public class MainMenuScreen implements Screen {
+public class YouWinScreen implements Screen {
 
-	/** The Constant PLAY_BUTTON_WIDTH. */
-	private static final int PLAY_BUTTON_WIDTH = 50;
+    /** The Constant PLAY_BUTTON_WIDTH. */
+    private static final int PLAY_BUTTON_WIDTH = 50;
 
-	/** The Constant PLAY_BUTTON_HEIGHT. */
-	private static final int PLAY_BUTTON_HEIGHT = 50;
-    
+    /** The Constant PLAY_BUTTON_HEIGHT. */
+    private static final int PLAY_BUTTON_HEIGHT = 50;
+
     // TODO: either make scalable or move to config
     private static final int BUTTON_WIDTH = 200;
     private static final int BUTTON_HEIGHT = 50;
@@ -52,7 +52,7 @@ public class MainMenuScreen implements Screen {
      * @param game
      *            the game instance
      */
-    public MainMenuScreen(BustaMove game) {
+    public YouWinScreen(BustaMove game) {
         this.game = game;
         AssetLoader.load();
         createScreen();
@@ -61,7 +61,6 @@ public class MainMenuScreen implements Screen {
     private void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-
         skin = new Skin();
 
         // Store the default libgdx font under the name "default".
@@ -85,27 +84,16 @@ public class MainMenuScreen implements Screen {
         skin.add("default", textButtonStyle);
 
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 75;
+        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 70 ;
         
-        TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
-        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, 
-        		yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
-        
-        TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
-        randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
-                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
-        
-        TextButton scoresButton = new TextButton("High scores", textButtonStyle);
-        scoresButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        TextButton levelButton = new TextButton("Main Menu", textButtonStyle);
+        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2, yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
         
         TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
                 yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
         stage.addActor(levelButton);
-        stage.addActor(randomButton);
-        stage.addActor(scoresButton);
         stage.addActor(exitButton);
 
         // Add a listener to the button. ChangeListener is fired when the
@@ -117,14 +105,10 @@ public class MainMenuScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, false));
+                game.setScreen(new MainMenuScreen(game));
             }
         });
-        randomButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, true));
-            }
-        });
+
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
@@ -145,7 +129,7 @@ public class MainMenuScreen implements Screen {
         /* Draw the background */
         game.batch.begin();
 		game.batch.enableBlending();
-		game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
+		game.batch.draw(AssetLoader.youwinbg, Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
 		game.batch.end();
@@ -211,15 +195,16 @@ public class MainMenuScreen implements Screen {
 
     }
 
-	/**
-	 * Gets the center width.
-	 *
-	 * @param size the size
-	 * @return the center width
-	 */
-	private int getCenterWidth(int size) {
-		return game.getGameWidth() / 2 - size / 2;
-	}
+    /**
+     * Gets the center width.
+     *
+     * @param size
+     *            the size
+     * @return the center width
+     */
+    private int getCenterWidth(int size) {
+        return game.getGameWidth() / 2 - size / 2;
+    }
 
     /**
      * Gets the center height.
