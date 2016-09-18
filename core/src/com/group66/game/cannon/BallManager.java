@@ -271,21 +271,20 @@ public class BallManager {
 		if (do1 < do2 && do1 < do3 && do1 < do4) {
 			b.setX(o1_x);
 			b.setY(o1_y);
-			System.out.println("Option 1");
+			//System.out.println("Option 1");
 		} else if (do2 < do1 && do2 < do3 && do2 < do4) {
 			b.setX(o2_x);
 			b.setY(o2_y);
-			System.out.println("Option 2");
+			//System.out.println("Option 2");
 		} else if (do3 < do1 && do3 < do2 && do3 < do4) {
 			b.setX(o3_x);
 			b.setY(o3_y);
-			System.out.println("Option 3");
+			//System.out.println("Option 3");
 		} else {
 			b.setX(o4_x);
 			b.setY(o4_y);
-			System.out.println("Option 4");
+			//System.out.println("Option 4");
 		}
-		
 	}
 	
 	/**
@@ -353,7 +352,7 @@ public class BallManager {
 			Ball b = it.next();
 			if (b.popDone() == true) {
 				it.remove();
-				//System.out.println("Pop list size: " + ballPopList.size());
+				System.out.println("Pop list size: " + ballPopList.size());
 			}
 		}
 		
