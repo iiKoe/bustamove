@@ -20,7 +20,7 @@ import com.group66.game.helpers.TextDrawer;
 public class GameScreen implements Screen {
 
 	/** A place to store the game instance. */
-	private BustaMove game;
+	public static BustaMove game;
 
 	/** The input handler. */
 	private InputHandler inputHandler = new InputHandler();
