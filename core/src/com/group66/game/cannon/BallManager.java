@@ -360,6 +360,7 @@ public class BallManager {
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
+			GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
 			if (ballStaticDeadList.size() == 0) {
 				for (Ball e:ballGraph.getFreeBalls()) {
 					ballStaticDeadList.add(e);
@@ -374,11 +375,15 @@ public class BallManager {
 					(int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
 			ballToBeAdded.remove(0);
 			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
+				//int score = 0;
 				for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
 					//System.out.println("ball added to deadlist (adjacent)");
+					//score++;
 					ballStaticDeadList.add(e);
 					startPop(e);
 				}
+				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
+				//TODO 
 			}
 		}
 		
