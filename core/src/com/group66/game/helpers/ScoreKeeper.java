@@ -13,7 +13,7 @@ public class ScoreKeeper {
 	 *
 	 * @param currentScore the current score
 	 */
-	public ScoreKeeper(int currentScore) {
+	public ScoreKeeper() {
 		this.currentScore = 0;
 	}
 
@@ -33,9 +33,10 @@ public class ScoreKeeper {
 	 * @param hangingBalls the hanging balls
 	 */
 	public void setCurrentScore(int poppingBalls, int hangingBalls) {
-		this.currentScore = this.currentScore + (poppingBalls + (2 ^ hangingBalls)) * 10;
+		this.currentScore = this.currentScore + poppingBalls * 10 + ((int)java.lang.Math.pow(2.0,hangingBalls)) * 10;
 	}
-
+	
+	// GameScreen.scoreKeeper.setCurrentScore(poppingBalls, hangingBalls);
 	/**
 	 * Display score.
 	 *

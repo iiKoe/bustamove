@@ -7,6 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.screens.GameScreen;
+import com.group66.game.BustaMove;
+import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
 
@@ -114,6 +116,7 @@ public class BallManager {
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
 		if (canShoot()) {
+
 			ballList.add(cannonBallList.get(0));
 			ballList.get(ballList.size() - 1).setAngle((float) Math.toRadians(cannon.getAngle()));
 			ballList.get(ballList.size() - 1).setSpeed(ball_speed);
@@ -122,6 +125,7 @@ public class BallManager {
 					ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
 			cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 					0, (float) Math.toRadians(cannon.getAngle())));
+			GameScreen.timeKeeper.deltaTimeReset();
 			this.ball_count++;
 		}
 	}
