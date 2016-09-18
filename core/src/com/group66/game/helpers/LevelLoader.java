@@ -54,7 +54,8 @@ public class LevelLoader {
      */
     public static void generateLevel(BallManager ballManager) {
         Random r = new Random();
-        int numRows = 2 + r.nextInt(5); // 2-6 rows
+        //int numRows = 2 + r.nextInt(5); // 2-6 rows
+        int numRows = 4;
         //go over each row
         for (int i = 0; i < numRows; i++) {
             int ypos = Config.BOUNCE_Y_MAX - (2 * i + 1) * Config.BALL_RAD;
