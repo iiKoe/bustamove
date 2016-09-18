@@ -3,8 +3,12 @@ package com.group66.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
@@ -54,6 +58,9 @@ public class GameScreen implements Screen {
 	
 	/** needed to draw text, draw score */
 	private TextDrawer textDrawer = new TextDrawer();
+	
+	/** Used to draw the roof */
+	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	/**
 	 * Instantiates the game screen.
@@ -146,6 +153,14 @@ public class GameScreen implements Screen {
 		}
 
 		game.batch.end();
+		
+		/* Draw the roof */
+		Rectangle hitbox = ballManager.getRoofHitbox();
+		shapeRenderer.begin(ShapeType.Filled);
+		shapeRenderer.setColor(Color.DARK_GRAY);
+		shapeRenderer.rect(hitbox.x + Config.BOUNCE_X_MIN, hitbox.y + 10, 
+				Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN, hitbox.y);
+		shapeRenderer.end();
 	}
 
 	/*
