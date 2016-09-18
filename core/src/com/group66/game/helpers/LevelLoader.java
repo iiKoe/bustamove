@@ -27,7 +27,7 @@ public class LevelLoader {
                 String line = s.nextLine();
                 int ypos = Config.BOUNCE_Y_MAX - (2 * linenr + 1) * Config.BALL_RAD;
                 for (int i = 0; i < line.length(); i++) {
-                    int xpos = Config.BOUNCE_X_MIN + (2 * i + 1) * Config.BALL_RAD;
+                    float xpos = Config.BOUNCE_X_MIN + (2 * i + 1) * Config.BALL_RAD;
                     System.out.println("X pos: " + xpos);
 
                     // shift odd rows

@@ -10,6 +10,7 @@ import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.settings.Config;
 
 public class BallGraph {
 	
@@ -191,6 +192,16 @@ public class BallGraph {
 	public ArrayList<Ball> getBalls() {
 		
 		return getBalls(this.top);
+	}
+	
+	public boolean placeTaken(float x, float y) {
+		ArrayList<Ball> checkb = getBalls(this.top);
+		for (Ball cb : checkb) {
+			if(Math.abs(cb.getX() - x) < Config.BALL_RAD / 2) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
