@@ -88,7 +88,8 @@ public class MainMenuScreen implements Screen {
         int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 75;
         
         TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
-        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, 
+        		yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
         
         TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
         randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,

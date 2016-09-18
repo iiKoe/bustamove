@@ -5,13 +5,16 @@ import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.group66.game.BustaMove;
+import com.group66.game.screens.GameScreen;
+import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
 
 /**
  * A Class to manage the Balls in the game.
  */
 public class BallManager {
-
+	
 	/** The cannon instance to shoot out. */
 	private Cannon cannon;
 
@@ -240,6 +243,11 @@ public class BallManager {
 			if (b.popDone() == true) {
 				it.remove();
 			}
+		}
+		
+		/* Check if there are no balls left i.e. player wins */
+		if (ballGraph.numberOfBalls() == 0) {
+			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}
 }
