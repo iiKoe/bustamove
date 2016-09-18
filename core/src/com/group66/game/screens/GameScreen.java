@@ -9,6 +9,7 @@ import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.LevelLoader;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.input.InputHandler;
@@ -66,6 +67,7 @@ public class GameScreen implements Screen {
 		GameScreen.game = game;
 		setup_keys();
 		AssetLoader.load();
+		AudioManager.startMusic();
 
 		if (!randomLevel) {
 		    LevelLoader.loadLevel(ballManager);
@@ -194,6 +196,7 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		// img.dispose();
+	    AudioManager.stopMusic();
 	}
 
 	/**
