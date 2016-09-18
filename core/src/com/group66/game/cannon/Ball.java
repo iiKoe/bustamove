@@ -76,7 +76,7 @@ public class Ball {
 		this.speed = speed;
 		this.angle =  angle;
 		this.radius = rad;
-		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+		this.color = color % MAX_COLORS;
 
 		this.pop_status = PopStatus.NONE;
 		this.runtime = 0f;

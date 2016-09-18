@@ -11,11 +11,28 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class AssetLoader {
 
-
-    /** The background texture. */
+    /** MainMenuScreen background texture. */
+    public static Texture mmbgTexture;
+    
+    /** MainMenu Screen background texture region. */
+    public static TextureRegion mmbg;
+    
+    /** YouWin Screen background texture. */
+    public static Texture youwinbgTexture;
+    
+    /** YouWin Screen background texture region. */
+    public static TextureRegion youwinbg;
+    
+    /** YouLose Screen background texture. */
+    public static Texture youlosebgTexture;
+    
+    /** YouLose Screen background texture region. */
+    public static TextureRegion youlosebg;
+        
+    /** GameScreen background texture. */
     public static Texture bgTexture;
     
-    /** The background texture region. */
+    /** GameScreen background texture region. */
     public static TextureRegion bg;
 
 	/** The ball texture. */
@@ -48,7 +65,28 @@ public class AssetLoader {
      * Load the sprites.
      */
     public static void load() {
-
+    	
+    	/**
+    	 * MainMenu, YouWin, and YouLose screens Sprites
+    	 */
+    	//Creating the MainMenu screen background
+    	mmbgTexture = new Texture(Gdx.files.internal("main_menu.png"));
+        mmbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        mmbg = new TextureRegion(mmbgTexture, 0, 0, 600, 880);
+        
+    	//Creating the YouWin screen background
+    	youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));
+        youwinbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        youwinbg = new TextureRegion(youwinbgTexture, 0, 0, 600, 880);
+        
+    	//Creating the YouLose screen background
+    	youlosebgTexture = new Texture(Gdx.files.internal("youlose.png"));
+        youlosebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        youlosebg = new TextureRegion(youlosebgTexture, 0, 0, 600, 880);
+        
+        /** 
+         * GameScreen Sprites 
+         */
     	//creating the background
         bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
         bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);

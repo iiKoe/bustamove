@@ -1,17 +1,15 @@
 package com.group66.game.screens;
 
-import java.util.Scanner;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 import com.group66.game.helpers.TextDrawer;
@@ -22,7 +20,7 @@ import com.group66.game.helpers.TextDrawer;
 public class GameScreen implements Screen {
 
 	/** A place to store the game instance. */
-	private BustaMove game;
+	public static BustaMove game;
 
 	/** The input handler. */
 	private InputHandler inputHandler = new InputHandler();
@@ -51,11 +49,12 @@ public class GameScreen implements Screen {
 	 *            determines if a set level or a random level is used
 	 */
 	public GameScreen(BustaMove game, Boolean randomLevel) {
-		this.game = game;
+		GameScreen.game = game;
 		setup_keys();
 		AssetLoader.load();
-		
-		loadLevel();
+
+		LevelLoader.loadLevel(ballManager);
+		//LevelLoader.generateLevel(ballManager);
 	}
 	
 	/**
@@ -202,43 +201,5 @@ public class GameScreen implements Screen {
 						ballManager.shootRandomBall();
 					}
 				});
-	}
-
-	/**
-	 * Load a test level.
-	 */
-	private void loadLevel() {
-		String levelFilePath = "testlevel.txt";
-
-		try {
-			FileHandle handle = Gdx.files.internal(levelFilePath);
-			Scanner s = new Scanner(handle.read(), "UTF-8");
-			int linenr = 0;
-			while (s.hasNextLine()) {
-				String line = s.nextLine();
-				int ypos = Config.BOUNCE_Y_MAX - (2 * linenr + 1)
-						* Config.BALL_RAD;
-				for (int i = 0; i < line.length(); i++) {
-					int xpos = Config.BOUNCE_X_MIN + (2 * i + 1)
-							* Config.BALL_RAD;
-					System.out.println("X pos: " + xpos);
-
-					// shift odd rows
-					if (linenr % 2 != 0) {
-						xpos += Config.BALL_RAD;
-					}
-
-					 //TODO get the color from the text file
-					ballManager.addStaticBall(0, xpos, ypos);
-					
-				}
-				linenr++;
-			}
-			
-
-			s.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 }
