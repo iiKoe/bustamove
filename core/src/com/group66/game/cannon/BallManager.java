@@ -16,6 +16,7 @@ public class BallManager {
 	/** The cannon instance to shoot out. */
 	private Cannon cannon;
 	
+	/** The roof hitbox. */
 	private Rectangle roofHitbox;
 
 	/** The graph where all the connections between balls are stored. */
@@ -27,6 +28,7 @@ public class BallManager {
 	/** The ball radius. */
 	private float ball_rad;
 	
+	/** The ball count. */
 	private int ball_count;
 
 	/** The ball list. */
@@ -132,14 +134,27 @@ public class BallManager {
 		return true;
 	}
 	
+	/**
+	 * Gets the ball count.
+	 *
+	 * @return the ball count
+	 */
 	public int getBallCount() {
 		return this.ball_count;
 	}
 	
+	/**
+	 * Sets the ball count.
+	 *
+	 * @param bc the new ball count
+	 */
 	public void setBallCount(int bc) {
 		this.ball_count = bc;
 	}
 	
+	/**
+	 * Move row down.
+	 */
 	public void moveRowDown() {
 		// Move the top hitbox down
 		this.roofHitbox.y -= Config.BALL_DIAM;
@@ -207,6 +222,41 @@ public class BallManager {
 	}
 	
 	/**
+	 * Snap ball to grid.
+	 *
+	 * @param b the ball
+	 * @param hit_ball the hit ball
+	 */
+	private void snapBallToGrid(Ball b, Ball hit_ball) {
+		// Check what the closest "snap" coordinate is
+		float x, y, hit_x, hit_y;
+		
+		x = b.getX();
+		y = b.getY();
+		
+		hit_x = hit_ball.getX();
+		hit_y = hit_ball.getY();
+		
+		/* Snap to the Y pos */
+		System.out.println("y: " + y + " hit_y: " + hit_y);
+		if (Math.abs(y - hit_y) > Config.BALL_RAD) {
+			b.setY(hit_y - Config.BALL_DIAM);
+		} else {
+			b.setY(hit_y);
+		}
+		
+		/* Snap to the X pos */
+		System.out.println("x: " + x + " hit_x: " + hit_x);
+		if (Math.abs(x - hit_x) > Config.BALL_RAD / 2) {
+			b.setX(hit_x + Config.BALL_RAD);
+		} else {
+			b.setX(hit_x - Config.BALL_RAD);
+		}
+		System.out.println("Old x: " + x + " New x: " + b.getX());
+		System.out.println("Old y: " + y + " New x: " + b.getY());
+	}
+	
+	/**
 	 * Update balls, this includes the ball lists and the graph.
 	 *
 	 * @param delta the delta
@@ -225,6 +275,7 @@ public class BallManager {
 				/* Does the ball hit a target ball? */
 				if (t.doesHit(ball.getHitbox())) {
 					ball.setSpeed(0);
+					snapBallToGrid(ball, t);
 					ballDeadList.add(ball);
 					ballToBeAdded.add(ball);
 				}
@@ -241,12 +292,12 @@ public class BallManager {
 			ballGraph.removeBall(ballStaticDeadList.get(0));
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
-			System.out.println("number of balls left: " + ballGraph.numberOfBalls());
+			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			if (ballStaticDeadList.size() == 0) {
 				for (Ball e:ballGraph.getFreeBalls()) {
 					ballStaticDeadList.add(e);
 					startPop(e);
-					System.out.println("ball added to deadlist(free)");
+					//System.out.println("ball added to deadlist(free)");
 				}
 			}
 		}
@@ -257,7 +308,7 @@ public class BallManager {
 			ballToBeAdded.remove(0);
 			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
 				for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
-					System.out.println("ball added to deadlist (adjacent)");
+					//System.out.println("ball added to deadlist (adjacent)");
 					ballStaticDeadList.add(e);
 					startPop(e);
 				}

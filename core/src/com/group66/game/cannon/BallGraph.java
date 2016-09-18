@@ -56,7 +56,7 @@ public class BallGraph {
 		if (insert != null) {
 			graph.addVertex(insert);
 			if (this.topHitbox.overlaps(insert.getTopHitbox())) {
-				System.out.println("Is connected to top");
+				//System.out.println("Is connected to top");
 				this.connectBalls(insert, top);
 			}
 			if (this.getBalls().size() > 0) {
@@ -64,7 +64,7 @@ public class BallGraph {
 				for (Ball e:this.getBalls()) {
 					if (e != insert && insert.isNextTo(e.getNeighborBox())) {
 
-						System.out.println("Balls connected");
+						//System.out.println("Balls connected");
 						this.connectBalls(insert, e);
 					}
 				}
