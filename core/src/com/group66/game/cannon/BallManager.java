@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.group66.game.screens.GameScreen;
 import com.group66.game.settings.Config;
 
 /**
@@ -98,6 +99,7 @@ public class BallManager {
 		if (canShoot()) {
 			ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 					ball_speed, (float) Math.toRadians(cannon.getAngle())));
+			GameScreen.timeKeeper.deltaTimeReset();
 		}
 	}
 

@@ -15,6 +15,7 @@ import com.group66.game.helpers.AssetLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
 import com.group66.game.helpers.TextDrawer;
+import com.group66.game.helpers.TimeKeeper;
 
 /**
  * The Class for the main GameScreen of the game.
@@ -22,7 +23,17 @@ import com.group66.game.helpers.TextDrawer;
 public class GameScreen implements Screen {
 
 	/** A place to store the game instance. */
-	private BustaMove game;
+	public static BustaMove game;
+	
+	/*
+	 * ^^^^ made this object public static so it can be used in other classes 
+	 * (we would like to use this game instance because we're playing in it, without
+	 * creating a new one in the other class that's calling this object because that won't make any sense)
+	 * but, does making it "static" has any affect?
+	 */
+	
+	/** The TimeKeeper */
+	public static TimeKeeper timeKeeper = new TimeKeeper();
 
 	/** The input handler. */
 	private InputHandler inputHandler = new InputHandler();
@@ -54,7 +65,6 @@ public class GameScreen implements Screen {
 		this.game = game;
 		setup_keys();
 		AssetLoader.load();
-		
 		loadLevel();
 	}
 	
@@ -83,7 +93,7 @@ public class GameScreen implements Screen {
 	 */
 	@Override
 	public void render(float delta) {
-
+		
 		/* Handle input keys */
 		inputHandler.run();
 
@@ -97,6 +107,12 @@ public class GameScreen implements Screen {
 		game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
 				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+		
+		/* Start counting time*/
+		timeKeeper.universalTimeCounter(delta);
+		
+		/* Check if a ball hasn't been shot in the past 10 seconds */
+		timeKeeper.didHeShoot();
 		
 		/* Draw the score */
 		textDrawer.drawScore(game.batch, 99999);
