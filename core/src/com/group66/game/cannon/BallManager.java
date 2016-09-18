@@ -332,6 +332,12 @@ public class BallManager {
 			if (ball.isDead()) {
 				ballDeadList.add(ball);
 			}
+			if (ball.getTopHitbox().overlaps(roofHitbox)) {
+				System.out.println("Attach ball to top");
+				ball.setSpeed(0);
+				ballDeadList.add(ball);
+				ballToBeAdded.add(ball);
+			}
 			for (Ball t : ballStaticList) {
 				/* Does the ball hit a target ball? */
 				if (t.doesHit(ball.getHitbox())) {

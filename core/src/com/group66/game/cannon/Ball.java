@@ -239,6 +239,10 @@ public class Ball {
 	public void update(float delta) {
 		hitbox.x += speed * (float) Math.cos(this.angle) * delta;
 		hitbox.y += speed * (float) Math.sin(this.angle) * delta;
+		neighborBox.x += speed * (float) Math.cos(this.angle) * delta;
+		neighborBox.y += speed * (float) Math.sin(this.angle) * delta;
+		topHitbox.x += speed * (float) Math.cos(this.angle) * delta;
+		topHitbox.y += speed * (float) Math.sin(this.angle) * delta;
 		time -= delta;
 	}
 
