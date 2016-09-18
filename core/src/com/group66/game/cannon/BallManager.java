@@ -229,15 +229,15 @@ public class BallManager {
 	 */
 	private void snapBallToGrid(Ball b, Ball hitb) {
 		// Check what the closest "snap" coordinate is
-		float x, y, hit_x, hit_y, new_x, new_y;
+		float x, y, new_x, new_y;
 		float alt_x, alt_y;
 		float fin_x = 0, fin_y = 0;
 		
 		x = b.getX();
 		y = b.getY();
 		
-		hit_x = hitb.getX();
-		hit_y = hitb.getY();
+		float hit_x = hitb.getX();
+		float hit_y = hitb.getY();
 		
 		/* Snap to the Y pos */
 		System.out.println("y: " + y + " hit_y: " + hit_y);

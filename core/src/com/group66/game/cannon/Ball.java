@@ -7,13 +7,23 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 
+// TODO: Auto-generated Javadoc
 /**
  * A basic Ball class.
  */
 public class Ball {
 	
+	/**
+	 * The Enum PopStatus.
+	 */
 	private enum PopStatus {
-	    NONE, POPPING, DONE 
+	    
+    	/** The none. */
+    	NONE, 
+ /** The popping. */
+ POPPING, 
+ /** The done. */
+ DONE 
 	}
 
 	/** The Constant that represents a BLUE ball. */
@@ -34,9 +44,10 @@ public class Ball {
 	/** The Ball hitbox. */
 	private Circle hitbox;
 
-	/** Hitbox for detecting neighbor balls */
+	/**  Hitbox for detecting neighbor balls. */
 	private Circle neighborBox;
 
+	/** The top hitbox. */
 	private Rectangle topHitbox;
 
 	/** The angle in which the Ball moves. */
@@ -54,11 +65,13 @@ public class Ball {
 	/** The radius of the Ball. */
 	private float radius;
 	
-	/** The runtime used for animations */
+	/**  The runtime used for animations. */
 	private float runtime;
 	
+	/**  The pop animation status. */
 	private PopStatus pop_status;
 	
+	/**  The pop animation instance. */
 	private Animation pop_animation;
 
 	/**
@@ -112,7 +125,8 @@ public class Ball {
 	}
 
 	/**
-	 * Gets the y coordinate
+	 * Gets the y coordinate.
+	 *
 	 * @return the y coordinate
 	 */
 	public float getY() {
@@ -129,7 +143,8 @@ public class Ball {
 	}
 
 	/**
-	 * Gets the neighbor box
+	 * Gets the neighbor box.
+	 *
 	 * @return the neighborbox
 	 */
 	public Circle getNeighborBox() {
@@ -137,7 +152,8 @@ public class Ball {
 	}
 
 	/**
-	 * get top hitbox
+	 * get top hitbox.
+	 *
 	 * @return the tophitbox
 	 */
 	public Rectangle getTopHitbox() {
@@ -188,18 +204,33 @@ public class Ball {
 		return color;
 	}
 	
+	/**
+	 * Move down.
+	 *
+	 * @param dy the delta y
+	 */
 	public void moveDown(float dy) {
 		this.hitbox.y -= dy;
 		this.neighborBox.y -= dy;
 		this.topHitbox.y -= dy;
 	}
 	
+	/**
+	 * Sets the x coordinate.
+	 *
+	 * @param x the new x coordinate
+	 */
 	public void setX(float x) {
 		this.hitbox.x = x;
 		this.neighborBox.x = x;
 		this.topHitbox.x = x;
 	}
 	
+	/**
+	 * Sets the y coordinate.
+	 *
+	 * @param y the new y coordinate
+	 */
 	public void setY(float y) {
 		this.hitbox.y = y;
 		this.neighborBox.y = y;
@@ -209,8 +240,7 @@ public class Ball {
 	/**
 	 * Update.
 	 * 
-	 * @param delta
-	 *            the change in time since the last update
+	 * @param delta the change in time since the last update
 	 */
 	public void update(float delta) {
 		hitbox.x += speed * (float) Math.cos(this.angle) * delta;
@@ -291,18 +321,18 @@ public class Ball {
 	}
 
 	/**
-	 * Insert the into a graph
-	 * 
-	 * @param graph
+	 * Insert the into a graph.
+	 *
+	 * @param graph the graph
 	 */
 	public void addToGraph(BallGraph graph) {
 		graph.insertBall(this);
 	}
 
 	/**
-	 * Delete the ball from a graph
-	 * 
-	 * @param graph
+	 * Delete the ball from a graph.
+	 *
+	 * @param graph the graph
 	 */
 	public void deleteBallFromGraph(BallGraph graph) {
 		graph.removeBall(this);

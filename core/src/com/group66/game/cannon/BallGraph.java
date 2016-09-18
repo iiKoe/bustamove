@@ -12,11 +12,15 @@ import org.jgrapht.graph.SimpleGraph;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.settings.Config;
 
+/**
+ * The Class BallGraph.
+ */
 public class BallGraph {
 	
 	/** top hitbox to detect whether the balls are still connected. */
 	private Rectangle topHitbox; 
 	
+	/** The top. */
 	private Ball top;
 	
 
@@ -26,7 +30,8 @@ public class BallGraph {
 	
 	/**
 	 * Instantiates a new Ball graph.
-	 * 
+	 *
+	 * @param roofHitbox the roof hitbox
 	 */
 	public BallGraph(Rectangle roofHitbox) {
 		graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
@@ -38,8 +43,8 @@ public class BallGraph {
 	}
 
 	/**
-	 * Retrieves the number of balls in the graph
-	 * 
+	 * Retrieves the number of balls in the graph.
+	 *
 	 * @return the number of balls in the graph
 	 */
 	public int numberOfBalls() {
@@ -48,9 +53,9 @@ public class BallGraph {
 	}
 
 	/**
-	 * Adds a ball to the graph
+	 * Adds a ball to the graph.
+	 *
 	 * @param insert the ball to be inserted
-	 * 
 	 */
 	public void insertBall(Ball insert) {
 		if (insert != null) {
@@ -73,7 +78,8 @@ public class BallGraph {
 	}
 
 	/**
-	 * Removes a ball from the graph
+	 * Removes a ball from the graph.
+	 *
 	 * @param remove the ball to be removed from the graph
 	 */
 	public void removeBall(Ball remove) {
@@ -90,7 +96,8 @@ public class BallGraph {
 	}
 
 	/**
-	 * Gives the number of adjacent balls of the same color
+	 * Gives the number of adjacent balls of the same color.
+	 *
 	 * @param ball the ball of whose adjacent balls should be checked
 	 * @return integer with the number of adjacent balls
 	 */
@@ -102,7 +109,8 @@ public class BallGraph {
 	}
 
 	/**
-	 * Gives a list of adjacent balls of the same color
+	 * Gives a list of adjacent balls of the same color.
+	 *
 	 * @param ball the ball of whose adjacent balls should be checked
 	 * @return ArrayList<Ball> a list of the adjacent balls
 	 */
@@ -140,7 +148,8 @@ public class BallGraph {
 	}
 
 	/**
-	 * This function provides a list of all the balls that are not in some way connected to the top of the screen
+	 * This function provides a list of all the balls that are not in some way connected to the top of the screen.
+	 *
 	 * @return an ArrayList<ball> of the balls that are not connected to the top
 	 */
 	public ArrayList<Ball> getFreeBalls() {
@@ -148,7 +157,8 @@ public class BallGraph {
 	}
 	
 	/**
-	 * This function provides a list of all the balls that are not in some way connected to the top of the screen
+	 * This function provides a list of all the balls that are not in some way connected to the top of the screen.
+	 *
 	 * @param top the top is represented in the graph as a ball. this parameter is the ball that represents the top
 	 * @return an ArrayList<Ball> of the balls that are not connected to the top ball
 	 */
@@ -185,8 +195,8 @@ public class BallGraph {
 	}
 
 	/**
-	 * This function return a list of all the balls in the graph
-	 * 
+	 * This function return a list of all the balls in the graph.
+	 *
 	 * @return A list of all the balls in the graph
 	 */
 	public ArrayList<Ball> getBalls() {
@@ -194,14 +204,20 @@ public class BallGraph {
 		return getBalls(this.top);
 	}
 	
+	/**
+	 * Check is a ball location is taken.
+	 *
+	 * @param x the x coordinate
+	 * @param y the y coordinate
+	 * @return true, if successful
+	 */
 	public boolean placeTaken(float x, float y) {
 		ArrayList<Ball> checkb = getBalls(this.top);
 		for (Ball cb : checkb) {
-			if(Math.abs(cb.getX() - x) < Config.BALL_RAD / 2) {
+			if (Math.abs(cb.getX() - x) < Config.BALL_RAD / 2) {
 				return true;
 			}
 		}
 		return false;
 	}
-
 }
