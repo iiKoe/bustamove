@@ -6,12 +6,18 @@ buildscript {
         jcenter()
     }
     dependencies {
+		classpath "net.saliman:gradle-cobertura-plugin:2.3.2"
     }
 }
 
 allprojects {
+    apply plugin: "java"
     apply plugin: "eclipse"
     apply plugin: "idea"
+    apply plugin: 'checkstyle'
+    apply plugin: 'findbugs'
+    apply plugin: 'pmd'
+    apply plugin: 'net.saliman.cobertura'
 
     version = '1.0'
     ext {
@@ -29,6 +35,36 @@ allprojects {
         maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
         maven { url "https://oss.sonatype.org/content/repositories/releases/" }
     }
+    
+    dependencies {	
+		// https://mvnrepository.com/artifact/com.puppycrawl.tools/checkstyle
+		compile group: 'com.puppycrawl.tools', name: 'checkstyle', version: '7.1.1'
+		
+		// https://mvnrepository.com/artifact/junit/junit
+		compile group: 'junit', name: 'junit', version: '4.12'
+		
+		// https://mvnrepository.com/artifact/com.google.code.findbugs/findbugs
+		compile group: 'com.google.code.findbugs', name: 'findbugs', version: '3.0.1'
+		
+		// https://mvnrepository.com/artifact/net.sourceforge.pmd/pmd
+		compile group: 'net.sourceforge.pmd', name: 'pmd', version: '5.5.1', ext: 'pom'
+		
+		// https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core
+		compile group: 'org.jgrapht', name: 'jgrapht-core', version: '0.9.2'
+    }
+    
+    checkstyle {
+    	configFile = rootProject.file('checkstyle/google_checks.xml')
+    	ignoreFailures = false
+	}
+	
+	findbugsMain {
+		reports {
+			xml.enabled = false
+			html.enabled = true
+		}
+		ignoreFailures = true
+	}
 }
 
 project(":desktop") {
@@ -39,22 +75,15 @@ project(":desktop") {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-desktop"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-desktop"
-        compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
     }
 }
 
 project(":core") {
     apply plugin: "java"
 
-
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-bullet:$gdxVersion"
-        compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
 }
