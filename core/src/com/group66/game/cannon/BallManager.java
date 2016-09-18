@@ -45,6 +45,9 @@ public class BallManager {
 
 	/**  The ball to be added to static List. */
 	private ArrayList<Ball> ballToBeAdded = new ArrayList<Ball>();
+	
+	/** The balls the canon will shoot. */
+	private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
 
 	/**
 	 * Instantiates a new ball manager.
@@ -57,7 +60,9 @@ public class BallManager {
 		this.cannon = cannon;
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
-		addStaticBall(-1, 0, 0);
+		//addStaticBall(-1, 0, 0);
+		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+		cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ball_rad, 0, 0.0f));
 	}
 
 	/**
@@ -100,9 +105,15 @@ public class BallManager {
 	public void shootBall(int color) {
 		// TODO add math so ball comes out the top of the cannon?
 		if (canShoot()) {
-			ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
-					ball_speed, (float) Math.toRadians(cannon.getAngle())));
-			GameScreen.timeKeeper.deltaTimeReset();
+
+			ballList.add(cannonBallList.get(0));
+			ballList.get(ballList.size() - 1).setAngle((float) Math.toRadians(cannon.getAngle()));
+			ballList.get(ballList.size() - 1).setSpeed(ball_speed);
+			cannonBallList.remove(0);
+			/*ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
+					ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
+			cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
+					0, (float) Math.toRadians(cannon.getAngle())));
 		}
 	}
 
@@ -149,6 +160,11 @@ public class BallManager {
 		
 		/* Draw popping balls */
 		for (Ball ball : ballPopList) {
+			ball.draw(batch, delta);
+		}
+		
+		/* Draw cannon balls */
+		for (Ball ball: cannonBallList) {
 			ball.draw(batch, delta);
 		}
 	}
