@@ -340,6 +340,7 @@ public class BallManager {
 			if (ball.getTopHitbox().overlaps(roofHitbox)) {
 				System.out.println("Attach ball to top");
 				ball.setSpeed(0);
+				ball.setY(ball.getY() + 10);
 				ballDeadList.add(ball);
 				ballToBeAdded.add(ball);
 			}
