@@ -108,7 +108,7 @@ public class YouWinScreen implements Screen {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
-;
+
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 Gdx.app.exit();
