@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 
-// TODO: Auto-generated Javadoc
 /**
  * A basic Ball class.
  */
@@ -17,13 +16,9 @@ public class Ball {
 	 * The Enum PopStatus.
 	 */
 	private enum PopStatus {
-	    
-    	/** The none. */
-    	NONE, 
- /** The popping. */
- POPPING, 
- /** The done. */
- DONE 
+		NONE, 
+		POPPING, 
+		DONE 
 	}
 
 	/** The Constant that represents a BLUE ball. */
@@ -90,7 +85,6 @@ public class Ball {
 		this.angle =  angle;
 		this.radius = rad;
 		this.color = color % MAX_COLORS;
-
 		this.pop_status = PopStatus.NONE;
 		this.runtime = 0f;
 
