@@ -52,7 +52,7 @@ public class Ball {
 	private int color;
 
 	/** The radius of the Ball. */
-	private int radius;
+	private float radius;
 	
 	/** The runtime used for animations */
 	private float runtime;
@@ -71,12 +71,15 @@ public class Ball {
 	 * @param speed the speed of the Ball
 	 * @param angle the angle of the Ball
 	 */
-	public Ball(int color, int x, int y, int rad, int speed, float angle) {
+	public Ball(int color, float x, float y, float rad, int speed, float angle) {
 		this.time = 10;
 		this.speed = speed;
-		this.angle = angle;
+		this.angle =  angle;
 		this.radius = rad;
 		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+
+		this.pop_status = PopStatus.NONE;
+		this.runtime = 0f;
 
 		hitbox = new Circle(x, y, this.radius);
 		neighborBox = new Circle(x, y, this.radius * 1.2f);
@@ -94,23 +97,9 @@ public class Ball {
 	 * @param angle the angle of the Ball
 	 * @param graph the needs to be added to
 	 */
-	public Ball(int color, int x, int y, int rad, int speed, float angle, BallGraph graph) {
-		this.time = 4;
-		this.speed = speed;
-		this.angle =  angle;
-		this.radius = rad;
-		this.color = color; // TODO Add color range check for integers equal or larger then MAX_COLORS
+	public Ball(int color, float x, float y, float rad, int speed, float angle, BallGraph graph) {
+		this(color, x, y, rad, speed, angle);
 		graph.insertBall(this);
-
-		// TODO Add color range check for integers equal or
-		// larger then MAX_COLORS
-		this.color = color;
-		this.pop_status = PopStatus.NONE;
-		this.runtime = 0f;
-
-		hitbox = new Circle(x, y, this.radius);
-		neighborBox = new Circle(x, y, this.radius * 1.2f);
-		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
 	}
 
 	/**
@@ -187,7 +176,7 @@ public class Ball {
 	 * 
 	 * @return the radius
 	 */
-	public int getRadius() {
+	public float getRadius() {
 		return radius;
 	}
 	/**

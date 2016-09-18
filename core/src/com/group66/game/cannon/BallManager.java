@@ -25,7 +25,7 @@ public class BallManager {
 	private int ball_speed;
 
 	/** The ball radius. */
-	private int ball_rad;
+	private float ball_rad;
 	
 	private int ball_count;
 
@@ -54,7 +54,7 @@ public class BallManager {
 	 * @param ball_rad the Ball radius
 	 * @param speed the Ball speed
 	 */
-	public BallManager(Cannon cannon, int ball_rad, int speed) {
+	public BallManager(Cannon cannon, float ball_rad, int speed) {
 		this.cannon = cannon;
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
