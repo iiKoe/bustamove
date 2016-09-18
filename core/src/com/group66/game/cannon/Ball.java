@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.AudioManager;
 
 /**
  * A basic Ball class.
@@ -315,6 +316,7 @@ public class Ball {
 		
 		this.runtime = 0;
 		pop_status = PopStatus.POPPING;
+		AudioManager.ballpop();
 		//System.out.println("Popping Started!");
 	}
 
