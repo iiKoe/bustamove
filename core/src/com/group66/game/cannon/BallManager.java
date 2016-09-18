@@ -132,6 +132,14 @@ public class BallManager {
 		return true;
 	}
 	
+	public int getBallCount() {
+		return this.ball_count;
+	}
+	
+	public void setBallCount(int bc) {
+		this.ball_count = bc;
+	}
+	
 	public void moveRowDown() {
 		// Move the top hitbox down
 		this.roofHitbox.y -= Config.BALL_DIAM;
@@ -167,12 +175,7 @@ public class BallManager {
 			ball.draw(batch, delta);
 		}
 		
-		/* Check if balls need to move down */
-		if (this.ball_count >= Config.NBALLS_ROW_DOWN && canShoot()) {
-			System.out.println("Move balls down");
-			moveRowDown();
-			this.ball_count = 0;
-		}
+
 	}
 	
 	/**

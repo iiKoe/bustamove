@@ -101,9 +101,16 @@ public class GameScreen implements Screen {
 		/* Draw the score */
 		textDrawer.drawScore(game.batch, 99999);
 		
-		
 		/* Draw the balls */
 		ballManager.draw(game.batch, delta);
+		
+		/* Check if balls need to move down */
+		if (ballManager.getBallCount() >= Config.NBALLS_ROW_DOWN 
+				&& ballManager.canShoot()) {
+			System.out.println("Move balls down");
+			ballManager.moveRowDown();
+			ballManager.setBallCount(0);
+		}
 
 		/* Draw the cannon */
 		cannon.draw(game.batch);
