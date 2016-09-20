@@ -152,15 +152,13 @@ public class GameScreen implements Screen {
 			game.setScreen(new YouLoseScreen(game));
 		}
 
-		game.batch.end();
-		
-		/* Draw the roof */
+		/* Draw the brick wall */
 		Rectangle hitbox = ballManager.getRoofHitbox();
-		shapeRenderer.begin(ShapeType.Filled);
-		shapeRenderer.setColor(Color.DARK_GRAY);
-		shapeRenderer.rect(hitbox.x + Config.BOUNCE_X_MIN, hitbox.y + 10, 
-				Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN, hitbox.y);
-		shapeRenderer.end();
+		game.batch.draw(AssetLoader.bw, hitbox.x + Config.BOUNCE_X_MIN,
+				hitbox.y + 10, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+				hitbox.y);
+		
+		game.batch.end();
 	}
 
 	/*
