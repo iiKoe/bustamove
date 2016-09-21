@@ -38,6 +38,7 @@ public class Config {
 	
 	/* Ball settings */
 	/** The Constant for the BALL_SPEED. */
+	public static final int BALL_SPEED = 1000;
 	
 	/** The Constant for the NUM_BALLS_ROW (number of balls per row). */
 	public static final int NUM_BALLS_ROW = 8;
