@@ -126,7 +126,7 @@ public class BallManager {
 			cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
-			GameScreen.timeKeeper.deltaTimeReset();
+			GameScreen.timeKeeper.shotTimeReset();
 			Logger.log("Shot a " + color + " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}

@@ -28,7 +28,13 @@ public class AssetLoader {
     
     /** YouLose Screen background texture region. */
     public static TextureRegion youlosebg;
-        
+    
+    /** GameScreen brick wall texture. */
+    public static Texture bwTexture;
+    
+    /** GameScreen brick wall texture region. */
+    public static TextureRegion bw;
+    
     /** GameScreen background texture. */
     public static Texture bgTexture;
     
@@ -87,6 +93,12 @@ public class AssetLoader {
         /** 
          * GameScreen Sprites 
          */
+        
+        //creating the brick wall
+        bwTexture = new Texture(Gdx.files.internal("roof.png"));
+        bwTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        bw = new TextureRegion(bwTexture, 0, 0, 600, 880);
+        
     	//creating the background
         bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
         bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
