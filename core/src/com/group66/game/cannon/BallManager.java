@@ -187,7 +187,7 @@ public class BallManager {
 		for (Ball b : this.ballStaticList) {
 			b.moveDown(Config.BALL_DIAM);
 		}
-	}
+	} 
 	
 	/**
 	 * Checks if it's game over.
