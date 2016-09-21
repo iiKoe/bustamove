@@ -250,13 +250,15 @@ public class BallManager {
 				&& Math.toDegrees(ball.getAngle()) > 90) {
 			// LEFT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		Logger.log("Ball hit the wall");
 		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
 				&& Math.toDegrees(ball.getAngle()) < 90) {
 			// RIGHT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		Logger.log("Ball hit the wall");
 		}
-		AudioManager.wallhit();
-		Logger.log("Ball hit the wall");
 	}
 	
 	/**
@@ -267,7 +269,6 @@ public class BallManager {
 	private void startPop(Ball b) {
 		b.popStart();
 		ballPopList.add(b);
-		Logger.log("Started popping " + ballPopList.size() + " balls");
 	}
 	
 	/**
@@ -404,6 +405,7 @@ public class BallManager {
 					ballStaticDeadList.add(e);
 					startPop(e);
 				}
+		        Logger.log("Started popping " + ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
 				//TODO 
 			}

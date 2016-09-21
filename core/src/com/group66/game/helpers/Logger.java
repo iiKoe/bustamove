@@ -15,7 +15,11 @@ public class Logger {
      */
     private static void startLogger() {
         String date = DateFormatUtils.format(new Date(), "yyyyMMdd-HHmmss");
-        handle = Gdx.files.classpath("log_" + date + ".txt");
+        try {
+            handle = Gdx.files.external("log_" + date + ".txt");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -27,6 +31,27 @@ public class Logger {
             //create logging file if it is not opened yet
             startLogger();
         }
-        handle.writeString(s, true);
+        try {
+            handle.writeString(s + System.getProperty("line.separator"), true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(s);
+    }
+    
+    /**
+     * Send a warning message to the log file
+     * @param s the message to log
+     */
+    public static void logWarning(String s) {
+        log("[Warning] " + s);
+    }
+    
+    /**
+     * Send an error message to the log file
+     * @param s the message to log
+     */
+    public static void logError(String s) {
+        log("[Error] " + s);
     }
 }
