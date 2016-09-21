@@ -15,6 +15,7 @@ import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.LevelLoader;
+import com.group66.game.helpers.Logger;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
@@ -78,10 +79,11 @@ public class GameScreen implements Screen {
 
 		if (!randomLevel) {
 		    LevelLoader.loadLevel(ballManager);
+    		Logger.log("Loaded a premade level");
 		} else {
 		    LevelLoader.generateLevel(ballManager);
+    		Logger.log("Loaded a random level");
 		}
-
 	}
 	
 	/**
@@ -149,6 +151,7 @@ public class GameScreen implements Screen {
 		
 		/* Check if game-over condition is reached */
 		if (ballManager.isGameOver()) {
+		    Logger.log("Failed the level");
 			game.setScreen(new YouLoseScreen(game));
 		}
 

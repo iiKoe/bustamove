@@ -7,6 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.helpers.Logger;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
@@ -126,6 +127,7 @@ public class BallManager {
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
+			Logger.log("Shot a " + color + " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}
 	}
@@ -187,7 +189,8 @@ public class BallManager {
 		for (Ball b : this.ballStaticList) {
 			b.moveDown(Config.BALL_DIAM);
 		}
-	} 
+		Logger.log("Moved the roof a row down");
+	}
 	
 	/**
 	 * Checks if it's game over.
@@ -253,6 +256,7 @@ public class BallManager {
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
 		}
 		AudioManager.wallhit();
+		Logger.log("Ball hit the wall");
 	}
 	
 	/**
@@ -263,6 +267,7 @@ public class BallManager {
 	private void startPop(Ball b) {
 		b.popStart();
 		ballPopList.add(b);
+		Logger.log("Started popping " + ballPopList.size() + " balls");
 	}
 	
 	/**
@@ -329,6 +334,7 @@ public class BallManager {
 			b.setY(o4_y);
 			//System.out.println("Option 4");
 		}
+		Logger.log("Ball snapped into place");
 	}
 	
 	/**
@@ -414,6 +420,7 @@ public class BallManager {
 		
 		/* Check if there are no balls left i.e. player wins */
 		if (ballGraph.numberOfBalls() == 0) {
+		    Logger.log("Level completed");
 			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}
