@@ -7,7 +7,8 @@ import java.util.concurrent.ThreadLocalRandom;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AudioManager;
-import com.group66.game.helpers.Logger;
+import com.group66.game.logging.Logger;
+import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
@@ -127,7 +128,7 @@ public class BallManager {
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
-			Logger.log("Shot a " + color + " ball at angle " + cannon.getAngle());
+			//game.logger.logMessage(MessageType.Info, "Shot a " + color + " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}
 	}
@@ -189,7 +190,7 @@ public class BallManager {
 		for (Ball b : this.ballStaticList) {
 			b.moveDown(Config.BALL_DIAM);
 		}
-		Logger.log("Moved the roof a row down");
+		//game.logger.logMessage(MessageType.Info, "Moved the roof a row down");
 	}
 	
 	/**
@@ -251,13 +252,13 @@ public class BallManager {
 			// LEFT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
     		AudioManager.wallhit();
-    		Logger.log("Ball hit the wall");
+    		//game.logger.logMessage(MessageType.Info, "Ball hit the wall");
 		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
 				&& Math.toDegrees(ball.getAngle()) < 90) {
 			// RIGHT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
     		AudioManager.wallhit();
-    		Logger.log("Ball hit the wall");
+    		//game.logger.logMessage(MessageType.Info, "Ball hit the wall");
 		}
 	}
 	
@@ -335,7 +336,7 @@ public class BallManager {
 			b.setY(o4_y);
 			//System.out.println("Option 4");
 		}
-		Logger.log("Ball snapped into place");
+		//game.logger.logMessage(MessageType.Info, "Ball snapped into place");
 	}
 	
 	/**
@@ -405,7 +406,7 @@ public class BallManager {
 					ballStaticDeadList.add(e);
 					startPop(e);
 				}
-		        Logger.log("Started popping " + ballStaticDeadList.size() + " balls");
+				//game.logger.logMessage(MessageType.Info, "Started popping " + ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
 				//TODO 
 			}
@@ -422,7 +423,7 @@ public class BallManager {
 		
 		/* Check if there are no balls left i.e. player wins */
 		if (ballGraph.numberOfBalls() == 0) {
-		    Logger.log("Level completed");
+		    //game.logger.logMessage(MessageType.Info, "Level completed");
 			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}
