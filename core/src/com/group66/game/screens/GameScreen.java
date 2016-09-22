@@ -26,6 +26,18 @@ import com.group66.game.helpers.TimeKeeper;
  */
 public class GameScreen implements Screen {
 
+	/**
+	 * The Enum GameState.
+	 */
+	private enum GameState {
+		
+		/** The game is running. */
+		RUNNING,
+		
+		/** The game is paused. */
+		PAUSED
+	}
+	
 	/** A place to store the game instance. */
 	public static BustaMove game;
 	/*
@@ -35,10 +47,13 @@ public class GameScreen implements Screen {
 	 * but, does making it "static" has any affect?
 	 */
 	
-	/** The TimeKeeper */
+	/** The game state. */
+	private GameState gameState;
+	
+	/**  The TimeKeeper. */
 	public static TimeKeeper timeKeeper = new TimeKeeper();
 	
-	/** The score keeper*/
+	/**  The score keeper. */
 	public static ScoreKeeper scoreKeeper = new ScoreKeeper();
 
 	/** The input handler. */
@@ -56,10 +71,10 @@ public class GameScreen implements Screen {
 	//for testing
 	//ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
-	/** needed to draw text, draw score */
+	/**  needed to draw text, draw score. */
 	private TextDrawer textDrawer = new TextDrawer();
 	
-	/** Used to draw the roof */
+	/**  Used to draw the roof. */
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	/**
@@ -72,6 +87,7 @@ public class GameScreen implements Screen {
 	 */
 	public GameScreen(BustaMove game, Boolean randomLevel) {
 		GameScreen.game = game;
+		gameState = GameState.RUNNING;
 		setup_keys();
 		AssetLoader.load();
 		AudioManager.startMusic();
@@ -112,6 +128,14 @@ public class GameScreen implements Screen {
 		
 		/* Handle input keys */
 		inputHandler.run();
+		
+		/* Don't update and render when the game is paused */
+		if (gameState == GameState.PAUSED) {
+			game.batch.begin();
+			textDrawer.draw(game.batch, "Game Paused", 0, Config.HEIGHT);
+			game.batch.end();
+			return;
+		}
 
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -224,6 +248,8 @@ public class GameScreen implements Screen {
 		inputHandler.registerKeyMap("Aim Right", Keys.D);
 		inputHandler.registerKeyMap("Aim Right", Keys.RIGHT);
 		inputHandler.registerKeyMap("Place Ball", Keys.ENTER);
+		inputHandler.registerKeyMap("Toggle Pause", Keys.ESCAPE);
+
 
 		/* Register key names to functions */
 		inputHandler.registerKeyPressedFunc("Aim Left",
@@ -244,6 +270,26 @@ public class GameScreen implements Screen {
 				new InputHandler.KeyCommand() {
 					public void runCommand() {
 						ballManager.shootRandomBall();
+					}
+				});
+		
+		inputHandler.registerKeyJustPressedFunc("Toggle Pause",
+				new InputHandler.KeyCommand() {
+					public void runCommand() {
+						switch (gameState) {
+						case PAUSED:
+							gameState = GameState.RUNNING;
+							AudioManager.startMusic();
+							System.out.println("Resume the game");
+							break;
+						case RUNNING:
+							gameState = GameState.PAUSED;
+							AudioManager.stopMusic();
+							System.out.println("Pause the game");
+							break;
+						default:
+							break;
+						}
 					}
 				});
 	}
