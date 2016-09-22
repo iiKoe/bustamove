@@ -54,6 +54,9 @@ public class BallManager {
 	
 	/** The balls the canon will shoot. */
 	private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
+	
+	/** The roof hitbox offset. */
+	private float ROOF_OFFSET = 10;
 
 	/**
 	 * Instantiates a new ball manager.
@@ -67,7 +70,7 @@ public class BallManager {
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
 		this.ball_count = 0;
-		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
+		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.WIDTH, 10.0f);
 		this.ballGraph = new BallGraph(roofHitbox);
 		
 		//addStaticBall(-1, 0, 0);
@@ -289,6 +292,12 @@ public class BallManager {
 		float o4_x = hit_x + Config.BALL_DIAM;
 		float o4_y = hit_y;
 		
+		float o5_x = hit_x + Config.BALL_RAD;
+		float o5_y = hit_y + Config.BALL_DIAM;
+		
+		float o6_x = hit_x - Config.BALL_RAD;
+		float o6_y = hit_y + Config.BALL_DIAM;
+		
 		float x = b.getX();
 		float y = b.getY();
 		
@@ -296,38 +305,74 @@ public class BallManager {
 		float do2 = Math.abs(x - o2_x) + Math.abs(y - o2_y);
 		float do3 = Math.abs(x - o3_x) + Math.abs(y - o3_y);
 		float do4 = Math.abs(x - o4_x) + Math.abs(y - o4_y);
+		float do5 = Math.abs(x - o5_x) + Math.abs(y - o5_y);
+		float do6 = Math.abs(x - o6_x) + Math.abs(y - o6_y);
 		
 		// Check bounds
-		if (o4_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+		float redge = Config.BOUNCE_X_MAX - Config.BALL_RAD;
+		if (o4_x > redge) {
 			do4 = Float.MAX_VALUE;
 		}
-		if (o3_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+		if (o3_x > redge) {
 			do3 = Float.MAX_VALUE;
 		}
-		if (o1_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+		if (o5_x > redge) {
+			do5 = Float.MAX_VALUE;
+		}
+		
+		float ledge = Config.BOUNCE_X_MIN + Config.BALL_RAD;
+		if (o1_x < ledge) {
 			do1 = Float.MAX_VALUE;
 		}
-		if (o2_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+		if (o2_x < ledge) {
 			do2 = Float.MAX_VALUE;
+		}
+		if (o6_x < ledge) {
+			do6 = Float.MAX_VALUE;
 		}
 			
 		// Check best option
-		if (do1 < do2 && do1 < do3 && do1 < do4) {
+		if (do1 < do2 && do1 < do3 && do1 < do4 && do1 < do5 && do1 < do6) {
 			b.setX(o1_x);
 			b.setY(o1_y);
 			//System.out.println("Option 1");
-		} else if (do2 < do1 && do2 < do3 && do2 < do4) {
+		} else if (do2 < do1 && do2 < do3 && do2 < do4 && do2 < do5 && do2 < do6) {
 			b.setX(o2_x);
 			b.setY(o2_y);
 			//System.out.println("Option 2");
-		} else if (do3 < do1 && do3 < do2 && do3 < do4) {
+		} else if (do3 < do1 && do3 < do2 && do3 < do4 && do3 < do5 && do3 < do6) {
 			b.setX(o3_x);
 			b.setY(o3_y);
 			//System.out.println("Option 3");
-		} else {
+		} else if (do4 < do1 && do4 < do2 && do4 < do3 && do4 < do5 && do4 < do6) {
 			b.setX(o4_x);
 			b.setY(o4_y);
 			//System.out.println("Option 4");
+		} else if (do5 < do1 && do5 < do2 && do5 < do3 && do5 < do4 && do5 < do6) {
+			b.setX(o5_x);
+			b.setY(o5_y);
+		} else if (do6 < do1 && do6 < do2 && do6 < do3 && do6 < do4 && do6 < do5) {
+			b.setX(o6_x);
+			b.setY(o6_y);
+		}
+	}
+	
+	/**
+	 * Snap ball to roof.
+	 *
+	 * @param b the ball
+	 */
+	private void snapBallToRoof(Ball b, float roof_y) {
+		float new_x;
+		
+		for (double xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
+				xpos >= Config.BOUNCE_X_MIN + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
+			new_x = (float)xpos;
+			if (Math.abs(new_x - b.getX()) <=  Config.BALL_RAD) {
+				b.setX(new_x);
+				b.setY(roof_y - Config.BALL_RAD);
+				return;
+			}
 		}
 	}
 	
@@ -349,7 +394,7 @@ public class BallManager {
 			if (ball.getTopHitbox().overlaps(roofHitbox)) {
 				System.out.println("Attach ball to top");
 				ball.setSpeed(0);
-				ball.setY(ball.getY() + 10);
+				snapBallToRoof(ball, roofHitbox.y + ROOF_OFFSET);
 				ballDeadList.add(ball);
 				ballToBeAdded.add(ball);
 			}
