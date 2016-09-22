@@ -388,7 +388,9 @@ public class BallManager {
 			if (ballStaticDeadList.size() == 0) {
 				for (Ball e:ballGraph.getFreeBalls()) {
 					ballStaticDeadList.add(e);
-					startPop(e);
+					if (!ballPopList.contains(e)) {
+						startPop(e);
+					}
 					//System.out.println("ball added to deadlist(free)");
 				}
 			}
@@ -404,7 +406,9 @@ public class BallManager {
 					//System.out.println("ball added to deadlist (adjacent)");
 					//score++;
 					ballStaticDeadList.add(e);
-					startPop(e);
+					if (!ballPopList.contains(e)) {
+						startPop(e);
+					}
 				}
 				//game.logger.logMessage(MessageType.Info, "Started popping " + ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
