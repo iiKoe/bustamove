@@ -23,7 +23,7 @@ public class BustaMove extends Game {
 	public OrthographicCamera camera;
 	 
 	/** The logger. */
-	public Logger logger;
+	public static Logger logger;
 	
 	/**
 	 * Gets the game height.

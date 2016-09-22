@@ -15,7 +15,7 @@ public class FileLogger extends Logger {
      * @param mt the message type to write
      */
     public FileLogger(MessageType mt){
-        String date = DateFormatUtils.format(new Date(), "yyyyMMdd-HHmmss");
+        String date = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
         try {
             handle = Gdx.files.external("log_" + date + ".txt");
         } catch (Exception e) {

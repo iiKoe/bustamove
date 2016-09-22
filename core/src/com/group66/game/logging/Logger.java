@@ -1,5 +1,9 @@
 package com.group66.game.logging;
 
+import java.util.Date;
+
+import org.apache.commons.lang.time.DateFormatUtils;
+
 public abstract class Logger {
     protected Logger nextLogger;
     protected MessageType type;
@@ -19,7 +23,8 @@ public abstract class Logger {
      */
     public void logMessage(MessageType mt, String message){
         if(this.type.level <= mt.level){
-            write(message);
+            String date = DateFormatUtils.format(new Date(), "HH:mm:ss");
+            write("[" + date + "] " + mt.toString() + ": " + message);
         }
         if(nextLogger != null){
             nextLogger.logMessage(mt, message);
