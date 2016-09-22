@@ -295,8 +295,8 @@ public class BallManager {
 		float o5_x = hit_x + Config.BALL_RAD;
 		float o5_y = hit_y + Config.BALL_DIAM;
 		
-		float o6_x = hit_x - Config.BALL_RAD;;
-		float o6_y = hit_y + Config.BALL_DIAM;;
+		float o6_x = hit_x - Config.BALL_RAD;
+		float o6_y = hit_y + Config.BALL_DIAM;
 		
 		float x = b.getX();
 		float y = b.getY();
@@ -308,10 +308,8 @@ public class BallManager {
 		float do5 = Math.abs(x - o5_x) + Math.abs(y - o5_y);
 		float do6 = Math.abs(x - o6_x) + Math.abs(y - o6_y);
 		
-		float redge = Config.BOUNCE_X_MAX - Config.BALL_RAD;
-		float ledge = Config.BOUNCE_X_MIN + Config.BALL_RAD;
-		
 		// Check bounds
+		float redge = Config.BOUNCE_X_MAX - Config.BALL_RAD;
 		if (o4_x > redge) {
 			do4 = Float.MAX_VALUE;
 		}
@@ -321,6 +319,8 @@ public class BallManager {
 		if (o5_x > redge) {
 			do5 = Float.MAX_VALUE;
 		}
+		
+		float ledge = Config.BOUNCE_X_MIN + Config.BALL_RAD;
 		if (o1_x < ledge) {
 			do1 = Float.MAX_VALUE;
 		}
@@ -365,9 +365,9 @@ public class BallManager {
 	private void snapBallToRoof(Ball b, float roof_y) {
 		float new_x;
 		
-		for (float xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
+		for (double xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
 				xpos >= Config.BOUNCE_X_MIN + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
-			new_x = xpos;
+			new_x = (float)xpos;
 			if (Math.abs(new_x - b.getX()) <=  Config.BALL_RAD) {
 				b.setX(new_x);
 				b.setY(roof_y - Config.BALL_RAD);
