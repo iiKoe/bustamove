@@ -278,14 +278,14 @@ public class GameScreen implements Screen {
 					public void runCommand() {
 						switch (gameState) {
 						case PAUSED:
+							/* Resume the game */
 							gameState = GameState.RUNNING;
 							AudioManager.startMusic();
-							System.out.println("Resume the game");
 							break;
 						case RUNNING:
+							/* Pause the game */
 							gameState = GameState.PAUSED;
 							AudioManager.stopMusic();
-							System.out.println("Pause the game");
 							break;
 						default:
 							break;
