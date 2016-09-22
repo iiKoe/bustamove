@@ -39,6 +39,17 @@ public class AudioManager {
     }
     
     /**
+     * Toggle the mute for music and sounds
+     */
+    public static void toggleMute() {
+        if (mute) {
+            unmute();
+        } else {
+            mute();
+        }
+    }
+    
+    /**
      * Start the background music
      */
     public static void startMusic() {
