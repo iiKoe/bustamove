@@ -54,6 +54,9 @@ public class BallManager {
 	
 	/** The balls the canon will shoot. */
 	private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
+	
+	/** The roof hitbox offset. */
+	private float ROOF_OFFSET = 10;
 
 	/**
 	 * Instantiates a new ball manager.
@@ -67,7 +70,7 @@ public class BallManager {
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
 		this.ball_count = 0;
-		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
+		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.WIDTH, 10.0f);
 		this.ballGraph = new BallGraph(roofHitbox);
 		
 		//addStaticBall(-1, 0, 0);
@@ -359,17 +362,15 @@ public class BallManager {
 	 *
 	 * @param b the ball
 	 */
-	private void snapBallToRoof(Ball b) {
+	private void snapBallToRoof(Ball b, float roof_y) {
 		float new_x;
 		
 		for (float xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
 				xpos >= Config.BOUNCE_X_MIN + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
 			new_x = xpos;
-			System.out.println("Try: " + new_x);
 			if (Math.abs(new_x - b.getX()) <=  Config.BALL_RAD) {
-				System.out.println("Orig X: " + b.getX() + " New X: " + new_x);
 				b.setX(new_x);
-				b.setY(Config.BOUNCE_Y_MAX - Config.BALL_RAD);
+				b.setY(roof_y - Config.BALL_RAD);
 				return;
 			}
 		}
@@ -393,7 +394,7 @@ public class BallManager {
 			if (ball.getTopHitbox().overlaps(roofHitbox)) {
 				System.out.println("Attach ball to top");
 				ball.setSpeed(0);
-				snapBallToRoof(ball);
+				snapBallToRoof(ball, roofHitbox.y + ROOF_OFFSET);
 				ballDeadList.add(ball);
 				ballToBeAdded.add(ball);
 			}
