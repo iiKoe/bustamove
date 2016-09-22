@@ -132,7 +132,7 @@ public class GameScreen implements Screen {
 		/* Don't update and render when the game is paused */
 		if (gameState == GameState.PAUSED) {
 			game.batch.begin();
-			textDrawer.draw(game.batch, "Game Paused", 0, Config.HEIGHT);
+			game.batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
 			game.batch.end();
 			return;
 		}
