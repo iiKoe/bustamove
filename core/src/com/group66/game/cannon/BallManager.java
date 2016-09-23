@@ -448,7 +448,8 @@ public class BallManager {
 			BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
 			int i = 0;
 			for (AtomicInteger e: colorList) {
-				BustaMove.logger.log(MessageType.Info, "Number of balls with color " + i + " :" + e.get());
+				BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+						+ i + " :" + e.get());
 				i++;
 			}
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
@@ -470,7 +471,8 @@ public class BallManager {
 			ballToBeAdded.remove(0);
 			int i = 0;
 			for (AtomicInteger e: colorList) {
-				BustaMove.logger.log(MessageType.Info, "Number of balls with color " + i + " :" + e.get());
+				BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+						+ i + " :" + e.get());
 				i++;
 			}
 			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
