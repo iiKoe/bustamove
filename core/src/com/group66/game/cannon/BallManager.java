@@ -6,7 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.BustaMove;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.logging.Logger;
+import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
@@ -129,6 +132,8 @@ public class BallManager {
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
+			BustaMove.logger.log(MessageType.Info, "Shot a " + color
+					+ " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}
 	}
@@ -190,7 +195,8 @@ public class BallManager {
 		for (Ball b : this.ballStaticList) {
 			b.moveDown(Config.BALL_DIAM);
 		}
-	} 
+		BustaMove.logger.log(MessageType.Info, "Moved the roof a row down");
+	}
 	
 	/**
 	 * Checks if it's game over.
@@ -250,12 +256,15 @@ public class BallManager {
 				&& Math.toDegrees(ball.getAngle()) > 90) {
 			// LEFT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
 				&& Math.toDegrees(ball.getAngle()) < 90) {
 			// RIGHT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		}
-		AudioManager.wallhit();
 	}
 	
 	/**
@@ -374,6 +383,7 @@ public class BallManager {
 				return;
 			}
 		}
+		BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
 	}
 	
 	/**
@@ -406,6 +416,7 @@ public class BallManager {
 					snapBallToGrid(ball, t);
 					ballDeadList.add(ball);
 					ballToBeAdded.add(ball);
+					BustaMove.logger.log(MessageType.Info, "Ball hit");
 				}
 			}
 			bounceEdge(ball);
@@ -420,6 +431,7 @@ public class BallManager {
 			ballGraph.removeBall(ballStaticDeadList.get(0));
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
+			BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
 			if (ballStaticDeadList.size() == 0) {
@@ -447,6 +459,8 @@ public class BallManager {
 						startPop(e);
 					}
 				}
+				BustaMove.logger.log(MessageType.Info, "Started popping "
+						+ ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
 				//TODO 
 			}
@@ -463,6 +477,7 @@ public class BallManager {
 		
 		/* Check if there are no balls left i.e. player wins */
 		if (ballGraph.numberOfBalls() == 0) {
+		    BustaMove.logger.log(MessageType.Info, "Level completed");
 			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}
