@@ -3,6 +3,7 @@ package com.group66.game.cannon;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
@@ -58,6 +59,9 @@ public class BallManager {
 	/** The balls the canon will shoot. */
 	private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
 	
+	/** The colors that exist in the grid. */
+	private ArrayList<AtomicInteger> colorList = new ArrayList<AtomicInteger>();
+	
 	/** The roof hitbox offset. */
 	private float ROOF_OFFSET = 10;
 
@@ -79,6 +83,10 @@ public class BallManager {
 		//addStaticBall(-1, 0, 0);
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ball_rad, 0, 0.0f));
+		
+		for (int i = 0; i < Ball.MAX_COLORS; i++) {
+			this.colorList.add(new AtomicInteger(0));
+		}
 	}
 
 	/**
@@ -100,6 +108,7 @@ public class BallManager {
 	public void addStaticBall(int color, float x, float y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 		ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
+		colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
 	}
 
 	/**
@@ -110,7 +119,8 @@ public class BallManager {
 	 */
 	public void addRandomStaticBall(float x, float y) {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
-		ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
+		//ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
+		addStaticBall(rand, x, y);
 	}
 
 	/**
@@ -142,7 +152,10 @@ public class BallManager {
 	 * Shoot random colored ball.
 	 */
 	public void shootRandomBall() {
-		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+		int rand;
+		do {
+			rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+		} while (colorList.get(rand).get() <= 0);
 		shootBall(rand);
 	}
 	
@@ -430,8 +443,14 @@ public class BallManager {
 		while (ballStaticDeadList.size() != 0) {
 			ballGraph.removeBall(ballStaticDeadList.get(0));
 			ballStaticList.remove(ballStaticDeadList.get(0));
+			colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
 			ballStaticDeadList.remove(0);
 			BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
+			int i = 0;
+			for (AtomicInteger e: colorList) {
+				BustaMove.logger.log(MessageType.Info, "Number of balls with color " + i + " :" + e.get());
+				i++;
+			}
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
 			if (ballStaticDeadList.size() == 0) {
@@ -449,6 +468,11 @@ public class BallManager {
 			addStaticBall(ballToBeAdded.get(0).getColor(), 
 					(int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
 			ballToBeAdded.remove(0);
+			int i = 0;
+			for (AtomicInteger e: colorList) {
+				BustaMove.logger.log(MessageType.Info, "Number of balls with color " + i + " :" + e.get());
+				i++;
+			}
 			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
 				//int score = 0;
 				for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
