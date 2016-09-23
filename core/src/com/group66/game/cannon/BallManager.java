@@ -129,7 +129,8 @@ public class BallManager {
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
-			BustaMove.logger.log(MessageType.Info, "Shot a " + color + " ball at angle " + cannon.getAngle());
+			BustaMove.logger.log(MessageType.Info, "Shot a " + color
+					+ " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}
 	}
@@ -413,7 +414,8 @@ public class BallManager {
 						startPop(e);
 					}
 				}
-				BustaMove.logger.log(MessageType.Info, "Started popping " + ballStaticDeadList.size() + " balls");
+				BustaMove.logger.log(MessageType.Info, "Started popping "
+						+ ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
 				//TODO 
 			}

@@ -12,7 +12,7 @@ public abstract class Logger {
      * Set the next logger to call
      * @param nextLogger the next logger
      */
-    public void nextLogger(Logger nextLogger){
+    public void nextLogger(Logger nextLogger) {
         this.nextLogger = nextLogger;
     }
     
@@ -21,12 +21,12 @@ public abstract class Logger {
      * @param mt the message type
      * @param message the message to log
      */
-    public void log(MessageType mt, String message){
-        if(this.verbosity.level <= mt.level){
+    public void log(MessageType mt, String message) {
+        if (this.verbosity.level <= mt.level) {
             String date = DateFormatUtils.format(new Date(), "HH:mm:ss");
             write("[" + date + "] " + mt.toString() + ": " + message);
         }
-        if(nextLogger != null){
+        if (nextLogger != null) {
             nextLogger.log(mt, message);
         }
     }
@@ -35,5 +35,5 @@ public abstract class Logger {
      * Write a message to a logger
      * @param message the message
      */
-    abstract protected void write(String message);
+    protected abstract void write(String message);
 }

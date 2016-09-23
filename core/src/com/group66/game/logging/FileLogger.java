@@ -14,7 +14,7 @@ public class FileLogger extends Logger {
      * Constructor for a file logger
      * @param mt the message type to write
      */
-    public FileLogger(MessageType mt){
+    public FileLogger(MessageType mt) {
         String date = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
         try {
             handle = Gdx.files.external("bustamove/log_" + date + ".txt");
