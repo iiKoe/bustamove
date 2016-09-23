@@ -6,7 +6,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.BustaMove;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.logging.Logger;
+import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
@@ -54,6 +57,9 @@ public class BallManager {
 	
 	/** The balls the canon will shoot. */
 	private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
+	
+	/** The roof hitbox offset. */
+	private float ROOF_OFFSET = 10;
 
 	/**
 	 * Instantiates a new ball manager.
@@ -67,7 +73,7 @@ public class BallManager {
 		this.ball_rad = ball_rad;
 		this.ball_speed = speed;
 		this.ball_count = 0;
-		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
+		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.WIDTH, 10.0f);
 		this.ballGraph = new BallGraph(roofHitbox);
 		
 		//addStaticBall(-1, 0, 0);
@@ -126,6 +132,8 @@ public class BallManager {
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
+			BustaMove.logger.log(MessageType.Info, "Shot a " + color
+					+ " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}
 	}
@@ -187,7 +195,8 @@ public class BallManager {
 		for (Ball b : this.ballStaticList) {
 			b.moveDown(Config.BALL_DIAM);
 		}
-	} 
+		BustaMove.logger.log(MessageType.Info, "Moved the roof a row down");
+	}
 	
 	/**
 	 * Checks if it's game over.
@@ -247,12 +256,15 @@ public class BallManager {
 				&& Math.toDegrees(ball.getAngle()) > 90) {
 			// LEFT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
 				&& Math.toDegrees(ball.getAngle()) < 90) {
 			// RIGHT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		}
-		AudioManager.wallhit();
 	}
 	
 	/**
@@ -289,6 +301,12 @@ public class BallManager {
 		float o4_x = hit_x + Config.BALL_DIAM;
 		float o4_y = hit_y;
 		
+		float o5_x = hit_x + Config.BALL_RAD;
+		float o5_y = hit_y + Config.BALL_DIAM;
+		
+		float o6_x = hit_x - Config.BALL_RAD;
+		float o6_y = hit_y + Config.BALL_DIAM;
+		
 		float x = b.getX();
 		float y = b.getY();
 		
@@ -296,39 +314,76 @@ public class BallManager {
 		float do2 = Math.abs(x - o2_x) + Math.abs(y - o2_y);
 		float do3 = Math.abs(x - o3_x) + Math.abs(y - o3_y);
 		float do4 = Math.abs(x - o4_x) + Math.abs(y - o4_y);
+		float do5 = Math.abs(x - o5_x) + Math.abs(y - o5_y);
+		float do6 = Math.abs(x - o6_x) + Math.abs(y - o6_y);
 		
 		// Check bounds
-		if (o4_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+		float redge = Config.BOUNCE_X_MAX - Config.BALL_RAD;
+		if (o4_x > redge) {
 			do4 = Float.MAX_VALUE;
 		}
-		if (o3_x > Config.BOUNCE_X_MAX - Config.BALL_RAD) {
+		if (o3_x > redge) {
 			do3 = Float.MAX_VALUE;
 		}
-		if (o1_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+		if (o5_x > redge) {
+			do5 = Float.MAX_VALUE;
+		}
+		
+		float ledge = Config.BOUNCE_X_MIN + Config.BALL_RAD;
+		if (o1_x < ledge) {
 			do1 = Float.MAX_VALUE;
 		}
-		if (o2_x < Config.BOUNCE_X_MIN + Config.BALL_RAD) {
+		if (o2_x < ledge) {
 			do2 = Float.MAX_VALUE;
+		}
+		if (o6_x < ledge) {
+			do6 = Float.MAX_VALUE;
 		}
 			
 		// Check best option
-		if (do1 < do2 && do1 < do3 && do1 < do4) {
+		if (do1 < do2 && do1 < do3 && do1 < do4 && do1 < do5 && do1 < do6) {
 			b.setX(o1_x);
 			b.setY(o1_y);
 			//System.out.println("Option 1");
-		} else if (do2 < do1 && do2 < do3 && do2 < do4) {
+		} else if (do2 < do1 && do2 < do3 && do2 < do4 && do2 < do5 && do2 < do6) {
 			b.setX(o2_x);
 			b.setY(o2_y);
 			//System.out.println("Option 2");
-		} else if (do3 < do1 && do3 < do2 && do3 < do4) {
+		} else if (do3 < do1 && do3 < do2 && do3 < do4 && do3 < do5 && do3 < do6) {
 			b.setX(o3_x);
 			b.setY(o3_y);
 			//System.out.println("Option 3");
-		} else {
+		} else if (do4 < do1 && do4 < do2 && do4 < do3 && do4 < do5 && do4 < do6) {
 			b.setX(o4_x);
 			b.setY(o4_y);
 			//System.out.println("Option 4");
+		} else if (do5 < do1 && do5 < do2 && do5 < do3 && do5 < do4 && do5 < do6) {
+			b.setX(o5_x);
+			b.setY(o5_y);
+		} else if (do6 < do1 && do6 < do2 && do6 < do3 && do6 < do4 && do6 < do5) {
+			b.setX(o6_x);
+			b.setY(o6_y);
 		}
+	}
+	
+	/**
+	 * Snap ball to roof.
+	 *
+	 * @param b the ball
+	 */
+	private void snapBallToRoof(Ball b, float roof_y) {
+		float new_x;
+		
+		for (double xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
+				xpos >= Config.BOUNCE_X_MIN + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
+			new_x = (float)xpos;
+			if (Math.abs(new_x - b.getX()) <=  Config.BALL_RAD) {
+				b.setX(new_x);
+				b.setY(roof_y - Config.BALL_RAD);
+				return;
+			}
+		}
+		BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
 	}
 	
 	/**
@@ -349,7 +404,7 @@ public class BallManager {
 			if (ball.getTopHitbox().overlaps(roofHitbox)) {
 				System.out.println("Attach ball to top");
 				ball.setSpeed(0);
-				ball.setY(ball.getY() + 10);
+				snapBallToRoof(ball, roofHitbox.y + ROOF_OFFSET);
 				ballDeadList.add(ball);
 				ballToBeAdded.add(ball);
 			}
@@ -361,6 +416,7 @@ public class BallManager {
 					snapBallToGrid(ball, t);
 					ballDeadList.add(ball);
 					ballToBeAdded.add(ball);
+					BustaMove.logger.log(MessageType.Info, "Ball hit");
 				}
 			}
 			bounceEdge(ball);
@@ -375,6 +431,7 @@ public class BallManager {
 			ballGraph.removeBall(ballStaticDeadList.get(0));
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			ballStaticDeadList.remove(0);
+			BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
 			if (ballStaticDeadList.size() == 0) {
@@ -402,6 +459,8 @@ public class BallManager {
 						startPop(e);
 					}
 				}
+				BustaMove.logger.log(MessageType.Info, "Started popping "
+						+ ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
 				//TODO 
 			}
@@ -418,6 +477,7 @@ public class BallManager {
 		
 		/* Check if there are no balls left i.e. player wins */
 		if (ballGraph.numberOfBalls() == 0) {
+		    BustaMove.logger.log(MessageType.Info, "Level completed");
 			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}

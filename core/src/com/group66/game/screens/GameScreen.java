@@ -3,11 +3,9 @@ package com.group66.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
@@ -15,6 +13,8 @@ import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.LevelLoader;
+import com.group66.game.logging.Logger;
+import com.group66.game.logging.MessageType;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.input.InputHandler;
 import com.group66.game.settings.Config;
@@ -26,6 +26,18 @@ import com.group66.game.helpers.TimeKeeper;
  */
 public class GameScreen implements Screen {
 
+	/**
+	 * The Enum GameState.
+	 */
+	private enum GameState {
+		
+		/** The game is running. */
+		RUNNING,
+		
+		/** The game is paused. */
+		PAUSED
+	}
+	
 	/** A place to store the game instance. */
 	public static BustaMove game;
 	/*
@@ -35,10 +47,13 @@ public class GameScreen implements Screen {
 	 * but, does making it "static" has any affect?
 	 */
 	
-	/** The TimeKeeper */
+	/** The game state. */
+	private GameState gameState;
+	
+	/**  The TimeKeeper. */
 	public static TimeKeeper timeKeeper = new TimeKeeper();
 	
-	/** The score keeper*/
+	/**  The score keeper. */
 	public static ScoreKeeper scoreKeeper = new ScoreKeeper();
 
 	/** The input handler. */
@@ -56,10 +71,10 @@ public class GameScreen implements Screen {
 	//for testing
 	//ShapeRenderer shapeRenderer = new ShapeRenderer();
 	
-	/** needed to draw text, draw score */
+	/**  needed to draw text, draw score. */
 	private TextDrawer textDrawer = new TextDrawer();
 	
-	/** Used to draw the roof */
+	/**  Used to draw the roof. */
 	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	/**
@@ -72,16 +87,18 @@ public class GameScreen implements Screen {
 	 */
 	public GameScreen(BustaMove game, Boolean randomLevel) {
 		GameScreen.game = game;
+		gameState = GameState.RUNNING;
 		setup_keys();
 		AssetLoader.load();
 		AudioManager.startMusic();
 
 		if (!randomLevel) {
 		    LevelLoader.loadLevel(ballManager);
+		    BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
 		} else {
 		    LevelLoader.generateLevel(ballManager);
+		    BustaMove.logger.log(MessageType.Info, "Loaded a random level");
 		}
-
 	}
 	
 	/**
@@ -92,7 +109,7 @@ public class GameScreen implements Screen {
 	public GameScreen(BustaMove game) {
 		this(game, false);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -112,6 +129,14 @@ public class GameScreen implements Screen {
 		
 		/* Handle input keys */
 		inputHandler.run();
+		
+		/* Don't update and render when the game is paused */
+		if (gameState == GameState.PAUSED) {
+			game.batch.begin();
+			game.batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
+			game.batch.end();
+			return;
+		}
 
 		Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -149,6 +174,7 @@ public class GameScreen implements Screen {
 		
 		/* Check if game-over condition is reached */
 		if (ballManager.isGameOver()) {
+		    BustaMove.logger.log(MessageType.Info, "Failed the level");
 			game.setScreen(new YouLoseScreen(game));
 		}
 
@@ -224,6 +250,8 @@ public class GameScreen implements Screen {
 		inputHandler.registerKeyMap("Aim Right", Keys.D);
 		inputHandler.registerKeyMap("Aim Right", Keys.RIGHT);
 		inputHandler.registerKeyMap("Place Ball", Keys.ENTER);
+		inputHandler.registerKeyMap("Toggle Pause", Keys.ESCAPE);
+		inputHandler.registerKeyMap("Toggle mute", Keys.M);
 
 		/* Register key names to functions */
 		inputHandler.registerKeyPressedFunc("Aim Left",
@@ -246,5 +274,33 @@ public class GameScreen implements Screen {
 						ballManager.shootRandomBall();
 					}
 				});
+		
+		inputHandler.registerKeyJustPressedFunc("Toggle Pause",
+				new InputHandler.KeyCommand() {
+					public void runCommand() {
+						switch (gameState) {
+						case PAUSED:
+							/* Resume the game */
+							gameState = GameState.RUNNING;
+							AudioManager.startMusic();
+							break;
+						case RUNNING:
+							/* Pause the game */
+							gameState = GameState.PAUSED;
+							AudioManager.stopMusic();
+							break;
+						default:
+							break;
+						}
+					}
+				});
+		
+		inputHandler.registerKeyJustPressedFunc("Toggle mute",
+				new InputHandler.KeyCommand() {
+					public void runCommand() {
+					    AudioManager.toggleMute();
+					}
+				});
+		
 	}
 }
