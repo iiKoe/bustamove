@@ -3,10 +3,13 @@ package com.group66.game.cannon;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.BustaMove;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
@@ -55,6 +58,9 @@ public class BallManager {
 	/** The balls the canon will shoot. */
 	private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
 	
+	/** The colors that exist in the grid. */
+	private ArrayList<AtomicInteger> colorList = new ArrayList<AtomicInteger>();
+	
 	/** The roof hitbox offset. */
 	private float ROOF_OFFSET = 10;
 
@@ -76,6 +82,10 @@ public class BallManager {
 		//addStaticBall(-1, 0, 0);
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ball_rad, 0, 0.0f));
+		
+		for (int i = 0; i < Ball.MAX_COLORS; i++) {
+			this.colorList.add(new AtomicInteger(0));
+		}
 	}
 
 	/**
@@ -97,6 +107,7 @@ public class BallManager {
 	public void addStaticBall(int color, float x, float y) { 
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 		ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
+		colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
 	}
 
 	/**
@@ -107,7 +118,8 @@ public class BallManager {
 	 */
 	public void addRandomStaticBall(float x, float y) {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
-		ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
+		//ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
+		addStaticBall(rand, x, y);
 	}
 
 	/**
@@ -129,6 +141,8 @@ public class BallManager {
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
+			BustaMove.logger.log(MessageType.Info, "Shot a " + color
+					+ " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}
 	}
@@ -137,7 +151,10 @@ public class BallManager {
 	 * Shoot random colored ball.
 	 */
 	public void shootRandomBall() {
-		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+		int rand;
+		do {
+			rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+		} while (colorList.get(rand).get() <= 0);
 		shootBall(rand);
 	}
 	
@@ -190,7 +207,8 @@ public class BallManager {
 		for (Ball b : this.ballStaticList) {
 			b.moveDown(Config.BALL_DIAM);
 		}
-	} 
+		BustaMove.logger.log(MessageType.Info, "Moved the roof a row down");
+	}
 	
 	/**
 	 * Checks if it's game over.
@@ -250,12 +268,15 @@ public class BallManager {
 				&& Math.toDegrees(ball.getAngle()) > 90) {
 			// LEFT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
 				&& Math.toDegrees(ball.getAngle()) < 90) {
 			// RIGHT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
+    		AudioManager.wallhit();
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		}
-		AudioManager.wallhit();
 	}
 	
 	/**
@@ -374,6 +395,7 @@ public class BallManager {
 				return;
 			}
 		}
+		BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
 	}
 	
 	/**
@@ -406,6 +428,7 @@ public class BallManager {
 					snapBallToGrid(ball, t);
 					ballDeadList.add(ball);
 					ballToBeAdded.add(ball);
+					BustaMove.logger.log(MessageType.Info, "Ball hit");
 				}
 			}
 			bounceEdge(ball);
@@ -419,7 +442,15 @@ public class BallManager {
 		while (ballStaticDeadList.size() != 0) {
 			ballGraph.removeBall(ballStaticDeadList.get(0));
 			ballStaticList.remove(ballStaticDeadList.get(0));
+			colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
 			ballStaticDeadList.remove(0);
+			BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
+			int i = 0;
+			for (AtomicInteger e: colorList) {
+				BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+						+ i + " :" + e.get());
+				i++;
+			}
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
 			if (ballStaticDeadList.size() == 0) {
@@ -437,6 +468,12 @@ public class BallManager {
 			addStaticBall(ballToBeAdded.get(0).getColor(), 
 					(int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
 			ballToBeAdded.remove(0);
+			int i = 0;
+			for (AtomicInteger e: colorList) {
+				BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+						+ i + " :" + e.get());
+				i++;
+			}
 			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
 				//int score = 0;
 				for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
@@ -447,6 +484,8 @@ public class BallManager {
 						startPop(e);
 					}
 				}
+				BustaMove.logger.log(MessageType.Info, "Started popping "
+						+ ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
 				//TODO 
 			}
@@ -463,6 +502,7 @@ public class BallManager {
 		
 		/* Check if there are no balls left i.e. player wins */
 		if (ballGraph.numberOfBalls() == 0) {
+		    BustaMove.logger.log(MessageType.Info, "Level completed");
 			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}

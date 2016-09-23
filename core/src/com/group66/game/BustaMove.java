@@ -4,6 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.logging.ConsoleLogger;
+import com.group66.game.logging.FileLogger;
+import com.group66.game.logging.Logger;
+import com.group66.game.logging.MessageType;
 import com.group66.game.screens.MainMenuScreen;
 import com.group66.game.settings.Config;
 
@@ -17,6 +21,9 @@ public class BustaMove extends Game {
 	
 	/** The camera. */
 	public OrthographicCamera camera;
+	 
+	/** The logger. */
+	public static Logger logger;
 	
 	/**
 	 * Gets the game height.
@@ -44,6 +51,16 @@ public class BustaMove extends Game {
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
+		
+        Logger fileLogger = new FileLogger(MessageType.Debug);
+        Logger consoleLogger = new ConsoleLogger(MessageType.Info);
+
+	    fileLogger.nextLogger(consoleLogger);
+	    logger = fileLogger;
+	    
+	    /* Log start time */
+	    logger.log(MessageType.Default, "Game started");
+		
 		AudioManager.load();
 		this.setScreen(new MainMenuScreen(this));
 	}

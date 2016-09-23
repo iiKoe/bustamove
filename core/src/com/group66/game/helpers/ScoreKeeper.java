@@ -1,5 +1,8 @@
 package com.group66.game.helpers;
 
+import com.group66.game.BustaMove;
+import com.group66.game.logging.MessageType;
+
 /**
  * The Class ScoreKeeper.
  */
@@ -34,6 +37,7 @@ public class ScoreKeeper {
 	public void setCurrentScore(int poppingBalls, int hangingBalls) {
 		this.currentScore = this.currentScore + poppingBalls * 10 
 				+ ((int)java.lang.Math.pow(2.0,hangingBalls)) * 10;
+		BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
 	}
 	
 	// GameScreen.scoreKeeper.setCurrentScore(poppingBalls, hangingBalls);

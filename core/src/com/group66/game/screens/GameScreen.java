@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
@@ -14,10 +13,11 @@ import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.LevelLoader;
 import com.group66.game.helpers.ScoreKeeper;
-import com.group66.game.input.InputHandler;
-import com.group66.game.settings.Config;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.helpers.TimeKeeper;
+import com.group66.game.input.InputHandler;
+import com.group66.game.logging.MessageType;
+import com.group66.game.settings.Config;
 
 /**
  * The Class for the main GameScreen of the game.
@@ -71,9 +71,6 @@ public class GameScreen implements Screen {
 	
 	/**  needed to draw text, draw score. */
 	private TextDrawer textDrawer = new TextDrawer();
-	
-	/**  Used to draw the roof. */
-	private ShapeRenderer shapeRenderer = new ShapeRenderer();
 
 	/**
 	 * Instantiates the game screen.
@@ -92,10 +89,11 @@ public class GameScreen implements Screen {
 
 		if (!randomLevel) {
 		    LevelLoader.loadLevel(ballManager);
+		    BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
 		} else {
 		    LevelLoader.generateLevel(ballManager);
+		    BustaMove.logger.log(MessageType.Info, "Loaded a random level");
 		}
-
 	}
 	
 	/**
@@ -171,6 +169,7 @@ public class GameScreen implements Screen {
 		
 		/* Check if game-over condition is reached */
 		if (ballManager.isGameOver()) {
+		    BustaMove.logger.log(MessageType.Info, "Failed the level");
 			game.setScreen(new YouLoseScreen(game));
 		}
 
