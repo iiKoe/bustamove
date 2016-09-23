@@ -118,7 +118,7 @@ public class MainMenuScreen implements Screen {
         });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.logger.log(MessageType.Info, "Exit the game");
+                BustaMove.logger.log(MessageType.Default, "Exit the game");
                 Gdx.app.exit();
             }
         });

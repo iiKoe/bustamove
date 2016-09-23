@@ -57,6 +57,9 @@ public class BustaMove extends Game {
 
 	    fileLogger.nextLogger(consoleLogger);
 	    logger = fileLogger;
+	    
+	    /* Log start time */
+	    logger.log(MessageType.Default, "Game started");
 		
 		AudioManager.load();
 		this.setScreen(new MainMenuScreen(this));
