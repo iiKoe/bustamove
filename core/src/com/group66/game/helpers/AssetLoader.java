@@ -28,12 +28,24 @@ public class AssetLoader {
     
     /** YouLose Screen background texture region. */
     public static TextureRegion youlosebg;
-        
+    
+    /** GameScreen brick wall texture. */
+    public static Texture bwTexture;
+    
+    /** GameScreen brick wall texture region. */
+    public static TextureRegion bw;
+    
     /** GameScreen background texture. */
     public static Texture bgTexture;
     
     /** GameScreen background texture region. */
     public static TextureRegion bg;
+    
+    /** GameScreen Pause background texture. */
+    public static Texture pausebgTexture;
+    
+    /** GameScreen Pause background texture region. */
+    public static TextureRegion pausebg;
 
 	/** The ball texture. */
 	public static Texture ballTexture;
@@ -87,10 +99,21 @@ public class AssetLoader {
         /** 
          * GameScreen Sprites 
          */
+        
+        //creating the brick wall
+        bwTexture = new Texture(Gdx.files.internal("roof.png"));
+        bwTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        bw = new TextureRegion(bwTexture, 0, 0, 600, 880);
+        
     	//creating the background
         bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
         bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         bg = new TextureRegion(bgTexture, 0, 0, 128, 220);
+        
+    	//creating the pause screen
+        pausebgTexture = new Texture(Gdx.files.internal("pause_screen.png"));
+        pausebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        pausebg = new TextureRegion(pausebgTexture, 0, 0, 600, 880);
         
         //loading the textures for the balls
         ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));

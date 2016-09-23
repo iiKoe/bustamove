@@ -14,9 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.group66.game.helpers.AssetLoader;
-import com.group66.game.settings.Config;
 import com.group66.game.BustaMove;
+import com.group66.game.helpers.AssetLoader;
+import com.group66.game.logging.MessageType;
+import com.group66.game.settings.Config;
 
 /**
  * A Class for the MainMenuScreen of the game.
@@ -44,6 +45,7 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         AssetLoader.load();
         createScreen();
+        BustaMove.logger.log(MessageType.Info, "Loaded the main menu screen");
     }
 
     private void createScreen() {
@@ -115,6 +117,7 @@ public class MainMenuScreen implements Screen {
         });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                BustaMove.logger.log(MessageType.Default, "Exit the game");
                 Gdx.app.exit();
             }
         });

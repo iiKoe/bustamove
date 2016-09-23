@@ -4,6 +4,7 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class TimeKeeper.
  */
@@ -13,7 +14,7 @@ public class TimeKeeper {
 	public double universalTime;
 	
 	/** Time since the last ball shot. */
-	private double deltaTime;
+	private double lastShotTime;
 	
 	/* TextDrawer object to draw stuff on the screen */
 	//private TextDrawer textDrawer = new TextDrawer();
@@ -23,7 +24,7 @@ public class TimeKeeper {
 	 */
 	public TimeKeeper() {
 		this.universalTime = 0;
-		this.deltaTime = 0;
+		this.lastShotTime = 0;
 	}
 	
 	/**
@@ -41,16 +42,16 @@ public class TimeKeeper {
 	/**
 	 * Delta time reset.
 	 */
-	public void deltaTimeReset() {
-		this.deltaTime = this.universalTime;
-		System.out.println("Delta Time Reset!");
+	public void shotTimeReset() {
+		this.lastShotTime = this.universalTime;
+		System.out.println("Last shot time Reset!");
 	}
 	
 	/**
-	 * Calculate the time difference.
+	 * Did he shoot.
 	 */
 	public void didHeShoot() {
-		if ((this.universalTime - this.deltaTime) > 10) {
+		if ((this.universalTime - this.lastShotTime) > 10) {
 			System.out.println("10 secs passed!");	        
 	        try {
 	        Robot robot = new Robot();
