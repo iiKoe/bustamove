@@ -3,11 +3,9 @@ package com.group66.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
@@ -111,7 +109,7 @@ public class GameScreen implements Screen {
 	public GameScreen(BustaMove game) {
 		this(game, false);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -253,7 +251,7 @@ public class GameScreen implements Screen {
 		inputHandler.registerKeyMap("Aim Right", Keys.RIGHT);
 		inputHandler.registerKeyMap("Place Ball", Keys.ENTER);
 		inputHandler.registerKeyMap("Toggle Pause", Keys.ESCAPE);
-
+		inputHandler.registerKeyMap("Toggle mute", Keys.M);
 
 		/* Register key names to functions */
 		inputHandler.registerKeyPressedFunc("Aim Left",
@@ -296,5 +294,13 @@ public class GameScreen implements Screen {
 						}
 					}
 				});
+		
+		inputHandler.registerKeyJustPressedFunc("Toggle mute",
+				new InputHandler.KeyCommand() {
+					public void runCommand() {
+					    AudioManager.toggleMute();
+					}
+				});
+		
 	}
 }
