@@ -17,7 +17,7 @@ public class FileLogger extends Logger {
     public FileLogger(MessageType mt){
         String date = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
         try {
-            handle = Gdx.files.external("log_" + date + ".txt");
+            handle = Gdx.files.external("bustamove/log_" + date + ".txt");
         } catch (Exception e) {
             e.printStackTrace();
         }
