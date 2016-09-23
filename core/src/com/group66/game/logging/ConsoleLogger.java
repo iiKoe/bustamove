@@ -7,7 +7,7 @@ public class ConsoleLogger extends Logger {
      * @param mt the message type to write
      */
     public ConsoleLogger(MessageType mt){
-        this.type = mt;
+        this.verbosity = mt;
     }
 
     @Override

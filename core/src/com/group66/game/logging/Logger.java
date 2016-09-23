@@ -6,13 +6,13 @@ import org.apache.commons.lang.time.DateFormatUtils;
 
 public abstract class Logger {
     protected Logger nextLogger;
-    protected MessageType type;
+    protected MessageType verbosity;
     
     /**
      * Set the next logger to call
      * @param nextLogger the next logger
      */
-    public void setNextLogger(Logger nextLogger){
+    public void nextLogger(Logger nextLogger){
         this.nextLogger = nextLogger;
     }
     
@@ -21,13 +21,13 @@ public abstract class Logger {
      * @param mt the message type
      * @param message the message to log
      */
-    public void logMessage(MessageType mt, String message){
-        if(this.type.level <= mt.level){
+    public void log(MessageType mt, String message){
+        if(this.verbosity.level <= mt.level){
             String date = DateFormatUtils.format(new Date(), "HH:mm:ss");
             write("[" + date + "] " + mt.toString() + ": " + message);
         }
         if(nextLogger != null){
-            nextLogger.logMessage(mt, message);
+            nextLogger.log(mt, message);
         }
     }
     

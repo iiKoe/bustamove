@@ -46,7 +46,7 @@ public class MainMenuScreen implements Screen {
         this.game = game;
         AssetLoader.load();
         createScreen();
-        BustaMove.logger.logMessage(MessageType.Info, "Loaded the main menu screen");
+        BustaMove.logger.log(MessageType.Info, "Loaded the main menu screen");
     }
 
     private void createScreen() {
@@ -118,7 +118,7 @@ public class MainMenuScreen implements Screen {
         });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.logger.logMessage(MessageType.Info, "Exit the game");
+                BustaMove.logger.log(MessageType.Info, "Exit the game");
                 Gdx.app.exit();
             }
         });

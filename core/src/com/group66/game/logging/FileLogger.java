@@ -21,7 +21,7 @@ public class FileLogger extends Logger {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.type = mt;
+        this.verbosity = mt;
     }
 
     @Override

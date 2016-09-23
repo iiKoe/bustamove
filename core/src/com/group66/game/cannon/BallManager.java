@@ -129,7 +129,7 @@ public class BallManager {
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
-			BustaMove.logger.logMessage(MessageType.Info, "Shot a " + color + " ball at angle " + cannon.getAngle());
+			BustaMove.logger.log(MessageType.Info, "Shot a " + color + " ball at angle " + cannon.getAngle());
 			this.ball_count++;
 		}
 	}
@@ -191,7 +191,7 @@ public class BallManager {
 		for (Ball b : this.ballStaticList) {
 			b.moveDown(Config.BALL_DIAM);
 		}
-		BustaMove.logger.logMessage(MessageType.Info, "Moved the roof a row down");
+		BustaMove.logger.log(MessageType.Info, "Moved the roof a row down");
 	}
 	
 	/**
@@ -253,13 +253,13 @@ public class BallManager {
 			// LEFT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
     		AudioManager.wallhit();
-    		BustaMove.logger.logMessage(MessageType.Info, "Ball hit the wall");
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
 				&& Math.toDegrees(ball.getAngle()) < 90) {
 			// RIGHT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
     		AudioManager.wallhit();
-    		BustaMove.logger.logMessage(MessageType.Info, "Ball hit the wall");
+    		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
 		}
 	}
 	
@@ -337,7 +337,7 @@ public class BallManager {
 			b.setY(o4_y);
 			//System.out.println("Option 4");
 		}
-		BustaMove.logger.logMessage(MessageType.Info, "Ball snapped into place");
+		BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
 	}
 	
 	/**
@@ -411,7 +411,7 @@ public class BallManager {
 						startPop(e);
 					}
 				}
-				BustaMove.logger.logMessage(MessageType.Info, "Started popping " + ballStaticDeadList.size() + " balls");
+				BustaMove.logger.log(MessageType.Info, "Started popping " + ballStaticDeadList.size() + " balls");
 				//GameScreen.scoreKeeper.setCurrentScore(score, 0);
 				//TODO 
 			}
@@ -428,7 +428,7 @@ public class BallManager {
 		
 		/* Check if there are no balls left i.e. player wins */
 		if (ballGraph.numberOfBalls() == 0) {
-		    BustaMove.logger.logMessage(MessageType.Info, "Level completed");
+		    BustaMove.logger.log(MessageType.Info, "Level completed");
 			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}

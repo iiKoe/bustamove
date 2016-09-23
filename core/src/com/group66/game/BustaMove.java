@@ -55,7 +55,7 @@ public class BustaMove extends Game {
         Logger fileLogger = new FileLogger(MessageType.Debug);
         Logger consoleLogger = new ConsoleLogger(MessageType.Info);
 
-	    fileLogger.setNextLogger(consoleLogger);
+	    fileLogger.nextLogger(consoleLogger);
 	    logger = fileLogger;
 		
 		AudioManager.load();
