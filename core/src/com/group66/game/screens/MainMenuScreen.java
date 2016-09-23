@@ -14,11 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
-import com.group66.game.logging.Logger;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.BustaMove;
 
 /**
  * A Class for the MainMenuScreen of the game.
