@@ -1,15 +1,7 @@
 package com.group66.game.screens;
 
-import java.util.Date;
-import java.util.TreeSet;
-
-import org.apache.commons.lang.time.DateFormatUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -26,68 +18,26 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.HighScoreItem;
+import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.settings.Config;
 
 public class HighScoreScreen implements Screen {
-    public static TreeSet<HighScoreItem> highscores = new TreeSet<HighScoreItem>();
     
     private BustaMove game;
-    private FileHandle file;
     private Stage stage;
     
+    /**
+     * Constructor for the high score screen
+     * @param game The game instance
+     */
     public HighScoreScreen(BustaMove game) {
         this.game = game;
-        file = Gdx.files.internal("highscores.json");
-        loadData();
         createScreen();
     }
 
-    private void loadData() {
-        //load data from file
-        try {
-            String contents = file.readString();
-            JSONArray arr = new JSONArray(contents);
-            for (int i = 0; i < arr.length(); i++) {
-                JSONObject obj = arr.getJSONObject(i);
-                String name = obj.getString("name");
-                String date = obj.getString("date");
-                int score = obj.getInt("score");
-                highscores.add(new HighScoreItem(name, date, score));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private void writeData() {
-        //write high scores to file
-        try {
-            JSONArray arr = new JSONArray();
-            int i = 0;
-            for (HighScoreItem hsi : highscores) {
-                if (i >= 10) {
-                    break;
-                }
-                i++;
-                
-                JSONObject obj = new JSONObject();
-                obj.put("name", hsi.name);
-                obj.put("date", hsi.date);
-                obj.put("score", hsi.score);
-                arr.put(obj);
-            }
-            file.writeString(arr.toString(), false);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }        
-    }
-
-    public void addScore(int score) {
-        String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        highscores.add(new HighScoreItem("unknown", date, score));
-        writeData();
-    }
-    
+    /**
+     * Create the stage for the highscore screen
+     */
     private void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -101,7 +51,7 @@ public class HighScoreScreen implements Screen {
         
         //create main highscore list
         int i = 0;
-        for (HighScoreItem hsi : highscores) {
+        for (HighScoreItem hsi : HighScoreManager.highscores) {
             if (i >= 10) {
                 break;
             }

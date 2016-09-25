@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.YouWinScreen;
@@ -503,6 +504,7 @@ public class BallManager {
 		/* Check if there are no balls left i.e. player wins */
 		if (ballGraph.numberOfBalls() == 0) {
 		    BustaMove.logger.log(MessageType.Info, "Level completed");
+		    HighScoreManager.addScore(0); //TODO: get score from ScoreKeeper
 			GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
 		}
 	}

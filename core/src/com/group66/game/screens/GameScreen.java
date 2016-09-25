@@ -11,6 +11,7 @@ import com.group66.game.cannon.BallManager;
 import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.helpers.TextDrawer;
@@ -170,6 +171,7 @@ public class GameScreen implements Screen {
 		/* Check if game-over condition is reached */
 		if (ballManager.isGameOver()) {
 		    BustaMove.logger.log(MessageType.Info, "Failed the level");
+		    HighScoreManager.addScore(scoreKeeper.currentScore);
 			game.setScreen(new YouLoseScreen(game));
 		}
 
