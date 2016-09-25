@@ -25,7 +25,7 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
     }
     
     public int compareTo(HighScoreItem other) {
-        int a = Integer.compare(this.score, other.score);
+        int a = Integer.compare(other.score, this.score);
         if(a != 0) {
             return a;
         } else {

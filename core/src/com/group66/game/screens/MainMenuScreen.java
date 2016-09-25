@@ -115,6 +115,11 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new GameScreen(game, true));
             }
         });
+        scoresButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new HighScoreScreen(game));
+            }
+        });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 BustaMove.logger.log(MessageType.Default, "Exit the game");
