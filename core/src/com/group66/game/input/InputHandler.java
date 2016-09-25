@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Gdx;
+import com.group66.game.BustaMove;
+import com.group66.game.logging.MessageType;
 
 /**
  * A class to manage and handle the user input via the keyboard.
@@ -23,7 +25,7 @@ public class InputHandler {
 	/** The multi function map KeyJustPressed. */
 	private Map<String, Collection<KeyCommand>> multiFunctionMapKJP = 
 			new HashMap<String, Collection<KeyCommand>>();
-	
+
 	/**
 	 * The Interface KeyCommand to store the function to be called when a Key is pressed.
 	 */
@@ -96,6 +98,8 @@ public class InputHandler {
 			    if (Gdx.input.isKeyPressed(keyInt)) {
 			    	Collection<KeyCommand> functions = entry.getValue();
 			    	for (KeyCommand command : functions) {
+			    		BustaMove.logger.log(MessageType.Debug, "Logged key pressed: "
+			    				+ keyInt + " triggering: " + entry.getKey());
 			    		command.runCommand();
 			    	}
 			    }		
@@ -114,6 +118,8 @@ public class InputHandler {
 			    	Collection<KeyCommand> functions = entry.getValue();
 			    	for (KeyCommand command : functions) {
 			    		command.runCommand();
+			    		BustaMove.logger.log(MessageType.Debug, "Logged key just pressed: "
+			    				+ keyInt + " triggering: " + entry.getKey());
 			    	}
 			    }		
 		    }

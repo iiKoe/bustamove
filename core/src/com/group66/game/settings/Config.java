@@ -4,8 +4,11 @@ package com.group66.game.settings;
  * A Class used for static configurations/setting to have it all localized at one place.
  */
 public class Config {
-	/* Resolution settings */
 	// TODO make a bit nicer
+	/* General game settings */
+	public static final int NBALLS_ROW_DOWN = 8;
+	
+	/* Resolution settings */
 	/** The Constant for the border size BORDER_SIZE_X (the sides). */
 	public static final int BORDER_SIZE_SIDES = 10;
 	
@@ -64,4 +67,15 @@ public class Config {
 	
 	/** The Constant CANNON_MAX_ANGLE. */
 	public static final float CANNON_MAX_ANGLE = 179;
+	
+	/** The font size used in drawing text */
+	public static final int FONT_SIZE = 24;
+	
+	/** The x coordinate location of the displayed player score */
+	public static final int SCORE_X_LOCATION = 430;
+	
+	/** The y coordinate location of the displayed player score */
+	public static final int SCORE_Y_LOCATION = 40;
+	
+	
 }
