@@ -43,13 +43,13 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
      * Standard compare function, used for sorting
      */
     public int compareTo(HighScoreItem other) {
-        int a = Integer.compare(other.score, this.score);
-        if (a != 0) {
-            return a;
+        int compa = Integer.compare(other.score, this.score);
+        if (compa != 0) {
+            return compa;
         } else {
-            int b = this.date.compareTo(other.date);
-            if (b != 0) {
-                return b;
+            int compb = this.date.compareTo(other.date);
+            if (compb != 0) {
+                return compb;
             } else {
                 return this.name.compareTo(other.name);
             }
