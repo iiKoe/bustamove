@@ -23,7 +23,7 @@ public abstract class Logger {
      */
     public void log(MessageType mt, String message) {
         if (this.verbosity.level <= mt.level) {
-            String date = DateFormatUtils.format(new Date(), "HH:mm:ss");
+            String date = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
             write("[" + date + "] " + mt.toString() + ": " + message);
         }
         if (nextLogger != null) {

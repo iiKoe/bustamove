@@ -14,11 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
-import com.group66.game.logging.Logger;
+import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.BustaMove;
 
 /**
  * A Class for the MainMenuScreen of the game.
@@ -45,6 +45,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(BustaMove game) {
         this.game = game;
         AssetLoader.load();
+        HighScoreManager.loadData();
         createScreen();
         BustaMove.logger.log(MessageType.Info, "Loaded the main menu screen");
     }
@@ -80,7 +81,7 @@ public class MainMenuScreen implements Screen {
         
         TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
         levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, 
-        		yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+                yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
         
         TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
         randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
@@ -116,6 +117,11 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new GameScreen(game, true));
             }
         });
+        scoresButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new HighScoreScreen(game));
+            }
+        });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 BustaMove.logger.log(MessageType.Default, "Exit the game");
@@ -133,15 +139,15 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+        
         /* Draw the background */
         game.batch.begin();
-		game.batch.enableBlending();
-		game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-		game.batch.end();
-		
+        game.batch.enableBlending();
+        game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+        game.batch.end();
+        
         stage.act();
         stage.draw();
     }

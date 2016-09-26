@@ -113,15 +113,15 @@ public class YouLoseScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+        
         /* Draw the background */
         game.batch.begin();
-		game.batch.enableBlending();
-		game.batch.draw(AssetLoader.youlosebg, Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-		game.batch.end();
-		
+        game.batch.enableBlending();
+        game.batch.draw(AssetLoader.youlosebg, Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+        game.batch.end();
+        
         stage.act();
         stage.draw();
     }
