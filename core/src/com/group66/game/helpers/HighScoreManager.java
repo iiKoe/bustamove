@@ -44,12 +44,12 @@ public class HighScoreManager {
     public static void writeData() {
         try {
             JSONArray arr = new JSONArray();
-            int i = 0;
+            int count = 0;
             for (HighScoreItem hsi : highscores) {
-                if (i >= 10) {
+                if (count >= 10) {
                     break;
                 }
-                i++;
+                count++;
                 
                 JSONObject obj = new JSONObject();
                 obj.put("name", hsi.name);

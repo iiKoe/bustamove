@@ -81,7 +81,7 @@ public class MainMenuScreen implements Screen {
         
         TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
         levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, 
-        		yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+                yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
         
         TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
         randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
@@ -139,15 +139,15 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+        
         /* Draw the background */
         game.batch.begin();
-		game.batch.enableBlending();
-		game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-		game.batch.end();
-		
+        game.batch.enableBlending();
+        game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+        game.batch.end();
+        
         stage.act();
         stage.draw();
     }
