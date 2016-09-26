@@ -14,54 +14,54 @@ import com.group66.game.settings.Config;
 /**
  * The BustaMove main game class.
  */
-public class BustaMove extends Game {	
-	
-	/** The batch. */
-	public SpriteBatch batch;
-	
-	/** The camera. */
-	public OrthographicCamera camera;
-	 
-	/** The logger. */
-	public static Logger logger;
-	
-	/**
-	 * Gets the game height.
-	 *
-	 * @return the game height
-	 */
-	public int getGameHeight() {
-		return Config.HEIGHT;
-		//return Gdx.graphics.getHeight();
-	}
-	
-	/**
-	 * Gets the game width.
-	 *
-	 * @return the game width
-	 */
-	public int getGameWidth() {
-		return Config.WIDTH;
-		//return Gdx.graphics.getWidth();
-	}
+public class BustaMove extends Game {   
+    
+    /** The batch. */
+    public SpriteBatch batch;
+    
+    /** The camera. */
+    public OrthographicCamera camera;
+     
+    /** The logger. */
+    public static Logger logger;
+    
+    /**
+     * Gets the game height.
+     *
+     * @return the game height
+     */
+    public int getGameHeight() {
+        return Config.HEIGHT;
+        //return Gdx.graphics.getHeight();
+    }
+    
+    /**
+     * Gets the game width.
+     *
+     * @return the game width
+     */
+    public int getGameWidth() {
+        return Config.WIDTH;
+        //return Gdx.graphics.getWidth();
+    }
 
-	/* (non-Javadoc)
-	 * @see com.badlogic.gdx.ApplicationListener#create()
-	 */
-	@Override
-	public void create() {
-		batch = new SpriteBatch();
-		
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.ApplicationListener#create()
+     */
+    @Override
+    public void create() {
+        batch = new SpriteBatch();
+        
         Logger fileLogger = new FileLogger(MessageType.Debug);
         Logger consoleLogger = new ConsoleLogger(MessageType.Info);
 
-	    fileLogger.nextLogger(consoleLogger);
-	    logger = fileLogger;
-	    
-	    /* Log start time */
-	    logger.log(MessageType.Default, "Game started");
-		
-		AudioManager.load();
-		this.setScreen(new MainMenuScreen(this));
-	}
+        fileLogger.nextLogger(consoleLogger);
+        logger = fileLogger;
+        
+        /* Log start time */
+        logger.log(MessageType.Default, "Game started");
+        
+        AudioManager.load();
+        this.setScreen(new MainMenuScreen(this));
+    }
 }

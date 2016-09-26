@@ -32,4 +32,4 @@ public class FileLogger extends Logger {
             e.printStackTrace();
         }
     }
- }
+}
