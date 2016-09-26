@@ -47,11 +47,11 @@ public class TextDrawer {
 	 *
 	 * @param batch the batch
 	 * @param text the text to draw
-	 * @param x the x coordinate
-	 * @param y the y coordinate
+	 * @param xpos the x coordinate
+	 * @param ypos the y coordinate
 	 */
-	public void draw(SpriteBatch batch, String text, int x, int y) {
-		myFont.draw(batch, text, x, y);
+	public void draw(SpriteBatch batch, String text, int xpos, int ypos) {
+		myFont.draw(batch, text, xpos, ypos);
 		
 	}
 }

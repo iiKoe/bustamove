@@ -30,13 +30,13 @@ public class BallManager {
 	private BallGraph ballGraph;
 
 	/** The ball speed. */
-	private int ball_speed;
+	private int ballSpeed;
 
 	/** The ball radius. */
-	private float ball_rad;
+	private float ballRad;
 	
 	/** The ball count. */
-	private int ball_count;
+	private int ballCount;
 
 	/** The ball list. */
 	private ArrayList<Ball> ballList = new ArrayList<Ball>();
@@ -63,26 +63,26 @@ public class BallManager {
 	private ArrayList<AtomicInteger> colorList = new ArrayList<AtomicInteger>();
 	
 	/** The roof hitbox offset. */
-	private float ROOF_OFFSET = 10;
+	private static final float ROOF_OFFSET = 10;
 
 	/**
 	 * Instantiates a new ball manager.
 	 * 
 	 * @param cannon the cannon to shoot the Balls out
-	 * @param ball_rad the Ball radius
+	 * @param ballRad the Ball radius
 	 * @param speed the Ball speed
 	 */
-	public BallManager(Cannon cannon, float ball_rad, int speed) {
+	public BallManager(Cannon cannon, float ballRad, int speed) {
 		this.cannon = cannon;
-		this.ball_rad = ball_rad;
-		this.ball_speed = speed;
-		this.ball_count = 0;
+		this.ballRad = ballRad;
+		this.ballSpeed = speed;
+		this.ballCount = 0;
 		this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.WIDTH, 10.0f);
 		this.ballGraph = new BallGraph(roofHitbox);
 		
 		//addStaticBall(-1, 0, 0);
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
-		cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ball_rad, 0, 0.0f));
+		cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
 		
 		for (int i = 0; i < Ball.MAX_COLORS; i++) {
 			this.colorList.add(new AtomicInteger(0));
@@ -95,18 +95,18 @@ public class BallManager {
 	 * @param speed the new ball speed
 	 */
 	public void setBallSpeed(int speed) {
-		this.ball_speed = speed;
+		this.ballSpeed = speed;
 	}
 
 	/**
 	 * Adds a static ball.
 	 * 
 	 * @param color the color
-	 * @param x the x coordinate
-	 * @param y the y coordinate
+	 * @param xpos the x coordinate
+	 * @param ypos the y coordinate
 	 */
-	public void addStaticBall(int color, float x, float y) { 
-		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
+	public void addStaticBall(int color, float xpos, float ypos) { 
+		ballStaticList.add(new Ball(color, xpos, ypos, ballRad, 0, 0.0f));
 		ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
 		colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
 	}
@@ -114,13 +114,13 @@ public class BallManager {
 	/**
 	 * Adds a random static ball.
 	 * 
-	 * @param x the x coordinate
-	 * @param y the y coordinate
+	 * @param xpos the x coordinate
+	 * @param ypos the y coordinate
 	 */
-	public void addRandomStaticBall(float x, float y) {
+	public void addRandomStaticBall(float xpos, float ypos) {
 		int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
 		//ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
-		addStaticBall(rand, x, y);
+		addStaticBall(rand, xpos, ypos);
 	}
 
 	/**
@@ -134,17 +134,17 @@ public class BallManager {
 
 			ballList.add(cannonBallList.get(0));
 			ballList.get(ballList.size() - 1).setAngle((float) Math.toRadians(cannon.getAngle()));
-			ballList.get(ballList.size() - 1).setSpeed(ball_speed);
+			ballList.get(ballList.size() - 1).setSpeed(ballSpeed);
 			cannonBallList.remove(0);
 			/*ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
 					ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
-			cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
+			cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ballRad,
 					0, (float) Math.toRadians(cannon.getAngle())));
 			AudioManager.shoot();
 			GameScreen.timeKeeper.shotTimeReset();
 			BustaMove.logger.log(MessageType.Info, "Shot a " + color
 					+ " ball at angle " + cannon.getAngle());
-			this.ball_count++;
+			this.ballCount++;
 		}
 	}
 
@@ -177,7 +177,7 @@ public class BallManager {
 	 * @return the ball count
 	 */
 	public int getBallCount() {
-		return this.ball_count;
+		return this.ballCount;
 	}
 	
 	/**
@@ -186,7 +186,7 @@ public class BallManager {
 	 * @param bc the new ball count
 	 */
 	public void setBallCount(int bc) {
-		this.ball_count = bc;
+		this.ballCount = bc;
 	}
 	
 	/**
@@ -283,116 +283,116 @@ public class BallManager {
 	/**
 	 * Start popping animation.
 	 *
-	 * @param b the ball
+	 * @param ball the ball
 	 */
-	private void startPop(Ball b) {
-		b.popStart();
-		ballPopList.add(b);
+	private void startPop(Ball ball) {
+		ball.popStart();
+		ballPopList.add(ball);
 	}
 	
 	/**
 	 * Snap ball to grid. TODO Make less HACKY
 	 *
-	 * @param b the ball
+	 * @param ball the ball
 	 * @param hitb the hitb
 	 */
-	private void snapBallToGrid(Ball b, Ball hitb) {
+	private void snapBallToGrid(Ball ball, Ball hitb) {
 		// Check what the closest "snap" coordinate is
 		
-		float hit_x = hitb.getX();
-		float hit_y = hitb.getY();
+		float hitx = hitb.getX();
+		float hity = hitb.getY();
 		
-		float o1_x = hit_x - Config.BALL_DIAM;
-		float o1_y = hit_y;
+		float o1x = hitx - Config.BALL_DIAM;
+		float o1y = hity;
 		
-		float o2_x = hit_x - Config.BALL_RAD;
-		float o2_y = hit_y - Config.BALL_DIAM;
+		float o2x = hitx - Config.BALL_RAD;
+		float o2y = hity - Config.BALL_DIAM;
 		
-		float o3_x = hit_x + Config.BALL_RAD;
-		float o3_y = hit_y - Config.BALL_DIAM;
+		float o3x = hitx + Config.BALL_RAD;
+		float o3y = hity - Config.BALL_DIAM;
 		
-		float o4_x = hit_x + Config.BALL_DIAM;
-		float o4_y = hit_y;
+		float o4x = hitx + Config.BALL_DIAM;
+		float o4y = hity;
 		
-		float o5_x = hit_x + Config.BALL_RAD;
-		float o5_y = hit_y + Config.BALL_DIAM;
+		float o5x = hitx + Config.BALL_RAD;
+		float o5y = hity + Config.BALL_DIAM;
 		
-		float o6_x = hit_x - Config.BALL_RAD;
-		float o6_y = hit_y + Config.BALL_DIAM;
+		float o6x = hitx - Config.BALL_RAD;
+		float o6y = hity + Config.BALL_DIAM;
 		
-		float x = b.getX();
-		float y = b.getY();
+		float origx = ball.getX();
+		float origy = ball.getY();
 		
-		float do1 = Math.abs(x - o1_x) + Math.abs(y - o1_y);
-		float do2 = Math.abs(x - o2_x) + Math.abs(y - o2_y);
-		float do3 = Math.abs(x - o3_x) + Math.abs(y - o3_y);
-		float do4 = Math.abs(x - o4_x) + Math.abs(y - o4_y);
-		float do5 = Math.abs(x - o5_x) + Math.abs(y - o5_y);
-		float do6 = Math.abs(x - o6_x) + Math.abs(y - o6_y);
+		float do1 = Math.abs(origx - o1x) + Math.abs(origy - o1y);
+		float do2 = Math.abs(origx - o2x) + Math.abs(origy - o2y);
+		float do3 = Math.abs(origx - o3x) + Math.abs(origy - o3y);
+		float do4 = Math.abs(origx - o4x) + Math.abs(origy - o4y);
+		float do5 = Math.abs(origx - o5x) + Math.abs(origy - o5y);
+		float do6 = Math.abs(origx - o6x) + Math.abs(origy - o6y);
 		
 		// Check bounds
 		float redge = Config.BOUNCE_X_MAX - Config.BALL_RAD;
-		if (o4_x > redge) {
+		if (o4x > redge) {
 			do4 = Float.MAX_VALUE;
 		}
-		if (o3_x > redge) {
+		if (o3x > redge) {
 			do3 = Float.MAX_VALUE;
 		}
-		if (o5_x > redge) {
+		if (o5x > redge) {
 			do5 = Float.MAX_VALUE;
 		}
 		
 		float ledge = Config.BOUNCE_X_MIN + Config.BALL_RAD;
-		if (o1_x < ledge) {
+		if (o1x < ledge) {
 			do1 = Float.MAX_VALUE;
 		}
-		if (o2_x < ledge) {
+		if (o2x < ledge) {
 			do2 = Float.MAX_VALUE;
 		}
-		if (o6_x < ledge) {
+		if (o6x < ledge) {
 			do6 = Float.MAX_VALUE;
 		}
 			
 		// Check best option
 		if (do1 < do2 && do1 < do3 && do1 < do4 && do1 < do5 && do1 < do6) {
-			b.setX(o1_x);
-			b.setY(o1_y);
+			ball.setX(o1x);
+			ball.setY(o1y);
 			//System.out.println("Option 1");
 		} else if (do2 < do1 && do2 < do3 && do2 < do4 && do2 < do5 && do2 < do6) {
-			b.setX(o2_x);
-			b.setY(o2_y);
+			ball.setX(o2x);
+			ball.setY(o2y);
 			//System.out.println("Option 2");
 		} else if (do3 < do1 && do3 < do2 && do3 < do4 && do3 < do5 && do3 < do6) {
-			b.setX(o3_x);
-			b.setY(o3_y);
+			ball.setX(o3x);
+			ball.setY(o3y);
 			//System.out.println("Option 3");
 		} else if (do4 < do1 && do4 < do2 && do4 < do3 && do4 < do5 && do4 < do6) {
-			b.setX(o4_x);
-			b.setY(o4_y);
+			ball.setX(o4x);
+			ball.setY(o4y);
 			//System.out.println("Option 4");
 		} else if (do5 < do1 && do5 < do2 && do5 < do3 && do5 < do4 && do5 < do6) {
-			b.setX(o5_x);
-			b.setY(o5_y);
+			ball.setX(o5x);
+			ball.setY(o5y);
 		} else if (do6 < do1 && do6 < do2 && do6 < do3 && do6 < do4 && do6 < do5) {
-			b.setX(o6_x);
-			b.setY(o6_y);
+			ball.setX(o6x);
+			ball.setY(o6y);
 		}
 	}
 	
 	/**
 	 * Snap ball to roof.
 	 *
-	 * @param b the ball
+	 * @param ball the ball
 	 */
-	private void snapBallToRoof(Ball b, float roof_y) {
-		float new_x;
+	private void snapBallToRoof(Ball ball, float roofy) {
+		float newx;
 		
 		for (double xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
 				xpos >= Config.BOUNCE_X_MIN + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
-			new_x = (float)xpos;
-			if (Math.abs(new_x - b.getX()) <=  Config.BALL_RAD) {
-				b.setX(new_x);
-				b.setY(roof_y - Config.BALL_RAD);
+			newx = (float)xpos;
+			if (Math.abs(newx - ball.getX()) <=  Config.BALL_RAD) {
+				ball.setX(newx);
+				ball.setY(roofy - Config.BALL_RAD);
 				return;
 			}
 		}
@@ -446,11 +446,11 @@ public class BallManager {
 			colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
 			ballStaticDeadList.remove(0);
 			BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
-			int i = 0;
+			int count = 0;
 			for (AtomicInteger e: colorList) {
 				BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
-						+ i + " :" + e.get());
-				i++;
+						+ count + " :" + e.get());
+				count++;
 			}
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
@@ -469,11 +469,11 @@ public class BallManager {
 			addStaticBall(ballToBeAdded.get(0).getColor(), 
 					(int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
 			ballToBeAdded.remove(0);
-			int i = 0;
+			int count = 0;
 			for (AtomicInteger e: colorList) {
 				BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
-						+ i + " :" + e.get());
-				i++;
+						+ count + " :" + e.get());
+				count++;
 			}
 			if (ballGraph.numberOfAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
 				//int score = 0;
@@ -494,8 +494,8 @@ public class BallManager {
 		
 		/* Check if the popping balls are done */
 		for (Iterator<Ball> it = ballPopList.iterator(); it.hasNext();) {
-			Ball b = it.next();
-			if (b.popDone() == true) {
+			Ball ball = it.next();
+			if (ball.popDone() == true) {
 				it.remove();
 				//System.out.println("Pop list size: " + ballPopList.size());
 			}

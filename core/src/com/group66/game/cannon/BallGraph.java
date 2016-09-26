@@ -119,28 +119,28 @@ public class BallGraph {
 			return null;
 		}
 		//queue of balls to be processed
-		Queue<Ball> Q = new LinkedList<Ball>();
+		Queue<Ball> queue = new LinkedList<Ball>();
 		//List of adjacent balls
 		ArrayList<Ball> ret = new ArrayList<Ball>();
 		//Add the ball that is given as parameter
-		Q.add(ball);
+		queue.add(ball);
 		ret.add(ball);
 		//Process all the balls in the queue
-		while (!Q.isEmpty()) {
-			Ball t = Q.remove();
+		while (!queue.isEmpty()) {
+			Ball qball = queue.remove();
 			//investigate all the edges of the ball
-			for (DefaultEdge e:graph.edgesOf(t)) {
+			for (DefaultEdge e:graph.edgesOf(qball)) {
 				//Check target of the edge
-				Ball o = graph.getEdgeTarget(e);
-				if (o.getColor() == ball.getColor() && !ret.contains(o)) {
-					Q.add(o);
-					ret.add(o);
+				Ball eball = graph.getEdgeTarget(e);
+				if (eball.getColor() == ball.getColor() && !ret.contains(eball)) {
+					queue.add(eball);
+					ret.add(eball);
 				}
 				//check source of the edge
-				o = graph.getEdgeSource(e);
-				if (o.getColor() == ball.getColor() && !ret.contains(o)) {
-					Q.add(o);
-					ret.add(o);
+				eball = graph.getEdgeSource(e);
+				if (eball.getColor() == ball.getColor() && !ret.contains(eball)) {
+					queue.add(eball);
+					ret.add(eball);
 				}
 			}
 		}
@@ -207,15 +207,15 @@ public class BallGraph {
 	/**
 	 * Check is a ball location is taken.
 	 *
-	 * @param x the x coordinate
-	 * @param y the y coordinate
+	 * @param xpos the x coordinate
+	 * @param ypos the y coordinate
 	 * @return true, if successful
 	 */
-	public boolean placeTaken(float x, float y) {
+	public boolean placeTaken(float xpos, float ypos) {
 		ArrayList<Ball> checkb = getBalls(this.top);
 		for (Ball cb : checkb) {
-			if (Math.abs(cb.getX() - x) < Config.BALL_RAD / 1 
-					&& Math.abs(cb.getY() - y) < Config.BALL_RAD / 1) {
+			if (Math.abs(cb.getX() - xpos) < Config.BALL_RAD / 1 
+					&& Math.abs(cb.getY() - ypos) < Config.BALL_RAD / 1) {
 				return true;
 			}
 		}

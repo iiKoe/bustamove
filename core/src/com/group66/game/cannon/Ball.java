@@ -65,48 +65,49 @@ public class Ball {
 	private float runtime;
 	
 	/**  The pop animation status. */
-	private PopStatus pop_status;
+	private PopStatus popStatus;
 	
 	/**  The pop animation instance. */
-	private Animation pop_animation;
+	private Animation popAnimation;
 
 	/**
 	 * Instantiates a new ball.
 	 * 
 	 * @param color the color can not be or exceed MAX_COLORS
-	 * @param x the x coordinate of the Ball
-	 * @param y the y coordinate of the Ball
+	 * @param xpos the x coordinate of the Ball
+	 * @param ypos the y coordinate of the Ball
 	 * @param rad the radius of the Ball
 	 * @param speed the speed of the Ball
 	 * @param angle the angle of the Ball
 	 */
-	public Ball(int color, float x, float y, float rad, int speed, float angle) {
+	public Ball(int color, float xpos, float ypos, float rad, int speed, float angle) {
 		this.time = 10;
 		this.speed = speed;
 		this.angle =  angle;
 		this.radius = rad;
 		this.color = color % MAX_COLORS;
-		this.pop_status = PopStatus.NONE;
+		this.popStatus = PopStatus.NONE;
 		this.runtime = 0f;
 
-		hitbox = new Circle(x, y, this.radius);
-		neighborBox = new Circle(x, y, this.radius * 1.2f);
-		topHitbox = new Rectangle(x - this.radius, y - this.radius, this.radius * 2.0f, this.radius * 2.0f);
+		hitbox = new Circle(xpos, ypos, this.radius);
+		neighborBox = new Circle(xpos, ypos, this.radius * 1.2f);
+		topHitbox = new Rectangle(xpos - this.radius, ypos - this.radius,
+				this.radius * 2.0f, this.radius * 2.0f);
 	}
 
 	/**
 	 * Instantiates a new ball.
 	 *
 	 * @param color the color (must be one of the defined colors, can not be or exceed MAX_COLORS
-	 * @param x the x coordinate of the Ball
-	 * @param y the y coordinate of the Ball
+	 * @param xpos the x coordinate of the Ball
+	 * @param ypos the y coordinate of the Ball
 	 * @param rad the radius of the Ball
 	 * @param speed the speed of the Ball
 	 * @param angle the angle of the Ball
 	 * @param graph the needs to be added to
 	 */
-	public Ball(int color, float x, float y, float rad, int speed, float angle, BallGraph graph) {
-		this(color, x, y, rad, speed, angle);
+	public Ball(int color, float xpos, float ypos, float rad, int speed, float angle, BallGraph graph) {
+		this(color, xpos, ypos, rad, speed, angle);
 		graph.insertBall(this);
 	}
 
@@ -213,23 +214,23 @@ public class Ball {
 	/**
 	 * Sets the x coordinate.
 	 *
-	 * @param x the new x coordinate
+	 * @param xpos the new x coordinate
 	 */
-	public void setX(float x) {
-		this.hitbox.x = x;
-		this.neighborBox.x = x;
-		this.topHitbox.x = x;
+	public void setX(float xpos) {
+		this.hitbox.x = xpos;
+		this.neighborBox.x = xpos;
+		this.topHitbox.x = xpos;
 	}
 	
 	/**
 	 * Sets the y coordinate.
 	 *
-	 * @param y the new y coordinate
+	 * @param ypos the new y coordinate
 	 */
-	public void setY(float y) {
-		this.hitbox.y = y;
-		this.neighborBox.y = y;
-		this.topHitbox.y = y;
+	public void setY(float ypos) {
+		this.hitbox.y = ypos;
+		this.neighborBox.y = ypos;
+		this.topHitbox.y = ypos;
 	}
 
 	/**
@@ -262,21 +263,21 @@ public class Ball {
 	/**
 	 * Does hit.
 	 * 
-	 * @param c
+	 * @param circle
 	 *            the Circle object
 	 * @return true, if the hitboxes overlap
 	 */
-	public boolean doesHit(Circle c) {
-		return c.overlaps(hitbox);
+	public boolean doesHit(Circle circle) {
+		return circle.overlaps(hitbox);
 	}
 
 	/**
 	 * Is next to.
-	 * @param c the circle object
+	 * @param circle the circle object
 	 * @return true, if the neighborBoxes overlap.
 	 */
-	public boolean isNextTo(Circle c) {
-		return c.overlaps(neighborBox);
+	public boolean isNextTo(Circle circle) {
+		return circle.overlaps(neighborBox);
 	}
 	
 	/**
@@ -285,8 +286,8 @@ public class Ball {
 	 * @return true, if pop animation is done.
 	 */
 	public boolean popDone() {
-		if (pop_status == PopStatus.DONE) {
-			pop_status = PopStatus.NONE;
+		if (popStatus == PopStatus.DONE) {
+			popStatus = PopStatus.NONE;
 			return true;
 		}
 		return false;
@@ -296,30 +297,30 @@ public class Ball {
 	 * Start the Pop animation.
 	 */
 	public void popStart() {
-		if (pop_status == PopStatus.POPPING) {
+		if (popStatus == PopStatus.POPPING) {
 			return;
 		}
 		
 		switch (color) {
 		case BLUE:
-			pop_animation = AssetLoader.getBluePopAnimation();
+			popAnimation = AssetLoader.getBluePopAnimation();
 			break;
 		case GREEN:
-			pop_animation = AssetLoader.getGreenPopAnimation();
+			popAnimation = AssetLoader.getGreenPopAnimation();
 			break;
 		case RED:
-			pop_animation = AssetLoader.getRedPopAnimation();
+			popAnimation = AssetLoader.getRedPopAnimation();
 			break;
 		case YELLOW:
-			pop_animation = AssetLoader.getYellowPopAnimation();
+			popAnimation = AssetLoader.getYellowPopAnimation();
 			break;
 		default:
-			pop_animation = AssetLoader.getBluePopAnimation(); // Error
+			popAnimation = AssetLoader.getBluePopAnimation(); // Error
 			return;
 		}
 		
 		this.runtime = 0;
-		pop_status = PopStatus.POPPING;
+		popStatus = PopStatus.POPPING;
 		AudioManager.ballpop();
 		//System.out.println("Popping Started!");
 	}
@@ -354,10 +355,10 @@ public class Ball {
 
 		TextureRegion tr;
 		// TODO What to draw when popping is done? Nothing?
-		if (pop_status == PopStatus.POPPING) {
-			tr = pop_animation.getKeyFrame(this.runtime);
-			if (pop_animation.isAnimationFinished(this.runtime)) {
-				pop_status = PopStatus.DONE;
+		if (popStatus == PopStatus.POPPING) {
+			tr = popAnimation.getKeyFrame(this.runtime);
+			if (popAnimation.isAnimationFinished(this.runtime)) {
+				popStatus = PopStatus.DONE;
 				this.runtime = 0;
 				//System.out.println("Popping Done!");
 			}

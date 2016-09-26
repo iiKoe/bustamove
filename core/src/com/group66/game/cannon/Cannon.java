@@ -13,10 +13,10 @@ public class Cannon {
 	private float angle;
 	
 	/** The x coordinate of the cannon. */
-	private int x;
+	private int xpos;
 	
 	/** The y coordinate of the cannon. */
-	private int y;
+	private int ypos;
 	
 	/** The height of the cannon. */
 	private int height;
@@ -25,47 +25,47 @@ public class Cannon {
 	private int width;
 	
 	/** The cannon texture. */
-	private Texture cannon_texture;
+	private Texture cannonTexture;
 	
 	/** The cannon texture region. */
-	private TextureRegion cannon_texture_region;
+	private TextureRegion cannonTextureRegion;
 	
 	/** The minimum angle of the cannon. */
-	private float min_angle;
+	private float minAngle;
 	
 	/** The maximum angle of the cannon. */
-	private float max_angle;
+	private float maxAngle;
 	
 	/**
 	 * Instantiates a new cannon.
 	 *
 	 * @param texture the texture of the cannon
-	 * @param x the x coordinate of the cannon
-	 * @param y the y coordinate of the cannon
+	 * @param xpos the x coordinate of the cannon
+	 * @param ypos the y coordinate of the cannon
 	 * @param height the height of the cannon
 	 * @param width the width of the cannon
 	 */
-	public Cannon(Texture texture, int x, int y, int height, int width,
-			float min_angle, float max_angle) {
+	public Cannon(Texture texture, int xpos, int ypos, int height, int width,
+			float minAngle, float maxAngle) {
 		this.angle =  90;
-		this.x = x;
-		this.y = y;
+		this.xpos = xpos;
+		this.ypos = ypos;
 		this.height = height;
 		this.width = width;
-		this.min_angle = min_angle;
-		this.max_angle = max_angle;
+		this.minAngle = minAngle;
+		this.maxAngle = maxAngle;
 		
-		this.cannon_texture = texture;
-		this.cannon_texture_region = new TextureRegion(cannon_texture);
+		this.cannonTexture = texture;
+		this.cannonTextureRegion = new TextureRegion(cannonTexture);
 	}
 	
 	/**
 	 * Adjust the angle of the Cannon.
 	 *
-	 * @param angle_adj the angle which we add to the current Cannon angle
+	 * @param angleAdjust the angle which we add to the current Cannon angle
 	 */
-	public void cannonAimAdjust(float angle_adj) {
-		this.angle = checkAngle(this.angle + angle_adj);
+	public void cannonAimAdjust(float angleAdjust) {
+		this.angle = checkAngle(this.angle + angleAdjust);
 	}
 	
 	/**
@@ -110,7 +110,7 @@ public class Cannon {
 	 * @return the x
 	 */
 	public int getX() {
-		return x;
+		return xpos;
 	}
 	
 	/**
@@ -119,7 +119,7 @@ public class Cannon {
 	 * @return the y
 	 */
 	public int getY() {
-		return y;
+		return ypos;
 	}
 	
 	/**
@@ -139,7 +139,7 @@ public class Cannon {
 	public void draw(SpriteBatch batch) {
 		//batch.draw(cannon_texture, hitbox.x, hitbox.y, BALL_RAD, BALL_RAD);
 
-		batch.draw(cannon_texture_region, x - width / 2f - 3, y - height / 2f + 23, 
+		batch.draw(cannonTextureRegion, xpos - width / 2f - 3, ypos - height / 2f + 23, 
 				width / 2f, height / 2f, width, height, 5 / 2, 1, angle, true);
 
 		//batch.draw(cannon_texture_region, x - width / 2f, y - height / 2f, 	
@@ -150,15 +150,15 @@ public class Cannon {
 	/**
 	 * Check if the cannon angle is within boundaries.
 	 *
-	 * @param a the angle
+	 * @param angle the angle
 	 * @return the angle within boundaries
 	 */
-	private float checkAngle(float a) {
-		if (a > this.max_angle) {
-			a = this.max_angle;
-		} else if (a < this.min_angle) {
-			a = this.min_angle;
+	private float checkAngle(float angle) {
+		if (angle > this.maxAngle) {
+			angle = this.maxAngle;
+		} else if (angle < this.minAngle) {
+			angle = this.minAngle;
 		}
-		return a;
+		return angle;
 	}
 }
