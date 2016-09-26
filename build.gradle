@@ -57,17 +57,17 @@ allprojects {
     }
     
     checkstyle {
-    	configFile = rootProject.file('checkstyle/google_checks.xml')
-    	ignoreFailures = false
-	}
-	
-	findbugsMain {
-		reports {
-			xml.enabled = false
-			html.enabled = true
-		}
-		ignoreFailures = true
-	}
+        configFile = rootProject.file('checkstyle/google_checks.xml')
+        ignoreFailures = false
+    }
+
+    findbugsMain {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+        ignoreFailures = true
+    }
 }
 
 project(":desktop") {
