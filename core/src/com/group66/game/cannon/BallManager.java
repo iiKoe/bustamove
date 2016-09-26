@@ -109,6 +109,10 @@ public class BallManager {
 		ballStaticList.add(new Ball(color, x, y, ball_rad, 0, 0.0f));
 		ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
 		colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
+		BustaMove.logger.log(MessageType.Debug, "add ball: color(" + ballStaticList.get(ballStaticList.size() - 1).getColor() + "), "
+				+ "x(" + ballStaticList.get(ballStaticList.size() - 1).getX() + "), y(" + 
+				ballStaticList.get(ballStaticList.size() - 1).getY() +"), pointer(" + 
+				ballStaticList.get(ballStaticList.size() - 1).toString() + ")");
 	}
 
 	/**
@@ -423,7 +427,7 @@ public class BallManager {
 			}
 			for (Ball t : ballStaticList) {
 				/* Does the ball hit a target ball? */
-				if (t.doesHit(ball.getHitbox())) {
+				if (t.doesHit(ball.getHitbox()) && !ballToBeAdded.contains(ball)) {
 					ball.setSpeed(0);
 					// A hack for now
 					snapBallToGrid(ball, t);
@@ -445,22 +449,24 @@ public class BallManager {
 			ballStaticList.remove(ballStaticDeadList.get(0));
 			colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
 			ballStaticDeadList.remove(0);
-			BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
-			int i = 0;
-			for (AtomicInteger e: colorList) {
-				BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
-						+ i + " :" + e.get());
-				i++;
-			}
+			
 			//System.out.println("number of balls left: " + ballGraph.numberOfBalls());
 			GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
 			if (ballStaticDeadList.size() == 0) {
 				for (Ball e:ballGraph.getFreeBalls()) {
-					ballStaticDeadList.add(e);
 					if (!ballPopList.contains(e)) {
+						ballStaticDeadList.add(e);
 						startPop(e);
 					}
 					//System.out.println("ball added to deadlist(free)");
+					
+				}
+				BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
+				int i = 0;
+				for (AtomicInteger e: colorList) {
+					BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+							+ i + " :" + e.get());
+					i++;
 				}
 			}
 		}
@@ -480,8 +486,9 @@ public class BallManager {
 				for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
 					//System.out.println("ball added to deadlist (adjacent)");
 					//score++;
-					ballStaticDeadList.add(e);
 					if (!ballPopList.contains(e)) {
+						BustaMove.logger.log(MessageType.Debug, "Ball added to deadlist: " + e.toString() + " Location: (" +e.getX() + "," + e.getY() + ")");
+						ballStaticDeadList.add(e);
 						startPop(e);
 					}
 				}

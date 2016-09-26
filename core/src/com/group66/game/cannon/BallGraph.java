@@ -123,8 +123,11 @@ public class BallGraph {
 		//List of adjacent balls
 		ArrayList<Ball> ret = new ArrayList<Ball>();
 		//Add the ball that is given as parameter
-		Q.add(ball);
-		ret.add(ball);
+		
+		if (ball != top) {
+			ret.add(ball);
+			Q.add(ball);
+		}
 		//Process all the balls in the queue
 		while (!Q.isEmpty()) {
 			Ball t = Q.remove();
@@ -132,13 +135,13 @@ public class BallGraph {
 			for (DefaultEdge e:graph.edgesOf(t)) {
 				//Check target of the edge
 				Ball o = graph.getEdgeTarget(e);
-				if (o.getColor() == ball.getColor() && !ret.contains(o)) {
+				if (o.getColor() == ball.getColor() && !ret.contains(o) && o != top) {
 					Q.add(o);
 					ret.add(o);
 				}
 				//check source of the edge
 				o = graph.getEdgeSource(e);
-				if (o.getColor() == ball.getColor() && !ret.contains(o)) {
+				if (o.getColor() == ball.getColor() && !ret.contains(o) && o != top) {
 					Q.add(o);
 					ret.add(o);
 				}
