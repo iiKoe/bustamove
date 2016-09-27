@@ -137,8 +137,8 @@ public class Cannon {
      * @param batch the batch used to draw with
      */
     public void draw(SpriteBatch batch) {
-        batch.draw(cannonTextureRegion, xpos - width / 2f - 3, ypos - height / 2f + 23, 
-                width / 2f, height / 2f, width, height, 5 / 2, 1, angle, true);
+        batch.draw(cannonTextureRegion, xpos - width / 2f + 11, ypos - height / 2f + 7, 
+                width / 2f - 11, height / 2f, width, height, 1, 1, angle, true);
     }
     
     /**

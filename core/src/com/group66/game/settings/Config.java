@@ -51,10 +51,10 @@ public class Config {
     
     /* Cannon settings */
     /** The Constant CANNON_HEIGHT. */
-    public static final int CANNON_HEIGHT = 80;
+    public static final int CANNON_HEIGHT = 184;
     
     /** The Constant CANNON_WIDTH. */
-    public static final int CANNON_WIDTH = 80;
+    public static final int CANNON_WIDTH = 76;
     
     /** The Constant CANNON_Y_OFFSET. */
     public static final int CANNON_Y_OFFSET = 50;
