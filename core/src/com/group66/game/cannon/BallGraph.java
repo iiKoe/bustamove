@@ -123,8 +123,10 @@ public class BallGraph {
         //List of adjacent balls
         ArrayList<Ball> ret = new ArrayList<Ball>();
         //Add the ball that is given as parameter
-        queue.add(ball);
-        ret.add(ball);
+        if (ball != top) {
+            ret.add(ball);
+            queue.add(ball);
+        }
         //Process all the balls in the queue
         while (!queue.isEmpty()) {
             Ball qball = queue.remove();
@@ -146,7 +148,7 @@ public class BallGraph {
         }
         return ret;
     }
-
+   
     /**
      * This function provides a list of all the balls that are not in some way connected to the top of the screen.
      *
