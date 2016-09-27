@@ -21,7 +21,7 @@ Code change quality | 8
 Formatting | 9
 Naming | 6
 Comments | 10
-Building | 1
+Building | 9
 Testing | 1
 Tooling | 10
 Branching | 10
