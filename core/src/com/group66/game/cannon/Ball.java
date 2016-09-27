@@ -383,4 +383,46 @@ public class Ball {
 		batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
 				this.radius * 2, this.radius * 2);
 	}
+	
+	   /**
+     * Draw the Ball.
+     * 
+     * @param batch the batch used to draw with
+     * @param delta the delta since the last draw
+     */
+    public void drawSplit(SpriteBatch batch, float delta, boolean left) {
+        this.runtime += delta;
+
+        TextureRegion tr;
+        // TODO What to draw when popping is done? Nothing?
+        if (pop_status == PopStatus.POPPING) {
+            tr = pop_animation.getKeyFrame(this.runtime);
+            if (pop_animation.isAnimationFinished(this.runtime)) {
+                pop_status = PopStatus.DONE;
+                this.runtime = 0;
+                //System.out.println("Popping Done!");
+            }
+        } else {
+            switch (color) {
+            case 0:
+                tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+                break;
+            case 1:
+                tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+                break;
+            case 2:
+                tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+                break;
+            case 3:
+                tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+                break;
+            default:
+                return;
+            }
+        }
+        
+        batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
+                this.radius * 2, this.radius * 2);
+    }
+
 }

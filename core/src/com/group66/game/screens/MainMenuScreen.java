@@ -100,6 +100,12 @@ public class MainMenuScreen implements Screen {
         stage.addActor(scoresButton);
         stage.addActor(exitButton);
 
+        
+        TextButton splitButton = new TextButton("Play: Split screen", textButtonStyle);
+        splitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 750) / 2,
+                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
+        stage.addActor(splitButton);
+
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
         // Button#setChecked() is called, via a key press, etc. If the
@@ -126,6 +132,11 @@ public class MainMenuScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 BustaMove.logger.log(MessageType.Default, "Exit the game");
                 Gdx.app.exit();
+            }
+        });
+        splitButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new SplitGameScreen(game, true));
             }
         });
     }

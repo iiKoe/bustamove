@@ -82,7 +82,7 @@ public class GameScreen implements Screen {
 	 *            determines if a set level or a random level is used
 	 */
 	public GameScreen(BustaMove game, Boolean randomLevel) {
-		GameScreen.game = game;
+		this.game = game;
 		gameState = GameState.RUNNING;
 		setup_keys();
 		AssetLoader.load();

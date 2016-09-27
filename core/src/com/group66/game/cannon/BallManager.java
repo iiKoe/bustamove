@@ -258,6 +258,39 @@ public class BallManager {
 		}
 	}
 	
+	   /**
+     * Draw the Balls managed by BallManager.
+     *
+     * @param batch the batch used to draw with
+     * @param delta the delta
+     */
+    public void drawSplit(SpriteBatch batch, float delta, boolean left) {
+        
+        /* Update the ball lists and graph */
+        updateBalls(delta);
+
+        /* Draw shot ball */
+        for (Ball ball : ballList) {
+            ball.drawSplit(batch, delta, left);
+        }
+
+        /* Draw static target balls */
+        for (Ball ball : ballStaticList) {
+            ball.drawSplit(batch, delta, left);
+        }
+        
+        /* Draw popping balls */
+        for (Ball ball : ballPopList) {
+            ball.drawSplit(batch, delta, left);
+        }
+        
+        /* Draw cannon balls */
+        for (Ball ball: cannonBallList) {
+            ball.drawSplit(batch, delta, left);
+        }
+    }
+
+	
 	/**
 	 * Bounce the ball of the edges if needed.
 	 *
@@ -265,13 +298,21 @@ public class BallManager {
 	 */
 	private void bounceEdge(Ball ball) {
 		/* Check if an edge is hit */
-		if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN
+	    int left = Config.BOUNCE_X_MIN;
+	    int right = Config.BOUNCE_X_MAX;
+	    /*if(split && right) {
+	        left = Config.WIDTH / 2;
+	    } elseif(split && left) {
+	        right = Config.WIDTH / 2;
+	    }
+	    */
+		if (ball.getX() - ball.getRadius() <= left
 				&& Math.toDegrees(ball.getAngle()) > 90) {
 			// LEFT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
     		AudioManager.wallhit();
     		BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
-		} else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
+		} else if (ball.getX() + ball.getRadius() >= right
 				&& Math.toDegrees(ball.getAngle()) < 90) {
 			// RIGHT EDGE
 			ball.setAngle((float) Math.toRadians(180) - ball.getAngle());

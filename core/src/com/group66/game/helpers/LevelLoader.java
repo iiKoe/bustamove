@@ -50,6 +50,47 @@ public class LevelLoader {
     }
 
     /**
+     * Load a test level.
+     */
+    public static void loadLevel(BallManager ballManager1, BallManager ballManager2) {
+        String levelFilePath = "testlevel.txt";
+
+        try {
+            //load the file
+            FileHandle handle = Gdx.files.internal(levelFilePath);
+            Scanner s = new Scanner(handle.read(), "UTF-8");
+            int linenr = 0;
+            //read every line of the file
+            while (s.hasNextLine()) {
+                String line = s.nextLine();
+                int ypos = Config.BOUNCE_Y_MAX - (2 * linenr + 1) * Config.BALL_RAD;
+                for (int i = 0; i < line.length(); i++) {
+                    float xpos1 = Config.BOUNCE_X_MIN + (2 * i + 1) * Config.BALL_RAD;
+                    float xpos2 = Config.WIDTH / 2  + (2 * i + 1) * Config.BALL_RAD;
+                    //System.out.println("X pos: " + xpos);
+
+                    // shift odd rows
+                    if (linenr % 2 != 0) {
+                        xpos1 += Config.BALL_RAD;
+                        xpos2 += Config.BALL_RAD;
+                    }
+                    //spaces or dashes are used for empty spaces
+                    if (line.charAt(i) != ' ' && line.charAt(i) != '-') {
+                        int ballIndex = Integer.parseInt("" + line.charAt(i));
+                        ballManager1.addStaticBall(ballIndex, xpos1, ypos);
+                        ballManager2.addStaticBall(ballIndex, xpos2, ypos);
+                    }
+                }
+                linenr++;
+            }
+
+            s.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * Generate a random level.
      */
     public static void generateLevel(BallManager ballManager) {
@@ -72,6 +113,37 @@ public class LevelLoader {
                 int ballIndex = r.nextInt(Ball.MAX_COLORS + 1);
                 if (ballIndex != Ball.MAX_COLORS) { // max_colors is no ball
                     ballManager.addStaticBall(ballIndex, xpos, ypos);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Generate a random level.
+     */
+    public static void generateLevel(BallManager ballManager1, BallManager ballManager2) {
+        Random r = new Random();
+        //int numRows = 2 + r.nextInt(5); // 2-6 rows
+        int numRows = 4;
+        //go over each row
+        for (int i = 0; i < numRows; i++) {
+            int ypos = Config.BOUNCE_Y_MAX - (2 * i + 1) * Config.BALL_RAD;
+
+            int numBalls = Config.NUM_BALLS_ROW;
+            int xoffset = 0;
+            if (i % 2 != 0) {
+                numBalls--; // one less on the odd rows
+                xoffset = Config.BALL_RAD;
+            }
+            //fill the row with balls
+            for (int j = 0; j < numBalls; j++) {
+                int xpos1 = Config.BOUNCE_X_MIN + (2 * j + 1) * Config.BALL_RAD + xoffset;
+                int xpos2 = Config.WIDTH / 2 + (2 * j + 1) * Config.BALL_RAD + xoffset;
+                
+                int ballIndex = r.nextInt(Ball.MAX_COLORS + 1);
+                if (ballIndex != Ball.MAX_COLORS) { // max_colors is no ball
+                    ballManager1.addStaticBall(ballIndex, xpos1, ypos);
+                    ballManager2.addStaticBall(ballIndex, xpos2, ypos);
                 }
             }
         }
