@@ -50,14 +50,14 @@ public class HighScoreScreen implements Screen {
         labelStyle.font = new BitmapFont();
         
         //create main highscore list
-        int i = 0;
+        int count = 0;
         for (HighScoreItem hsi : HighScoreManager.highscores) {
-            if (i >= 10) {
+            if (count >= 10) {
                 break;
             }
-            i++;
+            count++;
             
-            float yoffset = Config.HEIGHT - i * labelheight;
+            float yoffset = Config.HEIGHT - count * labelheight;
             
             Label name = new Label(hsi.name, labelStyle);
             name.setPosition(xoffset, yoffset);

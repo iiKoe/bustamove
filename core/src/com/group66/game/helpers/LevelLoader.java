@@ -20,11 +20,11 @@ public class LevelLoader {
         try {
             //load the file
             FileHandle handle = Gdx.files.internal(levelFilePath);
-            Scanner s = new Scanner(handle.read(), "UTF-8");
+            Scanner scanner = new Scanner(handle.read(), "UTF-8");
             int linenr = 0;
             //read every line of the file
-            while (s.hasNextLine()) {
-                String line = s.nextLine();
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
                 int ypos = Config.BOUNCE_Y_MAX - (2 * linenr + 1) * Config.BALL_RAD;
                 for (int i = 0; i < line.length(); i++) {
                     float xpos = Config.BOUNCE_X_MIN + (2 * i + 1) * Config.BALL_RAD;
@@ -43,7 +43,7 @@ public class LevelLoader {
                 linenr++;
             }
 
-            s.close();
+            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,7 +94,7 @@ public class LevelLoader {
      * Generate a random level.
      */
     public static void generateLevel(BallManager ballManager) {
-        Random r = new Random();
+        Random rand = new Random();
         //int numRows = 2 + r.nextInt(5); // 2-6 rows
         int numRows = 4;
         //go over each row
@@ -110,7 +110,7 @@ public class LevelLoader {
             //fill the row with balls
             for (int j = 0; j < numBalls; j++) {
                 int xpos = Config.BOUNCE_X_MIN + (2 * j + 1) * Config.BALL_RAD + xoffset;
-                int ballIndex = r.nextInt(Ball.MAX_COLORS + 1);
+                int ballIndex = rand.nextInt(Ball.MAX_COLORS + 1);
                 if (ballIndex != Ball.MAX_COLORS) { // max_colors is no ball
                     ballManager.addStaticBall(ballIndex, xpos, ypos);
                 }

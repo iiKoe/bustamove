@@ -14,4 +14,4 @@ public class ConsoleLogger extends Logger {
     protected void write(String message) {       
         System.out.println(message);
     }
- }
+}
