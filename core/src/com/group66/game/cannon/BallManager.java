@@ -19,10 +19,10 @@ import com.group66.game.settings.Config;
  * A Class to manage the Balls in the game.
  */
 public class BallManager {
-    
+
     /** The cannon instance to shoot out. */
     private Cannon cannon;
-    
+
     /** The roof hitbox. */
     private Rectangle roofHitbox;
 
@@ -34,7 +34,7 @@ public class BallManager {
 
     /** The ball radius. */
     private float ballRad;
-    
+
     /** The ball count. */
     private int ballCount;
 
@@ -46,22 +46,22 @@ public class BallManager {
 
     /** The static ball list. */
     private ArrayList<Ball> ballStaticList = new ArrayList<Ball>();
-    
+
     /** The static ball dead list. */
     private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
-    
+
     /** The ball pop animation list. */
     private ArrayList<Ball> ballPopList = new ArrayList<Ball>();
 
     /**  The ball to be added to static List. */
     private ArrayList<Ball> ballToBeAdded = new ArrayList<Ball>();
-    
+
     /** The balls the canon will shoot. */
     private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
-    
+
     /** The colors that exist in the grid. */
     private ArrayList<AtomicInteger> colorList = new ArrayList<AtomicInteger>();
-    
+
     /** The roof hitbox offset. */
     private static final float ROOF_OFFSET = 10;
 
@@ -79,11 +79,11 @@ public class BallManager {
         this.ballCount = 0;
         this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.WIDTH, 10.0f);
         this.ballGraph = new BallGraph(roofHitbox);
-        
+
         //addStaticBall(-1, 0, 0);
         int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
         cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
-        
+
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
             this.colorList.add(new AtomicInteger(0));
         }
@@ -109,6 +109,11 @@ public class BallManager {
         ballStaticList.add(new Ball(color, xpos, ypos, ballRad, 0, 0.0f));
         ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
         colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
+        BustaMove.logger.log(MessageType.Debug, "add ball: color(" 
+                + ballStaticList.get(ballStaticList.size() - 1).getColor() 
+                + "), " + "x(" + ballStaticList.get(ballStaticList.size() - 1).getX() + "), y(" 
+                + ballStaticList.get(ballStaticList.size() - 1).getY() + "), pointer(" 
+                + ballStaticList.get(ballStaticList.size() - 1).toString() + ")");
     }
 
     /**
@@ -158,7 +163,7 @@ public class BallManager {
         } while (colorList.get(rand).get() <= 0);
         shootBall(rand);
     }
-    
+
     /**
      * Can shoot.
      *
@@ -170,7 +175,7 @@ public class BallManager {
         }
         return true;
     }
-    
+
     /**
      * Gets the ball count.
      *
@@ -179,7 +184,7 @@ public class BallManager {
     public int getBallCount() {
         return this.ballCount;
     }
-    
+
     /**
      * Sets the ball count.
      *
@@ -188,7 +193,7 @@ public class BallManager {
     public void setBallCount(int bc) {
         this.ballCount = bc;
     }
-    
+
     /**
      * Gets the roof hitbox.
      *
@@ -197,7 +202,7 @@ public class BallManager {
     public Rectangle getRoofHitbox() {
         return this.roofHitbox;
     }
-    
+
     /**
      * Move row down.
      */
@@ -210,7 +215,7 @@ public class BallManager {
         }
         BustaMove.logger.log(MessageType.Info, "Moved the roof a row down");
     }
-    
+
     /**
      * Checks if it's game over.
      *
@@ -233,7 +238,7 @@ public class BallManager {
      * @param delta the delta
      */
     public void draw(SpriteBatch batch, float delta) {
-        
+
         /* Update the ball lists and graph */
         updateBalls(delta);
 
@@ -246,18 +251,20 @@ public class BallManager {
         for (Ball ball : ballStaticList) {
             ball.draw(batch, delta);
         }
-        
+
         /* Draw popping balls */
         for (Ball ball : ballPopList) {
             ball.draw(batch, delta);
         }
-        
+
         /* Draw cannon balls */
         for (Ball ball: cannonBallList) {
             ball.draw(batch, delta);
         }
     }
-    
+
+
+
     /**
      * Bounce the ball of the edges if needed.
      *
@@ -279,7 +286,7 @@ public class BallManager {
             BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
         }
     }
-    
+
     /**
      * Start popping animation.
      *
@@ -289,7 +296,7 @@ public class BallManager {
         ball.popStart();
         ballPopList.add(ball);
     }
-    
+
     /**
      * Snap ball to grid. TODO Make less HACKY
      *
@@ -298,38 +305,38 @@ public class BallManager {
      */
     private void snapBallToGrid(Ball ball, Ball hitb) {
         // Check what the closest "snap" coordinate is
-        
+
         float hitx = hitb.getX();
         float hity = hitb.getY();
-        
+
         float o1x = hitx - Config.BALL_DIAM;
         float o1y = hity;
-        
+
         float o2x = hitx - Config.BALL_RAD;
         float o2y = hity - Config.BALL_DIAM;
-        
+
         float o3x = hitx + Config.BALL_RAD;
         float o3y = hity - Config.BALL_DIAM;
-        
+
         float o4x = hitx + Config.BALL_DIAM;
         float o4y = hity;
-        
+
         float o5x = hitx + Config.BALL_RAD;
         float o5y = hity + Config.BALL_DIAM;
-        
+
         float o6x = hitx - Config.BALL_RAD;
         float o6y = hity + Config.BALL_DIAM;
-        
+
         float origx = ball.getX();
         float origy = ball.getY();
-        
+
         float do1 = Math.abs(origx - o1x) + Math.abs(origy - o1y);
         float do2 = Math.abs(origx - o2x) + Math.abs(origy - o2y);
         float do3 = Math.abs(origx - o3x) + Math.abs(origy - o3y);
         float do4 = Math.abs(origx - o4x) + Math.abs(origy - o4y);
         float do5 = Math.abs(origx - o5x) + Math.abs(origy - o5y);
         float do6 = Math.abs(origx - o6x) + Math.abs(origy - o6y);
-        
+
         // Check bounds
         float redge = Config.BOUNCE_X_MAX - Config.BALL_RAD;
         if (o4x > redge) {
@@ -341,7 +348,7 @@ public class BallManager {
         if (o5x > redge) {
             do5 = Float.MAX_VALUE;
         }
-        
+
         float ledge = Config.BOUNCE_X_MIN + Config.BALL_RAD;
         if (o1x < ledge) {
             do1 = Float.MAX_VALUE;
@@ -352,7 +359,7 @@ public class BallManager {
         if (o6x < ledge) {
             do6 = Float.MAX_VALUE;
         }
-            
+
         // Check best option
         if (do1 < do2 && do1 < do3 && do1 < do4 && do1 < do5 && do1 < do6) {
             ball.setX(o1x);
@@ -378,7 +385,7 @@ public class BallManager {
             ball.setY(o6y);
         }
     }
-    
+
     /**
      * Snap ball to roof.
      *
@@ -386,7 +393,7 @@ public class BallManager {
      */
     private void snapBallToRoof(Ball ball, float roofy) {
         float newx;
-        
+
         for (double xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
                 xpos >= Config.BOUNCE_X_MIN + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
             newx = (float)xpos;
@@ -398,7 +405,7 @@ public class BallManager {
         }
         BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
     }
-    
+
     /**
      * Update balls, this includes the ball lists and the graph.
      *
@@ -423,7 +430,7 @@ public class BallManager {
             }
             for (Ball t : ballStaticList) {
                 /* Does the ball hit a target ball? */
-                if (t.doesHit(ball.getHitbox())) {
+                if (t.doesHit(ball.getHitbox()) && !ballToBeAdded.contains(ball)) {
                     ball.setSpeed(0);
                     // A hack for now
                     snapBallToGrid(ball, t);
@@ -434,7 +441,7 @@ public class BallManager {
             }
             bounceEdge(ball);
         }
-        
+
         while (ballDeadList.size() != 0) {
             ballList.remove(ballDeadList.get(0));
             ballDeadList.remove(0);
@@ -445,13 +452,6 @@ public class BallManager {
             ballStaticList.remove(ballStaticDeadList.get(0));
             colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
             ballStaticDeadList.remove(0);
-            BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
-            int count = 0;
-            for (AtomicInteger e: colorList) {
-                BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
-                        + count + " :" + e.get());
-                count++;
-            }
             //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
             if (ballStaticDeadList.size() == 0) {
@@ -461,6 +461,13 @@ public class BallManager {
                         startPop(e);
                     }
                     //System.out.println("ball added to deadlist(free)");
+                }
+                BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
+                int count = 0;
+                for (AtomicInteger e: colorList) {
+                    BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+                            + count + " :" + e.get());
+                    count++;
                 }
             }
         }
@@ -480,8 +487,10 @@ public class BallManager {
                 for (Ball e:ballGraph.getAdjacentBalls(ballStaticList.get(ballStaticList.size() - 1))) {
                     //System.out.println("ball added to deadlist (adjacent)");
                     //score++;
-                    ballStaticDeadList.add(e);
                     if (!ballPopList.contains(e)) {
+                        BustaMove.logger.log(MessageType.Debug, "Ball added to deadlist: " + e.toString() 
+                            + " Location: (" + e.getX() + "," + e.getY() + ")");
+                        ballStaticDeadList.add(e);
                         startPop(e);
                     }
                 }
@@ -491,7 +500,7 @@ public class BallManager {
                 //TODO 
             }
         }
-        
+
         /* Check if the popping balls are done */
         for (Iterator<Ball> it = ballPopList.iterator(); it.hasNext();) {
             Ball ball = it.next();
@@ -500,7 +509,7 @@ public class BallManager {
                 //System.out.println("Pop list size: " + ballPopList.size());
             }
         }
-        
+
         /* Check if there are no balls left i.e. player wins */
         if (ballGraph.numberOfBalls() == 0) {
             BustaMove.logger.log(MessageType.Info, "Level completed");
