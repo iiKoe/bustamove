@@ -12,6 +12,7 @@ import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
+import com.group66.game.screens.SplitGameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
 
@@ -37,6 +38,9 @@ public class BallManager {
     /** The ball count. */
     private int ballCount;
 
+    private boolean isSplit = false;
+    private int segmentOffset = 0;
+    
     /** The ball list. */
     private ArrayList<Ball> ballList = new ArrayList<Ball>();
 
@@ -82,6 +86,26 @@ public class BallManager {
         //addStaticBall(-1, 0, 0);
         int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
         cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
+
+        for (int i = 0; i < Ball.MAX_COLORS; i++) {
+            this.colorList.add(new AtomicInteger(0));
+        }
+    }
+    
+    public BallManager(Cannon cannon, float ballRad, int speed, int segmentOffset) {
+        this.cannon = cannon;
+        this.ballRad = ballRad;
+        this.ballSpeed = speed;
+        this.ballCount = 0;
+        this.roofHitbox  = new Rectangle(Config.BORDER_SIZE_SIDES + segmentOffset * Config.SEGMENT_WIDTH, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.LEVEL_WIDTH, 10.0f);
+        this.ballGraph = new BallGraph(roofHitbox);
+        
+        this.isSplit = true;
+        this.segmentOffset = segmentOffset;
+
+        //addStaticBall(-1, 0, 0);
+        int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+        cannonBallList.add(new Ball(rand, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, cannon.getY(), ballRad, 0, 0.0f));
 
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
             this.colorList.add(new AtomicInteger(0));
@@ -142,10 +166,14 @@ public class BallManager {
             cannonBallList.remove(0);
             /*ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
                     ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
-            cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ballRad,
+            cannonBallList.add(new Ball(color, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, cannon.getY(), ballRad,
                     0, (float) Math.toRadians(cannon.getAngle())));
             AudioManager.shoot();
-            GameScreen.timeKeeper.shotTimeReset();
+            if(isSplit) {
+                SplitGameScreen.timeKeeper.shotTimeReset();
+            } else {
+                GameScreen.timeKeeper.shotTimeReset();
+            }
             BustaMove.logger.log(MessageType.Info, "Shot a " + color
                     + " ball at angle " + cannon.getAngle());
             this.ballCount++;
@@ -267,28 +295,28 @@ public class BallManager {
      * @param batch the batch used to draw with
      * @param delta the delta
      */
-    public void drawSplit(SpriteBatch batch, float delta, boolean left) {
+    public void drawSplit(SpriteBatch batch, float delta, int segmentOffset) {
         /* Update the ball lists and graph */
         updateBalls(delta);
     
         /* Draw shot ball */
         for (Ball ball : ballList) {
-            ball.drawSplit(batch, delta, left);
+            ball.drawSplit(batch, delta, segmentOffset);
         }
     
         /* Draw static target balls */
         for (Ball ball : ballStaticList) {
-            ball.drawSplit(batch, delta, left);
+            ball.drawSplit(batch, delta, segmentOffset);
         }
         
         /* Draw popping balls */
         for (Ball ball : ballPopList) {
-            ball.drawSplit(batch, delta, left);
+            ball.drawSplit(batch, delta, segmentOffset);
         }
         
         /* Draw cannon balls */
         for (Ball ball: cannonBallList) {
-            ball.drawSplit(batch, delta, left);
+            ball.drawSplit(batch, delta, segmentOffset);
         }
     }
 
@@ -301,12 +329,10 @@ public class BallManager {
         /* Check if an edge is hit */
         int left = Config.BOUNCE_X_MIN;
         int right = Config.BOUNCE_X_MAX;
-        /*if(split && rightside) {
-            left = Config.WIDTH / 2;
-        } elseif(split && leftside) {
-            right = Config.WIDTH / 2;
+        if(isSplit) {
+            left = Config.BORDER_SIZE_SIDES;
+            right = Config.BORDER_SIZE_SIDES + Config.LEVEL_WIDTH;
         }
-        */
         if (ball.getX() - ball.getRadius() <= left
                 && Math.toDegrees(ball.getAngle()) > 90) {
             // LEFT EDGE
@@ -549,7 +575,11 @@ public class BallManager {
         if (ballGraph.numberOfBalls() == 0) {
             BustaMove.logger.log(MessageType.Info, "Level completed");
             HighScoreManager.addScore(0); //TODO: get score from ScoreKeeper
-            GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
+            if (isSplit) {
+                SplitGameScreen.game.setScreen(new YouWinScreen(SplitGameScreen.game));
+            } else {
+                GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
+            }
         }
     }
 }

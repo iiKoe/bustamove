@@ -60,17 +60,17 @@ public class SplitGameScreen implements Screen {
 
     /** The cannon. */
     private Cannon cannon1 = new Cannon(new Texture("cannon.png"),
-            Config.WIDTH / 4, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
+            Config.BORDER_SIZE_SIDES + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
             Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
     private Cannon cannon2 = new Cannon(new Texture("cannon.png"),
-            Config.WIDTH * 3 / 4, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
+            Config.SEGMENT_WIDTH + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
             Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
 
     /** The ball manager. */
     private BallManager ballManager1 = new BallManager(cannon1, Config.BALL_RAD,
-            Config.BALL_SPEED);
+            Config.BALL_SPEED, 0);
     private BallManager ballManager2 = new BallManager(cannon2, Config.BALL_RAD,
-            Config.BALL_SPEED);
+            Config.BALL_SPEED, 1);
     
     //for testing
     //ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -146,7 +146,10 @@ public class SplitGameScreen implements Screen {
         game.batch.enableBlending();
         
         /* Draw the background */
-        game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
+        game.batch.draw(AssetLoader.bg, Config.BORDER_SIZE_SIDES,
+                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+        game.batch.draw(AssetLoader.bg, Config.SEGMENT_WIDTH,
                 Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
                 Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
         
@@ -160,8 +163,8 @@ public class SplitGameScreen implements Screen {
         textDrawer.drawScore(game.batch, scoreKeeper.getCurrentScore());
         
         /* Draw the balls */
-        ballManager1.drawSplit(game.batch, delta, true);
-        ballManager2.drawSplit(game.batch, delta, false);
+        ballManager1.drawSplit(game.batch, delta, 0);
+        ballManager2.drawSplit(game.batch, delta, 1);
         
         /* Check if balls need to move down */
         if (ballManager1.getBallCount() >= Config.NBALLS_ROW_DOWN 
@@ -190,11 +193,11 @@ public class SplitGameScreen implements Screen {
 
         /* Draw the brick wall */
         Rectangle hitbox1 = ballManager1.getRoofHitbox();
-        game.batch.draw(AssetLoader.bw, hitbox1.x + Config.BOUNCE_X_MIN,
+        game.batch.draw(AssetLoader.bw, hitbox1.x,
                 hitbox1.y + 10, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
                 hitbox1.y);
         Rectangle hitbox2 = ballManager2.getRoofHitbox();
-        game.batch.draw(AssetLoader.bw, hitbox2.x + Config.BOUNCE_X_MIN,
+        game.batch.draw(AssetLoader.bw, hitbox2.x,
                 hitbox2.y + 10, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
                 hitbox2.y);
         

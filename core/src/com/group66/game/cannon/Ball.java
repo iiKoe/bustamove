@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.settings.Config;
 
 /**
  * A basic Ball class.
@@ -391,7 +392,7 @@ public class Ball {
      * @param delta the delta since the last draw
      * @param left determines the offset
      */
-    public void drawSplit(SpriteBatch batch, float delta, boolean left) {
+    public void drawSplit(SpriteBatch batch, float delta, int segmentOffset) {
         this.runtime += delta;
     
         TextureRegion tr;
@@ -422,7 +423,7 @@ public class Ball {
             }
         }
         
-        batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
+        batch.draw(tr, segmentOffset * Config.SEGMENT_WIDTH + hitbox.x - this.radius, hitbox.y - this.radius,
                 this.radius * 2, this.radius * 2);
     }
 }
