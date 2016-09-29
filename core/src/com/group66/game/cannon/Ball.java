@@ -390,7 +390,7 @@ public class Ball {
      * 
      * @param batch the batch used to draw with
      * @param delta the delta since the last draw
-     * @param left determines the offset
+     * @param segmentOffset determines the offset
      */
     public void drawSplit(SpriteBatch batch, float delta, int segmentOffset) {
         this.runtime += delta;
@@ -406,20 +406,20 @@ public class Ball {
             }
         } else {
             switch (color) {
-            case 0:
-                tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
-                break;
-            case 1:
-                tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
-                break;
-            case 2:
-                tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
-                break;
-            case 3:
-                tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
-                break;
-            default:
-                return;
+                case 0:
+                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+                    break;
+                case 1:
+                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+                    break;
+                case 2:
+                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+                    break;
+                case 3:
+                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+                    break;
+                default:
+                    return;
             }
         }
         

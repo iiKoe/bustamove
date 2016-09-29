@@ -92,12 +92,20 @@ public class BallManager {
         }
     }
     
+    /**
+     * Instantiates a new ball manager.
+     * @param cannon the cannon to shoot the Balls out
+     * @param ballRad the Ball radius
+     * @param speed the Ball speed
+     * @param segmentOffset the offset for this segments
+     */
     public BallManager(Cannon cannon, float ballRad, int speed, int segmentOffset) {
         this.cannon = cannon;
         this.ballRad = ballRad;
         this.ballSpeed = speed;
         this.ballCount = 0;
-        this.roofHitbox  = new Rectangle(Config.BORDER_SIZE_SIDES + segmentOffset * Config.SEGMENT_WIDTH, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.LEVEL_WIDTH, 10.0f);
+        this.roofHitbox = new Rectangle(Config.BORDER_SIZE_SIDES + segmentOffset * Config.SEGMENT_WIDTH,
+                Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.LEVEL_WIDTH, 10.0f);
         this.ballGraph = new BallGraph(roofHitbox);
         
         this.isSplit = true;
@@ -105,7 +113,8 @@ public class BallManager {
 
         //addStaticBall(-1, 0, 0);
         int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
-        cannonBallList.add(new Ball(rand, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, cannon.getY(), ballRad, 0, 0.0f));
+        cannonBallList.add(new Ball(rand, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, 
+                cannon.getY(), ballRad, 0, 0.0f));
 
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
             this.colorList.add(new AtomicInteger(0));
@@ -166,10 +175,10 @@ public class BallManager {
             cannonBallList.remove(0);
             /*ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
                     ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
-            cannonBallList.add(new Ball(color, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, cannon.getY(), ballRad,
-                    0, (float) Math.toRadians(cannon.getAngle())));
+            cannonBallList.add(new Ball(color, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, cannon.getY(), 
+                    ballRad, 0, (float) Math.toRadians(cannon.getAngle())));
             AudioManager.shoot();
-            if(isSplit) {
+            if (isSplit) {
                 SplitGameScreen.timeKeeper.shotTimeReset();
             } else {
                 GameScreen.timeKeeper.shotTimeReset();
@@ -329,7 +338,7 @@ public class BallManager {
         /* Check if an edge is hit */
         int left = Config.BOUNCE_X_MIN;
         int right = Config.BOUNCE_X_MAX;
-        if(isSplit) {
+        if (isSplit) {
             left = Config.BORDER_SIZE_SIDES;
             right = Config.BORDER_SIZE_SIDES + Config.LEVEL_WIDTH;
         }
