@@ -13,7 +13,6 @@ public class DifficultyManager {
      * Instantiates a new difficulty manager.
      */
     public DifficultyManager() {
-        difficulty = "easy";
     }
     
     /**
@@ -21,10 +20,9 @@ public class DifficultyManager {
      *
      * @return the int
      */
-    public static int numRows() {
-        int highBar = 3;
-        int lowBar = 5;
-        
+    public int numRows() {
+        int lowBar = 3;
+        int highBar = 5;
         if (difficulty == "easy") {
             lowBar = 3;
             highBar = 5;
@@ -44,7 +42,7 @@ public class DifficultyManager {
      *
      * @param difficultyLevel the new difficulty
      */
-    public static void setDifficulty(String difficultyLevel) {
+    public void setDifficulty(String difficultyLevel) {
         difficulty = difficultyLevel;
     }
     

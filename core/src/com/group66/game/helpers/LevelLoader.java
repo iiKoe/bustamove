@@ -54,8 +54,9 @@ public class LevelLoader {
      */
     public static void generateLevel(BallManager ballManager) {
         Random rand = new Random();
-        int numRows = DifficultyManager.numRows();
-        System.out.println("Number of rows is " + DifficultyManager.numRows());
+        DifficultyManager difficultyManager = new DifficultyManager();
+        int numRows = difficultyManager.numRows();
+        System.out.println("Number of rows is " + difficultyManager.numRows());
         
         //go over each row
         for (int i = 0; i < numRows; i++) {

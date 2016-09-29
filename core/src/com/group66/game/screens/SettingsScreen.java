@@ -37,6 +37,7 @@ public class SettingsScreen implements Screen {
 
     private Stage stage;
     private Skin skin;
+    private DifficultyManager difficultyManager = new DifficultyManager();
 
     /**
      * Instantiates a new main menu screen.
@@ -53,10 +54,9 @@ public class SettingsScreen implements Screen {
 
     private void createScreen() {
         stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-
         skin = new Skin();
-
+        Gdx.input.setInputProcessor(stage);
+        
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
         skin.add("default", bfont);
@@ -110,19 +110,19 @@ public class SettingsScreen implements Screen {
         // revert the checked state.
         easyButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                DifficultyManager.setDifficulty("easy");
+                difficultyManager.setDifficulty("easy");
                 BustaMove.logger.log(MessageType.Default, "Difficulty set to easy");
             }
         });
         mediumButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                DifficultyManager.setDifficulty("medium");
+                difficultyManager.setDifficulty("medium");
                 BustaMove.logger.log(MessageType.Default, "Difficulty set to medium");
             }
         });
         hardButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                DifficultyManager.setDifficulty("hard");
+                difficultyManager.setDifficulty("hard");
                 BustaMove.logger.log(MessageType.Default, "Difficulty set to hard");
             }
         });
