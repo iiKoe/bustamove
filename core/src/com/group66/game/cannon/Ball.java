@@ -108,6 +108,9 @@ public class Ball {
      */
     public Ball(int color, float xpos, float ypos, float rad, int speed, float angle, BallGraph graph) {
         this(color, xpos, ypos, rad, speed, angle);
+        if (graph == null) {
+            throw new NullPointerException();
+        }
         graph.insertBall(this);
     }
 
@@ -331,7 +334,11 @@ public class Ball {
      * @param graph the graph
      */
     public void addToGraph(BallGraph graph) {
-        graph.insertBall(this);
+        try {
+            graph.insertBall(this);
+        } catch (NullPointerException e) {
+            throw new NullPointerException();
+        }
     }
 
     /**
@@ -340,7 +347,11 @@ public class Ball {
      * @param graph the graph
      */
     public void deleteBallFromGraph(BallGraph graph) {
-        graph.removeBall(this);
+        try {
+            graph.removeBall(this);
+        } catch (NullPointerException e) {
+            throw new NullPointerException();
+        }
     }
 
     /**
