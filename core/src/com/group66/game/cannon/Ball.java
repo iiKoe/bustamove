@@ -1,5 +1,6 @@
 package com.group66.game.cannon;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -8,11 +9,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 
-/**
- * A basic Ball class.
- */
-public class Ball {
-    
+public abstract class Ball {
     /**
      * The Enum PopStatus.
      */
@@ -22,17 +19,25 @@ public class Ball {
         DONE 
     }
 
+    public enum BallType {
+        BLUE,
+        GREEN,
+        RED,
+        YELLOW,
+        BOMB
+    }
+
     /** The Constant that represents a BLUE ball. */
-    public static final int BLUE = 0;
+    public static final int BLUE = BallType.BLUE.ordinal();
 
     /** The Constant that represents a GREEN ball. */
-    public static final int GREEN = 1;
+    public static final int GREEN = BallType.GREEN.ordinal();
 
     /** The Constant that represents a RED ball. */
-    public static final int RED = 2;
+    public static final int RED = BallType.RED.ordinal();
 
     /** The Constant that represents a YELLOW ball. */
-    public static final int YELLOW = 3;
+    public static final int YELLOW = BallType.YELLOW.ordinal();
 
     /** The Constant that represents the maximum number of available colors. */
     public static final int MAX_COLORS = 4;
@@ -56,17 +61,17 @@ public class Ball {
     private float time;
 
     /** The color of the Ball. */
-    private int color;
+    private BallType type;
 
     /** The radius of the Ball. */
     private float radius;
-    
+
     /**  The runtime used for animations. */
     private float runtime;
-    
+
     /**  The pop animation status. */
     private PopStatus popStatus;
-    
+
     /**  The pop animation instance. */
     private Animation popAnimation;
 
@@ -80,12 +85,12 @@ public class Ball {
      * @param speed the speed of the Ball
      * @param angle the angle of the Ball
      */
-    public Ball(int color, float xpos, float ypos, float rad, int speed, float angle) {
+    public Ball(BallType type, float xpos, float ypos, float rad, int speed, float angle) {
         this.time = 10;
         this.speed = speed;
         this.angle =  angle;
         this.radius = rad;
-        this.color = color % MAX_COLORS;
+        this.type = type;
         this.popStatus = PopStatus.NONE;
         this.runtime = 0f;
 
@@ -95,21 +100,6 @@ public class Ball {
                 this.radius * 2.0f, this.radius * 2.0f);
     }
 
-    /**
-     * Instantiates a new ball.
-     *
-     * @param color the color (must be one of the defined colors, can not be or exceed MAX_COLORS
-     * @param xpos the x coordinate of the Ball
-     * @param ypos the y coordinate of the Ball
-     * @param rad the radius of the Ball
-     * @param speed the speed of the Ball
-     * @param angle the angle of the Ball
-     * @param graph the needs to be added to
-     */
-    public Ball(int color, float xpos, float ypos, float rad, int speed, float angle, BallGraph graph) {
-        this(color, xpos, ypos, rad, speed, angle);
-        graph.insertBall(this);
-    }
 
     /**
      * Gets the x coordinate.
@@ -164,7 +154,7 @@ public class Ball {
     public void setAngle(float angle) {
         this.angle = angle;
     }
-    
+
     /**
      * Sets the speed.
      * 
@@ -197,9 +187,18 @@ public class Ball {
      * @return the color
      */
     public int getColor() {
-        return color;
+        return type.ordinal();
     }
-    
+
+    /**
+     * Gets the type
+     * 
+     * @return the type
+     */
+    public BallType getType() {
+        return type;
+    }
+
     /**
      * Move down.
      *
@@ -210,7 +209,7 @@ public class Ball {
         this.neighborBox.y -= dy;
         this.topHitbox.y -= dy;
     }
-    
+
     /**
      * Sets the x coordinate.
      *
@@ -221,7 +220,7 @@ public class Ball {
         this.neighborBox.x = xpos;
         this.topHitbox.x = xpos;
     }
-    
+
     /**
      * Sets the y coordinate.
      *
@@ -279,7 +278,7 @@ public class Ball {
     public boolean isNextTo(Circle circle) {
         return circle.overlaps(neighborBox);
     }
-    
+
     /**
      * Pop done.
      *
@@ -292,7 +291,7 @@ public class Ball {
         }
         return false;
     }
-    
+
     /**
      * Start the Pop animation.
      */
@@ -300,25 +299,25 @@ public class Ball {
         if (popStatus == PopStatus.POPPING) {
             return;
         }
-        
-        switch (color) {
-            case BLUE:
-                popAnimation = AssetLoader.getBluePopAnimation();
-                break;
-            case GREEN:
-                popAnimation = AssetLoader.getGreenPopAnimation();
-                break;
-            case RED:
-                popAnimation = AssetLoader.getRedPopAnimation();
-                break;
-            case YELLOW:
-                popAnimation = AssetLoader.getYellowPopAnimation();
-                break;
-            default:
-                popAnimation = AssetLoader.getBluePopAnimation(); // Error
-                return;
+
+        switch (type) {
+        case BLUE:
+            popAnimation = AssetLoader.getBluePopAnimation();
+            break;
+        case GREEN:
+            popAnimation = AssetLoader.getGreenPopAnimation();
+            break;
+        case RED:
+            popAnimation = AssetLoader.getRedPopAnimation();
+            break;
+        case YELLOW:
+            popAnimation = AssetLoader.getYellowPopAnimation();
+            break;
+        default:
+            popAnimation = AssetLoader.getBluePopAnimation(); // Error
+            return;
         }
-        
+
         this.runtime = 0;
         popStatus = PopStatus.POPPING;
         AudioManager.ballpop();
@@ -363,25 +362,40 @@ public class Ball {
                 //System.out.println("Popping Done!");
             }
         } else {
-            switch (color) {
-                case 0:
-                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
-                    break;
-                case 1:
-                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
-                    break;
-                case 2:
-                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
-                    break;
-                case 3:
-                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
-                    break;
-                default:
-                    return;
+            switch (type) {
+            case BLUE:
+                tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+                break;
+            case GREEN:
+                tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+                break;
+            case RED:
+                tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+                break;
+            case YELLOW:
+                tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+                break;
+            case BOMB:
+                tr = new TextureRegion(AssetLoader.bomb);
+                break;
+            default:
+                return;
             }
         }
-        
+
         batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
                 this.radius * 2, this.radius * 2);
     }
+    
+    /**
+     * Checks if two balls of of the same type
+     * 
+     * @param ball to compare
+     * @return Boolean whether balls are of the same type
+     */
+    public Boolean isEqual(Ball ball) {
+        return false;
+    }
+
+
 }

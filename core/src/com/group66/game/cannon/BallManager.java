@@ -8,6 +8,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.Ball.BallType;
+import com.group66.game.cannon.Ball;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
@@ -82,7 +84,7 @@ public class BallManager {
 
         //addStaticBall(-1, 0, 0);
         int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
-        cannonBallList.add(new Ball(rand, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
+        cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
 
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
             this.colorList.add(new AtomicInteger(0));
@@ -105,15 +107,37 @@ public class BallManager {
      * @param xpos the x coordinate
      * @param ypos the y coordinate
      */
-    public void addStaticBall(int color, float xpos, float ypos) { 
-        ballStaticList.add(new Ball(color, xpos, ypos, ballRad, 0, 0.0f));
+    public void addStaticBall(BallType type, float xpos, float ypos) { 
+        if (type == BallType.BOMB) {
+            ballStaticList.add(new BombBall(xpos, ypos, ballRad, 0, 0.0f));
+        }
+        else {
+            ballStaticList.add(new ColoredBall(type, xpos, ypos, ballRad, 0, 0.0f));
+            colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
+        }
         ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
-        colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
         BustaMove.logger.log(MessageType.Debug, "add ball: color(" 
                 + ballStaticList.get(ballStaticList.size() - 1).getColor() 
                 + "), " + "x(" + ballStaticList.get(ballStaticList.size() - 1).getX() + "), y(" 
                 + ballStaticList.get(ballStaticList.size() - 1).getY() + "), pointer(" 
                 + ballStaticList.get(ballStaticList.size() - 1).toString() + ")");
+    }
+    
+    public void addStaticBall(int color, float xpos, float ypos) { 
+        BallType type = BallType.BLUE;
+        if (color == com.group66.game.cannon.Ball.BLUE) {
+            type = BallType.BLUE;
+        }
+        if (color == com.group66.game.cannon.Ball.GREEN) {
+            type = BallType.GREEN;
+        }
+        if (color == com.group66.game.cannon.Ball.RED) {
+            type = BallType.RED;
+        }
+        if (color == com.group66.game.cannon.Ball.YELLOW) {
+            type = BallType.YELLOW;
+        }
+        addStaticBall(type, xpos, ypos);
     }
 
     /**
@@ -143,7 +167,9 @@ public class BallManager {
             cannonBallList.remove(0);
             /*ballList.add(new Ball(color, cannon.getX(), cannon.getY(), ball_rad,
                     ball_speed, (float) Math.toRadians(cannon.getAngle())));*/
-            cannonBallList.add(new Ball(color, cannon.getX(), cannon.getY(), ballRad,
+            //cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), ballRad,
+            //0, (float) Math.toRadians(cannon.getAngle())));
+            cannonBallList.add(new ColoredBall(color, cannon.getX(), cannon.getY(), ballRad,
                     0, (float) Math.toRadians(cannon.getAngle())));
             AudioManager.shoot();
             GameScreen.timeKeeper.shotTimeReset();
@@ -450,14 +476,16 @@ public class BallManager {
         while (ballStaticDeadList.size() != 0) {
             ballGraph.removeBall(ballStaticDeadList.get(0));
             ballStaticList.remove(ballStaticDeadList.get(0));
-            colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
+            if (ballStaticDeadList.get(0).getType() != BallType.BOMB) {
+                colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
+            }
             ballStaticDeadList.remove(0);
             //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
             if (ballStaticDeadList.size() == 0) {
                 for (Ball e:ballGraph.getFreeBalls()) {
                     ballStaticDeadList.add(e);
-                    if (!ballPopList.contains(e)) {
+                    if (!ballPopList.contains(e) && e.getType() != BallType.BOMB) {
                         startPop(e);
                     }
                     //System.out.println("ball added to deadlist(free)");
@@ -473,7 +501,7 @@ public class BallManager {
         }
 
         while (ballToBeAdded.size() != 0) {
-            addStaticBall(ballToBeAdded.get(0).getColor(), 
+            addStaticBall(ballToBeAdded.get(0).getType(), 
                     (int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
             ballToBeAdded.remove(0);
             int count = 0;

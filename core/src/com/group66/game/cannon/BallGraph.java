@@ -37,7 +37,7 @@ public class BallGraph {
         graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
         //topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
         this.topHitbox = roofHitbox;
-        top = new Ball(-1,9999,9999,0,0,0.0f);
+        top = new ColoredBall(-1,9999,9999,0,0,0.0f);
         graph.addVertex(top);
         
     }
@@ -134,13 +134,13 @@ public class BallGraph {
             for (DefaultEdge e:graph.edgesOf(qball)) {
                 //Check target of the edge
                 Ball eball = graph.getEdgeTarget(e);
-                if (eball.getColor() == ball.getColor() && !ret.contains(eball)) {
+                if (eball.isEqual(ball) && !ret.contains(eball)) {
                     queue.add(eball);
                     ret.add(eball);
                 }
                 //check source of the edge
                 eball = graph.getEdgeSource(e);
-                if (eball.getColor() == ball.getColor() && !ret.contains(eball)) {
+                if (eball.isEqual(ball) && !ret.contains(eball)) {
                     queue.add(eball);
                     ret.add(eball);
                 }
