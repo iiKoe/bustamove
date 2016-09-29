@@ -1,3 +1,4 @@
+
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
@@ -16,17 +17,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.DifficultyManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
 /**
- * A Class for the MainMenuScreen of the game.
+ * A Class for the SettingsScreen of the game.
  */
-public class MainMenuScreen implements Screen {
+public class SettingsScreen implements Screen {
     
     // TODO: either make scalable or move to config
-    private static final int BUTTON_WIDTH = 200;
+    private static final int BUTTON_WIDTH = 120;
     private static final int BUTTON_HEIGHT = 50;
     private static final int BUTTON_SPACING = 20;
 
@@ -42,12 +44,11 @@ public class MainMenuScreen implements Screen {
      * @param game
      *            the game instance
      */
-    public MainMenuScreen(BustaMove game) {
+    public SettingsScreen(BustaMove game) {
         this.game = game;
         AssetLoader.load();
-        HighScoreManager.loadData();
         createScreen();
-        BustaMove.logger.log(MessageType.Info, "Loaded the main menu screen");
+        BustaMove.logger.log(MessageType.Info, "Loaded the settings screen");
     }
 
     private void createScreen() {
@@ -79,31 +80,26 @@ public class MainMenuScreen implements Screen {
         //all magic numbers in this section are offsets values adjusted to get better looks
         int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 75;
         
-        TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
-        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, 
+        TextButton easyButton = new TextButton("Easy", textButtonStyle);
+        easyButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 300) / 2, 
                 yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
         
-        TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
-        randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+        TextButton mediumButton = new TextButton("Medium", textButtonStyle);
+        mediumButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
                 yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
         
-        TextButton scoresButton = new TextButton("High scores", textButtonStyle);
-        scoresButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
+        TextButton hardButton = new TextButton("Hard!", textButtonStyle);
+        hardButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 300) / 2,
+                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
+
+        TextButton menuButton = new TextButton("Menu", textButtonStyle);
+        menuButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
                 yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
-        TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
-        
-        TextButton settingsButton = new TextButton("Settings", textButtonStyle);
-        settingsButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
-        
-        stage.addActor(levelButton);
-        stage.addActor(randomButton);
-        stage.addActor(scoresButton);
-        stage.addActor(exitButton);
-        stage.addActor(settingsButton);
+        stage.addActor(easyButton);
+        stage.addActor(mediumButton);
+        stage.addActor(hardButton);
+        stage.addActor(menuButton);
 
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
@@ -112,30 +108,27 @@ public class MainMenuScreen implements Screen {
         // ClickListener could have been used, but would only fire when clicked.
         // Also, canceling a ClickListener event won't
         // revert the checked state.
-        levelButton.addListener(new ChangeListener() {
+        easyButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, false));
+                DifficultyManager.setDifficulty("easy");
+                BustaMove.logger.log(MessageType.Default, "Difficulty set to easy");
             }
         });
-        randomButton.addListener(new ChangeListener() {
+        mediumButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, true));
+                DifficultyManager.setDifficulty("medium");
+                BustaMove.logger.log(MessageType.Default, "Difficulty set to medium");
             }
         });
-        scoresButton.addListener(new ChangeListener() {
+        hardButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new HighScoreScreen(game));
+                DifficultyManager.setDifficulty("hard");
+                BustaMove.logger.log(MessageType.Default, "Difficulty set to hard");
             }
         });
-        exitButton.addListener(new ChangeListener() {
+        menuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.logger.log(MessageType.Default, "Exit the game");
-                Gdx.app.exit();
-            }
-        });
-        settingsButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SettingsScreen(game));
+                game.setScreen(new MainMenuScreen(game));
             }
         });
     }
