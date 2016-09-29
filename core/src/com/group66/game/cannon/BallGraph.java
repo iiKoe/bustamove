@@ -10,24 +10,27 @@ import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.BustaMove;
+import com.group66.game.cannon.Ball.BallType;
+import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
 /**
  * The Class BallGraph.
  */
 public class BallGraph {
-    
+
     /** top hitbox to detect whether the balls are still connected. */
     private Rectangle topHitbox; 
-    
+
     /** The top. */
-    private Ball top;
-    
+    private TopBall top;
+
 
     /** The graph where the balls and relations are stored in. */
     private UndirectedGraph<Ball, DefaultEdge> graph;
-    
-    
+
+
     /**
      * Instantiates a new Ball graph.
      *
@@ -37,9 +40,9 @@ public class BallGraph {
         graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
         //topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
         this.topHitbox = roofHitbox;
-        top = new ColoredBall(-1,9999,9999,0,0,0.0f);
+        top = new TopBall(BallType.BLUE,9999,9999,0,0,0.0f);
         graph.addVertex(top);
-        
+
     }
 
     /**
@@ -101,11 +104,11 @@ public class BallGraph {
      * @param ball the ball of whose adjacent balls should be checked
      * @return integer with the number of adjacent balls
      */
-    public int numberOfAdjacentBalls(Ball ball) {
+    public int numberOfAdjacentColoredBalls(Ball ball) {
         if (ball == null) {
             return 0;
         }
-        return getAdjacentBalls(ball).size();
+        return getAdjacentColoredBalls(ball).size();
     }
 
     /**
@@ -114,7 +117,7 @@ public class BallGraph {
      * @param ball the ball of whose adjacent balls should be checked
      * @return ArrayList<Ball> a list of the adjacent balls
      */
-    public ArrayList<Ball> getAdjacentBalls(Ball ball) {
+    public ArrayList<Ball> getAdjacentColoredBalls(Ball ball) {
         if (ball == null) {
             return null;
         }
@@ -127,28 +130,112 @@ public class BallGraph {
             ret.add(ball);
             queue.add(ball);
         }
-        //Process all the balls in the queue
-        while (!queue.isEmpty()) {
-            Ball qball = queue.remove();
-            //investigate all the edges of the ball
-            for (DefaultEdge e:graph.edgesOf(qball)) {
-                //Check target of the edge
-                Ball eball = graph.getEdgeTarget(e);
-                if (eball.isEqual(ball) && !ret.contains(eball)) {
-                    queue.add(eball);
-                    ret.add(eball);
-                }
-                //check source of the edge
-                eball = graph.getEdgeSource(e);
-                if (eball.isEqual(ball) && !ret.contains(eball)) {
-                    queue.add(eball);
-                    ret.add(eball);
+        if (ball.getType() != BallType.BOMB) {
+            //Process all the balls in the queue
+            while (!queue.isEmpty()) {
+                Ball qball = queue.remove();
+                //investigate all the edges of the ball
+                for (DefaultEdge e:graph.edgesOf(qball)) {
+                    //Check target of the edge
+                    Ball eball = graph.getEdgeTarget(e);
+                    if (eball.isEqual(ball) && !ret.contains(eball)) {
+                        queue.add(eball);
+                        ret.add(eball);
+                    }
+                    //check source of the edge
+                    eball = graph.getEdgeSource(e);
+                    if (eball.isEqual(ball) && !ret.contains(eball)) {
+                        queue.add(eball);
+                        ret.add(eball);
+                    }
                 }
             }
         }
+        else {
+            Queue<Ball> BallsToCheckAdjacenBalls = new LinkedList<Ball>();
+            BallsToCheckAdjacenBalls.add(ball);
+            while (!queue.isEmpty()) {
+                Ball qball = queue.remove();
+                for (DefaultEdge e:graph.edgesOf(qball)) {
+                    //Check target of the edge
+                    Ball eball = graph.getEdgeTarget(e);
+                    if (eball.getType() == BallType.BOMB && !ret.contains(eball)) {
+                        queue.add(eball);
+                        BallsToCheckAdjacenBalls.add(eball);
+                        ret.add(eball);
+                    }
+                    //check source of the edge
+                    eball = graph.getEdgeSource(e);
+                    if (eball.getType() == BallType.BOMB && !ret.contains(eball)) {
+                        queue.add(eball);
+                        BallsToCheckAdjacenBalls.add(eball);
+                        ret.add(eball);
+                    }
+                }
+            }
+            
+            while (!BallsToCheckAdjacenBalls.isEmpty() && ret.size() > 1) {
+                Ball qball = BallsToCheckAdjacenBalls.remove();
+                ArrayList<Ball> ballsToCheck = new ArrayList<Ball>();
+                //investigate all the edges of the ball
+                for (DefaultEdge e:graph.edgesOf(qball)) {
+                    //Check target of the edge
+                    Ball eball = graph.getEdgeTarget(e);
+                    ballsToCheck = this.getAdjacentBalls(eball);
+                    for (Ball AdjacentBall:ballsToCheck) {
+                        ArrayList<Ball> ballsToCheckColor = new ArrayList<Ball>();
+                        if (AdjacentBall.getType() != BallType.BOMB) {
+                            ballsToCheckColor = this.getAdjacentColoredBalls(AdjacentBall);
+                            if (ballsToCheckColor.size() >= 2){
+                                for (Ball coloredBall:ballsToCheckColor) {
+                                    if (!ret.contains(coloredBall)) {
+                                        ret.add(coloredBall);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    //check source of the edge
+                    eball = graph.getEdgeSource(e);
+                    ballsToCheck = this.getAdjacentBalls(eball);
+                    for (Ball AdjacentBall:ballsToCheck) {
+                        ArrayList<Ball> ballsToCheckColor = new ArrayList<Ball>();
+                        if (AdjacentBall.getType() != BallType.BOMB) {
+                            ballsToCheckColor = this.getAdjacentColoredBalls(AdjacentBall);
+                            if (ballsToCheckColor.size() >= 2){
+                                for (Ball coloredBall:ballsToCheckColor) {
+                                    if (!ret.contains(coloredBall)) {
+                                        ret.add(coloredBall);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            BustaMove.logger.log(MessageType.Info, "GetAdjacentColoredBalls(BOMB) return size: " + ret.size());
+        }
         return ret;
     }
-   
+
+    public ArrayList<Ball> getAdjacentBalls(Ball ball) {
+        ArrayList<Ball> ret = new ArrayList<Ball>();
+
+        for (DefaultEdge e:graph.edgesOf(ball)) {
+            //Check target of the edge
+            Ball eball = graph.getEdgeTarget(e);
+            if (eball.isEqual(ball) && !ret.contains(eball)) {
+                ret.add(eball);
+            }
+            //check source of the edge
+            eball = graph.getEdgeSource(e);
+            if (eball.isEqual(ball) && !ret.contains(eball)) {
+                ret.add(eball);
+            }
+        }        
+        return ret;
+    }
+
     /**
      * This function provides a list of all the balls that are not in some way connected to the top of the screen.
      *
@@ -157,7 +244,7 @@ public class BallGraph {
     public ArrayList<Ball> getFreeBalls() {
         return this.getFreeBalls(this.top);
     }
-    
+
     /**
      * This function provides a list of all the balls that are not in some way connected to the top of the screen.
      *
@@ -180,7 +267,7 @@ public class BallGraph {
         }
         return ret;
     }
-    
+
     /**
      * This function returns a list of all the balls in the graph.
      * @param exclude a ball that will be excluded from the list. (meant for the top ball)
@@ -202,10 +289,10 @@ public class BallGraph {
      * @return A list of all the balls in the graph
      */
     public ArrayList<Ball> getBalls() {
-        
+
         return getBalls(this.top);
     }
-    
+
     /**
      * Check is a ball location is taken.
      *

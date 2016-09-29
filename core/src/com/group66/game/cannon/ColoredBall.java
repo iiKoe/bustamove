@@ -44,6 +44,7 @@ public class ColoredBall extends Ball {
      */
     private static BallType getEnum(int color) {
         BallType type = BallType.BLUE;
+        color %= MAX_COLORS;
         if (color == BLUE) {
             type = BallType.BLUE;
         }
