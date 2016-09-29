@@ -7,12 +7,12 @@ import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.settings.Config;
 
 /**
  * A basic Ball class.
  */
 public class Ball {
-    
     /**
      * The Enum PopStatus.
      */
@@ -382,6 +382,48 @@ public class Ball {
         }
         
         batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
+                this.radius * 2, this.radius * 2);
+    }
+    
+    /**
+     * Draw the Ball.
+     * 
+     * @param batch the batch used to draw with
+     * @param delta the delta since the last draw
+     * @param segmentOffset determines the offset
+     */
+    public void drawSplit(SpriteBatch batch, float delta, int segmentOffset) {
+        this.runtime += delta;
+    
+        TextureRegion tr;
+        // TODO What to draw when popping is done? Nothing?
+        if (popStatus == PopStatus.POPPING) {
+            tr = popAnimation.getKeyFrame(this.runtime);
+            if (popAnimation.isAnimationFinished(this.runtime)) {
+                popStatus = PopStatus.DONE;
+                this.runtime = 0;
+                //System.out.println("Popping Done!");
+            }
+        } else {
+            switch (color) {
+                case 0:
+                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+                    break;
+                case 1:
+                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+                    break;
+                case 2:
+                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+                    break;
+                case 3:
+                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+                    break;
+                default:
+                    return;
+            }
+        }
+        
+        batch.draw(tr, segmentOffset * Config.SEGMENT_WIDTH + hitbox.x - this.radius, hitbox.y - this.radius,
                 this.radius * 2, this.radius * 2);
     }
 }
