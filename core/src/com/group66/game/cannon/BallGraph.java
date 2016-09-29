@@ -150,10 +150,9 @@ public class BallGraph {
                     }
                 }
             }
-        }
-        else {
-            Queue<Ball> BallsToCheckAdjacenBalls = new LinkedList<Ball>();
-            BallsToCheckAdjacenBalls.add(ball);
+        } else {
+            Queue<Ball> ballsToCheckAdjacenBalls = new LinkedList<Ball>();
+            ballsToCheckAdjacenBalls.add(ball);
             while (!queue.isEmpty()) {
                 Ball qball = queue.remove();
                 for (DefaultEdge e:graph.edgesOf(qball)) {
@@ -161,32 +160,32 @@ public class BallGraph {
                     Ball eball = graph.getEdgeTarget(e);
                     if (eball.getType() == BallType.BOMB && !ret.contains(eball)) {
                         queue.add(eball);
-                        BallsToCheckAdjacenBalls.add(eball);
+                        ballsToCheckAdjacenBalls.add(eball);
                         ret.add(eball);
                     }
                     //check source of the edge
                     eball = graph.getEdgeSource(e);
                     if (eball.getType() == BallType.BOMB && !ret.contains(eball)) {
                         queue.add(eball);
-                        BallsToCheckAdjacenBalls.add(eball);
+                        ballsToCheckAdjacenBalls.add(eball);
                         ret.add(eball);
                     }
                 }
             }
             
-            while (!BallsToCheckAdjacenBalls.isEmpty() && ret.size() > 1) {
-                Ball qball = BallsToCheckAdjacenBalls.remove();
+            while (!ballsToCheckAdjacenBalls.isEmpty() && ret.size() > 1) {
+                Ball qball = ballsToCheckAdjacenBalls.remove();
                 ArrayList<Ball> ballsToCheck = new ArrayList<Ball>();
                 //investigate all the edges of the ball
                 for (DefaultEdge e:graph.edgesOf(qball)) {
                     //Check target of the edge
                     Ball eball = graph.getEdgeTarget(e);
                     ballsToCheck = this.getAdjacentBalls(eball);
-                    for (Ball AdjacentBall:ballsToCheck) {
+                    for (Ball adjacentBall:ballsToCheck) {
                         ArrayList<Ball> ballsToCheckColor = new ArrayList<Ball>();
-                        if (AdjacentBall.getType() != BallType.BOMB) {
-                            ballsToCheckColor = this.getAdjacentColoredBalls(AdjacentBall);
-                            if (ballsToCheckColor.size() >= 2){
+                        if (adjacentBall.getType() != BallType.BOMB) {
+                            ballsToCheckColor = this.getAdjacentColoredBalls(adjacentBall);
+                            if (ballsToCheckColor.size() >= 2) {
                                 for (Ball coloredBall:ballsToCheckColor) {
                                     if (!ret.contains(coloredBall)) {
                                         ret.add(coloredBall);
@@ -198,11 +197,11 @@ public class BallGraph {
                     //check source of the edge
                     eball = graph.getEdgeSource(e);
                     ballsToCheck = this.getAdjacentBalls(eball);
-                    for (Ball AdjacentBall:ballsToCheck) {
+                    for (Ball adjacentBall:ballsToCheck) {
                         ArrayList<Ball> ballsToCheckColor = new ArrayList<Ball>();
-                        if (AdjacentBall.getType() != BallType.BOMB) {
-                            ballsToCheckColor = this.getAdjacentColoredBalls(AdjacentBall);
-                            if (ballsToCheckColor.size() >= 2){
+                        if (adjacentBall.getType() != BallType.BOMB) {
+                            ballsToCheckColor = this.getAdjacentColoredBalls(adjacentBall);
+                            if (ballsToCheckColor.size() >= 2) {
                                 for (Ball coloredBall:ballsToCheckColor) {
                                     if (!ret.contains(coloredBall)) {
                                         ret.add(coloredBall);
@@ -218,6 +217,12 @@ public class BallGraph {
         return ret;
     }
 
+    /**
+     * Gets the adjacentballs
+     * 
+     * @param ball
+     * @return List of adjacentballs
+     */
     public ArrayList<Ball> getAdjacentBalls(Ball ball) {
         ArrayList<Ball> ret = new ArrayList<Ball>();
 

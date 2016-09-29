@@ -84,11 +84,10 @@ public class BallManager {
         this.ballGraph = new BallGraph(roofHitbox);
 
         //addStaticBall(-1, 0, 0);
-        int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS+1);
+        int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS + 1);
         if (rand < Ball.MAX_COLORS) {
             cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));  
-        }
-        else {
+        } else {
             cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
         }
         
@@ -109,15 +108,14 @@ public class BallManager {
     /**
      * Adds a static ball.
      * 
-     * @param color the color
+     * @param type the color
      * @param xpos the x coordinate
      * @param ypos the y coordinate
      */
     public void addStaticBall(BallType type, float xpos, float ypos) { 
         if (type == BallType.BOMB) {
             ballStaticList.add(new BombBall(xpos, ypos, ballRad, 0, 0.0f));
-        }
-        else {
+        } else {
             ballStaticList.add(new ColoredBall(type, xpos, ypos, ballRad, 0, 0.0f));
             colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
         }
@@ -129,6 +127,13 @@ public class BallManager {
                 + ballStaticList.get(ballStaticList.size() - 1).toString() + ")");
     }
     
+    /**
+     * Adds a static ball
+     * 
+     * @param color
+     * @param xpos
+     * @param ypos
+     */
     public void addStaticBall(int color, float xpos, float ypos) { 
         BallType type = BallType.BLUE;
         color %= Ball.MAX_COLORS;
@@ -174,8 +179,7 @@ public class BallManager {
             cannonBallList.remove(0);
             if (color < Ball.MAX_COLORS) {
                 cannonBallList.add(new ColoredBall(color, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));  
-            }
-            else {
+            } else {
                 cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
             }
             AudioManager.shoot();
@@ -192,7 +196,7 @@ public class BallManager {
     public void shootRandomBall() {
         int rand;
         do {
-            rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS+1);
+            rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS + 1);
         } while (rand < Ball.MAX_COLORS && colorList.get(rand).get() <= 0);
         shootBall(rand);
     }
@@ -528,8 +532,7 @@ public class BallManager {
                         ballStaticDeadList.add(e);
                         if (e.getType() != BallType.BOMB) {
                             startPop(e);
-                        }
-                        else {
+                        } else {
                             GameScreen.scoreKeeper.doubleCurrentScore();
                         }
                         //GameScreen.scoreKeeper.setCurrentScore(1, 0);

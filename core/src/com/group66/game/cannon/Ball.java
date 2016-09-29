@@ -78,7 +78,7 @@ public abstract class Ball {
     /**
      * Instantiates a new ball.
      * 
-     * @param color the color can not be or exceed MAX_COLORS
+     * @param type the color can not be or exceed MAX_COLORS
      * @param xpos the x coordinate of the Ball
      * @param ypos the y coordinate of the Ball
      * @param rad the radius of the Ball
@@ -301,21 +301,21 @@ public abstract class Ball {
         }
 
         switch (type) {
-        case BLUE:
-            popAnimation = AssetLoader.getBluePopAnimation();
-            break;
-        case GREEN:
-            popAnimation = AssetLoader.getGreenPopAnimation();
-            break;
-        case RED:
-            popAnimation = AssetLoader.getRedPopAnimation();
-            break;
-        case YELLOW:
-            popAnimation = AssetLoader.getYellowPopAnimation();
-            break;
-        default:
-            popAnimation = AssetLoader.getBluePopAnimation(); // Error
-            return;
+            case BLUE:
+                popAnimation = AssetLoader.getBluePopAnimation();
+                break;
+            case GREEN:
+                popAnimation = AssetLoader.getGreenPopAnimation();
+                break;
+            case RED:
+                popAnimation = AssetLoader.getRedPopAnimation();
+                break;
+            case YELLOW:
+                popAnimation = AssetLoader.getYellowPopAnimation();
+                break;
+            default:
+                popAnimation = AssetLoader.getBluePopAnimation(); // Error
+                return;
         }
 
         this.runtime = 0;
@@ -363,30 +363,30 @@ public abstract class Ball {
             }
         } else {
             switch (type) {
-            case BLUE:
-                tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
-                break;
-            case GREEN:
-                tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
-                break;
-            case RED:
-                tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
-                break;
-            case YELLOW:
-                tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
-                break;
-            case BOMB:
-                tr = new TextureRegion(AssetLoader.bomb);
-                break;
-            default:
-                return;
+                case BLUE:
+                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+                    break;
+                case GREEN:
+                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+                    break;
+                case RED:
+                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+                    break;
+                case YELLOW:
+                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+                    break;
+                case BOMB:
+                    tr = new TextureRegion(AssetLoader.bomb);
+                    break;
+                default:
+                    return;
             }
         }
 
         batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
                 this.radius * 2, this.radius * 2);
     }
-    
+
     /**
      * Checks if two balls of of the same type
      * 
