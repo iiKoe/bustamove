@@ -91,7 +91,36 @@ public class LevelLoader {
     }
     
     /**
-     * Generate a random level.
+     * Generate a random level for one player.
+     */
+    public static void generateLevel(BallManager ballManager) {
+        Random rand = new Random();
+        DifficultyManager difficultyManager = new DifficultyManager();
+        int numRows = difficultyManager.numRows();
+        System.out.println("Number of rows is " + difficultyManager.numRows());
+        //go over each row
+        for (int i = 0; i < numRows; i++) {
+            int ypos = Config.BOUNCE_Y_MAX - (2 * i + 1) * Config.BALL_RAD;
+
+            int numBalls = Config.NUM_BALLS_ROW;
+            int xoffset = 0;
+            if (i % 2 != 0) {
+                numBalls--; // one less on the odd rows
+                xoffset = Config.BALL_RAD;
+            }
+            //fill the row with balls
+            for (int j = 0; j < numBalls; j++) {
+                int xpos = Config.BOUNCE_X_MIN + (2 * j + 1) * Config.BALL_RAD + xoffset;
+                int ballIndex = rand.nextInt(Ball.MAX_COLORS + 1);
+                if (ballIndex != Ball.MAX_COLORS) { // max_colors is no ball
+                    ballManager.addStaticBall(ballIndex, xpos, ypos);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Generate a random level for two players.
      */
     public static void generateLevel(BallManager ballManager1, BallManager ballManager2) {
         Random rand = new Random();
