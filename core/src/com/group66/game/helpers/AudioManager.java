@@ -91,6 +91,7 @@ public class AudioManager {
             try {
                 ballpop.play();
             } catch (NullPointerException e) {
+                return;
             }
         }
     }
