@@ -96,15 +96,20 @@ public class MainMenuScreen implements Screen {
                 yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
         TextButton settingsButton = new TextButton("Settings", textButtonStyle);
-        settingsButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
+        settingsButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
                 yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        
+        TextButton splitButton = new TextButton("Play: Split screen", textButtonStyle);
+        splitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+                yoffset - 3* (BUTTON_HEIGHT + BUTTON_SPACING));
         
         stage.addActor(levelButton);
         stage.addActor(randomButton);
         stage.addActor(scoresButton);
         stage.addActor(exitButton);
         stage.addActor(settingsButton);
-
+        stage.addActor(splitButton);
+        
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
         // Button#setChecked() is called, via a key press, etc. If the
@@ -136,6 +141,11 @@ public class MainMenuScreen implements Screen {
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new SettingsScreen(game));
+            }
+        });
+        splitButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new SplitGameScreen(game, true));
             }
         });
     }
