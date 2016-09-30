@@ -68,6 +68,11 @@ public class DifficultyManager {
      */
     public class EasyRowsGenerator implements IRowGenerationBehaviour {
                 
+        /**
+         * Easy Num rows generator.
+         *
+         * @return the int
+         */
         public int numRowsGenerator() {
             int lowBar = 3;
             int highBar = 5;
@@ -80,6 +85,11 @@ public class DifficultyManager {
      */
     public class MediumRowsGenerator implements IRowGenerationBehaviour {
         
+        /**
+         * Medium Num rows generator.
+         *
+         * @return the int
+         */
         public int numRowsGenerator() {
             int lowBar = 6;
             int highBar = 8;
@@ -92,6 +102,11 @@ public class DifficultyManager {
      */
     public class HardRowsGenerator implements IRowGenerationBehaviour {
         
+        /**
+         * Hard Num rows generator.
+         *
+         * @return the int
+         */
         public int numRowsGenerator() {
             int lowBar = 9;
             int highBar = 11;
