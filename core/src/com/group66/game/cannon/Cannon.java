@@ -47,6 +47,9 @@ public class Cannon {
      */
     public Cannon(Texture texture, int xpos, int ypos, int height, int width,
             float minAngle, float maxAngle) {
+        if (texture == null) {
+            throw new NullPointerException();
+        }
         this.angle =  90;
         this.xpos = xpos;
         this.ypos = ypos;
@@ -74,7 +77,7 @@ public class Cannon {
      * @param angle the new angle
      */
     public void setAngle(float angle) {
-        this.angle = checkAngle(this.angle + angle);
+        this.angle = checkAngle(angle);
     }
     
     /**
@@ -123,20 +126,14 @@ public class Cannon {
     }
     
     /**
-     * Update.
-     *
-     * @param delta the delta
-     */
-    public void update(float delta) {
-        
-    }
-    
-    /**
      * Draw the Cannon.
      *
      * @param batch the batch used to draw with
      */
     public void draw(SpriteBatch batch) {
+        if (batch == null) {
+            throw new NullPointerException();
+        }
         batch.draw(cannonTextureRegion, xpos - width / 2f, ypos - height / 2f, 
                 width / 2f, height / 2f, width, height, 1, 1, angle, true);
     }

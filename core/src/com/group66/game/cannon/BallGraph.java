@@ -63,8 +63,11 @@ public class BallGraph {
     public void insertBall(Ball insert) {
         if (insert != null) {
             graph.addVertex(insert);
-            if (this.topHitbox.overlaps(insert.getTopHitbox())) {
+            /*if (this.topHitbox.overlaps(insert.getTopHitbox())) {
                 //System.out.println("Is connected to top");
+                this.connectBalls(insert, top);
+            }*/
+            if (insert.getY() >= Config.BOUNCE_Y_MAX - Config.BALL_RAD) {
                 this.connectBalls(insert, top);
             }
             if (this.getBalls().size() > 0) {

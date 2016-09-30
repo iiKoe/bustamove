@@ -15,6 +15,7 @@ import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
+import com.group66.game.screens.SplitGameScreen;
 import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
 
@@ -41,6 +42,9 @@ public class BallManager {
     /** The ball count. */
     private int ballCount;
 
+    private boolean isSplit = false;
+    private int segmentOffset = 0;
+    
     /** The ball list. */
     private ArrayList<Ball> ballList = new ArrayList<Ball>();
 
@@ -91,6 +95,43 @@ public class BallManager {
             cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
         }
         
+        for (int i = 0; i < Ball.MAX_COLORS; i++) {
+            this.colorList.add(new AtomicInteger(0));
+        }
+    }
+    
+    /**
+     * Instantiates a new ball manager.
+     * @param cannon the cannon to shoot the Balls out
+     * @param ballRad the Ball radius
+     * @param speed the Ball speed
+     * @param segmentOffset the offset for this segments
+     */
+    public BallManager(Cannon cannon, float ballRad, int speed, int segmentOffset) {
+        this.cannon = cannon;
+        this.ballRad = ballRad;
+        this.ballSpeed = speed;
+        this.ballCount = 0;
+        this.roofHitbox = new Rectangle(Config.BORDER_SIZE_SIDES + segmentOffset * Config.SEGMENT_WIDTH,
+                Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.LEVEL_WIDTH, 10.0f);
+        this.ballGraph = new BallGraph(roofHitbox);
+        
+        this.isSplit = true;
+        this.segmentOffset = segmentOffset;
+
+        //addStaticBall(-1, 0, 0);
+        int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS + 1);
+        if (rand < Ball.MAX_COLORS) {
+            cannonBallList.add(new ColoredBall(rand, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, 
+                    cannon.getY(), ballRad, 0, 0.0f));  
+        } else {
+            cannonBallList.add(new BombBall(cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, 
+                    cannon.getY(), ballRad, 0, 0.0f));
+        }
+        /*int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
+        cannonBallList.add(new Ball(rand, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, 
+                cannon.getY(), ballRad, 0, 0.0f));*/
+
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
             this.colorList.add(new AtomicInteger(0));
         }
@@ -178,12 +219,18 @@ public class BallManager {
             ballList.get(ballList.size() - 1).setSpeed(ballSpeed);
             cannonBallList.remove(0);
             if (color < Ball.MAX_COLORS) {
-                cannonBallList.add(new ColoredBall(color, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));  
+                cannonBallList.add(new ColoredBall(color, cannon.getX() - segmentOffset 
+                        * Config.SEGMENT_WIDTH, cannon.getY(), ballRad, 0, 0.0f));  
             } else {
-                cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
+                cannonBallList.add(new BombBall(cannon.getX() - segmentOffset 
+                        * Config.SEGMENT_WIDTH, cannon.getY(), ballRad, 0, 0.0f));
             }
             AudioManager.shoot();
-            GameScreen.timeKeeper.shotTimeReset();
+            if (isSplit) {
+                SplitGameScreen.timeKeeper.shotTimeReset();
+            } else {
+                GameScreen.timeKeeper.shotTimeReset();
+            }
             BustaMove.logger.log(MessageType.Info, "Shot a " + color
                     + " ball at angle " + cannon.getAngle());
             this.ballCount++;
@@ -300,6 +347,36 @@ public class BallManager {
         }
     }
 
+    /**
+     * Draw the Balls managed by BallManager.
+     *
+     * @param batch the batch used to draw with
+     * @param delta the delta
+     */
+    public void drawSplit(SpriteBatch batch, float delta, int segmentOffset) {
+        /* Update the ball lists and graph */
+        updateBalls(delta);
+    
+        /* Draw shot ball */
+        for (Ball ball : ballList) {
+            ball.drawSplit(batch, delta, segmentOffset);
+        }
+    
+        /* Draw static target balls */
+        for (Ball ball : ballStaticList) {
+            ball.drawSplit(batch, delta, segmentOffset);
+        }
+        
+        /* Draw popping balls */
+        for (Ball ball : ballPopList) {
+            ball.drawSplit(batch, delta, segmentOffset);
+        }
+        
+        /* Draw cannon balls */
+        for (Ball ball: cannonBallList) {
+            ball.drawSplit(batch, delta, segmentOffset);
+        }
+    }
 
 
     /**
@@ -309,13 +386,19 @@ public class BallManager {
      */
     private void bounceEdge(Ball ball) {
         /* Check if an edge is hit */
-        if (ball.getX() - ball.getRadius() <= Config.BOUNCE_X_MIN
+        int left = Config.BOUNCE_X_MIN;
+        int right = Config.BOUNCE_X_MAX;
+        if (isSplit) {
+            left = Config.BORDER_SIZE_SIDES;
+            right = Config.BORDER_SIZE_SIDES + Config.LEVEL_WIDTH;
+        }
+        if (ball.getX() - ball.getRadius() <= left
                 && Math.toDegrees(ball.getAngle()) > 90) {
             // LEFT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
             AudioManager.wallhit();
             BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
-        } else if (ball.getX() + ball.getRadius() >= Config.BOUNCE_X_MAX
+        } else if (ball.getX() + ball.getRadius() >= right
                 && Math.toDegrees(ball.getAngle()) < 90) {
             // RIGHT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
@@ -558,7 +641,11 @@ public class BallManager {
         if (ballGraph.numberOfBalls() == 0) {
             BustaMove.logger.log(MessageType.Info, "Level completed");
             HighScoreManager.addScore(0); //TODO: get score from ScoreKeeper
-            GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
+            if (isSplit) {
+                SplitGameScreen.game.setScreen(new YouWinScreen(SplitGameScreen.game));
+            } else {
+                GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
+            }
         }
     }
 }
