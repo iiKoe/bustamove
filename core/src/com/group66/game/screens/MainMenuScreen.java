@@ -91,17 +91,17 @@ public class MainMenuScreen implements Screen {
         scoresButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
                 yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
-        TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+        TextButton splitButton = new TextButton("Play: Split screen", textButtonStyle);
+        splitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
                 yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
         TextButton settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
                 yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
-        TextButton splitButton = new TextButton("Play: Split screen", textButtonStyle);
-        splitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
-                yoffset - 3* (BUTTON_HEIGHT + BUTTON_SPACING));
+        TextButton exitButton = new TextButton("Exit", textButtonStyle);
+        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+                yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
         stage.addActor(levelButton);
         stage.addActor(randomButton);
