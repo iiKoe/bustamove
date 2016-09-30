@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class AudioManager {
-    private static Boolean mute;
+    private static Boolean mute = false;
     private static Sound shoot, wallhit, ballpop;
     private static Music gameMusic;
     
@@ -88,7 +88,11 @@ public class AudioManager {
      */
     public static void ballpop() {
         if (!mute) {
-            ballpop.play();
+            try {
+                ballpop.play();
+            } catch (NullPointerException e) {
+                return;
+            }
         }
     }
     

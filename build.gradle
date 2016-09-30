@@ -17,7 +17,6 @@ allprojects {
     apply plugin: 'checkstyle'
     apply plugin: 'findbugs'
     apply plugin: 'pmd'
-    apply plugin: 'net.saliman.cobertura'
 
     version = '1.0'
     ext {
@@ -43,6 +42,9 @@ allprojects {
 		// https://mvnrepository.com/artifact/junit/junit
 		compile group: 'junit', name: 'junit', version: '4.12'
 		
+		// https://mvnrepository.com/artifact/org.mockito/mockito-all
+		compile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+		
 		// https://mvnrepository.com/artifact/com.google.code.findbugs/findbugs
 		compile group: 'com.google.code.findbugs', name: 'findbugs', version: '3.0.1'
 		
@@ -54,14 +56,26 @@ allprojects {
 
 		// https://mvnrepository.com/artifact/org.jgrapht/jgrapht-core
 		compile group: 'org.jgrapht', name: 'jgrapht-core', version: '0.9.2'
+		
+		testRuntime 'org.slf4j:slf4j-nop:1.7.12' // for cobertura
+
     }
     
     checkstyle {
         configFile = rootProject.file('checkstyle/google_checks.xml')
         ignoreFailures = false
+        checkstyleTest.enabled = false
     }
 
     findbugsMain {
+        reports {
+            xml.enabled = false
+            html.enabled = true
+        }
+        ignoreFailures = true
+    }
+
+    findbugsTest {
         reports {
             xml.enabled = false
             html.enabled = true
@@ -73,7 +87,6 @@ allprojects {
 project(":desktop") {
     apply plugin: "java"
 
-
     dependencies {
         compile project(":core")
         compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
@@ -84,11 +97,20 @@ project(":desktop") {
 
 project(":core") {
     apply plugin: "java"
+    apply plugin: "net.saliman.cobertura"
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-freetype:$gdxVersion"
     }
+	
+    cobertura {
+        coverageFormats = ['html']				
+        coverageIgnoreTrivial = true					
+        coverageIgnores = ['org.slf4j.Logger.*']			
+    }
+	
+	test.finalizedBy(project.tasks.cobertura)
 }
 
 tasks.eclipse.doLast {
