@@ -72,6 +72,10 @@ public class AssetLoader {
     
     /** The Yellow pop texture regions. */
     public static TextureRegion[] YellowPopTextureRegions = new TextureRegion[7];
+    
+    /** The bom texture. */
+    public static Texture bomb;
+    
 
     /**
      * Load the sprites.
@@ -150,6 +154,11 @@ public class AssetLoader {
         TextureRegion[] yellowTR = { yellow1, yellow2, yellow3};
         yellowAnimation = new Animation(0.1f, yellowTR);
         yellowAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+        
+        //creating texture bomb
+        bomb = new Texture(Gdx.files.internal("bomb.png"));
+        bomb.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        
         
         /* 
          * Ball pop animations 

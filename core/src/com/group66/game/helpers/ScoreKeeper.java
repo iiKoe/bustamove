@@ -40,6 +40,15 @@ public class ScoreKeeper {
         BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
     }
     
+    /**
+     * Doubles the current score
+     * 
+     */
+    public void doubleCurrentScore() {
+        this.currentScore *= 2;
+        BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
+    }
+    
     // GameScreen.scoreKeeper.setCurrentScore(poppingBalls, hangingBalls);
     /**
      * Display score.
