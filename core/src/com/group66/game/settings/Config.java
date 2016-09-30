@@ -18,17 +18,20 @@ public class Config {
     /** The Constant for the border size BORDER_SIZE_BOT (the bottom). */
     public static final int BORDER_SIZE_BOT = 10;
             
+    public static final int LEVEL_WIDTH = 600;
+    public static final int SEGMENT_WIDTH = LEVEL_WIDTH + BORDER_SIZE_SIDES * 2;
+    
     /** The Constant for the game WIDTH. */
-    public static final int WIDTH = 600 + BORDER_SIZE_SIDES * 2;
+    public static final int WIDTH = SEGMENT_WIDTH * 2 - BORDER_SIZE_SIDES;
     
     /** The Constant for the game HEIGHT. */
     public static final int HEIGHT = 880 + BORDER_SIZE_TOP + BORDER_SIZE_BOT;
     
     /** The Constant for the ball bounce border BOUNCE_X_MIN. */
-    public static final int BOUNCE_X_MIN = BORDER_SIZE_SIDES;
+    public static final int BOUNCE_X_MIN = (WIDTH - LEVEL_WIDTH) / 2;
     
     /** The Constant for the ball bounce border BOUNCE_X_MAX. */
-    public static final int BOUNCE_X_MAX = WIDTH - BORDER_SIZE_SIDES;
+    public static final int BOUNCE_X_MAX = (WIDTH + LEVEL_WIDTH) / 2;
 
     /** The Constant for the ball bounce border BOUNCE_Y_MIN. */
     public static final int BOUNCE_Y_MIN = BORDER_SIZE_BOT;
@@ -44,7 +47,7 @@ public class Config {
     public static final int NUM_BALLS_ROW = 8;
     
     /** The Constant for the BALL_DIAM (diameter). */
-    public static final int BALL_DIAM = (BOUNCE_X_MAX - BOUNCE_X_MIN) / NUM_BALLS_ROW;
+    public static final int BALL_DIAM = LEVEL_WIDTH / NUM_BALLS_ROW;
     
     /** The Constant for the BALL_RAD (radius). */
     public static final int BALL_RAD = BALL_DIAM / 2;
@@ -76,6 +79,4 @@ public class Config {
     
     /** The y coordinate location of the displayed player score */
     public static final int SCORE_Y_LOCATION = 40;
-    
-    
 }

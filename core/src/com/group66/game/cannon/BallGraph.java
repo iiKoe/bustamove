@@ -37,9 +37,8 @@ public class BallGraph {
         graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
         //topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
         this.topHitbox = roofHitbox;
-        top = new Ball(-1,9999,9999,0,0,0.0f);
+        top = new Ball(-1,roofHitbox.x + 9999,9999,0,0,0.0f);
         graph.addVertex(top);
-        
     }
 
     /**
@@ -60,8 +59,11 @@ public class BallGraph {
     public void insertBall(Ball insert) {
         if (insert != null) {
             graph.addVertex(insert);
-            if (this.topHitbox.overlaps(insert.getTopHitbox())) {
+            /*if (this.topHitbox.overlaps(insert.getTopHitbox())) {
                 //System.out.println("Is connected to top");
+                this.connectBalls(insert, top);
+            }*/
+            if (insert.getY() >= Config.BOUNCE_Y_MAX - Config.BALL_RAD) {
                 this.connectBalls(insert, top);
             }
             if (this.getBalls().size() > 0) {
