@@ -417,23 +417,23 @@ public abstract class Ball {
             }
         } else {
             switch (type) {
-            case BLUE:
-                tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
-                break;
-            case GREEN:
-                tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
-                break;
-            case RED:
-                tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
-                break;
-            case YELLOW:
-                tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
-                break;
-            case BOMB:
-                tr = new TextureRegion(AssetLoader.bomb);
-                break;
-            default:
-                return;
+                case BLUE:
+                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
+                    break;
+                case GREEN:
+                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
+                    break;
+                case RED:
+                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
+                    break;
+                case YELLOW:
+                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
+                    break;
+                case BOMB:
+                    tr = new TextureRegion(AssetLoader.bomb);
+                    break;
+                default:
+                    return;
             }
         }
         
