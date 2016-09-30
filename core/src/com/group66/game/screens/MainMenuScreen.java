@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
@@ -44,6 +45,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen(BustaMove game) {
         this.game = game;
         AssetLoader.load();
+        HighScoreManager.loadData();
         createScreen();
         BustaMove.logger.log(MessageType.Info, "Loaded the main menu screen");
     }
@@ -79,7 +81,7 @@ public class MainMenuScreen implements Screen {
         
         TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
         levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2, 
-        		yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+                yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
         
         TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
         randomButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
@@ -89,15 +91,25 @@ public class MainMenuScreen implements Screen {
         scoresButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
                 yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
+        TextButton splitButton = new TextButton("Play: Split screen", textButtonStyle);
+        splitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
+                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        
+        TextButton settingsButton = new TextButton("Settings", textButtonStyle);
+        settingsButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 250) / 2,
+                yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        
         TextButton exitButton = new TextButton("Exit", textButtonStyle);
         exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 250) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+                yoffset - 3 * (BUTTON_HEIGHT + BUTTON_SPACING));
         
         stage.addActor(levelButton);
         stage.addActor(randomButton);
         stage.addActor(scoresButton);
         stage.addActor(exitButton);
-
+        stage.addActor(settingsButton);
+        stage.addActor(splitButton);
+        
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
         // Button#setChecked() is called, via a key press, etc. If the
@@ -115,10 +127,25 @@ public class MainMenuScreen implements Screen {
                 game.setScreen(new GameScreen(game, true));
             }
         });
+        scoresButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new HighScoreScreen(game));
+            }
+        });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 BustaMove.logger.log(MessageType.Default, "Exit the game");
                 Gdx.app.exit();
+            }
+        });
+        settingsButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new SettingsScreen(game));
+            }
+        });
+        splitButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new SplitGameScreen(game, true));
             }
         });
     }
@@ -132,15 +159,15 @@ public class MainMenuScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		
+        
         /* Draw the background */
         game.batch.begin();
-		game.batch.enableBlending();
-		game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-				Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-		game.batch.end();
-		
+        game.batch.enableBlending();
+        game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
+                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+        game.batch.end();
+        
         stage.act();
         stage.draw();
     }
