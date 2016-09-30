@@ -10,7 +10,7 @@ import com.group66.game.cannon.BallManager;
 import com.group66.game.settings.Config;
 
 public class LevelLoader {
-
+    
     /**
      * Load a test level.
      */
@@ -89,14 +89,15 @@ public class LevelLoader {
             e.printStackTrace();
         }
     }
-
+    
     /**
-     * Generate a random level.
+     * Generate a random level for one player.
      */
     public static void generateLevel(BallManager ballManager) {
         Random rand = new Random();
-        //int numRows = 2 + r.nextInt(5); // 2-6 rows
-        int numRows = 4;
+        DifficultyManager difficultyManager = new DifficultyManager();
+        int numRows = difficultyManager.numRows();
+        System.out.println("Number of rows is " + difficultyManager.numRows());
         //go over each row
         for (int i = 0; i < numRows; i++) {
             int ypos = Config.BOUNCE_Y_MAX - (2 * i + 1) * Config.BALL_RAD;
@@ -119,12 +120,13 @@ public class LevelLoader {
     }
     
     /**
-     * Generate a random level.
+     * Generate a random level for two players.
      */
     public static void generateLevel(BallManager ballManager1, BallManager ballManager2) {
         Random rand = new Random();
-        //int numRows = 2 + r.nextInt(5); // 2-6 rows
-        int numRows = 4;
+        DifficultyManager difficultyManager = new DifficultyManager();
+        int numRows = difficultyManager.numRows();
+        System.out.println("Number of rows is " + difficultyManager.numRows());
         //go over each row
         for (int i = 0; i < numRows; i++) {
             int ypos = Config.BOUNCE_Y_MAX - (2 * i + 1) * Config.BALL_RAD;
