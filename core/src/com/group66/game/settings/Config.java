@@ -4,7 +4,6 @@ package com.group66.game.settings;
  * A Class used for static configurations/setting to have it all localized at one place.
  */
 public class Config {
-    // TODO make a bit nicer
     /* General game settings */
     public static final int NBALLS_ROW_DOWN = 8;
     
@@ -79,4 +78,8 @@ public class Config {
     
     /** The y coordinate location of the displayed player score */
     public static final int SCORE_Y_LOCATION = 40;
+    
+    public static final int BUTTON_WIDTH = 200;
+    public static final int BUTTON_HEIGHT = 50;
+    public static final int BUTTON_SPACING = 20;
 }

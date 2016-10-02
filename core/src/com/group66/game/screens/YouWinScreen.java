@@ -22,12 +22,6 @@ import com.group66.game.BustaMove;
  * A Class for the MainMenuScreen of the game.
  */
 public class YouWinScreen implements Screen {
-    
-    // TODO: either make scalable or move to config
-    private static final int BUTTON_WIDTH = 200;
-    private static final int BUTTON_HEIGHT = 50;
-    private static final int BUTTON_SPACING = 20;
-
     /** A place to store the game instance. */
     private BustaMove game;
 
@@ -56,7 +50,7 @@ public class YouWinScreen implements Screen {
         skin.add("default", bfont);
 
         // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(BUTTON_WIDTH, BUTTON_HEIGHT, Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT, Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
@@ -72,14 +66,14 @@ public class YouWinScreen implements Screen {
         skin.add("default", textButtonStyle);
 
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 70 ;
+        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
         
         TextButton levelButton = new TextButton("Main Menu", textButtonStyle);
-        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2, yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        levelButton.setPosition(centercol, yoffset);
         
         TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        exitButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
         
         stage.addActor(levelButton);
         stage.addActor(exitButton);

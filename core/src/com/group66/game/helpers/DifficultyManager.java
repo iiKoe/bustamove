@@ -1,11 +1,5 @@
-/*
- * 
- */
 package com.group66.game.helpers;
 
-
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class DifficultyManager.
  */
@@ -66,7 +60,7 @@ public class DifficultyManager {
     /**
      * The Class EasyRowsGenerator.
      */
-    public class EasyRowsGenerator implements IRowGenerationBehaviour {
+    public static class EasyRowsGenerator implements IRowGenerationBehaviour {
                 
         /**
          * Easy Num rows generator.
@@ -83,7 +77,7 @@ public class DifficultyManager {
     /**
      * The Class MediumRowsGenerator.
      */
-    public class MediumRowsGenerator implements IRowGenerationBehaviour {
+    public static class MediumRowsGenerator implements IRowGenerationBehaviour {
         
         /**
          * Medium Num rows generator.
@@ -100,7 +94,7 @@ public class DifficultyManager {
     /**
      * The Class HardRowsGenerator.
      */
-    public class HardRowsGenerator implements IRowGenerationBehaviour {
+    public static class HardRowsGenerator implements IRowGenerationBehaviour {
         
         /**
          * Hard Num rows generator.
