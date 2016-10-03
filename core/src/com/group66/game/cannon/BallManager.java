@@ -436,19 +436,15 @@ public class BallManager {
         if (do1 < do2 && do1 < do3 && do1 < do4 && do1 < do5 && do1 < do6) {
             ball.setX(o1x);
             ball.setY(o1y);
-            //System.out.println("Option 1");
         } else if (do2 < do1 && do2 < do3 && do2 < do4 && do2 < do5 && do2 < do6) {
             ball.setX(o2x);
             ball.setY(o2y);
-            //System.out.println("Option 2");
         } else if (do3 < do1 && do3 < do2 && do3 < do4 && do3 < do5 && do3 < do6) {
             ball.setX(o3x);
             ball.setY(o3y);
-            //System.out.println("Option 3");
         } else if (do4 < do1 && do4 < do2 && do4 < do3 && do4 < do5 && do4 < do6) {
             ball.setX(o4x);
             ball.setY(o4y);
-            //System.out.println("Option 4");
         } else if (do5 < do1 && do5 < do2 && do5 < do3 && do5 < do4 && do5 < do6) {
             ball.setX(o5x);
             ball.setY(o5y);

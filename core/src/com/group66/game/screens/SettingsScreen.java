@@ -26,12 +26,6 @@ import com.group66.game.settings.Config;
  * A Class for the SettingsScreen of the game.
  */
 public class SettingsScreen implements Screen {
-    
-    // TODO: either make scalable or move to config
-    private static final int BUTTON_WIDTH = 120;
-    private static final int BUTTON_HEIGHT = 50;
-    private static final int BUTTON_SPACING = 20;
-
     /** A place to store the game instance. */
     private BustaMove game;
 
@@ -62,7 +56,7 @@ public class SettingsScreen implements Screen {
         skin.add("default", bfont);
 
         // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(BUTTON_WIDTH, BUTTON_HEIGHT, Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT, Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
@@ -78,23 +72,20 @@ public class SettingsScreen implements Screen {
         skin.add("default", textButtonStyle);
 
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 75;
+        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 75;
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
         
         TextButton easyButton = new TextButton("Easy", textButtonStyle);
-        easyButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 300) / 2, 
-                yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        easyButton.setPosition(centercol - Config.BUTTON_WIDTH - Config.BUTTON_SPACING, yoffset);
         
         TextButton mediumButton = new TextButton("Medium", textButtonStyle);
-        mediumButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
+        mediumButton.setPosition(centercol, yoffset);
         
         TextButton hardButton = new TextButton("Hard!", textButtonStyle);
-        hardButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 300) / 2,
-                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
+        hardButton.setPosition(centercol + Config.BUTTON_WIDTH + Config.BUTTON_SPACING, yoffset);
 
         TextButton menuButton = new TextButton("Menu", textButtonStyle);
-        menuButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        menuButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
         
         stage.addActor(easyButton);
         stage.addActor(mediumButton);
