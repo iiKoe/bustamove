@@ -38,8 +38,7 @@ public class TextDrawer {
      * @param score the score
      */
     public void drawScore(SpriteBatch batch, int score) {
-        myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_X_LOCATION, 
-                Config.SCORE_Y_LOCATION);
+        myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_OFFSET, Config.SCORE_OFFSET);
     }
     
     /**

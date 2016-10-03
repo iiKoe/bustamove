@@ -58,22 +58,10 @@ public class SplitGameScreen implements Screen {
     /** The input handler. */
     private InputHandler inputHandler = new InputHandler();
 
-    /** The cannon. */
-    private Cannon cannon1 = new Cannon(new Texture("cannon.png"),
-            Config.BORDER_SIZE_SIDES + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
-            Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
-    private Cannon cannon2 = new Cannon(new Texture("cannon.png"),
-            Config.SEGMENT_WIDTH + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
-            Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
-
     /** The ball manager. */
-    private BallManager ballManager1 = new BallManager(cannon1, Config.BALL_RAD,
-            Config.BALL_SPEED, 0);
-    private BallManager ballManager2 = new BallManager(cannon2, Config.BALL_RAD,
-            Config.BALL_SPEED, 1);
-    
-    //for testing
-    //ShapeRenderer shapeRenderer = new ShapeRenderer();
+    private BallManager ballManager1 = new BallManager(0);
+    private BallManager ballManager2 = new BallManager(2);
+    private BallManager ballManager3 = new BallManager(1);
     
     /**  needed to draw text, draw score. */
     private TextDrawer textDrawer = new TextDrawer();
@@ -94,10 +82,14 @@ public class SplitGameScreen implements Screen {
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager1, ballManager2);
+            LevelLoader.loadLevel(ballManager1, true);
+            ballManager2.shiftClone(ballManager1);
+            ballManager3.shiftClone(ballManager1);
             BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
         } else {
-            LevelLoader.generateLevel(ballManager1, ballManager2);
+            LevelLoader.generateLevel(ballManager1, true);
+            ballManager2.shiftClone(ballManager1);
+            ballManager3.shiftClone(ballManager1);
             BustaMove.logger.log(MessageType.Info, "Loaded a random level");
         }
     }
@@ -145,62 +137,27 @@ public class SplitGameScreen implements Screen {
         game.batch.begin();
         game.batch.enableBlending();
         
-        /* Draw the background */
-        game.batch.draw(AssetLoader.bg, Config.BORDER_SIZE_SIDES,
-                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-        game.batch.draw(AssetLoader.bg, Config.SEGMENT_WIDTH,
-                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-        
         /* Start counting time*/
         timeKeeper.universalTimeCounter(delta);
         
         /* Check if a ball hasn't been shot in the past 10 seconds */
         timeKeeper.didHeShoot();
         
+        /* Draw the balls */
+        ballManager1.draw(game.batch, delta);
+        ballManager2.draw(game.batch, delta);
+        ballManager3.draw(game.batch, delta);
+        
         /* Draw the score */
         textDrawer.drawScore(game.batch, scoreKeeper.getCurrentScore());
         
-        /* Draw the balls */
-        ballManager1.drawSplit(game.batch, delta, 0);
-        ballManager2.drawSplit(game.batch, delta, 1);
-        
-        /* Check if balls need to move down */
-        if (ballManager1.getBallCount() >= Config.NBALLS_ROW_DOWN 
-                && ballManager1.canShoot()) {
-            System.out.println("Move balls down");
-            ballManager1.moveRowDown();
-            ballManager1.setBallCount(0);
-        }
-        if (ballManager2.getBallCount() >= Config.NBALLS_ROW_DOWN 
-                && ballManager2.canShoot()) {
-            System.out.println("Move balls down");
-            ballManager2.moveRowDown();
-            ballManager2.setBallCount(0);
-        }
-        
-        /* Draw the cannon */
-        cannon1.draw(game.batch);
-        cannon2.draw(game.batch);
-        
         /* Check if game-over condition is reached */
-        if (ballManager1.isGameOver() || ballManager2.isGameOver()) {
+        if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
             HighScoreManager.addScore(scoreKeeper.currentScore);
             game.setScreen(new YouLoseScreen(game));
         }
 
-        /* Draw the brick wall */
-        Rectangle hitbox1 = ballManager1.getRoofHitbox();
-        game.batch.draw(AssetLoader.bw, hitbox1.x,
-                hitbox1.y + 10, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                hitbox1.y);
-        Rectangle hitbox2 = ballManager2.getRoofHitbox();
-        game.batch.draw(AssetLoader.bw, hitbox2.x,
-                hitbox2.y + 10, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                hitbox2.y);
-        
         game.batch.end();
     }
 
@@ -268,19 +225,22 @@ public class SplitGameScreen implements Screen {
         inputHandler.registerKeyMap("Aim Right 2", Keys.RIGHT);
         inputHandler.registerKeyMap("Toggle Pause", Keys.ESCAPE);
         inputHandler.registerKeyMap("Toggle mute", Keys.M);
-
+        inputHandler.registerKeyMap("Shoot 3", Keys.I);
+        inputHandler.registerKeyMap("Aim Left 3", Keys.J);
+        inputHandler.registerKeyMap("Aim Right 3", Keys.L);
+        
         /* Register key names to functions */
         inputHandler.registerKeyPressedFunc("Aim Left 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon1.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        ballManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
         inputHandler.registerKeyPressedFunc("Aim Right 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon1.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        ballManager1.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 
@@ -294,14 +254,14 @@ public class SplitGameScreen implements Screen {
         inputHandler.registerKeyPressedFunc("Aim Left 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon2.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        ballManager2.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
         inputHandler.registerKeyPressedFunc("Aim Right 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon2.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        ballManager2.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 
@@ -311,7 +271,28 @@ public class SplitGameScreen implements Screen {
                         ballManager2.shootRandomBall();
                     }
                 });
-        
+
+        inputHandler.registerKeyPressedFunc("Aim Left 3",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        ballManager3.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                    }
+                });
+
+        inputHandler.registerKeyPressedFunc("Aim Right 3",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        ballManager3.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                    }
+                });
+
+        inputHandler.registerKeyJustPressedFunc("Shoot 3",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        ballManager3.shootRandomBall();
+                    }
+                });
+
         inputHandler.registerKeyJustPressedFunc("Toggle Pause",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {

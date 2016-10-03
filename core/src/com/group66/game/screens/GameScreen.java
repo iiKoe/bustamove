@@ -58,14 +58,8 @@ public class GameScreen implements Screen {
     /** The input handler. */
     private InputHandler inputHandler = new InputHandler();
 
-    /** The cannon. */
-    private Cannon cannon = new Cannon(new Texture("cannon.png"),
-            Config.WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
-            Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
-
     /** The ball manager. */
-    private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
-            Config.BALL_SPEED);
+    private BallManager ballManager = new BallManager();
     
     //for testing
     //ShapeRenderer shapeRenderer = new ShapeRenderer();
@@ -89,10 +83,10 @@ public class GameScreen implements Screen {
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager);
+            LevelLoader.loadLevel(ballManager, false);
             BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
         } else {
-            LevelLoader.generateLevel(ballManager);
+            LevelLoader.generateLevel(ballManager, false);
             BustaMove.logger.log(MessageType.Info, "Loaded a random level");
         }
     }
@@ -140,11 +134,6 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.enableBlending();
         
-        /* Draw the background */
-        game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-        
         /* Start counting time*/
         timeKeeper.universalTimeCounter(delta);
         
@@ -164,9 +153,6 @@ public class GameScreen implements Screen {
             ballManager.moveRowDown();
             ballManager.setBallCount(0);
         }
-
-        /* Draw the cannon */
-        cannon.draw(game.batch);
         
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
@@ -174,12 +160,6 @@ public class GameScreen implements Screen {
             HighScoreManager.addScore(scoreKeeper.currentScore);
             game.setScreen(new YouLoseScreen(game));
         }
-
-        /* Draw the brick wall */
-        Rectangle hitbox = ballManager.getRoofHitbox();
-        game.batch.draw(AssetLoader.bw, hitbox.x + Config.BOUNCE_X_MIN,
-                hitbox.y + 10, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                hitbox.y);
         
         game.batch.end();
     }
@@ -242,6 +222,8 @@ public class GameScreen implements Screen {
         // Setup the game keys
         inputHandler.registerKeyMap("Shoot", Keys.SPACE);
         inputHandler.registerKeyMap("Shoot", Keys.BACKSPACE);
+        inputHandler.registerKeyMap("Shoot", Keys.W);
+        inputHandler.registerKeyMap("Shoot", Keys.UP);
         inputHandler.registerKeyMap("Aim Left", Keys.A);
         inputHandler.registerKeyMap("Aim Left", Keys.LEFT);
         inputHandler.registerKeyMap("Aim Right", Keys.D);
@@ -254,14 +236,14 @@ public class GameScreen implements Screen {
         inputHandler.registerKeyPressedFunc("Aim Left",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        ballManager.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
         inputHandler.registerKeyPressedFunc("Aim Right",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        ballManager.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 

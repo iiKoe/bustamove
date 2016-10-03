@@ -9,7 +9,6 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.Ball.BallType;
 import com.group66.game.logging.MessageType;
@@ -20,29 +19,19 @@ import com.group66.game.settings.Config;
  */
 public class BallGraph {
 
-    /** top hitbox to detect whether the balls are still connected. */
-    private Rectangle topHitbox; 
-
     /** The top. */
     private TopBall top;
-
 
     /** The graph where the balls and relations are stored in. */
     private UndirectedGraph<Ball, DefaultEdge> graph;
 
-
     /**
      * Instantiates a new Ball graph.
-     *
-     * @param roofHitbox the roof hitbox
      */
-    public BallGraph(Rectangle roofHitbox) {
+    public BallGraph() {
         graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
-        //topHitbox = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - 10, Config.WIDTH, 10.0f);
-        this.topHitbox = roofHitbox;
-        top = new TopBall(BallType.BLUE,9999,9999,0,0,0.0f);
+        top = new TopBall(BallType.BLUE,9999,9999,0,0.0f);
         graph.addVertex(top);
-
     }
 
     /**
@@ -63,11 +52,7 @@ public class BallGraph {
     public void insertBall(Ball insert) {
         if (insert != null) {
             graph.addVertex(insert);
-            /*if (this.topHitbox.overlaps(insert.getTopHitbox())) {
-                //System.out.println("Is connected to top");
-                this.connectBalls(insert, top);
-            }*/
-            if (insert.getY() >= Config.BOUNCE_Y_MAX - Config.BALL_RAD) {
+            if (insert.getY() >= Config.BORDER_SIZE_TOP - Config.BALL_RAD) {
                 this.connectBalls(insert, top);
             }
             if (this.getBalls().size() > 0) {

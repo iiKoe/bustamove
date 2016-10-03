@@ -19,25 +19,16 @@ public class Config {
     public static final int BORDER_SIZE_BOT = 10;
             
     public static final int LEVEL_WIDTH = 600;
-    public static final int SEGMENT_WIDTH = LEVEL_WIDTH + BORDER_SIZE_SIDES * 2;
+    public static final int LEVEL_HEIGHT = 880;
+    public static final int SEGMENT_OFFSET = LEVEL_WIDTH + BORDER_SIZE_SIDES;
     
     /** The Constant for the game WIDTH. */
-    public static final int WIDTH = SEGMENT_WIDTH * 2 - BORDER_SIZE_SIDES;
+    public static final int WIDTH = LEVEL_WIDTH * 3 + BORDER_SIZE_SIDES * 4;
     
     /** The Constant for the game HEIGHT. */
-    public static final int HEIGHT = 880 + BORDER_SIZE_TOP + BORDER_SIZE_BOT;
+    public static final int HEIGHT = LEVEL_HEIGHT + BORDER_SIZE_TOP + BORDER_SIZE_BOT;
     
-    /** The Constant for the ball bounce border BOUNCE_X_MIN. */
-    public static final int BOUNCE_X_MIN = (WIDTH - LEVEL_WIDTH) / 2;
-    
-    /** The Constant for the ball bounce border BOUNCE_X_MAX. */
-    public static final int BOUNCE_X_MAX = (WIDTH + LEVEL_WIDTH) / 2;
-
-    /** The Constant for the ball bounce border BOUNCE_Y_MIN. */
-    public static final int BOUNCE_Y_MIN = BORDER_SIZE_BOT;
-    
-    /** The Constant for the ball bounce border BOUNCE_Y_MAX. */
-    public static final int BOUNCE_Y_MAX = HEIGHT - BORDER_SIZE_TOP;
+    public static final int SINGLE_PLAYER_OFFSET = (WIDTH - LEVEL_WIDTH) / 2;
     
     /* Ball settings */
     /** The Constant for the BALL_SPEED. */
@@ -73,10 +64,7 @@ public class Config {
     
     /** The font size used in drawing text */
     public static final int FONT_SIZE = 24;
-    
-    /** The x coordinate location of the displayed player score */
-    public static final int SCORE_X_LOCATION = 430;
-    
-    /** The y coordinate location of the displayed player score */
-    public static final int SCORE_Y_LOCATION = 40;
+
+    /** The x and y offset of the displayed player score */
+    public static final int SCORE_OFFSET = 20;
 }
