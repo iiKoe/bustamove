@@ -19,9 +19,6 @@ public class BustaMove extends Game {
     /** The batch. */
     public SpriteBatch batch;
     
-    /** The camera. */
-    public OrthographicCamera camera;
-     
     /** The logger. */
     public static Logger logger;
     
