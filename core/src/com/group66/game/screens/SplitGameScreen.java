@@ -4,18 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
-import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
-import com.group66.game.helpers.ScoreKeeper;
-import com.group66.game.helpers.TextDrawer;
-import com.group66.game.helpers.TimeKeeper;
 import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
@@ -49,12 +43,6 @@ public class SplitGameScreen implements Screen {
     /** The game state. */
     private GameState gameState;
     
-    /**  The TimeKeeper. */
-    public static TimeKeeper timeKeeper = new TimeKeeper();
-    
-    /**  The score keeper. */
-    public static ScoreKeeper scoreKeeper = new ScoreKeeper();
-
     /** The input handler. */
     private InputHandler inputHandler = new InputHandler();
 
@@ -63,9 +51,6 @@ public class SplitGameScreen implements Screen {
     private BallManager ballManager2 = new BallManager(2);
     private BallManager ballManager3 = new BallManager(1);
     
-    /**  needed to draw text, draw score. */
-    private TextDrawer textDrawer = new TextDrawer();
-
     /**
      * Instantiates the game screen.
      * 
@@ -75,7 +60,7 @@ public class SplitGameScreen implements Screen {
      *            determines if a set level or a random level is used
      */
     public SplitGameScreen(BustaMove game, Boolean randomLevel) {
-        this.game = game;
+        SplitGameScreen.game = game;
         gameState = GameState.RUNNING;
         setup_keys();
         AssetLoader.load();
@@ -137,24 +122,17 @@ public class SplitGameScreen implements Screen {
         game.batch.begin();
         game.batch.enableBlending();
         
-        /* Start counting time*/
-        timeKeeper.universalTimeCounter(delta);
-        
-        /* Check if a ball hasn't been shot in the past 10 seconds */
-        timeKeeper.didHeShoot();
-        
         /* Draw the balls */
         ballManager1.draw(game.batch, delta);
         ballManager2.draw(game.batch, delta);
         ballManager3.draw(game.batch, delta);
         
-        /* Draw the score */
-        textDrawer.drawScore(game.batch, scoreKeeper.getCurrentScore());
-        
         /* Check if game-over condition is reached */
         if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
-            HighScoreManager.addScore(scoreKeeper.currentScore);
+            HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
+            HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
+            HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
             game.setScreen(new YouLoseScreen(game));
         }
 

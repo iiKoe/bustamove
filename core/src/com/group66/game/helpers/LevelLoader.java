@@ -15,7 +15,7 @@ public class LevelLoader {
      * Load a test level.
      */
     public static void loadLevel(BallManager ballManager, boolean isSplit) {
-        String levelFilePath = "testlevel.txt";
+        String levelFilePath = "levels/level10.txt";
 
         try {
             //load the file

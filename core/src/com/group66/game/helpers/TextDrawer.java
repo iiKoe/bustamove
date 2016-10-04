@@ -51,7 +51,6 @@ public class TextDrawer {
      */
     public void draw(SpriteBatch batch, String text, int xpos, int ypos) {
         myFont.draw(batch, text, xpos, ypos);
-        
     }
 }
 

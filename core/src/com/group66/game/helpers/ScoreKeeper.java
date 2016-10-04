@@ -9,7 +9,7 @@ import com.group66.game.logging.MessageType;
 public class ScoreKeeper {
 
     /** The current score. */
-    public int currentScore;
+    private int currentScore;
 
     /**
      * Instantiates a new score keeper.
