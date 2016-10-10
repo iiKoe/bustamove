@@ -52,13 +52,14 @@ public class BallGraph {
     public void insertBall(Ball insert) {
         if (insert != null) {
             graph.addVertex(insert);
-            if (insert.getY() >= Config.BORDER_SIZE_TOP + Config.BALL_RAD) {
+            //is the ball in the top row
+            if (insert.getY() >= Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD) {
                 connectBalls(insert, top);
+                //System.out.println("Connected to top: "+graph.degreeOf(top));
             }
             if (getBalls().size() > 0) {
                 for (Ball e : getBalls()) {
                     if (e != insert && insert.isNextTo(e.getNeighborBox())) {
-
                         //System.out.println("Balls connected");
                         connectBalls(insert, e);
                     }

@@ -489,17 +489,6 @@ public class BallManager {
         ball.setX(newx);
         ball.setY(roofy - Config.BALL_RAD);
 
-        /*
-        for (double xpos = xoffset + Config.LEVEL_WIDTH - Config.BALL_RAD; 
-                xpos >= xoffset + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
-            newx = (float)xpos;
-            if (Math.abs(newx - ball.getX()) <= Config.BALL_RAD) {
-                ball.setX(newx);
-                ball.setY(roofy - Config.BALL_RAD);
-                return;
-            }
-        }
-        */
         BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
     }
 
