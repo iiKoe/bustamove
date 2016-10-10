@@ -52,7 +52,7 @@ public class BallGraph {
     public void insertBall(Ball insert) {
         if (insert != null) {
             graph.addVertex(insert);
-            if (insert.getY() >= Config.BORDER_SIZE_TOP - Config.BALL_RAD) {
+            if (insert.getY() >= Config.BORDER_SIZE_TOP + Config.BALL_RAD) {
                 connectBalls(insert, top);
             }
             if (getBalls().size() > 0) {
