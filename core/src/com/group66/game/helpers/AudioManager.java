@@ -3,6 +3,7 @@ package com.group66.game.helpers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class AudioManager {
     private static Boolean mute = false;
@@ -14,12 +15,16 @@ public class AudioManager {
      */
     public static void load() {
         mute = false;
-        shoot = Gdx.audio.newSound(Gdx.files.internal("audio/shoot.wav"));
-        wallhit = Gdx.audio.newSound(Gdx.files.internal("audio/wallhit.wav"));
-        ballpop = Gdx.audio.newSound(Gdx.files.internal("audio/ballpop.wav"));
-        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/gamemusic.wav"));
-        gameMusic.setVolume(0.5f);
-        gameMusic.setLooping(true);
+        try {
+            shoot = Gdx.audio.newSound(Gdx.files.internal("audio/shoot.wav"));
+            wallhit = Gdx.audio.newSound(Gdx.files.internal("audio/wallhit.wav"));
+            ballpop = Gdx.audio.newSound(Gdx.files.internal("audio/ballpop.wav"));
+            gameMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/gamemusic.wav"));
+            gameMusic.setVolume(0.5f);
+            gameMusic.setLooping(true);
+        } catch (GdxRuntimeException e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -47,6 +52,14 @@ public class AudioManager {
         } else {
             mute();
         }
+    }
+    
+    /**
+     * See if the audiomanager is muted
+     * @return the mute status
+     */
+    public static Boolean isMuted() {
+        return mute;
     }
     
     /**
