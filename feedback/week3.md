@@ -1,7 +1,7 @@
 ## Initial Working Version
 The grade for the Initial Working Version is a **8.5**.
 
-## Sprint #1
+## Week #3
 For grading the sprints I will use the rubrics to grade and give feedback about sprint management and code evolution quality. Then I will grade and give feedback to the assignment. These grades will construct the final grade for the sprint using a 20% (sprint management), 40% (code quality) and 40% (assignment) weight system.
 
 ### Sprint Management
