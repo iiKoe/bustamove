@@ -4,18 +4,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
-import com.group66.game.cannon.Cannon;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
-import com.group66.game.helpers.ScoreKeeper;
-import com.group66.game.helpers.TextDrawer;
-import com.group66.game.helpers.TimeKeeper;
 import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
@@ -49,30 +43,12 @@ public class GameScreen implements Screen {
     /** The game state. */
     private GameState gameState;
     
-    /**  The TimeKeeper. */
-    public static TimeKeeper timeKeeper = new TimeKeeper();
-    
-    /**  The score keeper. */
-    public static ScoreKeeper scoreKeeper = new ScoreKeeper();
-
     /** The input handler. */
     private InputHandler inputHandler = new InputHandler();
 
-    /** The cannon. */
-    private Cannon cannon = new Cannon(new Texture("cannon.png"),
-            Config.WIDTH / 2, Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH,
-            Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
-
     /** The ball manager. */
-    private BallManager ballManager = new BallManager(cannon, Config.BALL_RAD,
-            Config.BALL_SPEED);
+    private BallManager ballManager = new BallManager();
     
-    //for testing
-    //ShapeRenderer shapeRenderer = new ShapeRenderer();
-    
-    /**  needed to draw text, draw score. */
-    private TextDrawer textDrawer = new TextDrawer();
-
     /**
      * Instantiates the game screen.
      * 
@@ -82,17 +58,17 @@ public class GameScreen implements Screen {
      *            determines if a set level or a random level is used
      */
     public GameScreen(BustaMove game, Boolean randomLevel) {
-        this.game = game;
+        GameScreen.game = game;
         gameState = GameState.RUNNING;
         setup_keys();
         AssetLoader.load();
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager);
+            LevelLoader.loadLevel(ballManager, false);
             BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
         } else {
-            LevelLoader.generateLevel(ballManager);
+            LevelLoader.generateLevel(ballManager, false);
             BustaMove.logger.log(MessageType.Info, "Loaded a random level");
         }
     }
@@ -140,20 +116,6 @@ public class GameScreen implements Screen {
         game.batch.begin();
         game.batch.enableBlending();
         
-        /* Draw the background */
-        game.batch.draw(AssetLoader.bg, Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-        
-        /* Start counting time*/
-        timeKeeper.universalTimeCounter(delta);
-        
-        /* Check if a ball hasn't been shot in the past 10 seconds */
-        timeKeeper.didHeShoot();
-        
-        /* Draw the score */
-        textDrawer.drawScore(game.batch, scoreKeeper.getCurrentScore());
-        
         /* Draw the balls */
         ballManager.draw(game.batch, delta);
         
@@ -164,22 +126,13 @@ public class GameScreen implements Screen {
             ballManager.moveRowDown();
             ballManager.setBallCount(0);
         }
-
-        /* Draw the cannon */
-        cannon.draw(game.batch);
         
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
-            HighScoreManager.addScore(scoreKeeper.currentScore);
+            HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
             game.setScreen(new YouLoseScreen(game));
         }
-
-        /* Draw the brick wall */
-        Rectangle hitbox = ballManager.getRoofHitbox();
-        game.batch.draw(AssetLoader.bw, hitbox.x + Config.BOUNCE_X_MIN,
-                hitbox.y + 10, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                hitbox.y);
         
         game.batch.end();
     }
@@ -242,6 +195,8 @@ public class GameScreen implements Screen {
         // Setup the game keys
         inputHandler.registerKeyMap("Shoot", Keys.SPACE);
         inputHandler.registerKeyMap("Shoot", Keys.BACKSPACE);
+        inputHandler.registerKeyMap("Shoot", Keys.W);
+        inputHandler.registerKeyMap("Shoot", Keys.UP);
         inputHandler.registerKeyMap("Aim Left", Keys.A);
         inputHandler.registerKeyMap("Aim Left", Keys.LEFT);
         inputHandler.registerKeyMap("Aim Right", Keys.D);
@@ -254,14 +209,14 @@ public class GameScreen implements Screen {
         inputHandler.registerKeyPressedFunc("Aim Left",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        ballManager.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
         inputHandler.registerKeyPressedFunc("Aim Right",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        ballManager.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 

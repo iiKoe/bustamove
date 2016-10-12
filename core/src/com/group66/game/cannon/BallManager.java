@@ -2,17 +2,21 @@ package com.group66.game.cannon;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.Ball.BallType;
 import com.group66.game.cannon.Ball;
+import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.ScoreKeeper;
+import com.group66.game.helpers.TextDrawer;
+import com.group66.game.helpers.TimeKeeper;
 import com.group66.game.logging.MessageType;
 import com.group66.game.screens.GameScreen;
 import com.group66.game.screens.SplitGameScreen;
@@ -25,7 +29,7 @@ import com.group66.game.settings.Config;
 public class BallManager {
 
     /** The cannon instance to shoot out. */
-    private Cannon cannon;
+    public Cannon cannon;
 
     /** The roof hitbox. */
     private Rectangle roofHitbox;
@@ -33,12 +37,14 @@ public class BallManager {
     /** The graph where all the connections between balls are stored. */
     private BallGraph ballGraph;
 
-    /** The ball speed. */
-    private int ballSpeed;
+    /**  The score keeper. */
+    public ScoreKeeper scoreKeeper = new ScoreKeeper();
+    /**  needed to draw text, draw score. */
+    private TextDrawer textDrawer = new TextDrawer();
 
-    /** The ball radius. */
-    private float ballRad;
-
+    /**  The TimeKeeper. */
+    public TimeKeeper timeKeeper;
+    
     /** The ball count. */
     private int ballCount;
 
@@ -74,25 +80,24 @@ public class BallManager {
 
     /**
      * Instantiates a new ball manager.
-     * 
-     * @param cannon the cannon to shoot the Balls out
-     * @param ballRad the Ball radius
-     * @param speed the Ball speed
      */
-    public BallManager(Cannon cannon, float ballRad, int speed) {
-        this.cannon = cannon;
-        this.ballRad = ballRad;
-        this.ballSpeed = speed;
+    public BallManager() {
+        int xoffset = Config.SINGLE_PLAYER_OFFSET;
+        
+        cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
+                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
         this.ballCount = 0;
-        this.roofHitbox  = new Rectangle(0.0f, Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.WIDTH, 10.0f);
-        this.ballGraph = new BallGraph(roofHitbox);
+        this.roofHitbox  = new Rectangle(xoffset, Config.HEIGHT - Config.BORDER_SIZE_TOP - ROOF_OFFSET,
+                Config.LEVEL_WIDTH + 2 * Config.BORDER_SIZE_SIDES, Config.LEVEL_HEIGHT);
+        this.ballGraph = new BallGraph();
+        this.timeKeeper = new TimeKeeper(this);
 
-        //addStaticBall(-1, 0, 0);
-        int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS + 1);
+        Random random = new Random();
+        int rand = random.nextInt(Ball.MAX_COLORS + 1);
         if (rand < Ball.MAX_COLORS) {
-            cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));  
+            cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), 0, 0.0f));  
         } else {
-            cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), ballRad, 0, 0.0f));
+            cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), 0, 0.0f));
         }
         
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
@@ -102,48 +107,32 @@ public class BallManager {
     
     /**
      * Instantiates a new ball manager.
-     * @param cannon the cannon to shoot the Balls out
-     * @param ballRad the Ball radius
-     * @param speed the Ball speed
      * @param segmentOffset the offset for this segments
      */
-    public BallManager(Cannon cannon, float ballRad, int speed, int segmentOffset) {
-        this.cannon = cannon;
-        this.ballRad = ballRad;
-        this.ballSpeed = speed;
-        this.ballCount = 0;
-        this.roofHitbox = new Rectangle(Config.BORDER_SIZE_SIDES + segmentOffset * Config.SEGMENT_WIDTH,
-                Config.BOUNCE_Y_MAX - ROOF_OFFSET, Config.LEVEL_WIDTH, 10.0f);
-        this.ballGraph = new BallGraph(roofHitbox);
-        
+    public BallManager(int segmentOffset) {
+        int xoffset = Config.SEGMENT_OFFSET * segmentOffset;
         this.isSplit = true;
         this.segmentOffset = segmentOffset;
-
-        //addStaticBall(-1, 0, 0);
-        int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS + 1);
+        
+        cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
+                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
+        this.ballCount = 0;
+        this.roofHitbox = new Rectangle(xoffset + Config.BORDER_SIZE_SIDES,
+                Config.HEIGHT - Config.BORDER_SIZE_TOP - ROOF_OFFSET, Config.LEVEL_WIDTH, Config.LEVEL_HEIGHT);
+        this.ballGraph = new BallGraph();
+        this.timeKeeper = new TimeKeeper(this);
+        
+        Random random = new Random();
+        int rand = random.nextInt(Ball.MAX_COLORS + 1);
         if (rand < Ball.MAX_COLORS) {
-            cannonBallList.add(new ColoredBall(rand, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, 
-                    cannon.getY(), ballRad, 0, 0.0f));  
+            cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), 0, 0.0f));  
         } else {
-            cannonBallList.add(new BombBall(cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, 
-                    cannon.getY(), ballRad, 0, 0.0f));
+            cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), 0, 0.0f));
         }
-        /*int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
-        cannonBallList.add(new Ball(rand, cannon.getX() - segmentOffset * Config.SEGMENT_WIDTH, 
-                cannon.getY(), ballRad, 0, 0.0f));*/
 
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
             this.colorList.add(new AtomicInteger(0));
         }
-    }
-
-    /**
-     * Sets the ball speed.
-     * 
-     * @param speed the new ball speed
-     */
-    public void setBallSpeed(int speed) {
-        this.ballSpeed = speed;
     }
 
     /**
@@ -153,19 +142,21 @@ public class BallManager {
      * @param xpos the x coordinate
      * @param ypos the y coordinate
      */
-    public void addStaticBall(BallType type, float xpos, float ypos) { 
+    public void addStaticBall(BallType type, float xpos, float ypos) {
+        Ball ball;
         if (type == BallType.BOMB) {
-            ballStaticList.add(new BombBall(xpos, ypos, ballRad, 0, 0.0f));
+            ball = new BombBall(xpos, ypos, 0, 0.0f);
         } else {
-            ballStaticList.add(new ColoredBall(type, xpos, ypos, ballRad, 0, 0.0f));
-            colorList.get(ballStaticList.get(ballStaticList.size() - 1).getColor()).incrementAndGet();
+            ball = new ColoredBall(type, xpos, ypos, 0, 0.0f);
         }
-        ballStaticList.get(ballStaticList.size() - 1).addToGraph(ballGraph);
-        BustaMove.logger.log(MessageType.Debug, "add ball: color(" 
-                + ballStaticList.get(ballStaticList.size() - 1).getColor() 
-                + "), " + "x(" + ballStaticList.get(ballStaticList.size() - 1).getX() + "), y(" 
-                + ballStaticList.get(ballStaticList.size() - 1).getY() + "), pointer(" 
-                + ballStaticList.get(ballStaticList.size() - 1).toString() + ")");
+        ballStaticList.add(ball);
+        if (type != BallType.BOMB) {
+            colorList.get(ball.getColor()).incrementAndGet();
+        }
+        ballGraph.insertBall(ball);
+        
+        BustaMove.logger.log(MessageType.Debug, "add ball: color(" + ball.getColor() + "), x(" + ball.getX()
+            + "), y(" + ball.getY() + "), pointer(" + ball.toString() + ")");
     }
     
     /**
@@ -176,20 +167,8 @@ public class BallManager {
      * @param ypos
      */
     public void addStaticBall(int color, float xpos, float ypos) { 
-        BallType type = BallType.BLUE;
         color %= Ball.MAX_COLORS;
-        if (color == Ball.BLUE) {
-            type = BallType.BLUE;
-        }
-        if (color == Ball.GREEN) {
-            type = BallType.GREEN;
-        }
-        if (color == Ball.RED) {
-            type = BallType.RED;
-        }
-        if (color == Ball.YELLOW) {
-            type = BallType.YELLOW;
-        }
+        BallType type = BallType.values()[color];
         addStaticBall(type, xpos, ypos);
     }
 
@@ -200,8 +179,8 @@ public class BallManager {
      * @param ypos the y coordinate
      */
     public void addRandomStaticBall(float xpos, float ypos) {
-        int rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS);
-        //ballStaticList.add(new Ball(rand, x, y, ball_rad, 0, 0.0f));
+        Random random = new Random();
+        int rand = random.nextInt(Ball.MAX_COLORS + 1);
         addStaticBall(rand, xpos, ypos);
     }
 
@@ -216,23 +195,16 @@ public class BallManager {
 
             ballList.add(cannonBallList.get(0));
             ballList.get(ballList.size() - 1).setAngle((float) Math.toRadians(cannon.getAngle()));
-            ballList.get(ballList.size() - 1).setSpeed(ballSpeed);
+            ballList.get(ballList.size() - 1).setSpeed(Config.BALL_SPEED);
             cannonBallList.remove(0);
             if (color < Ball.MAX_COLORS) {
-                cannonBallList.add(new ColoredBall(color, cannon.getX() - segmentOffset 
-                        * Config.SEGMENT_WIDTH, cannon.getY(), ballRad, 0, 0.0f));  
+                cannonBallList.add(new ColoredBall(color, cannon.getX(), cannon.getY(), 0, 0.0f));  
             } else {
-                cannonBallList.add(new BombBall(cannon.getX() - segmentOffset 
-                        * Config.SEGMENT_WIDTH, cannon.getY(), ballRad, 0, 0.0f));
+                cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), 0, 0.0f));
             }
             AudioManager.shoot();
-            if (isSplit) {
-                SplitGameScreen.timeKeeper.shotTimeReset();
-            } else {
-                GameScreen.timeKeeper.shotTimeReset();
-            }
-            BustaMove.logger.log(MessageType.Info, "Shot a " + color
-                    + " ball at angle " + cannon.getAngle());
+            timeKeeper.shotTimeReset();
+            BustaMove.logger.log(MessageType.Info, "Shot a " + color + " ball at angle " + cannon.getAngle());
             this.ballCount++;
         }
     }
@@ -241,9 +213,10 @@ public class BallManager {
      * Shoot random colored ball.
      */
     public void shootRandomBall() {
+        Random random = new Random();
         int rand;
         do {
-            rand = ThreadLocalRandom.current().nextInt(Ball.MAX_COLORS + 1);
+            rand = random.nextInt(Ball.MAX_COLORS + 1);
         } while (rand < Ball.MAX_COLORS && colorList.get(rand).get() <= 0);
         shootBall(rand);
     }
@@ -308,7 +281,7 @@ public class BallManager {
     public boolean isGameOver() {
         for (Ball b : ballStaticList) {
             // TODO fix the != check
-            if (b.getY() - Config.BALL_DIAM <= Config.BOUNCE_Y_MIN  && b.getY() != 0) {
+            if (b.getY() - Config.BALL_DIAM <= Config.BORDER_SIZE_BOT && b.getY() != 0) {
                 return true;
             }
         }
@@ -326,6 +299,18 @@ public class BallManager {
         /* Update the ball lists and graph */
         updateBalls(delta);
 
+        int xoffset = Config.SINGLE_PLAYER_OFFSET;
+        if (isSplit) {
+            xoffset = Config.SEGMENT_OFFSET * segmentOffset;
+        }
+        
+        //draw the background
+        batch.draw(AssetLoader.bg, xoffset + Config.BORDER_SIZE_SIDES, Config.BORDER_SIZE_BOT,
+                Config.LEVEL_WIDTH, Config.LEVEL_HEIGHT);
+        
+        /* Draw the brick wall */
+        batch.draw(AssetLoader.bw, roofHitbox.x, roofHitbox.y + 10, roofHitbox.width, roofHitbox.height);
+        
         /* Draw shot ball */
         for (Ball ball : ballList) {
             ball.draw(batch, delta);
@@ -345,39 +330,14 @@ public class BallManager {
         for (Ball ball: cannonBallList) {
             ball.draw(batch, delta);
         }
-    }
-
-    /**
-     * Draw the Balls managed by BallManager.
-     *
-     * @param batch the batch used to draw with
-     * @param delta the delta
-     */
-    public void drawSplit(SpriteBatch batch, float delta, int segmentOffset) {
-        /* Update the ball lists and graph */
-        updateBalls(delta);
-    
-        /* Draw shot ball */
-        for (Ball ball : ballList) {
-            ball.drawSplit(batch, delta, segmentOffset);
-        }
-    
-        /* Draw static target balls */
-        for (Ball ball : ballStaticList) {
-            ball.drawSplit(batch, delta, segmentOffset);
-        }
         
-        /* Draw popping balls */
-        for (Ball ball : ballPopList) {
-            ball.drawSplit(batch, delta, segmentOffset);
-        }
+        //draw cannon
+        cannon.draw(batch);
         
-        /* Draw cannon balls */
-        for (Ball ball: cannonBallList) {
-            ball.drawSplit(batch, delta, segmentOffset);
-        }
+        /* Draw the score */
+        textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
+                Config.SCORE_OFFSET);
     }
-
 
     /**
      * Bounce the ball of the edges if needed.
@@ -386,19 +346,19 @@ public class BallManager {
      */
     private void bounceEdge(Ball ball) {
         /* Check if an edge is hit */
-        int left = Config.BOUNCE_X_MIN;
-        int right = Config.BOUNCE_X_MAX;
+        int left = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
-            left = Config.BORDER_SIZE_SIDES;
-            right = Config.BORDER_SIZE_SIDES + Config.LEVEL_WIDTH;
+            left = Config.SEGMENT_OFFSET * segmentOffset + Config.BORDER_SIZE_SIDES;
         }
-        if (ball.getX() - ball.getRadius() <= left
+        int right = left + Config.LEVEL_WIDTH;
+
+        if (ball.getX() - Config.BALL_RAD <= left
                 && Math.toDegrees(ball.getAngle()) > 90) {
             // LEFT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
             AudioManager.wallhit();
             BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
-        } else if (ball.getX() + ball.getRadius() >= right
+        } else if (ball.getX() + Config.BALL_RAD >= right
                 && Math.toDegrees(ball.getAngle()) < 90) {
             // RIGHT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
@@ -425,6 +385,10 @@ public class BallManager {
      */
     private void snapBallToGrid(Ball ball, Ball hitb) {
         // Check what the closest "snap" coordinate is
+        int xoffset = Config.SINGLE_PLAYER_OFFSET;
+        if (isSplit) {
+            xoffset = Config.SEGMENT_OFFSET * segmentOffset;
+        }
 
         float hitx = hitb.getX();
         float hity = hitb.getY();
@@ -458,7 +422,7 @@ public class BallManager {
         float do6 = Math.abs(origx - o6x) + Math.abs(origy - o6y);
 
         // Check bounds
-        float redge = Config.BOUNCE_X_MAX - Config.BALL_RAD;
+        float redge = xoffset + Config.LEVEL_WIDTH - Config.BALL_RAD;
         if (o4x > redge) {
             do4 = Float.MAX_VALUE;
         }
@@ -469,7 +433,7 @@ public class BallManager {
             do5 = Float.MAX_VALUE;
         }
 
-        float ledge = Config.BOUNCE_X_MIN + Config.BALL_RAD;
+        float ledge = xoffset + Config.BALL_RAD;
         if (o1x < ledge) {
             do1 = Float.MAX_VALUE;
         }
@@ -508,17 +472,23 @@ public class BallManager {
      * @param ball the ball
      */
     private void snapBallToRoof(Ball ball, float roofy) {
-        float newx;
-
-        for (double xpos = Config.BOUNCE_X_MAX - Config.BALL_RAD; 
-                xpos >= Config.BOUNCE_X_MIN + Config.BALL_RAD; xpos -= Config.BALL_DIAM) {
-            newx = (float)xpos;
-            if (Math.abs(newx - ball.getX()) <=  Config.BALL_RAD) {
-                ball.setX(newx);
-                ball.setY(roofy - Config.BALL_RAD);
-                return;
-            }
+        //float newx;
+        int xoffset = Config.SINGLE_PLAYER_OFFSET;
+        if (isSplit) {
+            xoffset = Config.SEGMENT_OFFSET * segmentOffset;
         }
+
+        //distance to the left side of the screen
+        float distToLeft = ball.getX() - xoffset - Config.BALL_RAD;
+        //float value between 0-7 for the estimated index
+        float posIndexEst = distToLeft / Config.BALL_DIAM;
+        //make float into actual 0-7 value (round and clamp)
+        int posIndex = Math.max(0, Math.min(7, Math.round(posIndexEst)));
+        //define new x position
+        float newx = xoffset + Config.BALL_RAD + posIndex * Config.BALL_DIAM;
+        ball.setX(newx);
+        ball.setY(roofy - Config.BALL_RAD);
+
         BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
     }
 
@@ -528,10 +498,15 @@ public class BallManager {
      * @param delta the delta
      */
     private void updateBalls(float delta) {
+        /* Start counting time*/
+        timeKeeper.universalTimeCounter(delta);
+        
+        /* Check if a ball hasn't been shot in the past 10 seconds */
+        timeKeeper.didHeShoot();
+        
         /* Check shooting balls */
-        // NB. Currently only 1 ball can be shot at a time in the game
-        // nevertheless the current BallList implementation is kept for
-        // versatility and to be future proof
+        // NB. Currently only 1 ball can be shot at a time in the game nevertheless the
+        // current BallList implementation is kept for versatility and to be future proof
         for (Ball ball : ballList) {
             ball.update(delta);
             if (ball.isDead()) {
@@ -572,7 +547,7 @@ public class BallManager {
             ballStaticDeadList.remove(0);
             //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             if (ballStaticDeadList.size() == 0) {
-                GameScreen.scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
+                scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
                 for (Ball e:ballGraph.getFreeBalls()) {
                     ballStaticDeadList.add(e);
                     if (!ballPopList.contains(e) && e.getType() != BallType.BOMB) {
@@ -591,8 +566,7 @@ public class BallManager {
         }
 
         while (ballToBeAdded.size() != 0) {
-            addStaticBall(ballToBeAdded.get(0).getType(), 
-                    (int)ballToBeAdded.get(0).getX(), (int)ballToBeAdded.get(0).getY());
+            addStaticBall(ballToBeAdded.get(0).getType(), ballToBeAdded.get(0).getX(), ballToBeAdded.get(0).getY());
             ballToBeAdded.remove(0);
             int count = 0;
             for (AtomicInteger e: colorList) {
@@ -612,14 +586,13 @@ public class BallManager {
                         if (e.getType() != BallType.BOMB) {
                             startPop(e);
                         } else {
-                            GameScreen.scoreKeeper.doubleCurrentScore();
+                            scoreKeeper.doubleCurrentScore();
                         }
-                        //GameScreen.scoreKeeper.setCurrentScore(1, 0);
+                        //scoreKeeper.setCurrentScore(1, 0);
                     }
                 }
-                BustaMove.logger.log(MessageType.Info, "Started popping "
-                        + ballStaticDeadList.size() + " balls");
-                //GameScreen.scoreKeeper.setCurrentScore(score, 0);
+                BustaMove.logger.log(MessageType.Info, "Started popping " + ballStaticDeadList.size() + " balls");
+                //scoreKeeper.setCurrentScore(score, 0);
                 //TODO 
             }
         }
@@ -636,12 +609,29 @@ public class BallManager {
         /* Check if there are no balls left i.e. player wins */
         if (ballGraph.numberOfBalls() == 0) {
             BustaMove.logger.log(MessageType.Info, "Level completed");
-            HighScoreManager.addScore(0); //TODO: get score from ScoreKeeper
+            HighScoreManager.addScore(scoreKeeper.getCurrentScore());
             if (isSplit) {
                 SplitGameScreen.game.setScreen(new YouWinScreen(SplitGameScreen.game));
             } else {
                 GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
             }
+        }
+        
+        if (getBallCount() >= Config.NBALLS_ROW_DOWN && canShoot()) {
+            System.out.println("Move balls down");
+            moveRowDown();
+            setBallCount(0);
+        }
+    }
+    
+    /**
+     * Copy all ball from the other ball manager into this one
+     * @param other The other ball manager
+     */
+    public void shiftClone(BallManager other) {
+        for (Ball b : other.ballStaticList) {
+            float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
+            addStaticBall(b.getType(), xpos, b.getY());
         }
     }
 }

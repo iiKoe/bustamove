@@ -11,12 +11,11 @@ public class BombBall extends Ball {
      * Creates a new BombBall object
      * @param xpos
      * @param ypos
-     * @param rad
      * @param speed
      * @param angle
      */
-    public BombBall(float xpos, float ypos, float rad, int speed, float angle) {
-        super(BallType.BOMB, xpos, ypos, rad, speed, angle);
+    public BombBall(float xpos, float ypos, int speed, float angle) {
+        super(BallType.BOMB, xpos, ypos, speed, angle);
     }
     
     

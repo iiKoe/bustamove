@@ -153,9 +153,8 @@ public class MainMenuScreen implements Screen {
         /* Draw the background */
         game.batch.begin();
         game.batch.enableBlending();
-        game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
+        game.batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+                Gdx.graphics.getHeight());
         game.batch.end();
         
         stage.act();
