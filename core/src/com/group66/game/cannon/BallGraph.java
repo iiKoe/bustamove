@@ -1,6 +1,7 @@
 package com.group66.game.cannon;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
@@ -13,6 +14,7 @@ import com.group66.game.BustaMove;
 import com.group66.game.cannon.Ball.BallType;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
+import com.group66.game.cannon.BallGraphBreadthFirstConditionalIterator;
 
 /**
  * The Class BallGraph.
@@ -109,7 +111,7 @@ public class BallGraph {
         if (ball == null) {
             return null;
         }
-        //queue of balls to be processed
+        /*//queue of balls to be processed
         Queue<Ball> queue = new LinkedList<Ball>();
         //List of adjacent balls
         ArrayList<Ball> ret = new ArrayList<Ball>();
@@ -201,6 +203,11 @@ public class BallGraph {
                 }
             }
             BustaMove.logger.log(MessageType.Info, "GetAdjacentColoredBalls(BOMB) return size: " + ret.size());
+        }*/
+        ArrayList<Ball> ret = new ArrayList<Ball>();
+        Iterator<Ball> iterator = new BallGraphBreadthFirstConditionalIterator(graph, ball);
+        while (iterator.hasNext()) {
+            ret.add(iterator.next());
         }
         return ret;
     }
