@@ -145,6 +145,14 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
         list.remove(0);
         return ret;
     }
+    
+    /**
+     * remove is not supported by the iterator
+     */
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * current size of the iterator
