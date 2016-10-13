@@ -12,7 +12,7 @@ This project makes use of [gradle](https://gradle.org/), to see a list possible 
 Gradle will pull in all needed dependencies when run, the dependencies can be found [here](build.gradle)
 
 ## Contributors
-- Antony Löbke
+- Antony Löbker
 - Omar Hommos
 - Jeroen Overman
 - Vito Kortbeek

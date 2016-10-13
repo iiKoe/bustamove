@@ -1,7 +1,6 @@
 package com.group66.game;
 
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.logging.ConsoleLogger;
@@ -21,6 +20,21 @@ public class BustaMove extends Game {
     
     /** The logger. */
     public static Logger logger;
+    
+    /** Create the only object of this class */
+    private static BustaMove game = new BustaMove();
+   
+    private BustaMove() {   
+    }
+    
+    /**
+     * Gets the only object available.
+     * 
+     * @return the only available object
+     */
+    public static BustaMove getGameInstance() {
+        return game;
+    }
     
     /**
      * Gets the game height.
@@ -59,6 +73,6 @@ public class BustaMove extends Game {
         logger.log(MessageType.Default, "Game started");
         
         AudioManager.load();
-        this.setScreen(new MainMenuScreen(this));
+        this.setScreen(new MainMenuScreen());
     }
 }

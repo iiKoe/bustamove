@@ -39,6 +39,7 @@ public class BallManager {
 
     /**  The score keeper. */
     public ScoreKeeper scoreKeeper = new ScoreKeeper();
+    
     /**  needed to draw text, draw score. */
     private TextDrawer textDrawer = new TextDrawer();
 
@@ -613,9 +614,9 @@ public class BallManager {
             BustaMove.logger.log(MessageType.Info, "Level completed");
             HighScoreManager.addScore(scoreKeeper.getCurrentScore());
             if (isSplit) {
-                SplitGameScreen.game.setScreen(new YouWinScreen(SplitGameScreen.game));
+                BustaMove.getGameInstance().setScreen(new YouWinScreen());
             } else {
-                GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
+                BustaMove.getGameInstance().setScreen(new YouWinScreen());
             }
         }
         

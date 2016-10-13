@@ -22,6 +22,6 @@ public class DesktopLauncher {
         config.width = Config.WIDTH;
         config.height = Config.HEIGHT;
         //config.resizable = false;
-        new LwjglApplication(new BustaMove(), config);
+        new LwjglApplication(BustaMove.getGameInstance(), config);
     }
 }
