@@ -56,10 +56,10 @@ public class GameScreen implements Screen {
 
         if (!randomLevel) {
             LevelLoader.loadLevel(ballManager, false);
-            BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
             LevelLoader.generateLevel(ballManager, false);
-            BustaMove.logger.log(MessageType.Info, "Loaded a random level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
     }
     
@@ -117,14 +117,14 @@ public class GameScreen implements Screen {
         
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
-            BustaMove.logger.log(MessageType.Info, "Failed the level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             DynamicSettings ds = ballManager.getDynamicSettings();
             if (ds.hasExtraLife()) {
                 ds.setExtraLife(false);
-                BustaMove.logger.log(MessageType.Info, "Keeping Dynamic Settings");
+                BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
             } else {
                 ds.reset();
-                BustaMove.logger.log(MessageType.Info, "Resetting Dynamic Settings");
+                BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
             BustaMove.getGameInstance().setScreen(new YouLoseScreen());
         }
@@ -132,7 +132,7 @@ public class GameScreen implements Screen {
         /* Check if game-complete condition is reached */
         if (ballManager.isGameComplete()) {
             int score = ballManager.scoreKeeper.getCurrentScore();
-            BustaMove.logger.log(MessageType.Info, "Completed the level with score: " + score);
+            BustaMove.getGameInstance().log(MessageType.Info, "Completed the level with score: " + score);
             HighScoreManager.addScore(score);
             ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
             BustaMove.getGameInstance().setScreen(new YouWinScreen());

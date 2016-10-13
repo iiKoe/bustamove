@@ -176,7 +176,7 @@ public class ShopScreen implements Screen {
                 if (!dynamicSettings.hasExtraLife() && dynamicSettings.getCurrency() >= Config.EXTRA_LIFE_COST) {
                     dynamicSettings.setExtraLife(true);
                     dynamicSettings.addCurrency(-1 * Config.EXTRA_LIFE_COST);
-                    BustaMove.logger.log(MessageType.Info, "Extra Life bought");
+                    BustaMove.getGameInstance().log(MessageType.Info, "Extra Life bought");
                 }
             }
         });

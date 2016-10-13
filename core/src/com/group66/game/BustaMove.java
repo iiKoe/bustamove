@@ -19,7 +19,7 @@ public class BustaMove extends Game {
     public SpriteBatch batch;
     
     /** The logger. */
-    public static Logger logger;
+    private Logger logger;
     
     /** Create the only object of this class */
     private static BustaMove game = new BustaMove();
@@ -54,6 +54,23 @@ public class BustaMove extends Game {
     public int getGameWidth() {
         return Config.WIDTH;
         //return Gdx.graphics.getWidth();
+    }
+    
+    /**
+     * Gets the first logger
+     * @return the logger
+     */
+    public Logger getLogger() {
+        return logger;
+    }
+    
+    /**
+     * Send a message to the loggers
+     * @param mt the message type
+     * @param message the message
+     */
+    public void log(MessageType mt, String message) {
+        logger.log(mt, message);
     }
 
     /* (non-Javadoc)

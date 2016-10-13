@@ -29,10 +29,10 @@ public class BuySpeedBoost extends BuyStateInstance {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST);
                 dynamicSettings.setBallSpeedMultiplier(1.25);
                 instance.setCurrent(new Speedp25());
-                BustaMove.logger.log(MessageType.Info, "Set new state to Speedp25");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Speedp25");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -61,10 +61,10 @@ public class BuySpeedBoost extends BuyStateInstance {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST);
                 dynamicSettings.setBallSpeedMultiplier(1.5);
                 instance.setCurrent(new Speedp50());
-                BustaMove.logger.log(MessageType.Info, "Set new state to Speedp50");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Speedp50");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -94,10 +94,10 @@ public class BuySpeedBoost extends BuyStateInstance {
                 dynamicSettings.setBallSpeedMultiplier(1.75);
                 instance.setCurrent(new Speedp75());
                 instance.setIsFinalState(true);
-                BustaMove.logger.log(MessageType.Info, "Set new state to Speedp75");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Speedp75");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -123,7 +123,7 @@ public class BuySpeedBoost extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             instance.setCurrent(this);
-            BustaMove.logger.log(MessageType.Info, "Stay in the top state (Speedp20)");
+            BustaMove.getGameInstance().log(MessageType.Info, "Stay in the top state (Speedp20)");
         }
         
         /* (non-Javadoc)

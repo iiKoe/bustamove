@@ -21,10 +21,10 @@ public class DifficultyManager {
      */
     public int numRows() {
         int numRows;
-        if (difficulty == "medium") {
+        if ("medium".equals(difficulty)) {
             MediumRowsGenerator generationBehaviour = new MediumRowsGenerator();
             numRows = generationBehaviour.numRowsGenerator();
-        } else if (difficulty == "hard") {
+        } else if ("hard".equals(difficulty)) {
             HardRowsGenerator generationBehaviour = new HardRowsGenerator();
             numRows = generationBehaviour.numRowsGenerator();
         } else {

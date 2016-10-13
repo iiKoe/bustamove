@@ -29,10 +29,10 @@ public class BuyScoreMultiplier extends BuyStateInstance {
                 dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
                 dynamicSettings.setScoreMultiplier(1.05);
                 instance.setCurrent(new Mulp5());
-                BustaMove.logger.log(MessageType.Info, "Set new state to Mulp5");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Mulp5");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
             
         }
@@ -62,10 +62,10 @@ public class BuyScoreMultiplier extends BuyStateInstance {
                 dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
                 dynamicSettings.setScoreMultiplier(1.1);
                 instance.setCurrent(new Mulp10());
-                BustaMove.logger.log(MessageType.Info, "Set new state to Mulp10");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Mulp10");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -95,10 +95,10 @@ public class BuyScoreMultiplier extends BuyStateInstance {
                 dynamicSettings.setScoreMultiplier(1.2);
                 instance.setCurrent(new Mulp20());
                 instance.setIsFinalState(true);
-                BustaMove.logger.log(MessageType.Info, "Set new state to Mulp20");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Mulp20");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -124,7 +124,7 @@ public class BuyScoreMultiplier extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             instance.setCurrent(this);
-            BustaMove.logger.log(MessageType.Info, "Stay in the top state (Mulp20)");
+            BustaMove.getGameInstance().log(MessageType.Info, "Stay in the top state (Mulp20)");
         }
         
         /* (non-Javadoc)

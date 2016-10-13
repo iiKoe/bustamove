@@ -33,7 +33,7 @@ public class TimeKeeper {
      * @param delta the delta
      */
     public void universalTimeCounter(float delta) {
-        this.universalTime = this.universalTime + delta;
+        this.universalTime += delta;
         //Draw text on screen -- testing purposes
         //textDrawer.draw(GameScreen.game.batch, Double.toString(this.universalTime), 250, 250);
         //System.out.println(this.universalTime);

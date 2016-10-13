@@ -29,10 +29,10 @@ public class BuySpecialBombChance extends BuyStateInstance {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.05);
                 instance.setCurrent(new Chancep5());
-                BustaMove.logger.log(MessageType.Info, "Set new state to Chancep5");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Chancep5");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -61,10 +61,10 @@ public class BuySpecialBombChance extends BuyStateInstance {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.1);
                 instance.setCurrent(new Chancep10());
-                BustaMove.logger.log(MessageType.Info, "Set new state to Chancep10");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Chancep10");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -94,10 +94,10 @@ public class BuySpecialBombChance extends BuyStateInstance {
                 dynamicSettings.setSpecialBombChanceMultiplier(1.2);
                 instance.setCurrent(new Chancep20());
                 instance.setIsFinalState(true);
-                BustaMove.logger.log(MessageType.Info, "Set new state to Chancep20");
-                BustaMove.logger.log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
+                BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Chancep20");
+                BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
             } else {
-                BustaMove.logger.log(MessageType.Info, "Not enough money");
+                BustaMove.getGameInstance().log(MessageType.Info, "Not enough money");
             }
         }
         
@@ -123,7 +123,7 @@ public class BuySpecialBombChance extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             instance.setCurrent(this);
-            BustaMove.logger.log(MessageType.Info, "Stay in the top state (Chancep20)");
+            BustaMove.getGameInstance().log(MessageType.Info, "Stay in the top state (Chancep20)");
         }
         
         /* (non-Javadoc)

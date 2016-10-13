@@ -62,12 +62,12 @@ public class SplitGameScreen implements Screen {
             LevelLoader.loadLevel(ballManager1, true);
             ballManager2.shiftClone(ballManager1);
             ballManager3.shiftClone(ballManager1);
-            BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
             LevelLoader.generateLevel(ballManager1, true);
             ballManager2.shiftClone(ballManager1);
             ballManager3.shiftClone(ballManager1);
-            BustaMove.logger.log(MessageType.Info, "Loaded a random level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
     }
     
@@ -119,21 +119,21 @@ public class SplitGameScreen implements Screen {
         
         /* Check if game-over condition is reached */
         if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {
-            BustaMove.logger.log(MessageType.Info, "Failed the level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             DynamicSettings ds = ballManager1.getDynamicSettings();
             if (ds.hasExtraLife()) {
                 ds.setExtraLife(false);
-                BustaMove.logger.log(MessageType.Info, "Keeping Dynamic Settings");
+                BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
             } else {
                 ds.reset();
-                BustaMove.logger.log(MessageType.Info, "Resetting Dynamic Settings");
+                BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
             BustaMove.getGameInstance().setScreen(new YouLoseScreen());
         }
         
         /* Check if game-complete condition is reached */
         if (ballManager1.isGameComplete() || ballManager2.isGameComplete() || ballManager3.isGameComplete()) {
-            BustaMove.logger.log(MessageType.Info, "Completed the level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
             HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
