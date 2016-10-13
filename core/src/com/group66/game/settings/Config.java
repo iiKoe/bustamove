@@ -42,6 +42,9 @@ public class Config {
     /** The Constant for the BALL_RAD (radius). */
     public static final int BALL_RAD = BALL_DIAM / 2;
     
+    /** The chance a Bomb ball is the next ball (0-100%) */
+    public static final int BOMB_BALL_CHANCE = 10;
+    
     /* Cannon settings */
     /** The Constant CANNON_HEIGHT. */
     public static final int CANNON_HEIGHT = 184;
@@ -70,4 +73,10 @@ public class Config {
     public static final int BUTTON_WIDTH = 200;
     public static final int BUTTON_HEIGHT = 50;
     public static final int BUTTON_SPACING = 20;
+    
+    /* Shop settings */
+    public static final int START_CURRENCY = 1000;
+    public static final int SCORE_INCR_COST = 100;
+    public static final int BOMB_INCR_COST = 100;
+    public static final int SPEED_INCR_COST = 100;
 }

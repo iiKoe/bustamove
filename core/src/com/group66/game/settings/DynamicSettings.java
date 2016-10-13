@@ -15,7 +15,7 @@ public class DynamicSettings {
     private BuySpeedBoost buySpeedBoostStateMachine;
     
     public DynamicSettings() {
-        this.currency = 0;
+        this.currency = Config.START_CURRENCY;
         this.scoreMultiplier = 1;
         this.specialBombChanceMultiplier = 1;
         this.ballSpeedMultiplier = 1;

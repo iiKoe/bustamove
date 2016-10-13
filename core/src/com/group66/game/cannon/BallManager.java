@@ -93,11 +93,12 @@ public class BallManager {
         this.timeKeeper = new TimeKeeper(this);
 
         Random random = new Random();
-        int rand = random.nextInt(Ball.MAX_COLORS + 1);
-        if (rand < Ball.MAX_COLORS) {
-            cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), 0, 0.0f));  
-        } else {
+        int rand = random.nextInt(100);
+        if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())) {
             cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), 0, 0.0f));
+        } else {
+            rand = random.nextInt(Ball.MAX_COLORS);
+            cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), 0, 0.0f));  
         }
         
         for (int i = 0; i < Ball.MAX_COLORS; i++) {
@@ -195,7 +196,7 @@ public class BallManager {
 
             ballList.add(cannonBallList.get(0));
             ballList.get(ballList.size() - 1).setAngle((float) Math.toRadians(cannon.getAngle()));
-            ballList.get(ballList.size() - 1).setSpeed(Config.BALL_SPEED);
+            ballList.get(ballList.size() - 1).setSpeed((int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier()));
             cannonBallList.remove(0);
             if (color < Ball.MAX_COLORS) {
                 cannonBallList.add(new ColoredBall(color, cannon.getX(), cannon.getY(), 0, 0.0f));  
@@ -559,7 +560,7 @@ public class BallManager {
             ballStaticDeadList.remove(0);
             //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             if (ballStaticDeadList.size() == 0) {
-                scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
+                scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size(), dynamicSettings.getScoreMultiplier());
                 for (Ball e:ballGraph.getFreeBalls()) {
                     ballStaticDeadList.add(e);
                     if (!ballPopList.contains(e) && e.getType() != BallType.BOMB) {

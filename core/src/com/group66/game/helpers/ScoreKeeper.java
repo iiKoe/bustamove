@@ -34,7 +34,7 @@ public class ScoreKeeper {
      * @param poppingBalls the popping balls
      * @param hangingBalls the hanging balls
      */
-    public void setCurrentScore(int poppingBalls, int hangingBalls) {
+    public void setCurrentScore(int poppingBalls, int hangingBalls, double multiplier) {
         this.currentScore = this.currentScore + poppingBalls * 10 
                 + ((int)java.lang.Math.pow(2.0,hangingBalls)) * 10;
         BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
