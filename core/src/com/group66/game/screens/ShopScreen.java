@@ -14,8 +14,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.group66.game.cannon.BallManager;
 import com.group66.game.helpers.AssetLoader;
+import com.group66.game.helpers.TextDrawer;
+import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 import com.group66.game.shop.BuyScoreMultiplier;
@@ -29,23 +30,45 @@ import com.group66.game.BustaMove;
 public class ShopScreen implements Screen {
     /** A place to store the game instance. */
     private BustaMove game;
+    
+    /** The dynamic settings. */
     private DynamicSettings dynamicSettings;
 
+    /** The stage. */
     private Stage stage;
+    
+    /** The skin. */
     private Skin skin;
     
+    /** The buy score multiplier button. */
     private TextButton buyScoreMultiplierButton;
+    
+    /** The buy bomb chance button. */
     private TextButton buyBombChanceButton;
+    
+    /** The buy speed multiplier button. */
     private TextButton buySpeedMultiplierButton;
     
+    /** The buy extra life button. */
+    private TextButton buyExtraLifeButton;
+    
+    /** The buy score multiplier state machine. */
     private BuyScoreMultiplier buyScoreMultiplierStateMachine;
+    
+    /** The buy special bomb chance state machine. */
     private BuySpecialBombChance buySpecialBombChanceStateMachine;
+    
+    /** The buy speed boost state machine. */
     private BuySpeedBoost buySpeedBoostStateMachine;
+    
+    /** The text drawer. */
+    private TextDrawer textDrawer;
 
     /**
      * Instantiates a new main menu screen.
      *
      * @param game the game instance
+     * @param dynamicSettings the dynamic settings
      */
     public ShopScreen(BustaMove game, DynamicSettings dynamicSettings) {
         this.game = game;
@@ -54,6 +77,9 @@ public class ShopScreen implements Screen {
         createScreen();
     }
 
+    /**
+     * Creates the screen.
+     */
     private void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -62,6 +88,9 @@ public class ShopScreen implements Screen {
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
         skin.add("default", bfont);
+        
+        // Setup the text drawer to show the amount of coins
+        textDrawer = new TextDrawer();
 
         // Generate a 1x1 white texture and store it in the skin named "white".
         Pixmap pixmap = new Pixmap((int) (Config.BUTTON_WIDTH * 2.5), Config.BUTTON_HEIGHT, Format.RGBA8888);
@@ -104,10 +133,16 @@ public class ShopScreen implements Screen {
                 textButtonStyle);
         buySpeedMultiplierButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
+        /* Buy Extra Life */ 
+        buyExtraLifeButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buyExtraLifeButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        
         stage.addActor(levelButton);
         stage.addActor(buyScoreMultiplierButton);
         stage.addActor(buyBombChanceButton);
         stage.addActor(buySpeedMultiplierButton);
+        stage.addActor(buyExtraLifeButton);
 
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
@@ -139,38 +174,61 @@ public class ShopScreen implements Screen {
                 buySpeedBoostStateMachine.buy(dynamicSettings);
             }
         });
+        
+        buyExtraLifeButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!dynamicSettings.hasExtraLife() && dynamicSettings.getCurrency() >= Config.EXTRA_LIFE_COST) {
+                    dynamicSettings.setExtraLife(true);
+                    dynamicSettings.addCurrency(-1 * Config.EXTRA_LIFE_COST);
+                    BustaMove.logger.log(MessageType.Info, "Extra Life bought");
+                }
+            }
+        });
     }
     
+    /**
+     * Update the buttons.
+     */
     private void update() {
         /* Update the Buy Score Multiplier */
         if (!buyScoreMultiplierStateMachine.isFinalState()) {
-            buyScoreMultiplierButton.setText("Buy a score increase of " + buyScoreMultiplierStateMachine.getNextStateInfo() + 
-                    " For " + buyScoreMultiplierStateMachine.getNextStateCost() + " Coins!");
+            buyScoreMultiplierButton.setText("Buy a score increase of "
+                    + buyScoreMultiplierStateMachine.getNextStateInfo()
+                    + " For " + buyScoreMultiplierStateMachine.getNextStateCost() + " Coins!");
         } else {
-            buyScoreMultiplierButton.setText("The maximum Score increase of " + 
-                    buyScoreMultiplierStateMachine.getNextStateInfo() + " is reached");
+            buyScoreMultiplierButton.setText("The maximum Score increase of "
+                    + buyScoreMultiplierStateMachine.getNextStateInfo() + " is reached");
             buyScoreMultiplierButton.setColor(Color.DARK_GRAY);
         }
         
         /* Update Buy Special Bomb Chance */
         if (!buySpecialBombChanceStateMachine.isFinalState()) {
-            buyBombChanceButton.setText("Buy a Special Bomb Chance increase of " + 
-                    buySpecialBombChanceStateMachine.getNextStateInfo() + 
-                    " For " + buySpecialBombChanceStateMachine.getNextStateCost() + " Coins!");
+            buyBombChanceButton.setText("Buy a Special Bomb Chance increase of "
+                    + buySpecialBombChanceStateMachine.getNextStateInfo()
+                    + " For " + buySpecialBombChanceStateMachine.getNextStateCost() + " Coins!");
         } else {
-            buyBombChanceButton.setText("The maximum Special Bomb Chance increase of " + 
-                    buySpecialBombChanceStateMachine.getNextStateInfo() + " is reached");
+            buyBombChanceButton.setText("The maximum Special Bomb Chance increase of "
+                    + buySpecialBombChanceStateMachine.getNextStateInfo() + " is reached");
             buyBombChanceButton.setColor(Color.DARK_GRAY);
         }
         
         /* Update Buy Ball Speed Multiplier */ 
         if (!buySpeedBoostStateMachine.isFinalState()) {
-            buySpeedMultiplierButton.setText("Buy a Ball Speed increase of " + buySpeedBoostStateMachine.getNextStateInfo() + 
-                    " For " + buySpeedBoostStateMachine.getNextStateCost() + " Coins!");
+            buySpeedMultiplierButton.setText("Buy a Ball Speed increase of "
+                    + buySpeedBoostStateMachine.getNextStateInfo()
+                    + " For " + buySpeedBoostStateMachine.getNextStateCost() + " Coins!");
         } else {
-            buySpeedMultiplierButton.setText("The maximum Ball Speed increase of " + 
-                    buySpeedBoostStateMachine.getNextStateInfo() + " is reached");
+            buySpeedMultiplierButton.setText("The maximum Ball Speed increase of "
+                    + buySpeedBoostStateMachine.getNextStateInfo() + " is reached");
             buySpeedMultiplierButton.setColor(Color.DARK_GRAY);
+        }
+        
+        /* Update Extra Life */
+        if (!dynamicSettings.hasExtraLife()) {
+            buyExtraLifeButton.setText("Buy an Extra Life For " + Config.EXTRA_LIFE_COST + " Coins!");
+        } else {
+            buyExtraLifeButton.setText("You already have an Extra Life");
+            buyExtraLifeButton.setColor(Color.DARK_GRAY);
         }
     }
 
@@ -189,44 +247,64 @@ public class ShopScreen implements Screen {
         /* Draw the background */
         game.batch.begin();
         game.batch.enableBlending();
-        game.batch.draw(AssetLoader.youwinbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        game.batch.draw(AssetLoader.shopbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
+        textDrawer.draw(game.batch, "You have " + dynamicSettings.getCurrency() + " Coins", 
+                Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X, Config.CURRENCY_Y);
         game.batch.end();
         
         stage.act();
         stage.draw();
     }
 
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#show()
+     */
     @Override
     public void show() {
         // TODO Auto-generated method stub
         
     }
 
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#resize(int, int)
+     */
     @Override
     public void resize(int width, int height) {
         // TODO Auto-generated method stub
         
     }
 
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#pause()
+     */
     @Override
     public void pause() {
         // TODO Auto-generated method stub
         
     }
 
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#resume()
+     */
     @Override
     public void resume() {
         // TODO Auto-generated method stub
         
     }
 
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#hide()
+     */
     @Override
     public void hide() {
         // TODO Auto-generated method stub
         
     }
 
+    /* (non-Javadoc)
+     * @see com.badlogic.gdx.Screen#dispose()
+     */
     @Override
     public void dispose() {
         // TODO Auto-generated method stub

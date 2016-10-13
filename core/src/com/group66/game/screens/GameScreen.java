@@ -48,7 +48,7 @@ public class GameScreen implements Screen {
     private InputHandler inputHandler = new InputHandler();
 
     /** The ball manager. */
-    private BallManager ballManager = new BallManager();
+    private BallManager ballManager;
     
     /**
      * Instantiates the game screen.
@@ -61,6 +61,7 @@ public class GameScreen implements Screen {
     public GameScreen(BustaMove game, Boolean randomLevel, DynamicSettings dynamicSettings) {
         GameScreen.game = game;
         gameState = GameState.RUNNING;
+        ballManager = new BallManager(dynamicSettings);
         setup_keys();
         AssetLoader.load();
         AudioManager.startMusic();
@@ -72,8 +73,6 @@ public class GameScreen implements Screen {
             LevelLoader.generateLevel(ballManager, false);
             BustaMove.logger.log(MessageType.Info, "Loaded a random level");
         }
-        
-        ballManager.setDynamicSettings(dynamicSettings);
     }
     
     /**
@@ -133,14 +132,24 @@ public class GameScreen implements Screen {
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
-            HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
+            //HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());'
+            DynamicSettings ds = ballManager.getDynamicSettings();
+            if (ds.hasExtraLife()) {
+                ds.setExtraLife(false);
+                BustaMove.logger.log(MessageType.Info, "Keeping Dynamic Settings");
+            } else {
+                ds.reset();
+                BustaMove.logger.log(MessageType.Info, "Resetting Dynamic Settings");
+            }
             game.setScreen(new YouLoseScreen(game));
         }
         
         /* Check if game-complete condition is reached */
         if (ballManager.isGameComplete()) {
-            BustaMove.logger.log(MessageType.Info, "Completed the level");
-            HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
+            int score = ballManager.scoreKeeper.getCurrentScore();
+            BustaMove.logger.log(MessageType.Info, "Completed the level with score: " + score);
+            HighScoreManager.addScore(score);
+            ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
             game.setScreen(new YouWinScreen(game));
         }
         

@@ -127,7 +127,6 @@ public class MainMenuScreen implements Screen {
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new HighScoreScreen(game));
-                //game.setScreen(new ShopScreen(game));
             }
         });
         exitButton.addListener(new ChangeListener() {

@@ -13,6 +13,7 @@ import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * The Class for the main GameScreen of the game.
@@ -47,9 +48,9 @@ public class SplitGameScreen implements Screen {
     private InputHandler inputHandler = new InputHandler();
 
     /** The ball manager. */
-    private BallManager ballManager1 = new BallManager(0);
-    private BallManager ballManager2 = new BallManager(2);
-    private BallManager ballManager3 = new BallManager(1);
+    private BallManager ballManager1 = new BallManager(0, new DynamicSettings());
+    private BallManager ballManager2 = new BallManager(2, new DynamicSettings());
+    private BallManager ballManager3 = new BallManager(1, new DynamicSettings());
     
     /**
      * Instantiates the game screen.

@@ -5,13 +5,25 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
+/**
+ * The Class BuyScoreMultiplier Sate Machine.
+ */
 public class BuyScoreMultiplier extends BuyStateInstance {
     
+    /**
+     * Instantiates a new buy score multiplier State Machine.
+     */
     public BuyScoreMultiplier() {
         this.setCurrent(new None());
     }
     
+    /**
+     * The State None.
+     */
     class None implements BuyState {
+        
+        /* (non-Javadoc)
+         */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SCORE_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
@@ -24,15 +36,27 @@ public class BuyScoreMultiplier extends BuyStateInstance {
             }
             
         }
+        
+        /* (non-Javadoc)
+         */
         public String getNextStateInfo(BuyStateInstance instance) {
             return "+5%";
         }
+        
+        /* (non-Javadoc)
+         */
         public int getNextStateCost(BuyStateInstance instance) {
             return Config.SCORE_INCR_COST;
         }
     }
     
+    /**
+     * The State Mulp5.
+     */
     class Mulp5 implements BuyState {
+        
+        /* (non-Javadoc)
+         */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SCORE_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
@@ -44,15 +68,27 @@ public class BuyScoreMultiplier extends BuyStateInstance {
                 BustaMove.logger.log(MessageType.Info, "Not enough money");
             }
         }
+        
+        /* (non-Javadoc)
+         */
         public String getNextStateInfo(BuyStateInstance instance) {
             return "+10%";
         }
+        
+        /* (non-Javadoc)
+         */
         public int getNextStateCost(BuyStateInstance instance) {
             return Config.SCORE_INCR_COST;
         }
     }
     
+    /**
+     * The State Mulp10.
+     */
     class Mulp10 implements BuyState {
+        
+        /* (non-Javadoc)
+         */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SCORE_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
@@ -65,22 +101,40 @@ public class BuyScoreMultiplier extends BuyStateInstance {
                 BustaMove.logger.log(MessageType.Info, "Not enough money");
             }
         }
+        
+        /* (non-Javadoc)
+         */
         public String getNextStateInfo(BuyStateInstance instance) {
             return "+20%";
         }
+        
+        /* (non-Javadoc)
+         */
         public int getNextStateCost(BuyStateInstance instance) {
             return Config.SCORE_INCR_COST;
         }
     }
     
+    /**
+     * The State Mulp20.
+     */
     class Mulp20 implements BuyState {
+        
+        /* (non-Javadoc)
+         */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             instance.setCurrent(this);
             BustaMove.logger.log(MessageType.Info, "Stay in the top state (Mulp20)");
         }
+        
+        /* (non-Javadoc)
+         */
         public String getNextStateInfo(BuyStateInstance instance) {
             return "+20%";
         }
+        
+        /* (non-Javadoc)
+         */
         public int getNextStateCost(BuyStateInstance instance) {
             return 0;
         }

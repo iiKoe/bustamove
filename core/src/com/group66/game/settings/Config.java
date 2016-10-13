@@ -4,6 +4,8 @@ package com.group66.game.settings;
  * A Class used for static configurations/setting to have it all localized at one place.
  */
 public class Config {
+    
+    /** The Constant NBALLS_ROW_DOWN. */
     /* General game settings */
     public static final int NBALLS_ROW_DOWN = 8;
     
@@ -17,8 +19,13 @@ public class Config {
     /** The Constant for the border size BORDER_SIZE_BOT (the bottom). */
     public static final int BORDER_SIZE_BOT = 10;
             
+    /** The Constant LEVEL_WIDTH. */
     public static final int LEVEL_WIDTH = 600;
+    
+    /** The Constant LEVEL_HEIGHT. */
     public static final int LEVEL_HEIGHT = 880;
+    
+    /** The Constant SEGMENT_OFFSET. */
     public static final int SEGMENT_OFFSET = LEVEL_WIDTH + BORDER_SIZE_SIDES;
     
     /** The Constant for the game WIDTH. */
@@ -27,6 +34,7 @@ public class Config {
     /** The Constant for the game HEIGHT. */
     public static final int HEIGHT = LEVEL_HEIGHT + BORDER_SIZE_TOP + BORDER_SIZE_BOT;
     
+    /** The Constant SINGLE_PLAYER_OFFSET. */
     public static final int SINGLE_PLAYER_OFFSET = (WIDTH - LEVEL_WIDTH) / 2;
     
     /* Ball settings */
@@ -42,7 +50,7 @@ public class Config {
     /** The Constant for the BALL_RAD (radius). */
     public static final int BALL_RAD = BALL_DIAM / 2;
     
-    /** The chance a Bomb ball is the next ball (0-100%) */
+    /**  The chance a Bomb ball is the next ball (0-100%). */
     public static final int BOMB_BALL_CHANCE = 10;
     
     /* Cannon settings */
@@ -64,19 +72,44 @@ public class Config {
     /** The Constant CANNON_MAX_ANGLE. */
     public static final float CANNON_MAX_ANGLE = 179;
     
-    /** The font size used in drawing text */
+    /**  The font size used in drawing text. */
     public static final int FONT_SIZE = 24;
 
-    /** The x and y offset of the displayed player score */
+    /**  The x and y offset of the displayed player score. */
     public static final int SCORE_OFFSET = 20;
     
+    /** The Constant BUTTON_WIDTH. */
     public static final int BUTTON_WIDTH = 200;
+    
+    /** The Constant BUTTON_HEIGHT. */
     public static final int BUTTON_HEIGHT = 50;
+    
+    /** The Constant BUTTON_SPACING. */
     public static final int BUTTON_SPACING = 20;
     
     /* Shop settings */
-    public static final int START_CURRENCY = 1000;
+    /** The Constant START_CURRENCY. */
+    public static final int START_CURRENCY = 0;
+    
+    /** The Constant SCORE_INCR_COST. */
     public static final int SCORE_INCR_COST = 100;
+    
+    /** The Constant BOMB_INCR_COST. */
     public static final int BOMB_INCR_COST = 100;
+    
+    /** The Constant SPEED_INCR_COST. */
     public static final int SPEED_INCR_COST = 100;
+    
+    /** The Constant EXTRA_LIFE_COST. */
+    public static final int EXTRA_LIFE_COST = 1000;
+    
+    /** The Constant SCORE_CURRENCY_DIV. */
+    public static final int SCORE_CURRENCY_DIV = 10;
+    
+    /** The Constant CURRENCY_Xfor the text drawing the the ShopScreen. */
+    //TODO make dependent on size? But needs to fit in field in background image.
+    public static final int CURRENCY_X = 145;
+    
+    /** The Constant CURRENCY_Y for the text drawing the the ShopScreen. */
+    public static final int CURRENCY_Y = 600;
 }
