@@ -63,10 +63,10 @@ public class ColoredBall extends Ball {
      * Checks if two balls have the same color or are of the same type.
      * 
      * @param ball the ball which type needs to be compared
-     * @return Boolean value that indicates wheter the types are the same
+     * @return Boolean value that indicates whether the types are the same
      */
     public Boolean isEqual(Ball ball) {
-        if (this.getType().equals(ball.getType())) {
+        if ((ball instanceof ColoredBall) && this.getType().equals(ball.getType())) {
             return true;
         }
         return false;
