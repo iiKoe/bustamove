@@ -35,12 +35,9 @@ public class SettingsScreen implements Screen {
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param game
-     *            the game instance
      */
-    public SettingsScreen(BustaMove game) {
-        this.game = game;
+    public SettingsScreen() {
+        this.game = BustaMove.getGameInstance();
         AssetLoader.load();
         createScreen();
         BustaMove.logger.log(MessageType.Info, "Loaded the settings screen");
@@ -119,7 +116,7 @@ public class SettingsScreen implements Screen {
         });
         menuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new MainMenuScreen());
             }
         });
     }

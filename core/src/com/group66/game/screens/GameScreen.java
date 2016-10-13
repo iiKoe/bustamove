@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
     }
     
     /** A place to store the game instance. */
-    public static BustaMove game;
+    private BustaMove game;
     /*
      * ^^^^ made this object public static so it can be used in other classes 
      * (we would like to use this game instance because we're playing in it, without
@@ -52,13 +52,11 @@ public class GameScreen implements Screen {
     /**
      * Instantiates the game screen.
      * 
-     * @param game
-     *            the game instance
      * @param randomLevel
      *            determines if a set level or a random level is used
      */
-    public GameScreen(BustaMove game, Boolean randomLevel) {
-        GameScreen.game = game;
+    public GameScreen(Boolean randomLevel) {
+        this.game = BustaMove.getGameInstance();
         gameState = GameState.RUNNING;
         setup_keys();
         AssetLoader.load();
@@ -75,11 +73,9 @@ public class GameScreen implements Screen {
     
     /**
      * Instantiates the game screen.
-     * @param game
-     *            the game instance
      */
-    public GameScreen(BustaMove game) {
-        this(game, false);
+    public GameScreen() {
+        this(false);
     }
     
     /*
@@ -131,7 +127,7 @@ public class GameScreen implements Screen {
         if (ballManager.isGameOver()) {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
             HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
-            game.setScreen(new YouLoseScreen(game));
+            game.setScreen(new YouLoseScreen());
         }
         
         game.batch.end();

@@ -30,12 +30,9 @@ public class YouLoseScreen implements Screen {
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param game
-     *            the game instance
      */
-    public YouLoseScreen(BustaMove game) {
-        this.game = game;
+    public YouLoseScreen() {
+        this.game = BustaMove.getGameInstance();
         AssetLoader.load();
         createScreen();
     }
@@ -87,7 +84,7 @@ public class YouLoseScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new MainMenuScreen());
             }
         });
 

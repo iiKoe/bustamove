@@ -28,10 +28,9 @@ public class HighScoreScreen implements Screen {
     
     /**
      * Constructor for the high score screen
-     * @param game The game instance
      */
-    public HighScoreScreen(BustaMove game) {
-        this.game = game;
+    public HighScoreScreen() {
+        this.game = BustaMove.getGameInstance();
         createScreen();
     }
 
@@ -94,7 +93,7 @@ public class HighScoreScreen implements Screen {
         stage.addActor(backButton);
         backButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                game.setScreen(new MainMenuScreen());
             }
         });
     }

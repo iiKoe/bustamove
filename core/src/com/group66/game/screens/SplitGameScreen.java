@@ -32,7 +32,7 @@ public class SplitGameScreen implements Screen {
     }
     
     /** A place to store the game instance. */
-    public static BustaMove game;
+    private BustaMove game;
     /*
      * ^^^^ made this object public static so it can be used in other classes 
      * (we would like to use this game instance because we're playing in it, without
@@ -53,14 +53,12 @@ public class SplitGameScreen implements Screen {
     
     /**
      * Instantiates the game screen.
-     * 
-     * @param game
-     *            the game instance
+     *
      * @param randomLevel
      *            determines if a set level or a random level is used
      */
-    public SplitGameScreen(BustaMove game, Boolean randomLevel) {
-        SplitGameScreen.game = game;
+    public SplitGameScreen(Boolean randomLevel) {
+        this.game = BustaMove.getGameInstance();
         gameState = GameState.RUNNING;
         setup_keys();
         AssetLoader.load();
@@ -81,11 +79,9 @@ public class SplitGameScreen implements Screen {
     
     /**
      * Instantiates the game screen.
-     * @param game
-     *            the game instance
      */
-    public SplitGameScreen(BustaMove game) {
-        this(game, false);
+    public SplitGameScreen() {
+        this(false);
     }
     
     /*
@@ -133,7 +129,7 @@ public class SplitGameScreen implements Screen {
             HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
-            game.setScreen(new YouLoseScreen(game));
+            game.setScreen(new YouLoseScreen());
         }
 
         game.batch.end();
