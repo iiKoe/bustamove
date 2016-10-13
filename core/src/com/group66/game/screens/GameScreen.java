@@ -54,10 +54,10 @@ public class GameScreen implements Screen {
 
         if (!randomLevel) {
             LevelLoader.loadLevel(ballManager, false);
-            BustaMove.logger.log(MessageType.Info, "Loaded a premade level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
             LevelLoader.generateLevel(ballManager, false);
-            BustaMove.logger.log(MessageType.Info, "Loaded a random level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
     }
     
@@ -115,7 +115,7 @@ public class GameScreen implements Screen {
         
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
-            BustaMove.logger.log(MessageType.Info, "Failed the level");
+            BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
             BustaMove.getGameInstance().setScreen(new YouLoseScreen());
         }

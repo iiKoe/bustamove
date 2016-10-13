@@ -9,7 +9,7 @@ public class BustaMoveTest {
      */
     @Test
     public void creationTest() {
-        new BustaMove();
+        BustaMove.getGameInstance();
     }
     
 }

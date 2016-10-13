@@ -98,7 +98,7 @@ public class InputHandler {
                 if (Gdx.input.isKeyPressed(keyInt)) {
                     Collection<KeyCommand> functions = entry.getValue();
                     for (KeyCommand command : functions) {
-                        BustaMove.logger.log(MessageType.Debug, "Logged key pressed: "
+                        BustaMove.getGameInstance().log(MessageType.Debug, "Logged key pressed: "
                                 + keyInt + " triggering: " + entry.getKey());
                         command.runCommand();
                     }
@@ -118,7 +118,7 @@ public class InputHandler {
                     Collection<KeyCommand> functions = entry.getValue();
                     for (KeyCommand command : functions) {
                         command.runCommand();
-                        BustaMove.logger.log(MessageType.Debug, "Logged key just pressed: "
+                        BustaMove.getGameInstance().log(MessageType.Debug, "Logged key just pressed: "
                                 + keyInt + " triggering: " + entry.getKey());
                     }
                 }       

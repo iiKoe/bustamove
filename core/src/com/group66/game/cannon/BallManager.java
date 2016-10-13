@@ -156,7 +156,7 @@ public class BallManager {
         }
         ballGraph.insertBall(ball);
         
-        BustaMove.logger.log(MessageType.Debug, "add ball: color(" + ball.getColor() + "), x(" + ball.getX()
+        BustaMove.getGameInstance().log(MessageType.Debug, "add ball: color(" + ball.getColor() + "), x(" + ball.getX()
             + "), y(" + ball.getY() + "), pointer(" + ball.toString() + ")");
     }
     
@@ -205,7 +205,8 @@ public class BallManager {
             }
             AudioManager.shoot();
             timeKeeper.shotTimeReset();
-            BustaMove.logger.log(MessageType.Info, "Shot a " + color + " ball at angle " + cannon.getAngle());
+            BustaMove.getGameInstance().log(MessageType.Info, "Shot a " + color + " ball at angle " 
+                + cannon.getAngle());
             this.ballCount++;
         }
     }
@@ -271,7 +272,7 @@ public class BallManager {
         for (Ball b : this.ballStaticList) {
             b.moveDown(Config.BALL_DIAM);
         }
-        BustaMove.logger.log(MessageType.Info, "Moved the roof a row down");
+        BustaMove.getGameInstance().log(MessageType.Info, "Moved the roof a row down");
     }
 
     /**
@@ -358,13 +359,13 @@ public class BallManager {
             // LEFT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
             AudioManager.wallhit();
-            BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
+            BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         } else if (ball.getX() + Config.BALL_RAD >= right
                 && Math.toDegrees(ball.getAngle()) < 90) {
             // RIGHT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
             AudioManager.wallhit();
-            BustaMove.logger.log(MessageType.Info, "Ball hit the wall");
+            BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         }
     }
 
@@ -492,7 +493,7 @@ public class BallManager {
         //add to top ball
         ballGraph.attachToTop(ball);
 
-        BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
+        BustaMove.getGameInstance().log(MessageType.Info, "Ball snapped into place");
     }
 
     /**
@@ -530,7 +531,7 @@ public class BallManager {
                     snapBallToGrid(ball, t);
                     ballDeadList.add(ball);
                     ballToBeAdded.add(ball);
-                    BustaMove.logger.log(MessageType.Info, "Ball hit");
+                    BustaMove.getGameInstance().log(MessageType.Info, "Ball hit");
                 }
             }
             bounceEdge(ball);
@@ -558,10 +559,11 @@ public class BallManager {
                     }
                     //System.out.println("ball added to deadlist(free)");
                 }
-                BustaMove.logger.log(MessageType.Info, "Number of balls in grid: " + ballGraph.numberOfBalls());
+                BustaMove.getGameInstance().log(MessageType.Info, "Number of balls in grid: " 
+                        + ballGraph.numberOfBalls());
                 int count = 0;
                 for (AtomicInteger e: colorList) {
-                    BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+                    BustaMove.getGameInstance().log(MessageType.Info, "Number of balls with color " 
                             + count + " :" + e.get());
                     count++;
                 }
@@ -573,7 +575,7 @@ public class BallManager {
             ballToBeAdded.remove(0);
             int count = 0;
             for (AtomicInteger e: colorList) {
-                BustaMove.logger.log(MessageType.Info, "Number of balls with color " 
+                BustaMove.getGameInstance().log(MessageType.Info, "Number of balls with color " 
                         + count + " :" + e.get());
                 count++;
             }
@@ -583,7 +585,7 @@ public class BallManager {
                     //System.out.println("ball added to deadlist (adjacent)");
                     //score++;
                     if (!ballStaticDeadList.contains(e)) {
-                        BustaMove.logger.log(MessageType.Debug, "Ball added to deadlist: " + e.toString() 
+                        BustaMove.getGameInstance().log(MessageType.Debug, "Ball added to deadlist: " + e.toString() 
                             + " Location: (" + e.getX() + "," + e.getY() + ")");
                         ballStaticDeadList.add(e);
                         if (e.getType() != BallType.BOMB) {
@@ -594,7 +596,8 @@ public class BallManager {
                         //scoreKeeper.setCurrentScore(1, 0);
                     }
                 }
-                BustaMove.logger.log(MessageType.Info, "Started popping " + ballStaticDeadList.size() + " balls");
+                BustaMove.getGameInstance().log(MessageType.Info, "Started popping " + ballStaticDeadList.size() 
+                    + " balls");
                 //scoreKeeper.setCurrentScore(score, 0);
                 //TODO 
             }
@@ -611,7 +614,7 @@ public class BallManager {
 
         /* Check if there are no balls left i.e. player wins */
         if (ballGraph.numberOfBalls() == 0) {
-            BustaMove.logger.log(MessageType.Info, "Level completed");
+            BustaMove.getGameInstance().log(MessageType.Info, "Level completed");
             HighScoreManager.addScore(scoreKeeper.getCurrentScore());
             if (isSplit) {
                 BustaMove.getGameInstance().setScreen(new YouWinScreen());

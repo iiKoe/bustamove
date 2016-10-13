@@ -37,7 +37,7 @@ public class ScoreKeeper {
     public void addCurrentScore(int poppingBalls, int hangingBalls) {
         this.currentScore += poppingBalls * 10 + (int)(Math.pow(2.0, hangingBalls) * 10);
         try {
-            BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
+            BustaMove.getGameInstance().log(MessageType.Info, "Updated score: " + this.currentScore);
         } catch (Exception e) {
             System.out.println("Could not find logger");
             System.out.println("Info: Updated score: " + this.currentScore);
@@ -51,7 +51,7 @@ public class ScoreKeeper {
     public void doubleCurrentScore() {
         this.currentScore *= 2;
         try {
-            BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
+            BustaMove.getGameInstance().log(MessageType.Info, "Updated score: " + this.currentScore);
         } catch (Exception e) {
             System.out.println("Could not find logger");
             System.out.println("Info: Updated score: " + this.currentScore);
