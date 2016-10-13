@@ -52,7 +52,7 @@ public class LevelLoader {
     }
     
     /**
-     * Generate a random level for one player.
+     * Generate a random level for players.
      */
     public static void generateLevel(BallManager ballManager, boolean isSplit) {
         Random rand = new Random();
