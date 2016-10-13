@@ -39,6 +39,7 @@ public class BallManager {
 
     /**  The score keeper. */
     public ScoreKeeper scoreKeeper = new ScoreKeeper();
+    
     /**  needed to draw text, draw score. */
     private TextDrawer textDrawer = new TextDrawer();
 

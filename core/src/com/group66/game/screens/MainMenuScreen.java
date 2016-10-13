@@ -35,12 +35,9 @@ public class MainMenuScreen implements Screen {
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param game
-     *            the game instance
      */
-    public MainMenuScreen(BustaMove game) {
-        this.game = game;
+    public MainMenuScreen() {
+        this.game = BustaMove.getGameInstance();
         AssetLoader.load();
         HighScoreManager.loadData();
         createScreen();
@@ -116,17 +113,17 @@ public class MainMenuScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, false, dynamicSettings));
+                game.setScreen(new GameScreen(false, dynamicSettings));
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, true, dynamicSettings));
+                game.setScreen(new GameScreen(true, dynamicSettings));
             }
         });
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new HighScoreScreen(game));
+                game.setScreen(new HighScoreScreen());
             }
         });
         exitButton.addListener(new ChangeListener() {
@@ -137,17 +134,17 @@ public class MainMenuScreen implements Screen {
         });
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SettingsScreen(game));
+                game.setScreen(new SettingsScreen());
             }
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SplitGameScreen(game, true, dynamicSettings));
+                game.setScreen(new SplitGameScreen(true, dynamicSettings));
             }
         });
         shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new ShopScreen(game, dynamicSettings));
+                game.setScreen(new ShopScreen(dynamicSettings));
             }
         });
     }

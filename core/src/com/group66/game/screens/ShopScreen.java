@@ -28,8 +28,6 @@ import com.group66.game.BustaMove;
  * A Class for the MainMenuScreen of the game.
  */
 public class ShopScreen implements Screen {
-    /** A place to store the game instance. */
-    private BustaMove game;
     
     /** The dynamic settings. */
     private DynamicSettings dynamicSettings;
@@ -70,8 +68,7 @@ public class ShopScreen implements Screen {
      * @param game the game instance
      * @param dynamicSettings the dynamic settings
      */
-    public ShopScreen(BustaMove game, DynamicSettings dynamicSettings) {
-        this.game = game;
+    public ShopScreen(DynamicSettings dynamicSettings) {
         this.dynamicSettings = dynamicSettings;
         AssetLoader.load();
         createScreen();
@@ -153,7 +150,7 @@ public class ShopScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
         
@@ -245,13 +242,13 @@ public class ShopScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(AssetLoader.shopbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(AssetLoader.shopbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        textDrawer.draw(game.batch, "You have " + dynamicSettings.getCurrency() + " Coins", 
+        textDrawer.draw(BustaMove.getGameInstance().batch, "You have " + dynamicSettings.getCurrency() + " Coins", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X, Config.CURRENCY_Y);
-        game.batch.end();
+        BustaMove.getGameInstance().batch.end();
         
         stage.act();
         stage.draw();
