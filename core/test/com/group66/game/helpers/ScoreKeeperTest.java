@@ -6,11 +6,17 @@ import org.junit.Test;
 
 public class ScoreKeeperTest {
 
+    /**
+     * Test to see if the object can be created
+     */
     @Test
     public void creationTest() {
         new ScoreKeeper();
     }
     
+    /**
+     * Test the simple score count
+     */
     @Test
     public void simpleScoreTest() {
         ScoreKeeper sk = new ScoreKeeper();
@@ -23,6 +29,9 @@ public class ScoreKeeperTest {
         assertEquals(120, sk.getCurrentScore());
     }
     
+    /**
+     * Test the advanced score count
+     */
     @Test
     public void advancedScoreTest() {
         ScoreKeeper sk = new ScoreKeeper();
@@ -40,6 +49,9 @@ public class ScoreKeeperTest {
         assertEquals(320, sk.getCurrentScore());
     }
     
+    /**
+     * Test for negative values
+     */
     @Test
     public void boundaryTest() {
         ScoreKeeper sk = new ScoreKeeper();

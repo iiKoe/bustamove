@@ -302,4 +302,12 @@ public class BallGraph {
         }
         return false;
     }
+    
+    /**
+     * Attach a ball to the top ball
+     * @param ball the ball to attach
+     */
+    public void attachToTop(Ball ball) {
+        connectBalls(ball, top);
+    }
 }

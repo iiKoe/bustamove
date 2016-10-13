@@ -488,6 +488,8 @@ public class BallManager {
         float newx = xoffset + Config.BALL_RAD + posIndex * Config.BALL_DIAM;
         ball.setX(newx);
         ball.setY(roofy - Config.BALL_RAD);
+        //add to top ball
+        ballGraph.attachToTop(ball);
 
         BustaMove.logger.log(MessageType.Info, "Ball snapped into place");
     }

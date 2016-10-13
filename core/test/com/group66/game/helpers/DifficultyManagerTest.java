@@ -1,17 +1,22 @@
 package com.group66.game.helpers;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
 public class DifficultyManagerTest {
     
+    /**
+     * Test to see if the object can be created
+     */
     @Test
     public void creationTest() {
         new DifficultyManager();
     }
     
+    /**
+     * Test for switching difficulties
+     */
     @Test
     public void difficultyTest() {
         DifficultyManager difficulty = new DifficultyManager();
@@ -36,6 +41,9 @@ public class DifficultyManagerTest {
         assertTrue(3 <= rows && rows <= 5);
     }
     
+    /**
+     * Test for null value
+     */
     @Test
     public void nullTest() {
         DifficultyManager difficulty = new DifficultyManager();
@@ -45,6 +53,9 @@ public class DifficultyManagerTest {
         assertTrue(3 <= rows && rows <= 5);
     }
     
+    /**
+     * Test for undefined value
+     */
     @Test
     public void boundaryTest() {
         DifficultyManager difficulty = new DifficultyManager();

@@ -105,9 +105,9 @@ project(":core") {
     }
 	
     cobertura {
-        coverageFormats = ['html']				
-        coverageIgnoreTrivial = true					
-        coverageIgnores = ['org.slf4j.Logger.*']			
+        coverageFormats = ['html']
+        coverageIgnoreTrivial = true
+        coverageIgnores = ['org.slf4j.Logger.*']
     }
 	
 	test.finalizedBy(project.tasks.cobertura)

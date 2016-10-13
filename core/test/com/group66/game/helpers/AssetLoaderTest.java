@@ -1,6 +1,7 @@
 package com.group66.game.helpers;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import com.badlogic.gdx.Gdx;

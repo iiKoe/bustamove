@@ -13,11 +13,17 @@ import org.junit.Test;
 
 public class HighScoreItemTest {
     
+    /**
+     * Object creation test
+     */
     @Test
     public void createTest() {
         new HighScoreItem("Alice","2016-10-01",100);
     }
     
+    /**
+     * Test for equals function
+     */
     @Test
     public void compareTest() {
         HighScoreItem hsi1 = new HighScoreItem("Alice","2016-10-01",100);
@@ -35,12 +41,15 @@ public class HighScoreItemTest {
         assertNotEquals(hsi3, hsi4);
     }
     
+    /**
+     * Test for compareto function
+     */
     @Test
     public void sortTest1() {
-        HighScoreItem hsi1 = new HighScoreItem("Alice","2016-10-04",200);
-        HighScoreItem hsi2 = new HighScoreItem("Bob","2016-10-03",100);
-        HighScoreItem hsi3 = new HighScoreItem("Charlie","2016-10-02",300);
-        HighScoreItem hsi4 = new HighScoreItem("Aaron","2016-10-01",100);
+        HighScoreItem hsi1 = new HighScoreItem("Alice", "2016-10-04", 200);
+        HighScoreItem hsi2 = new HighScoreItem("Bob", "2016-10-03", 100);
+        HighScoreItem hsi3 = new HighScoreItem("Charlie", "2016-10-02", 300);
+        HighScoreItem hsi4 = new HighScoreItem("Aaron", "2016-10-01", 100);
         
         SortedSet<HighScoreItem> ss = new TreeSet<HighScoreItem>();
         ss.add(hsi1);
@@ -56,13 +65,16 @@ public class HighScoreItemTest {
         assertFalse(iter.hasNext());
     }
     
+    /**
+     * Test for compareto function
+     */
     @Test
     public void sortTest2() {
-        HighScoreItem hsi1 = new HighScoreItem("Alice","2016-10-01",100);
-        HighScoreItem hsi2 = new HighScoreItem("Bob","2016-10-01",100);
-        HighScoreItem hsi3 = new HighScoreItem("Alice","2016-01-01",100);
-        HighScoreItem hsi4 = new HighScoreItem("Alice","2016-10-01",200);
-        HighScoreItem hsi5 = new HighScoreItem("Alice","2016-10-01",100);
+        HighScoreItem hsi1 = new HighScoreItem("Alice", "2016-10-01", 100);
+        HighScoreItem hsi2 = new HighScoreItem("Bob", "2016-10-01", 100);
+        HighScoreItem hsi3 = new HighScoreItem("Alice", "2016-01-01", 100);
+        HighScoreItem hsi4 = new HighScoreItem("Alice", "2016-10-01", 200);
+        HighScoreItem hsi5 = new HighScoreItem("Alice", "2016-10-01", 100);
         
         assertTrue(hsi1.compareTo(hsi2) < 0); //alice precedes bob
         assertTrue(hsi1.compareTo(hsi3) > 0); //later date
