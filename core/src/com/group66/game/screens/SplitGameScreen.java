@@ -135,6 +135,15 @@ public class SplitGameScreen implements Screen {
             HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
             game.setScreen(new YouLoseScreen(game));
         }
+        
+        /* Check if game-complete condition is reached */
+        if (ballManager1.isGameComplete() || ballManager2.isGameComplete() || ballManager3.isGameComplete()) {
+            BustaMove.logger.log(MessageType.Info, "Completed the level");
+            HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
+            HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
+            HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
+            game.setScreen(new YouWinScreen(game));
+        }
 
         game.batch.end();
     }

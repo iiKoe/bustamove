@@ -19,6 +19,7 @@ import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the MainMenuScreen of the game.
@@ -29,6 +30,8 @@ public class MainMenuScreen implements Screen {
 
     private Stage stage;
     private Skin skin;
+    
+    private static DynamicSettings dynamicSettings = new DynamicSettings();
 
     /**
      * Instantiates a new main menu screen.
@@ -90,8 +93,11 @@ public class MainMenuScreen implements Screen {
         TextButton settingsButton = new TextButton("Settings", textButtonStyle);
         settingsButton.setPosition(leftcol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
+        TextButton shopButton = new TextButton("Shop", textButtonStyle);
+        shopButton.setPosition(rightcol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        
         TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition(rightcol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        exitButton.setPosition(rightcol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
         stage.addActor(levelButton);
         stage.addActor(randomButton);
@@ -99,6 +105,7 @@ public class MainMenuScreen implements Screen {
         stage.addActor(exitButton);
         stage.addActor(settingsButton);
         stage.addActor(splitButton);
+        stage.addActor(shopButton);
         
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
@@ -109,17 +116,18 @@ public class MainMenuScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, false));
+                game.setScreen(new GameScreen(game, false, dynamicSettings));
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(game, true));
+                game.setScreen(new GameScreen(game, true, dynamicSettings));
             }
         });
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new HighScoreScreen(game));
+                //game.setScreen(new ShopScreen(game));
             }
         });
         exitButton.addListener(new ChangeListener() {
@@ -136,6 +144,11 @@ public class MainMenuScreen implements Screen {
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 game.setScreen(new SplitGameScreen(game, true));
+            }
+        });
+        shopButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                game.setScreen(new ShopScreen(game, dynamicSettings));
             }
         });
     }

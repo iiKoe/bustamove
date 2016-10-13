@@ -13,20 +13,20 @@ import com.group66.game.cannon.Ball.BallType;
 import com.group66.game.cannon.Ball;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
-import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.helpers.TimeKeeper;
 import com.group66.game.logging.MessageType;
-import com.group66.game.screens.GameScreen;
-import com.group66.game.screens.SplitGameScreen;
-import com.group66.game.screens.YouWinScreen;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class to manage the Balls in the game.
  */
 public class BallManager {
+    
+    /** Dynamic settings */
+    private DynamicSettings dynamicSettings = new DynamicSettings();
 
     /** The cannon instance to shoot out. */
     public Cannon cannon;
@@ -284,6 +284,18 @@ public class BallManager {
             if (b.getY() - Config.BALL_DIAM <= Config.BORDER_SIZE_BOT && b.getY() != 0) {
                 return true;
             }
+        }
+        return false;
+    }
+    
+    /**
+     * Checks if it's game complete.
+     *
+     * @return true, if is game complete
+     */
+    public boolean isGameComplete() {
+        if (ballGraph.numberOfBalls() == 0) {
+            return true;
         }
         return false;
     }
@@ -607,6 +619,7 @@ public class BallManager {
         }
 
         /* Check if there are no balls left i.e. player wins */
+        /*
         if (ballGraph.numberOfBalls() == 0) {
             BustaMove.logger.log(MessageType.Info, "Level completed");
             HighScoreManager.addScore(scoreKeeper.getCurrentScore());
@@ -616,6 +629,7 @@ public class BallManager {
                 GameScreen.game.setScreen(new YouWinScreen(GameScreen.game));
             }
         }
+        */
         
         if (getBallCount() >= Config.NBALLS_ROW_DOWN && canShoot()) {
             System.out.println("Move balls down");
@@ -633,6 +647,14 @@ public class BallManager {
             float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
             addStaticBall(b.getType(), xpos, b.getY());
         }
+    }
+
+    public DynamicSettings getDynamicSettings() {
+        return dynamicSettings;
+    }
+
+    public void setDynamicSettings(DynamicSettings dynamicSettings) {
+        this.dynamicSettings = dynamicSettings;
     }
 }
 

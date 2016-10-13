@@ -13,6 +13,7 @@ import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * The Class for the main GameScreen of the game.
@@ -57,7 +58,7 @@ public class GameScreen implements Screen {
      * @param randomLevel
      *            determines if a set level or a random level is used
      */
-    public GameScreen(BustaMove game, Boolean randomLevel) {
+    public GameScreen(BustaMove game, Boolean randomLevel, DynamicSettings dynamicSettings) {
         GameScreen.game = game;
         gameState = GameState.RUNNING;
         setup_keys();
@@ -71,6 +72,8 @@ public class GameScreen implements Screen {
             LevelLoader.generateLevel(ballManager, false);
             BustaMove.logger.log(MessageType.Info, "Loaded a random level");
         }
+        
+        ballManager.setDynamicSettings(dynamicSettings);
     }
     
     /**
@@ -78,8 +81,8 @@ public class GameScreen implements Screen {
      * @param game
      *            the game instance
      */
-    public GameScreen(BustaMove game) {
-        this(game, false);
+    public GameScreen(BustaMove game, DynamicSettings dynamicSettings) {
+        this(game, false, dynamicSettings);
     }
     
     /*
@@ -132,6 +135,13 @@ public class GameScreen implements Screen {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
             HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
             game.setScreen(new YouLoseScreen(game));
+        }
+        
+        /* Check if game-complete condition is reached */
+        if (ballManager.isGameComplete()) {
+            BustaMove.logger.log(MessageType.Info, "Completed the level");
+            HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
+            game.setScreen(new YouWinScreen(game));
         }
         
         game.batch.end();

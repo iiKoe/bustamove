@@ -14,9 +14,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.group66.game.cannon.BallManager;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 import com.group66.game.shop.BuyScoreMultiplier;
+import com.group66.game.shop.BuySpecialBombChance;
+import com.group66.game.shop.BuySpeedBoost;
 import com.group66.game.BustaMove;
 
 /**
@@ -25,6 +29,7 @@ import com.group66.game.BustaMove;
 public class ShopScreen implements Screen {
     /** A place to store the game instance. */
     private BustaMove game;
+    private DynamicSettings dynamicSettings;
 
     private Stage stage;
     private Skin skin;
@@ -34,14 +39,17 @@ public class ShopScreen implements Screen {
     private TextButton buySpeedMultiplierButton;
     
     private BuyScoreMultiplier buyScoreMultiplierStateMachine;
+    private BuySpecialBombChance buySpecialBombChanceStateMachine;
+    private BuySpeedBoost buySpeedBoostStateMachine;
 
     /**
      * Instantiates a new main menu screen.
      *
      * @param game the game instance
      */
-    public ShopScreen(BustaMove game) {
+    public ShopScreen(BustaMove game, DynamicSettings dynamicSettings) {
         this.game = game;
+        this.dynamicSettings = dynamicSettings;
         AssetLoader.load();
         createScreen();
     }
@@ -56,7 +64,7 @@ public class ShopScreen implements Screen {
         skin.add("default", bfont);
 
         // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT, Format.RGBA8888);
+        Pixmap pixmap = new Pixmap((int) (Config.BUTTON_WIDTH * 2.5), Config.BUTTON_HEIGHT, Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
@@ -66,28 +74,40 @@ public class ShopScreen implements Screen {
         TextButtonStyle textButtonStyle = new TextButtonStyle();
         textButtonStyle.up = skin.newDrawable("white", Color.GRAY);
         textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
+        //textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
         textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
         skin.add("default", textButtonStyle);
 
         //all magic numbers in this section are offsets values adjusted to get better looks
         int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
+        int centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH * 2.5) / 2);
         
         TextButton levelButton = new TextButton("Main Menu", textButtonStyle);
         levelButton.setPosition(centercol, yoffset);
         
-        TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
+        /* Buy Score Multiplier */
+        buyScoreMultiplierStateMachine = dynamicSettings.getBuyScoreMultiplierStateMachine();
+        buyScoreMultiplierButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buyScoreMultiplierButton.setPosition(centercol, yoffset - (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
-        buyScoreMultiplierButton = new TextButton("Exit", textButtonStyle);
-        buyScoreMultiplierButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT * 2 - Config.BUTTON_SPACING * 2);
-        buyScoreMultiplierStateMachine = new BuyScoreMultiplier();
+        /* Buy Special Bomb Chance */
+        buySpecialBombChanceStateMachine = dynamicSettings.getBuySpecialBombChanceStateMachine();
+        buyBombChanceButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buyBombChanceButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        
+        /* Buy Ball Speed Multiplier */ 
+        buySpeedBoostStateMachine = dynamicSettings.getBuySpeedBoostStateMachine();
+        buySpeedMultiplierButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buySpeedMultiplierButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
         stage.addActor(levelButton);
-        stage.addActor(exitButton);
         stage.addActor(buyScoreMultiplierButton);
+        stage.addActor(buyBombChanceButton);
+        stage.addActor(buySpeedMultiplierButton);
 
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
@@ -101,22 +121,57 @@ public class ShopScreen implements Screen {
                 game.setScreen(new MainMenuScreen(game));
             }
         });
-
-        exitButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
         
         buyScoreMultiplierButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                buyScoreMultiplierStateMachine.buy();
+                buyScoreMultiplierStateMachine.buy(dynamicSettings);
+            }
+        });
+        
+        buyBombChanceButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                buySpecialBombChanceStateMachine.buy(dynamicSettings);
+            }
+        });
+        
+        buySpeedMultiplierButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                buySpeedBoostStateMachine.buy(dynamicSettings);
             }
         });
     }
     
     private void update() {
-        buyScoreMultiplierButton.setText("Buy this shit");
+        /* Update the Buy Score Multiplier */
+        if (!buyScoreMultiplierStateMachine.isFinalState()) {
+            buyScoreMultiplierButton.setText("Buy a score increase of " + buyScoreMultiplierStateMachine.getNextStateInfo() + 
+                    " For " + buyScoreMultiplierStateMachine.getNextStateCost() + " Coins!");
+        } else {
+            buyScoreMultiplierButton.setText("The maximum Score increase of " + 
+                    buyScoreMultiplierStateMachine.getNextStateInfo() + " is reached");
+            buyScoreMultiplierButton.setColor(Color.DARK_GRAY);
+        }
+        
+        /* Update Buy Special Bomb Chance */
+        if (!buySpecialBombChanceStateMachine.isFinalState()) {
+            buyBombChanceButton.setText("Buy a Special Bomb Chance increase of " + 
+                    buySpecialBombChanceStateMachine.getNextStateInfo() + 
+                    " For " + buySpecialBombChanceStateMachine.getNextStateCost() + " Coins!");
+        } else {
+            buyBombChanceButton.setText("The maximum Special Bomb Chance increase of " + 
+                    buySpecialBombChanceStateMachine.getNextStateInfo() + " is reached");
+            buyBombChanceButton.setColor(Color.DARK_GRAY);
+        }
+        
+        /* Update Buy Ball Speed Multiplier */ 
+        if (!buySpeedBoostStateMachine.isFinalState()) {
+            buySpeedMultiplierButton.setText("Buy a Ball Speed increase of " + buySpeedBoostStateMachine.getNextStateInfo() + 
+                    " For " + buySpeedBoostStateMachine.getNextStateCost() + " Coins!");
+        } else {
+            buySpeedMultiplierButton.setText("The maximum Ball Speed increase of " + 
+                    buySpeedBoostStateMachine.getNextStateInfo() + " is reached");
+            buySpeedMultiplierButton.setColor(Color.DARK_GRAY);
+        }
     }
 
     /*
