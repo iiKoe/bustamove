@@ -11,6 +11,11 @@ public class BallGraphAdjacentIterator implements Iterator<Ball> {
     /** List of all objects the iterator needs to give. */
     private ArrayList<Ball> list = new ArrayList<Ball>();
     
+    /**
+     * Instantiates the iterator
+     * @param graph  which the iterator should iterate over
+     * @param start where the iterator should start to iterate.
+     */
     public BallGraphAdjacentIterator(UndirectedGraph<Ball, DefaultEdge> graph, Ball start) {
         // TODO Auto-generated constructor stub
         for (DefaultEdge e : graph.edgesOf(start)) {
@@ -27,6 +32,11 @@ public class BallGraphAdjacentIterator implements Iterator<Ball> {
         }
     }
 
+    /**
+     * Returns if the iterator has a next object
+     * 
+     * @return if the iterator has another object
+     */
     @Override
     public boolean hasNext() {
         if (list.isEmpty()) {
@@ -36,6 +46,11 @@ public class BallGraphAdjacentIterator implements Iterator<Ball> {
         }
     }
 
+    /**
+     * returns the next object
+     * 
+     * @return The next object of the iterator
+     */
     @Override
     public Ball next() {
         Ball ret = list.get(0);

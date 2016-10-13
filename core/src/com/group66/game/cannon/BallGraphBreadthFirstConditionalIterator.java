@@ -13,6 +13,11 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
     /** List of all objects the iterator needs to give. */
     private ArrayList<Ball> list = new ArrayList<Ball>();
 
+    /**
+     * Instantiates the iterator
+     * @param graph  which the iterator should iterate over
+     * @param start where the iterator should start to iterate.
+     */
     public BallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, DefaultEdge> graph, Ball start) {
 
         //queue of balls to be processed
@@ -51,14 +56,14 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
                 for (DefaultEdge e : graph.edgesOf(qball)) {
                     //Check target of the edge
                     Ball eball = graph.getEdgeTarget(e);
-                    if ((eball instanceof BombBall) && !list.contains(eball)) {
+                    if (eball instanceof BombBall && !list.contains(eball)) {
                         queue.add(eball);
                         ballsToCheckAdjacenBalls.add(eball);
                         list.add(eball);
                     }
                     //check source of the edge
                     eball = graph.getEdgeSource(e);
-                    if ((eball instanceof BombBall) && !list.contains(eball)) {
+                    if (eball instanceof BombBall && !list.contains(eball)) {
                         queue.add(eball);
                         ballsToCheckAdjacenBalls.add(eball);
                         list.add(eball);
@@ -77,7 +82,8 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
                     while (iterator.hasNext()) {
                         Ball adjacentBall = iterator.next();
                         if (!(adjacentBall instanceof BombBall)) {
-                            BallGraphBreadthFirstConditionalIterator checkIterator = new BallGraphBreadthFirstConditionalIterator(graph, adjacentBall);
+                            BallGraphBreadthFirstConditionalIterator checkIterator = 
+                                    new BallGraphBreadthFirstConditionalIterator(graph, adjacentBall);
                             if (checkIterator.size() >= 2) {
                                 while (checkIterator.hasNext()) {
                                     Ball next = checkIterator.next();
@@ -96,7 +102,8 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
                     while (iterator.hasNext()) {
                         Ball adjacentBall = iterator.next();
                         if (!(adjacentBall instanceof BombBall)) {
-                            BallGraphBreadthFirstConditionalIterator checkIterator = new BallGraphBreadthFirstConditionalIterator(graph, adjacentBall);
+                            BallGraphBreadthFirstConditionalIterator checkIterator = 
+                                    new BallGraphBreadthFirstConditionalIterator(graph, adjacentBall);
                             if (checkIterator.size() >= 2) {
                                 while (checkIterator.hasNext()) {
                                     Ball next = checkIterator.next();
@@ -113,6 +120,11 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
 
     }
 
+    /**
+     * Returns if the iterator has a next object
+     * 
+     * @return if the iterator has another object
+     */
     @Override
     public boolean hasNext() {
         if (list.isEmpty()) {
@@ -122,6 +134,11 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
         }
     }
 
+    /**
+     * returns the next object
+     * 
+     * @return The next object of the iterator
+     */
     @Override
     public Ball next() {
         Ball ret = list.get(0);
@@ -129,6 +146,11 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
         return ret;
     }
 
+    /**
+     * current size of the iterator
+     * 
+     * @return the size of the iterator
+     */
     public int size() {
         return list.size();
     }
