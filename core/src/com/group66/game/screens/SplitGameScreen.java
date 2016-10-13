@@ -48,6 +48,8 @@ public class SplitGameScreen implements Screen {
      *
      * @param randomLevel
      *            determines if a set level or a random level is used
+     * @param dynamicSettings
+     *            the dynamicSettings set for this game turn
      */
     public SplitGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;

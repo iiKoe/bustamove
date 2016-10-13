@@ -46,6 +46,8 @@ public class GameScreen implements Screen {
      * 
      * @param randomLevel
      *            determines if a set level or a random level is used
+     * @param dynamicSettings
+     *            the dynamicSettings set for this game turn
      */
     public GameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
