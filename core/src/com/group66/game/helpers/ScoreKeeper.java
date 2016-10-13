@@ -29,15 +29,19 @@ public class ScoreKeeper {
     }
 
     /**
-     * Sets the current score.
+     * Add to the current score.
      *
      * @param poppingBalls the popping balls
      * @param hangingBalls the hanging balls
      */
-    public void setCurrentScore(int poppingBalls, int hangingBalls) {
-        this.currentScore = this.currentScore + poppingBalls * 10 
-                + ((int)java.lang.Math.pow(2.0,hangingBalls)) * 10;
-        BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
+    public void addCurrentScore(int poppingBalls, int hangingBalls) {
+        this.currentScore += poppingBalls * 10 + (int)(Math.pow(2.0, hangingBalls) * 10);
+        try {
+            BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
+        } catch (Exception e) {
+            System.out.println("Could not find logger");
+            System.out.println("Info: Updated score: " + this.currentScore);
+        }
     }
     
     /**
@@ -46,16 +50,12 @@ public class ScoreKeeper {
      */
     public void doubleCurrentScore() {
         this.currentScore *= 2;
-        BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
-    }
-    
-    // GameScreen.scoreKeeper.setCurrentScore(poppingBalls, hangingBalls);
-    /**
-     * Display score.
-     *
-     * @param currentScore the current score
-     */
-    public void dispScore(int currentScore) {
+        try {
+            BustaMove.logger.log(MessageType.Info, "Updated score: " + this.currentScore);
+        } catch (Exception e) {
+            System.out.println("Could not find logger");
+            System.out.println("Info: Updated score: " + this.currentScore);
+        }
     }
 
 }

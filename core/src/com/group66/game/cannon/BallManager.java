@@ -547,7 +547,7 @@ public class BallManager {
             ballStaticDeadList.remove(0);
             //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             if (ballStaticDeadList.size() == 0) {
-                scoreKeeper.setCurrentScore(0, ballGraph.getFreeBalls().size());
+                scoreKeeper.addCurrentScore(0, ballGraph.getFreeBalls().size());
                 for (Ball e:ballGraph.getFreeBalls()) {
                     ballStaticDeadList.add(e);
                     if (!ballPopList.contains(e) && e.getType() != BallType.BOMB) {

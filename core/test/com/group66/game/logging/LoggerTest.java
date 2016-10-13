@@ -29,6 +29,7 @@ public class LoggerTest {
         //l.verbosity
     }
     
+    /*
     @Test
     public void nextLoggerTest() {
         ConsoleLogger cl1 = new ConsoleLogger(MessageType.Warning);
@@ -51,4 +52,5 @@ public class LoggerTest {
         assertNotEquals(cl2out, "Warning: This is a warning");
         assertNotEquals(cl3out, "Warning: This is a warning");
     }
+    */
 }
