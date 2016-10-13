@@ -37,7 +37,7 @@ public class SettingsScreen implements Screen {
     public SettingsScreen() {
         AssetLoader.load();
         createScreen();
-        BustaMove.logger.log(MessageType.Info, "Loaded the settings screen");
+        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the settings screen");
     }
 
     private void createScreen() {
@@ -96,19 +96,19 @@ public class SettingsScreen implements Screen {
         easyButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 difficultyManager.setDifficulty("easy");
-                BustaMove.logger.log(MessageType.Default, "Difficulty set to easy");
+                BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to easy");
             }
         });
         mediumButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 difficultyManager.setDifficulty("medium");
-                BustaMove.logger.log(MessageType.Default, "Difficulty set to medium");
+                BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to medium");
             }
         });
         hardButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 difficultyManager.setDifficulty("hard");
-                BustaMove.logger.log(MessageType.Default, "Difficulty set to hard");
+                BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to hard");
             }
         });
         menuButton.addListener(new ChangeListener() {
