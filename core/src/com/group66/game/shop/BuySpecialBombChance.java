@@ -20,7 +20,7 @@ public class BuySpecialBombChance extends BuyStateInstance {
     /**
      * The State None.
      */
-    class None implements BuyState {
+    static class None implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -52,7 +52,7 @@ public class BuySpecialBombChance extends BuyStateInstance {
     /**
      * The State Chancep5.
      */
-    class Chancep5 implements BuyState {
+    static class Chancep5 implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -84,7 +84,7 @@ public class BuySpecialBombChance extends BuyStateInstance {
     /**
      * The State Chancep10.
      */
-    class Chancep10 implements BuyState {
+    static class Chancep10 implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -117,7 +117,7 @@ public class BuySpecialBombChance extends BuyStateInstance {
     /**
      * The State Chancep20.
      */
-    class Chancep20 implements BuyState {
+    static class Chancep20 implements BuyState {
         
         /* (non-Javadoc)
          */

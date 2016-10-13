@@ -65,7 +65,6 @@ public class ShopScreen implements Screen {
     /**
      * Instantiates a new main menu screen.
      *
-     * @param game the game instance
      * @param dynamicSettings the dynamic settings
      */
     public ShopScreen(DynamicSettings dynamicSettings) {

@@ -20,7 +20,7 @@ public class BuySpeedBoost extends BuyStateInstance {
     /**
      * The State None.
      */
-    class None implements BuyState {
+    static class None implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -52,7 +52,7 @@ public class BuySpeedBoost extends BuyStateInstance {
     /**
      * The State Speedp25.
      */
-    class Speedp25 implements BuyState {
+    static class Speedp25 implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -84,7 +84,7 @@ public class BuySpeedBoost extends BuyStateInstance {
     /**
      * The State Speedp50.
      */
-    class Speedp50 implements BuyState {
+    static class Speedp50 implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -117,7 +117,7 @@ public class BuySpeedBoost extends BuyStateInstance {
     /**
      * The State Speedp75.
      */
-    class Speedp75 implements BuyState {
+    static class Speedp75 implements BuyState {
         
         /* (non-Javadoc)
          */

@@ -20,7 +20,7 @@ public class BuyScoreMultiplier extends BuyStateInstance {
     /**
      * The State None.
      */
-    class None implements BuyState {
+    static class None implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -53,7 +53,7 @@ public class BuyScoreMultiplier extends BuyStateInstance {
     /**
      * The State Mulp5.
      */
-    class Mulp5 implements BuyState {
+    static class Mulp5 implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -85,7 +85,7 @@ public class BuyScoreMultiplier extends BuyStateInstance {
     /**
      * The State Mulp10.
      */
-    class Mulp10 implements BuyState {
+    static class Mulp10 implements BuyState {
         
         /* (non-Javadoc)
          */
@@ -118,7 +118,7 @@ public class BuyScoreMultiplier extends BuyStateInstance {
     /**
      * The State Mulp20.
      */
-    class Mulp20 implements BuyState {
+    static class Mulp20 implements BuyState {
         
         /* (non-Javadoc)
          */
