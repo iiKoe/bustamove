@@ -26,8 +26,6 @@ import com.group66.game.settings.Config;
  * A Class for the SettingsScreen of the game.
  */
 public class SettingsScreen implements Screen {
-    /** A place to store the game instance. */
-    private BustaMove game;
 
     private Stage stage;
     private Skin skin;
@@ -35,12 +33,8 @@ public class SettingsScreen implements Screen {
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param game
-     *            the game instance
      */
-    public SettingsScreen(BustaMove game) {
-        this.game = game;
+    public SettingsScreen() {
         AssetLoader.load();
         createScreen();
         BustaMove.logger.log(MessageType.Info, "Loaded the settings screen");
@@ -119,7 +113,7 @@ public class SettingsScreen implements Screen {
         });
         menuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
     }
@@ -135,11 +129,11 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        game.batch.end();
+        BustaMove.getGameInstance().batch.end();
         
         stage.act();
         stage.draw();

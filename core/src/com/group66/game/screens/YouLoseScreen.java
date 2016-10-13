@@ -22,20 +22,14 @@ import com.group66.game.BustaMove;
  * A Class for the MainMenuScreen of the game.
  */
 public class YouLoseScreen implements Screen {
-    /** A place to store the game instance. */
-    private BustaMove game;
 
     private Stage stage;
     private Skin skin;
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param game
-     *            the game instance
      */
-    public YouLoseScreen(BustaMove game) {
-        this.game = game;
+    public YouLoseScreen() {
         AssetLoader.load();
         createScreen();
     }
@@ -87,7 +81,7 @@ public class YouLoseScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
 
@@ -109,11 +103,11 @@ public class YouLoseScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(AssetLoader.youlosebg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
-                Gdx.graphics.getHeight());
-        game.batch.end();
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(AssetLoader.youlosebg, 
+                Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
+        BustaMove.getGameInstance().batch.end();
         
         stage.act();
         stage.draw();
