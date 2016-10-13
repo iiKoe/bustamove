@@ -142,7 +142,7 @@ public class MainMenuScreen implements Screen {
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SplitGameScreen(game, true));
+                game.setScreen(new SplitGameScreen(game, true, dynamicSettings));
             }
         });
         shopButton.addListener(new ChangeListener() {

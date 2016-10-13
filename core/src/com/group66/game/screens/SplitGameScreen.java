@@ -48,9 +48,9 @@ public class SplitGameScreen implements Screen {
     private InputHandler inputHandler = new InputHandler();
 
     /** The ball manager. */
-    private BallManager ballManager1 = new BallManager(0, new DynamicSettings());
-    private BallManager ballManager2 = new BallManager(2, new DynamicSettings());
-    private BallManager ballManager3 = new BallManager(1, new DynamicSettings());
+    private BallManager ballManager1;
+    private BallManager ballManager2;
+    private BallManager ballManager3;
     
     /**
      * Instantiates the game screen.
@@ -60,9 +60,12 @@ public class SplitGameScreen implements Screen {
      * @param randomLevel
      *            determines if a set level or a random level is used
      */
-    public SplitGameScreen(BustaMove game, Boolean randomLevel) {
+    public SplitGameScreen(BustaMove game, Boolean randomLevel, DynamicSettings dynamicSettings) {
         SplitGameScreen.game = game;
         gameState = GameState.RUNNING;
+        ballManager1 = new BallManager(0, dynamicSettings);
+        ballManager2 = new BallManager(2, dynamicSettings);
+        ballManager3 = new BallManager(1, dynamicSettings);
         setup_keys();
         AssetLoader.load();
         AudioManager.startMusic();
@@ -85,8 +88,8 @@ public class SplitGameScreen implements Screen {
      * @param game
      *            the game instance
      */
-    public SplitGameScreen(BustaMove game) {
-        this(game, false);
+    public SplitGameScreen(BustaMove game, DynamicSettings dynamicSettings) {
+        this(game, false, dynamicSettings);
     }
     
     /*
@@ -131,9 +134,14 @@ public class SplitGameScreen implements Screen {
         /* Check if game-over condition is reached */
         if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
-            HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
-            HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
-            HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
+            DynamicSettings ds = ballManager1.getDynamicSettings();
+            if (ds.hasExtraLife()) {
+                ds.setExtraLife(false);
+                BustaMove.logger.log(MessageType.Info, "Keeping Dynamic Settings");
+            } else {
+                ds.reset();
+                BustaMove.logger.log(MessageType.Info, "Resetting Dynamic Settings");
+            }
             game.setScreen(new YouLoseScreen(game));
         }
         
@@ -143,6 +151,11 @@ public class SplitGameScreen implements Screen {
             HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
+
+            int score1 = ballManager1.scoreKeeper.getCurrentScore();
+            int score2 = ballManager2.scoreKeeper.getCurrentScore();
+            int score3 = ballManager3.scoreKeeper.getCurrentScore();
+            ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 / Config.SCORE_CURRENCY_DIV);
             game.setScreen(new YouWinScreen(game));
         }
 

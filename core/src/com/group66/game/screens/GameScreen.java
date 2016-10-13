@@ -132,7 +132,6 @@ public class GameScreen implements Screen {
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
             BustaMove.logger.log(MessageType.Info, "Failed the level");
-            //HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());'
             DynamicSettings ds = ballManager.getDynamicSettings();
             if (ds.hasExtraLife()) {
                 ds.setExtraLife(false);
