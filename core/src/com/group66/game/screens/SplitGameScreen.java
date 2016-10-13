@@ -31,15 +31,6 @@ public class SplitGameScreen implements Screen {
         PAUSED
     }
     
-    /** A place to store the game instance. */
-    private BustaMove game;
-    /*
-     * ^^^^ made this object public static so it can be used in other classes 
-     * (we would like to use this game instance because we're playing in it, without
-     * creating a new one in the other class that's calling this object because that won't make any sense)
-     * but, does making it "static" has any affect?
-     */
-    
     /** The game state. */
     private GameState gameState;
     
@@ -58,7 +49,6 @@ public class SplitGameScreen implements Screen {
      *            determines if a set level or a random level is used
      */
     public SplitGameScreen(Boolean randomLevel) {
-        this.game = BustaMove.getGameInstance();
         gameState = GameState.RUNNING;
         setup_keys();
         AssetLoader.load();
@@ -106,22 +96,22 @@ public class SplitGameScreen implements Screen {
         
         /* Don't update and render when the game is paused */
         if (gameState == GameState.PAUSED) {
-            game.batch.begin();
-            game.batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
-            game.batch.end();
+            BustaMove.getGameInstance().batch.begin();
+            BustaMove.getGameInstance().batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
+            BustaMove.getGameInstance().batch.end();
             return;
         }
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
-        game.batch.begin();
-        game.batch.enableBlending();
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
         
         /* Draw the balls */
-        ballManager1.draw(game.batch, delta);
-        ballManager2.draw(game.batch, delta);
-        ballManager3.draw(game.batch, delta);
+        ballManager1.draw(BustaMove.getGameInstance().batch, delta);
+        ballManager2.draw(BustaMove.getGameInstance().batch, delta);
+        ballManager3.draw(BustaMove.getGameInstance().batch, delta);
         
         /* Check if game-over condition is reached */
         if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {
@@ -129,10 +119,10 @@ public class SplitGameScreen implements Screen {
             HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
-            game.setScreen(new YouLoseScreen());
+            BustaMove.getGameInstance().setScreen(new YouLoseScreen());
         }
 
-        game.batch.end();
+        BustaMove.getGameInstance().batch.end();
     }
 
     /*
