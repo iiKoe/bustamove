@@ -272,6 +272,7 @@ public class BallManager {
         for (Ball b : this.ballStaticList) {
             b.moveDown(Config.BALL_DIAM);
         }
+        ballGraph.setRoofShift(Config.BALL_DIAM);
         BustaMove.getGameInstance().log(MessageType.Info, "Moved the roof a row down");
     }
 
@@ -490,8 +491,6 @@ public class BallManager {
         float newx = xoffset + Config.BALL_RAD + posIndex * Config.BALL_DIAM;
         ball.setX(newx);
         ball.setY(roofy - Config.BALL_RAD);
-        //add to top ball
-        ballGraph.attachToTop(ball);
 
         BustaMove.getGameInstance().log(MessageType.Info, "Ball snapped into place");
     }

@@ -22,6 +22,9 @@ public class BallGraph {
 
     /** The graph where the balls and relations are stored in. */
     private UndirectedGraph<Ball, DefaultEdge> graph;
+    
+    /** The amount of pixels the roof has moved down */
+    private int roofShift = 0; 
 
     /**
      * Instantiates a new Ball graph.
@@ -51,7 +54,7 @@ public class BallGraph {
         if (insert != null) {
             graph.addVertex(insert);
             //is the ball in the top row
-            if (insert.getY() >= Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD) {
+            if (insert.getY() >= Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD - roofShift) {
                 connectBalls(insert, top);
                 //System.out.println("Connected to top: "+graph.degreeOf(top));
             }
@@ -192,10 +195,10 @@ public class BallGraph {
     }
     
     /**
-     * Attach a ball to the top ball
-     * @param ball the ball to attach
+     * Set the amount of pixels the roof has moved down from its original position
+     * @param shift the position
      */
-    public void attachToTop(Ball ball) {
-        connectBalls(ball, top);
+    public void setRoofShift(int shift) {
+        this.roofShift += shift;
     }
 }
