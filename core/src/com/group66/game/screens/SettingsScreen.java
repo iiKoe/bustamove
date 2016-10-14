@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.DifficultyManager;
-import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
@@ -26,14 +25,6 @@ import com.group66.game.settings.Config;
  * A Class for the SettingsScreen of the game.
  */
 public class SettingsScreen implements Screen {
-    
-    // TODO: either make scalable or move to config
-    private static final int BUTTON_WIDTH = 120;
-    private static final int BUTTON_HEIGHT = 50;
-    private static final int BUTTON_SPACING = 20;
-
-    /** A place to store the game instance. */
-    private BustaMove game;
 
     private Stage stage;
     private Skin skin;
@@ -41,15 +32,11 @@ public class SettingsScreen implements Screen {
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param game
-     *            the game instance
      */
-    public SettingsScreen(BustaMove game) {
-        this.game = game;
+    public SettingsScreen() {
         AssetLoader.load();
         createScreen();
-        BustaMove.logger.log(MessageType.Info, "Loaded the settings screen");
+        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the settings screen");
     }
 
     private void createScreen() {
@@ -62,7 +49,7 @@ public class SettingsScreen implements Screen {
         skin.add("default", bfont);
 
         // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(BUTTON_WIDTH, BUTTON_HEIGHT, Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT, Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
@@ -78,23 +65,20 @@ public class SettingsScreen implements Screen {
         skin.add("default", textButtonStyle);
 
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING) - 75;
+        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 75;
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
         
         TextButton easyButton = new TextButton("Easy", textButtonStyle);
-        easyButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH - 300) / 2, 
-                yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        easyButton.setPosition(centercol - Config.BUTTON_WIDTH - Config.BUTTON_SPACING, yoffset);
         
         TextButton mediumButton = new TextButton("Medium", textButtonStyle);
-        mediumButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
+        mediumButton.setPosition(centercol, yoffset);
         
         TextButton hardButton = new TextButton("Hard!", textButtonStyle);
-        hardButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH + 300) / 2,
-                yoffset - (BUTTON_HEIGHT + BUTTON_SPACING));
+        hardButton.setPosition(centercol + Config.BUTTON_WIDTH + Config.BUTTON_SPACING, yoffset);
 
         TextButton menuButton = new TextButton("Menu", textButtonStyle);
-        menuButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        menuButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
         
         stage.addActor(easyButton);
         stage.addActor(mediumButton);
@@ -111,24 +95,24 @@ public class SettingsScreen implements Screen {
         easyButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 difficultyManager.setDifficulty("easy");
-                BustaMove.logger.log(MessageType.Default, "Difficulty set to easy");
+                BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to easy");
             }
         });
         mediumButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 difficultyManager.setDifficulty("medium");
-                BustaMove.logger.log(MessageType.Default, "Difficulty set to medium");
+                BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to medium");
             }
         });
         hardButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 difficultyManager.setDifficulty("hard");
-                BustaMove.logger.log(MessageType.Default, "Difficulty set to hard");
+                BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to hard");
             }
         });
         menuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
     }
@@ -144,12 +128,11 @@ public class SettingsScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(AssetLoader.mmbg, Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-        game.batch.end();
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+                Gdx.graphics.getHeight());
+        BustaMove.getGameInstance().batch.end();
         
         stage.act();
         stage.draw();

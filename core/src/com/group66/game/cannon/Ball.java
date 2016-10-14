@@ -1,6 +1,5 @@
 package com.group66.game.cannon;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -64,9 +63,6 @@ public abstract class Ball {
     /** The color of the Ball. */
     private BallType type;
 
-    /** The radius of the Ball. */
-    private float radius;
-
     /**  The runtime used for animations. */
     private float runtime;
 
@@ -82,23 +78,21 @@ public abstract class Ball {
      * @param type the color can not be or exceed MAX_COLORS
      * @param xpos the x coordinate of the Ball
      * @param ypos the y coordinate of the Ball
-     * @param rad the radius of the Ball
      * @param speed the speed of the Ball
      * @param angle the angle of the Ball
      */
-    public Ball(BallType type, float xpos, float ypos, float rad, int speed, float angle) {
+    public Ball(BallType type, float xpos, float ypos, int speed, float angle) {
         this.time = 10;
         this.speed = speed;
-        this.angle =  angle;
-        this.radius = rad;
+        this.angle = angle;
         this.type = type;
         this.popStatus = PopStatus.NONE;
         this.runtime = 0f;
 
-        hitbox = new Circle(xpos, ypos, this.radius);
-        neighborBox = new Circle(xpos, ypos, this.radius * 1.2f);
-        topHitbox = new Rectangle(xpos - this.radius, ypos - this.radius,
-                this.radius * 2.0f, this.radius * 2.0f);
+        hitbox = new Circle(xpos, ypos, Config.BALL_RAD);
+        neighborBox = new Circle(xpos, ypos, Config.BALL_RAD * 1.2f);
+        topHitbox = new Rectangle(xpos - Config.BALL_RAD, ypos - Config.BALL_RAD,
+                Config.BALL_RAD * 2.0f,Config.BALL_RAD * 2.0f);
     }
 
 
@@ -174,14 +168,6 @@ public abstract class Ball {
         return angle;
     }
 
-    /**
-     * Gets the radius.
-     * 
-     * @return the radius
-     */
-    public float getRadius() {
-        return radius;
-    }
     /**
      * Gets the color.
      * 
@@ -392,55 +378,8 @@ public abstract class Ball {
             }
         }
 
-        batch.draw(tr, hitbox.x - this.radius, hitbox.y - this.radius,
-                this.radius * 2, this.radius * 2);
+        batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
     }
-    
-    /**
-     * Draw the Ball.
-     * 
-     * @param batch the batch used to draw with
-     * @param delta the delta since the last draw
-     * @param segmentOffset determines the offset
-     */
-    public void drawSplit(SpriteBatch batch, float delta, int segmentOffset) {
-        this.runtime += delta;
-    
-        TextureRegion tr;
-        // TODO What to draw when popping is done? Nothing?
-        if (popStatus == PopStatus.POPPING) {
-            tr = popAnimation.getKeyFrame(this.runtime);
-            if (popAnimation.isAnimationFinished(this.runtime)) {
-                popStatus = PopStatus.DONE;
-                this.runtime = 0;
-                //System.out.println("Popping Done!");
-            }
-        } else {
-            switch (type) {
-                case BLUE:
-                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
-                    break;
-                case GREEN:
-                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
-                    break;
-                case RED:
-                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
-                    break;
-                case YELLOW:
-                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
-                    break;
-                case BOMB:
-                    tr = new TextureRegion(AssetLoader.bomb);
-                    break;
-                default:
-                    return;
-            }
-        }
-        
-        batch.draw(tr, segmentOffset * Config.SEGMENT_WIDTH + hitbox.x - this.radius, hitbox.y - this.radius,
-                this.radius * 2, this.radius * 2);
-    }
-
 
     /**
      * Checks if two balls of of the same type
@@ -451,6 +390,4 @@ public abstract class Ball {
     public Boolean isEqual(Ball ball) {
         return false;
     }
-
-
 }

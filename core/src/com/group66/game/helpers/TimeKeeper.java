@@ -1,14 +1,13 @@
 package com.group66.game.helpers;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
+import com.group66.game.cannon.BallManager;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TimeKeeper.
  */
 public class TimeKeeper {
+    /**The ball manager of this timekeeper*/
+    private BallManager ballManager;
     
     /**Time since the start of this round. */
     public double universalTime;
@@ -22,7 +21,8 @@ public class TimeKeeper {
     /**
      * Instantiates a new time keeper.
      */
-    public TimeKeeper() {
+    public TimeKeeper(BallManager ballManager) {
+        this.ballManager = ballManager;
         this.universalTime = 0;
         this.lastShotTime = 0;
     }
@@ -33,7 +33,7 @@ public class TimeKeeper {
      * @param delta the delta
      */
     public void universalTimeCounter(float delta) {
-        this.universalTime = this.universalTime + delta;
+        this.universalTime += delta;
         //Draw text on screen -- testing purposes
         //textDrawer.draw(GameScreen.game.batch, Double.toString(this.universalTime), 250, 250);
         //System.out.println(this.universalTime);
@@ -53,13 +53,7 @@ public class TimeKeeper {
     public void didHeShoot() {
         if ((this.universalTime - this.lastShotTime) > 10) {
             System.out.println("10 secs passed!");          
-            try {
-                Robot robot = new Robot();
-                robot.keyPress(KeyEvent.VK_SPACE);
-                robot.keyRelease(KeyEvent.VK_SPACE); 
-            } catch (AWTException e) {
-                e.printStackTrace();
-            }
+            ballManager.shootRandomBall();
         }   
     }
 }

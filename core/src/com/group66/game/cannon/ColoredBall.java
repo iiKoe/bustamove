@@ -14,12 +14,11 @@ public class ColoredBall extends Ball {
      * @param color the color can not be or exceed MAX_COLORS
      * @param xpos the x coordinate of the Ball
      * @param ypos the y coordinate of the Ball
-     * @param rad the radius of the Ball
      * @param speed the speed of the Ball
      * @param angle the angle of the Ball
      */
-    public ColoredBall(int color, float xpos, float ypos, float rad, int speed, float angle) {
-        super(getEnum(color), xpos, ypos, rad, speed, angle);
+    public ColoredBall(int color, float xpos, float ypos, int speed, float angle) {
+        super(getEnum(color), xpos, ypos, speed, angle);
     }
     
     /**
@@ -28,12 +27,11 @@ public class ColoredBall extends Ball {
      * @param type the color defined by Enum
      * @param xpos the x coordinate of the Ball
      * @param ypos the y coordinate of the Ball
-     * @param rad the radius of the Ball
      * @param speed the speed of the Ball
      * @param angle the angle of the Ball
      */
-    public ColoredBall(BallType type, float xpos, float ypos, float rad, int speed, float angle) {
-        super(type, xpos, ypos, rad, speed, angle);
+    public ColoredBall(BallType type, float xpos, float ypos, int speed, float angle) {
+        super(type, xpos, ypos, speed, angle);
     }
 
     /**
@@ -65,10 +63,10 @@ public class ColoredBall extends Ball {
      * Checks if two balls have the same color or are of the same type.
      * 
      * @param ball the ball which type needs to be compared
-     * @return Boolean value that indicates wheter the types are the same
+     * @return Boolean value that indicates whether the types are the same
      */
     public Boolean isEqual(Ball ball) {
-        if (this.getType().equals(ball.getType())) {
+        if (ball instanceof ColoredBall && this.getType().equals(ball.getType())) {
             return true;
         }
         return false;

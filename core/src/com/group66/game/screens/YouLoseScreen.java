@@ -23,25 +23,13 @@ import com.group66.game.BustaMove;
  */
 public class YouLoseScreen implements Screen {
 
-    // TODO: either make scalable or move to config
-    private static final int BUTTON_WIDTH = 200;
-    private static final int BUTTON_HEIGHT = 50;
-    private static final int BUTTON_SPACING = 20;
-
-    /** A place to store the game instance. */
-    private BustaMove game;
-
     private Stage stage;
     private Skin skin;
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param game
-     *            the game instance
      */
-    public YouLoseScreen(BustaMove game) {
-        this.game = game;
+    public YouLoseScreen() {
         AssetLoader.load();
         createScreen();
     }
@@ -56,7 +44,7 @@ public class YouLoseScreen implements Screen {
         skin.add("default", bfont);
 
         // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap(BUTTON_WIDTH, BUTTON_HEIGHT, Format.RGBA8888);
+        Pixmap pixmap = new Pixmap(Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT, Format.RGBA8888);
         pixmap.setColor(Color.WHITE);
         pixmap.fill();
         skin.add("white", new Texture(pixmap));
@@ -72,14 +60,14 @@ public class YouLoseScreen implements Screen {
         skin.add("default", textButtonStyle);
 
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + 2 * (BUTTON_HEIGHT + BUTTON_SPACING);
+        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
         
         TextButton levelButton = new TextButton("Main Menu", textButtonStyle);
-        levelButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2, yoffset - BUTTON_HEIGHT - BUTTON_SPACING);
+        levelButton.setPosition(centercol, yoffset);
         
         TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition((Gdx.graphics.getWidth() - BUTTON_WIDTH) / 2,
-                yoffset - 2 * (BUTTON_HEIGHT + BUTTON_SPACING));
+        exitButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
         
         stage.addActor(levelButton);
         stage.addActor(exitButton);
@@ -93,7 +81,7 @@ public class YouLoseScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen(game));
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
 
@@ -115,12 +103,11 @@ public class YouLoseScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(AssetLoader.youlosebg, Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MIN, Config.BOUNCE_X_MAX - Config.BOUNCE_X_MIN,
-                Config.BOUNCE_Y_MAX - Config.BOUNCE_Y_MIN);
-        game.batch.end();
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(AssetLoader.youlosebg, 
+                Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
+        BustaMove.getGameInstance().batch.end();
         
         stage.act();
         stage.draw();
