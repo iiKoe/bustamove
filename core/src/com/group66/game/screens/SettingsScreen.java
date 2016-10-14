@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.DifficultyManager;
-import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 

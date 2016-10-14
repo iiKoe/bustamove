@@ -29,6 +29,12 @@ public class AssetLoader {
     /** YouLose Screen background texture region. */
     public static TextureRegion youlosebg;
     
+    /** YouLose Screen background texture. */
+    public static Texture shopbgTexture;
+    
+    /** YouLose Screen background texture region. */
+    public static TextureRegion shopbg;
+    
     /** GameScreen brick wall texture. */
     public static Texture bwTexture;
     
@@ -99,6 +105,11 @@ public class AssetLoader {
         youlosebgTexture = new Texture(Gdx.files.internal("youlose.png"));
         youlosebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         youlosebg = new TextureRegion(youlosebgTexture, 0, 0, 600, 880);
+        
+        //Creating the Store screen background
+        shopbgTexture = new Texture(Gdx.files.internal("shop.png"));
+        shopbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        shopbg = new TextureRegion(shopbgTexture, 0, 0, 600, 880);
         
         /** 
          * GameScreen Sprites 

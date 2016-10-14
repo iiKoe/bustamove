@@ -13,6 +13,7 @@ import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * The Class for the main GameScreen of the game.
@@ -38,16 +39,19 @@ public class GameScreen implements Screen {
     private InputHandler inputHandler = new InputHandler();
 
     /** The ball manager. */
-    private BallManager ballManager = new BallManager();
+    private BallManager ballManager;
     
     /**
      * Instantiates the game screen.
      * 
      * @param randomLevel
      *            determines if a set level or a random level is used
+     * @param dynamicSettings
+     *            the dynamicSettings set for this game turn
      */
-    public GameScreen(Boolean randomLevel) {
+    public GameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
+        ballManager = new BallManager(dynamicSettings);
         setup_keys();
         AssetLoader.load();
         AudioManager.startMusic();
@@ -64,8 +68,8 @@ public class GameScreen implements Screen {
     /**
      * Instantiates the game screen.
      */
-    public GameScreen() {
-        this(false);
+    public GameScreen(DynamicSettings dynamicSettings) {
+        this(false, dynamicSettings);
     }
     
     /*
@@ -116,8 +120,24 @@ public class GameScreen implements Screen {
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
-            HighScoreManager.addScore(ballManager.scoreKeeper.getCurrentScore());
+            DynamicSettings ds = ballManager.getDynamicSettings();
+            if (ds.hasExtraLife()) {
+                ds.setExtraLife(false);
+                BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
+            } else {
+                ds.reset();
+                BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
+            }
             BustaMove.getGameInstance().setScreen(new YouLoseScreen());
+        }
+        
+        /* Check if game-complete condition is reached */
+        if (ballManager.isGameComplete()) {
+            int score = ballManager.scoreKeeper.getCurrentScore();
+            BustaMove.getGameInstance().log(MessageType.Info, "Completed the level with score: " + score);
+            HighScoreManager.addScore(score);
+            ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
+            BustaMove.getGameInstance().setScreen(new YouWinScreen());
         }
         
         BustaMove.getGameInstance().batch.end();
