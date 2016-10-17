@@ -2,7 +2,6 @@ package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
@@ -18,25 +17,7 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * The Class for the main GameScreen of the game.
  */
-public class GameScreen implements Screen {
-
-    /**
-     * The Enum GameState.
-     */
-    private enum GameState {
-        
-        /** The game is running. */
-        RUNNING,
-        
-        /** The game is paused. */
-        PAUSED
-    }
-    
-    /** The game state. */
-    private GameState gameState;
-    
-    /** The input handler. */
-    private InputHandler inputHandler = new InputHandler();
+public class GameScreen extends AbstractGameScreen {
 
     /** The ball manager. */
     private BallManager ballManager;
@@ -51,6 +32,7 @@ public class GameScreen implements Screen {
      */
     public GameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
+        inputHandler = new InputHandler();
         ballManager = new BallManager(dynamicSettings);
         setup_keys();
         AssetLoader.load();
@@ -72,15 +54,6 @@ public class GameScreen implements Screen {
         this(false, dynamicSettings);
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#show()
-     */
-    @Override
-    public void show() {
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -141,57 +114,6 @@ public class GameScreen implements Screen {
         }
         
         BustaMove.getGameInstance().batch.end();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resize(int, int)
-     */
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#pause()
-     */
-    @Override
-    public void pause() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resume()
-     */
-    @Override
-    public void resume() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#hide()
-     */
-    @Override
-    public void hide() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#dispose()
-     */
-    @Override
-    public void dispose() {
-        // img.dispose();
-        AudioManager.stopMusic();
     }
 
     /**

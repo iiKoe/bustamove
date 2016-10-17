@@ -1,17 +1,20 @@
 package com.group66.game.screens;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-import com.group66.game.BustaMove;
+import com.group66.game.settings.DynamicSettings;
 
-public class SplitGameScreenTest {
+public class SplitGameScreenTest extends AbstractGameScreenTest {
     /*
     @Test
     public void creationTest() {
-        BustaMove game = new BustaMove();
-        new SplitGameScreen(game);
+        DynamicSettings dynamicSettings = new DynamicSettings();
+        new SplitGameScreen(dynamicSettings);
     }
     */
+    protected SplitGameScreen getGameScreen() {
+        DynamicSettings dynamicSettings = new DynamicSettings();
+        return new SplitGameScreen(dynamicSettings);
+    }
+    
 }

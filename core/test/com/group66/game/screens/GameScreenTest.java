@@ -1,22 +1,22 @@
 package com.group66.game.screens;
 
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.group66.game.settings.DynamicSettings;
 
-import com.badlogic.gdx.Gdx;
-import com.group66.game.BustaMove;
-
-//@RunWith(GameScreen.class)
-public class GameScreenTest {
+public class GameScreenTest extends AbstractGameScreenTest {
     /*
     @Test
     public void creationTest() {
-        BustaMove game = new BustaMove();
-        new GameScreen(game);
+        DynamicSettings dynamicSettings = new DynamicSettings();
+        new GameScreen(dynamicSettings);
+    }
+    */
+    protected GameScreen getGameScreen() {
+        DynamicSettings dynamicSettings = new DynamicSettings();
+        return new GameScreen(dynamicSettings); 
     }
     
+    /*
     @Test
     public void badlogicLogoFileExists() {
         assertTrue("This test will only pass when the badlogic.jpg file coming with a new project 
