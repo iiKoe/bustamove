@@ -4,17 +4,17 @@ import org.junit.Test;
 
 import com.group66.game.settings.DynamicSettings;
 
-public class SplitGameScreenTest extends AbstractGameScreenTest {
+public class TwoPlayerGameScreenTest extends AbstractGameScreenTest {
     /*
     @Test
     public void creationTest() {
         DynamicSettings dynamicSettings = new DynamicSettings();
-        new SplitGameScreen(dynamicSettings);
+        new TwoPlayerGameScreen(dynamicSettings);
     }
     */
-    protected SplitGameScreen getGameScreen() {
+    protected AbstractGameScreen getGameScreen() {
         DynamicSettings dynamicSettings = new DynamicSettings();
-        return new SplitGameScreen(dynamicSettings);
+        return new TwoPlayerGameScreen(dynamicSettings);
     }
     
 }

@@ -17,32 +17,36 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * The Class for the main GameScreen of the game.
  */
-public class GameScreen extends AbstractGameScreen {
+public class TwoPlayerGameScreen extends AbstractGameScreen {
 
     /** The ball manager. */
-    private BallManager ballManager;
+    private BallManager ballManager1;
+    private BallManager ballManager2;
     
     /**
      * Instantiates the game screen.
-     * 
+     *
      * @param randomLevel
      *            determines if a set level or a random level is used
      * @param dynamicSettings
      *            the dynamicSettings set for this game turn
      */
-    public GameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public TwoPlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
-        ballManager = new BallManager(dynamicSettings);
+        ballManager1 = new BallManager(0, dynamicSettings);
+        ballManager2 = new BallManager(2, dynamicSettings);
         setup_keys();
         AssetLoader.load();
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager, false);
+            LevelLoader.loadLevel(ballManager1, true);
+            ballManager2.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
-            LevelLoader.generateLevel(ballManager, false);
+            LevelLoader.generateLevel(ballManager1, true);
+            ballManager2.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
     }
@@ -50,7 +54,7 @@ public class GameScreen extends AbstractGameScreen {
     /**
      * Instantiates the game screen.
      */
-    public GameScreen(DynamicSettings dynamicSettings) {
+    public TwoPlayerGameScreen(DynamicSettings dynamicSettings) {
         this(false, dynamicSettings);
     }
     
@@ -80,20 +84,13 @@ public class GameScreen extends AbstractGameScreen {
         BustaMove.getGameInstance().batch.enableBlending();
         
         /* Draw the balls */
-        ballManager.draw(BustaMove.getGameInstance().batch, delta);
-        
-        /* Check if balls need to move down */
-        if (ballManager.getBallCount() >= Config.NBALLS_ROW_DOWN 
-                && ballManager.canShoot()) {
-            System.out.println("Move balls down");
-            ballManager.moveRowDown();
-            ballManager.setBallCount(0);
-        }
+        ballManager1.draw(BustaMove.getGameInstance().batch, delta);
+        ballManager2.draw(BustaMove.getGameInstance().batch, delta);
         
         /* Check if game-over condition is reached */
-        if (ballManager.isGameOver()) {
+        if (ballManager1.isGameOver() || ballManager2.isGameOver()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
-            DynamicSettings ds = ballManager.getDynamicSettings();
+            DynamicSettings ds = ballManager1.getDynamicSettings();
             if (ds.hasExtraLife()) {
                 ds.setExtraLife(false);
                 BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
@@ -105,14 +102,17 @@ public class GameScreen extends AbstractGameScreen {
         }
         
         /* Check if game-complete condition is reached */
-        if (ballManager.isGameComplete()) {
-            int score = ballManager.scoreKeeper.getCurrentScore();
-            BustaMove.getGameInstance().log(MessageType.Info, "Completed the level with score: " + score);
-            HighScoreManager.addScore(score);
-            ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
+        if (ballManager1.isGameComplete() || ballManager2.isGameComplete()) {
+            BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
+            HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
+            HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
+            
+            int score1 = ballManager1.scoreKeeper.getCurrentScore();
+            int score2 = ballManager2.scoreKeeper.getCurrentScore();
+            ballManager1.getDynamicSettings().addCurrency((score1 + score2) / 2 / Config.SCORE_CURRENCY_DIV);
             BustaMove.getGameInstance().setScreen(new YouWinScreen());
         }
-        
+
         BustaMove.getGameInstance().batch.end();
     }
 
@@ -121,40 +121,61 @@ public class GameScreen extends AbstractGameScreen {
      */
     private void setup_keys() {
         // Setup the game keys
-        inputHandler.registerKeyMap("Shoot", Keys.SPACE);
-        inputHandler.registerKeyMap("Shoot", Keys.BACKSPACE);
-        inputHandler.registerKeyMap("Shoot", Keys.W);
-        inputHandler.registerKeyMap("Shoot", Keys.UP);
-        inputHandler.registerKeyMap("Aim Left", Keys.A);
-        inputHandler.registerKeyMap("Aim Left", Keys.LEFT);
-        inputHandler.registerKeyMap("Aim Right", Keys.D);
-        inputHandler.registerKeyMap("Aim Right", Keys.RIGHT);
-        inputHandler.registerKeyMap("Place Ball", Keys.ENTER);
+        inputHandler.registerKeyMap("Shoot 1", Keys.W);
+        inputHandler.registerKeyMap("Aim Left 1", Keys.A);
+        inputHandler.registerKeyMap("Aim Right 1", Keys.D);
+        inputHandler.registerKeyMap("Shoot 2", Keys.UP);
+        inputHandler.registerKeyMap("Aim Left 2", Keys.LEFT);
+        inputHandler.registerKeyMap("Aim Right 2", Keys.RIGHT);
         inputHandler.registerKeyMap("Toggle Pause", Keys.ESCAPE);
         inputHandler.registerKeyMap("Toggle mute", Keys.M);
-
+        inputHandler.registerKeyMap("Shoot 3", Keys.I);
+        inputHandler.registerKeyMap("Aim Left 3", Keys.J);
+        inputHandler.registerKeyMap("Aim Right 3", Keys.L);
+        
         /* Register key names to functions */
-        inputHandler.registerKeyPressedFunc("Aim Left",
+        inputHandler.registerKeyPressedFunc("Aim Left 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        ballManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
-        inputHandler.registerKeyPressedFunc("Aim Right",
+        inputHandler.registerKeyPressedFunc("Aim Right 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        ballManager1.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 
-        inputHandler.registerKeyJustPressedFunc("Shoot",
+        inputHandler.registerKeyJustPressedFunc("Shoot 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager.shootRandomBall();
+                        ballManager1.shootRandomBall();
                     }
                 });
         
+        inputHandler.registerKeyPressedFunc("Aim Left 2",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        ballManager2.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                    }
+                });
+
+        inputHandler.registerKeyPressedFunc("Aim Right 2",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        ballManager2.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                    }
+                });
+
+        inputHandler.registerKeyJustPressedFunc("Shoot 2",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        ballManager2.shootRandomBall();
+                    }
+                });
+
         inputHandler.registerKeyJustPressedFunc("Toggle Pause",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {

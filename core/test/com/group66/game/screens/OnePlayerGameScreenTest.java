@@ -3,17 +3,17 @@ package com.group66.game.screens;
 import org.junit.Test;
 import com.group66.game.settings.DynamicSettings;
 
-public class GameScreenTest extends AbstractGameScreenTest {
+public class OnePlayerGameScreenTest extends AbstractGameScreenTest {
     /*
     @Test
     public void creationTest() {
         DynamicSettings dynamicSettings = new DynamicSettings();
-        new GameScreen(dynamicSettings);
+        new OnePlayerGameScreen(dynamicSettings);
     }
     */
-    protected GameScreen getGameScreen() {
+    protected AbstractGameScreen getGameScreen() {
         DynamicSettings dynamicSettings = new DynamicSettings();
-        return new GameScreen(dynamicSettings); 
+        return new OnePlayerGameScreen(dynamicSettings); 
     }
     
     /*

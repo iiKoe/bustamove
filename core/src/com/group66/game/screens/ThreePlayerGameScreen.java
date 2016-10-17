@@ -17,7 +17,7 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * The Class for the main GameScreen of the game.
  */
-public class SplitGameScreen extends AbstractGameScreen {
+public class ThreePlayerGameScreen extends AbstractGameScreen {
 
     /** The ball manager. */
     private BallManager ballManager1;
@@ -32,7 +32,7 @@ public class SplitGameScreen extends AbstractGameScreen {
      * @param dynamicSettings
      *            the dynamicSettings set for this game turn
      */
-    public SplitGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public ThreePlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
         ballManager1 = new BallManager(0, dynamicSettings);
@@ -58,7 +58,7 @@ public class SplitGameScreen extends AbstractGameScreen {
     /**
      * Instantiates the game screen.
      */
-    public SplitGameScreen(DynamicSettings dynamicSettings) {
+    public ThreePlayerGameScreen(DynamicSettings dynamicSettings) {
         this(false, dynamicSettings);
     }
     
