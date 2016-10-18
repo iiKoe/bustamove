@@ -89,7 +89,7 @@ public class Config {
     
     /* Shop settings */
     /** The Constant START_CURRENCY. */
-    public static final int START_CURRENCY = 10000;
+    public static final int START_CURRENCY = 200;
     
     /** The Constant SCORE_INCR_COST. */
     public static final int SCORE_INCR_COST = 100;

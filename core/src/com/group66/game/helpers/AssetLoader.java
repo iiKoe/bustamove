@@ -128,7 +128,7 @@ public class AssetLoader {
         //creating the pause screen
         pausebgTexture = new Texture(Gdx.files.internal("pause_screen.png"));
         pausebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        pausebg = new TextureRegion(pausebgTexture, 0, 0, 600, 880);
+        pausebg = new TextureRegion(pausebgTexture, 0, 0, 1800, 880);
         
         //loading the textures for the balls
         ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
