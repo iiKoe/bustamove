@@ -23,14 +23,12 @@ import com.group66.game.settings.Config;
 
 public class HighScoreScreen implements Screen {
     
-    private BustaMove game;
     private Stage stage;
     
     /**
      * Constructor for the high score screen
      */
     public HighScoreScreen() {
-        this.game = BustaMove.getGameInstance();
         createScreen();
     }
 
@@ -93,7 +91,7 @@ public class HighScoreScreen implements Screen {
         stage.addActor(backButton);
         backButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new MainMenuScreen());
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
     }

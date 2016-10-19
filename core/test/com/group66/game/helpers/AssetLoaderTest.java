@@ -9,12 +9,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class AssetLoaderTest {
-    /*
     @Test
     public void loadTest() {
         AssetLoader.load();
     }
     
+    /*
+    @SuppressWarnings("unused")
     @Test
     public void textureTest() {
         AssetLoader.load();
@@ -29,7 +30,9 @@ public class AssetLoaderTest {
         Texture ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
         Texture bomb = new Texture(Gdx.files.internal("bomb.png"));
     }
+    */
     
+    @SuppressWarnings("unused")
     @Test
     public void animationTest() {
         AssetLoader.load();
@@ -38,5 +41,4 @@ public class AssetLoaderTest {
         Animation red = AssetLoader.getRedPopAnimation();
         Animation yellow = AssetLoader.getYellowPopAnimation();
     }
-    */
 }

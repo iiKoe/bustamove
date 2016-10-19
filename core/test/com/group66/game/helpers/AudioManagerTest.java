@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class AudioManagerTest {
-    /*
     @Test
     public void loadTest() {
         AudioManager.load();
@@ -31,5 +30,5 @@ public class AudioManagerTest {
         assertTrue(AudioManager.isMuted());
         
         AudioManager.dispose();
-    }*/
+    }
 }

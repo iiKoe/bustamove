@@ -7,7 +7,6 @@ import org.junit.Test;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TextDrawerTest {
-    /*
     @Test
     public void creationTest() {
         new TextDrawer();
@@ -26,5 +25,4 @@ public class TextDrawerTest {
         drawer.drawScore(batch, 10);
         assertEquals(2, batch.maxSpritesInBatch);
     }
-    */
 }
