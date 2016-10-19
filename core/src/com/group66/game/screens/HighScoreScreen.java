@@ -18,7 +18,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.HighScoreItem;
-import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.settings.Config;
 
 public class HighScoreScreen implements Screen {
@@ -48,7 +47,7 @@ public class HighScoreScreen implements Screen {
         
         //create main highscore list
         int count = 0;
-        for (HighScoreItem hsi : HighScoreManager.highscores) {
+        for (HighScoreItem hsi : BustaMove.getGameInstance().getHighScoreManager().getHighScores()) {
             if (count >= 10) {
                 break;
             }
