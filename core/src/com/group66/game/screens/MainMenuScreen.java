@@ -75,7 +75,7 @@ public class MainMenuScreen implements Screen {
         int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
         int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
         
-        TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
+        TextButton levelButton = new TextButton("Play: Level " + dynamicSettings.getCurrentLevel(), textButtonStyle);
         levelButton.setPosition(leftcol, yoffset);
         
         TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
@@ -113,37 +113,44 @@ public class MainMenuScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new OnePlayerGameScreen(false, dynamicSettings));
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new OnePlayerGameScreen(true, dynamicSettings));
             }
         });
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new HighScoreScreen());
             }
         });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
                 Gdx.app.exit();
             }
         });
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new SettingsScreen());
             }
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
             }
         });
         shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new ShopScreen(dynamicSettings));
             }
         });
@@ -224,6 +231,7 @@ public class MainMenuScreen implements Screen {
      */
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 }

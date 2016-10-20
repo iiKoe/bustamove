@@ -1,5 +1,6 @@
 package com.group66.game.helpers;
 
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -13,9 +14,10 @@ public class LevelLoader {
     
     /**
      * Load a test level.
+     * @param level TODO
      */
-    public static void loadLevel(BallManager ballManager, boolean isSplit) {
-        String levelFilePath = "levels/level10.txt";
+    public static void loadLevel(BallManager ballManager, int level, boolean isSplit) {
+        String levelFilePath = "levels/level" + new DecimalFormat("00").format(level) + ".txt";
 
         try {
             //load the file

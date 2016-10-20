@@ -21,7 +21,10 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
 
     /** The ball manager. */
     private BallManager ballManager;
-    
+
+    /** The dynamic settings instance. */
+    private DynamicSettings dynamicSettings;
+
     /**
      * Instantiates the game screen.
      * 
@@ -34,26 +37,28 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
         ballManager = new BallManager(dynamicSettings);
+        this.dynamicSettings = dynamicSettings;
+        this.dynamicSettings.setRandomLevel(randomLevel);
         setup_keys();
         AssetLoader.load();
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager, false);
+            LevelLoader.loadLevel(ballManager, dynamicSettings.getCurrentLevel(), false);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
             LevelLoader.generateLevel(ballManager, false);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
     }
-    
+
     /**
      * Instantiates the game screen.
      */
     public OnePlayerGameScreen(DynamicSettings dynamicSettings) {
         this(false, dynamicSettings);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -61,10 +66,10 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
      */
     @Override
     public void render(float delta) {
-        
+
         /* Handle input keys */
         inputHandler.run();
-        
+
         /* Don't update and render when the game is paused */
         if (gameState == GameState.PAUSED) {
             BustaMove.getGameInstance().batch.begin();
@@ -75,13 +80,13 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        
+
         /* Draw the balls */
         ballManager.draw(BustaMove.getGameInstance().batch, delta);
-        
+
         /* Check if balls need to move down */
         if (ballManager.getBallCount() >= Config.NBALLS_ROW_DOWN 
                 && ballManager.canShoot()) {
@@ -89,7 +94,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             ballManager.moveRowDown();
             ballManager.setBallCount(0);
         }
-        
+
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
@@ -103,16 +108,22 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             }
             BustaMove.getGameInstance().setScreen(new YouLoseScreen());
         }
-        
+
         /* Check if game-complete condition is reached */
         if (ballManager.isGameComplete()) {
             int score = ballManager.scoreKeeper.getCurrentScore();
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level with score: " + score);
             HighScoreManager.addScore(score);
             ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
-            BustaMove.getGameInstance().setScreen(new YouWinScreen());
+            dispose();
+            if (dynamicSettings.isRandomLevel()) {
+                BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
+            } else {
+                dynamicSettings.setCurrentLevel(dynamicSettings.getCurrentLevel() + 1);
+                BustaMove.getGameInstance().setScreen(new YouWinScreenCareer(dynamicSettings));
+            }
         }
-        
+
         BustaMove.getGameInstance().batch.end();
     }
 
@@ -136,51 +147,51 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         /* Register key names to functions */
         inputHandler.registerKeyPressedFunc("Aim Left",
                 new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        ballManager.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
-                    }
-                });
+            public void runCommand() {
+                ballManager.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+            }
+        });
 
         inputHandler.registerKeyPressedFunc("Aim Right",
                 new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        ballManager.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
-                    }
-                });
+            public void runCommand() {
+                ballManager.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+            }
+        });
 
         inputHandler.registerKeyJustPressedFunc("Shoot",
                 new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        ballManager.shootRandomBall();
-                    }
-                });
-        
+            public void runCommand() {
+                ballManager.shootRandomBall();
+            }
+        });
+
         inputHandler.registerKeyJustPressedFunc("Toggle Pause",
                 new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        switch (gameState) {
-                        case PAUSED:
-                            /* Resume the game */
-                            gameState = GameState.RUNNING;
-                            AudioManager.startMusic();
-                            break;
-                        case RUNNING:
-                            /* Pause the game */
-                            gameState = GameState.PAUSED;
-                            AudioManager.stopMusic();
-                            break;
-                        default:
-                            break;
-                        }
-                    }
-                });
-        
+            public void runCommand() {
+                switch (gameState) {
+                case PAUSED:
+                    /* Resume the game */
+                    gameState = GameState.RUNNING;
+                    AudioManager.startMusic();
+                    break;
+                case RUNNING:
+                    /* Pause the game */
+                    gameState = GameState.PAUSED;
+                    AudioManager.stopMusic();
+                    break;
+                default:
+                    break;
+                }
+            }
+        });
+
         inputHandler.registerKeyJustPressedFunc("Toggle mute",
                 new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        AudioManager.toggleMute();
-                    }
-                });
-        
+            public void runCommand() {
+                AudioManager.toggleMute();
+            }
+        });
+
     }
 }

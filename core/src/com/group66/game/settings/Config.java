@@ -112,4 +112,6 @@ public class Config {
     
     /** The Constant CURRENCY_Y for the text drawing the the ShopScreen. */
     public static final int CURRENCY_Y = 600;
+    
+    public static final int NUMBER_OF_LEVELS = 10;
 }
