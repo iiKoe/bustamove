@@ -67,7 +67,7 @@ public class ShopScreen implements Screen {
      *
      * @param dynamicSettings the dynamic settings
      */
-    public ShopScreen(DynamicSettings dynamicSettings) {
+    public ShopScreen(DynamicSettings dynamicSettings, Screen origin) {
         this.dynamicSettings = dynamicSettings;
         AssetLoader.load();
         createScreen();
