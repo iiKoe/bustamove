@@ -2,7 +2,6 @@ package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
@@ -18,30 +17,11 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * The Class for the main GameScreen of the game.
  */
-public class SplitGameScreen implements Screen {
-
-    /**
-     * The Enum GameState.
-     */
-    private enum GameState {
-        
-        /** The game is running. */
-        RUNNING,
-        
-        /** The game is paused. */
-        PAUSED
-    }
-    
-    /** The game state. */
-    private GameState gameState;
-    
-    /** The input handler. */
-    private InputHandler inputHandler = new InputHandler();
+public class TwoPlayerGameScreen extends AbstractGameScreen {
 
     /** The ball manager. */
     private BallManager ballManager1;
     private BallManager ballManager2;
-    private BallManager ballManager3;
     
     /**
      * Instantiates the game screen.
@@ -51,11 +31,11 @@ public class SplitGameScreen implements Screen {
      * @param dynamicSettings
      *            the dynamicSettings set for this game turn
      */
-    public SplitGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public TwoPlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
+        inputHandler = new InputHandler();
         ballManager1 = new BallManager(0, dynamicSettings);
         ballManager2 = new BallManager(2, dynamicSettings);
-        ballManager3 = new BallManager(1, dynamicSettings);
         setup_keys();
         AssetLoader.load();
         AudioManager.startMusic();
@@ -63,12 +43,10 @@ public class SplitGameScreen implements Screen {
         if (!randomLevel) {
             LevelLoader.loadLevel(ballManager1, true);
             ballManager2.shiftClone(ballManager1);
-            ballManager3.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
             LevelLoader.generateLevel(ballManager1, true);
             ballManager2.shiftClone(ballManager1);
-            ballManager3.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
     }
@@ -76,19 +54,10 @@ public class SplitGameScreen implements Screen {
     /**
      * Instantiates the game screen.
      */
-    public SplitGameScreen(DynamicSettings dynamicSettings) {
+    public TwoPlayerGameScreen(DynamicSettings dynamicSettings) {
         this(false, dynamicSettings);
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#show()
-     */
-    @Override
-    public void show() {
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -117,10 +86,9 @@ public class SplitGameScreen implements Screen {
         /* Draw the balls */
         ballManager1.draw(BustaMove.getGameInstance().batch, delta);
         ballManager2.draw(BustaMove.getGameInstance().batch, delta);
-        ballManager3.draw(BustaMove.getGameInstance().batch, delta);
         
         /* Check if game-over condition is reached */
-        if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {
+        if (ballManager1.isGameOver() || ballManager2.isGameOver()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             DynamicSettings ds = ballManager1.getDynamicSettings();
             if (ds.hasExtraLife()) {
@@ -134,71 +102,18 @@ public class SplitGameScreen implements Screen {
         }
         
         /* Check if game-complete condition is reached */
-        if (ballManager1.isGameComplete() || ballManager2.isGameComplete() || ballManager3.isGameComplete()) {
+        if (ballManager1.isGameComplete() || ballManager2.isGameComplete()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
             HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
             HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
-            HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
             
             int score1 = ballManager1.scoreKeeper.getCurrentScore();
             int score2 = ballManager2.scoreKeeper.getCurrentScore();
-            int score3 = ballManager3.scoreKeeper.getCurrentScore();
-            ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 / Config.SCORE_CURRENCY_DIV);
+            ballManager1.getDynamicSettings().addCurrency((score1 + score2) / 2 / Config.SCORE_CURRENCY_DIV);
             BustaMove.getGameInstance().setScreen(new YouWinScreen());
         }
 
         BustaMove.getGameInstance().batch.end();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resize(int, int)
-     */
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#pause()
-     */
-    @Override
-    public void pause() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resume()
-     */
-    @Override
-    public void resume() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#hide()
-     */
-    @Override
-    public void hide() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#dispose()
-     */
-    @Override
-    public void dispose() {
-        // img.dispose();
-        AudioManager.stopMusic();
     }
 
     /**
@@ -258,27 +173,6 @@ public class SplitGameScreen implements Screen {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         ballManager2.shootRandomBall();
-                    }
-                });
-
-        inputHandler.registerKeyPressedFunc("Aim Left 3",
-                new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        ballManager3.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
-                    }
-                });
-
-        inputHandler.registerKeyPressedFunc("Aim Right 3",
-                new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        ballManager3.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
-                    }
-                });
-
-        inputHandler.registerKeyJustPressedFunc("Shoot 3",
-                new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        ballManager3.shootRandomBall();
                     }
                 });
 
