@@ -1,26 +1,28 @@
 package com.group66.game.helpers;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 public class AssetLoaderTest {
     @Test
     public void loadTest() {
+        //Gdx.gl = mock(GL20.class);
         AssetLoader.load();
     }
     
-    /*
     @SuppressWarnings("unused")
     @Test
     public void textureTest() {
         AssetLoader.load();
         
-        assertEquals(AssetLoader.mmbgTexture, new Texture(Gdx.files.internal("main_menu.png")));
+        //assertEquals(AssetLoader.mmbgTexture, new Texture(Gdx.files.internal("main_menu.png")));
         Texture youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));
         Texture youlosebgTexture = new Texture(Gdx.files.internal("youlose.png"));
         
@@ -30,7 +32,6 @@ public class AssetLoaderTest {
         Texture ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
         Texture bomb = new Texture(Gdx.files.internal("bomb.png"));
     }
-    */
     
     @SuppressWarnings("unused")
     @Test
@@ -40,5 +41,11 @@ public class AssetLoaderTest {
         Animation green = AssetLoader.getGreenPopAnimation();
         Animation red = AssetLoader.getRedPopAnimation();
         Animation yellow = AssetLoader.getYellowPopAnimation();
+    }
+    
+    @Test
+    public void disposeTest() {
+        AssetLoader.load();
+        AssetLoader.dispose();
     }
 }

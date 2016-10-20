@@ -73,6 +73,9 @@ public class BustaMove extends Game {
      * @param message the message
      */
     public void log(MessageType mt, String message) {
+        if (logger == null || mt == null || message == null || "".equals(message)) {
+            return;
+        }
         logger.log(mt, message);
     }
     
