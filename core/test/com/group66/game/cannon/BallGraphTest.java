@@ -1,18 +1,9 @@
 package com.group66.game.cannon;
-
 import com.group66.game.cannon.BallGraph;
 import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.Ball.BallType;
 import com.group66.game.settings.Config;
-
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-
-import org.jgrapht.graph.SimpleGraph;
-
 import org.junit.Test;
 
 
