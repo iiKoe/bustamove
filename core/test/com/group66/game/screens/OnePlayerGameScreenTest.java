@@ -1,6 +1,8 @@
 package com.group66.game.screens;
 
 import org.junit.Test;
+
+import com.badlogic.gdx.Screen;
 import com.group66.game.settings.DynamicSettings;
 
 public class OnePlayerGameScreenTest extends AbstractGameScreenTest {
@@ -10,9 +12,11 @@ public class OnePlayerGameScreenTest extends AbstractGameScreenTest {
         DynamicSettings dynamicSettings = new DynamicSettings();
         new OnePlayerGameScreen(dynamicSettings);
     }
-    
-    protected AbstractGameScreen getGameScreen() {
+
+    @Override
+    public Screen getScreen() {
         DynamicSettings dynamicSettings = new DynamicSettings();
-        return new OnePlayerGameScreen(dynamicSettings); 
+        return new OnePlayerGameScreen(dynamicSettings);
     }
+    
 }

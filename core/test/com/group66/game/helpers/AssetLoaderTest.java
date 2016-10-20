@@ -1,12 +1,8 @@
 package com.group66.game.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-
 import org.junit.Test;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 
