@@ -111,12 +111,12 @@ public class MainMenuScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(false, dynamicSettings));
+                game.setScreen(new OnePlayerGameScreen(false, dynamicSettings));
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(true, dynamicSettings));
+                game.setScreen(new OnePlayerGameScreen(true, dynamicSettings));
             }
         });
         scoresButton.addListener(new ChangeListener() {
@@ -137,7 +137,7 @@ public class MainMenuScreen implements Screen {
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SplitGameScreen(true, dynamicSettings));
+                game.setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
             }
         });
         shopButton.addListener(new ChangeListener() {
