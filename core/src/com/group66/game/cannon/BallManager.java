@@ -322,10 +322,6 @@ public class BallManager {
      * @param delta the delta
      */
     public void draw(SpriteBatch batch, float delta) {
-
-        /* Update the ball lists and graph */
-        updateBalls(delta);
-
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset;
@@ -525,7 +521,7 @@ public class BallManager {
      *
      * @param delta the delta
      */
-    private void updateBalls(float delta) {
+    public void update(float delta) {
         /* Start counting time*/
         timeKeeper.universalTimeCounter(delta);
         
