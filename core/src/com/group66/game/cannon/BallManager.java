@@ -9,7 +9,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.Ball.BallType;
+import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.Ball;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
@@ -100,16 +100,18 @@ public class BallManager {
         this.ballGraph = new BallGraph();
         this.timeKeeper = new TimeKeeper(this);
 
+        BallType ballType;
         Random random = new Random();
         int rand = random.nextInt(100);
         if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())) {
-            cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), 0, 0.0f));
+            ballType = BallType.BOMB;
         } else {
-            rand = random.nextInt(Ball.MAX_COLORS);
-            cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), 0, 0.0f));  
+            rand = random.nextInt(BallType.MAX_COLORS.ordinal());
+            ballType = BallType.values()[rand];
         }
+        cannonBallList.add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));  
         
-        for (int i = 0; i < Ball.MAX_COLORS; i++) {
+        for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
             this.colorList.add(new AtomicInteger(0));
         }
     }
@@ -136,14 +138,11 @@ public class BallManager {
         this.timeKeeper = new TimeKeeper(this);
         
         Random random = new Random();
-        int rand = random.nextInt(Ball.MAX_COLORS + 1);
-        if (rand < Ball.MAX_COLORS) {
-            cannonBallList.add(new ColoredBall(rand, cannon.getX(), cannon.getY(), 0, 0.0f));  
-        } else {
-            cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), 0, 0.0f));
-        }
+        int rand = random.nextInt(BallType.MAX_COLORS.ordinal() + 1);
+        BallType type = BallType.values()[rand];
+        cannonBallList.add(type.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
 
-        for (int i = 0; i < Ball.MAX_COLORS; i++) {
+        for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
             this.colorList.add(new AtomicInteger(0));
         }
     }
@@ -157,11 +156,7 @@ public class BallManager {
      */
     public void addStaticBall(BallType type, float xpos, float ypos) {
         Ball ball;
-        if (type == BallType.BOMB) {
-            ball = new BombBall(xpos, ypos, 0, 0.0f);
-        } else {
-            ball = new ColoredBall(type, xpos, ypos, 0, 0.0f);
-        }
+        ball = type.newBall(xpos, ypos, 0, 0.0f);
         ballStaticList.add(ball);
         if (type != BallType.BOMB) {
             colorList.get(ball.getColor()).incrementAndGet();
@@ -180,7 +175,7 @@ public class BallManager {
      * @param ypos the ypos
      */
     public void addStaticBall(int color, float xpos, float ypos) { 
-        color %= Ball.MAX_COLORS;
+        color %= BallType.MAX_COLORS.ordinal();
         BallType type = BallType.values()[color];
         addStaticBall(type, xpos, ypos);
     }
@@ -193,7 +188,7 @@ public class BallManager {
      */
     public void addRandomStaticBall(float xpos, float ypos) {
         Random random = new Random();
-        int rand = random.nextInt(Ball.MAX_COLORS + 1);
+        int rand = random.nextInt(BallType.MAX_COLORS.ordinal() + 1);
         addStaticBall(rand, xpos, ypos);
     }
 
@@ -202,7 +197,7 @@ public class BallManager {
      * 
      * @param color the color of the Ball
      */
-    public void shootBall(int color) {
+    public void shootBall(BallType type) {
         // TODO add math so ball comes out the top of the cannon?
         if (canShoot()) {
             int newSpeed = (int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier());
@@ -210,14 +205,10 @@ public class BallManager {
             ballList.get(ballList.size() - 1).setAngle((float) Math.toRadians(cannon.getAngle()));
             ballList.get(ballList.size() - 1).setSpeed(newSpeed);
             cannonBallList.remove(0);
-            if (color < Ball.MAX_COLORS) {
-                cannonBallList.add(new ColoredBall(color, cannon.getX(), cannon.getY(), 0, 0.0f));  
-            } else {
-                cannonBallList.add(new BombBall(cannon.getX(), cannon.getY(), 0, 0.0f));
-            }
+            cannonBallList.add(type.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
             AudioManager.shoot();
             timeKeeper.shotTimeReset();
-            BustaMove.getGameInstance().log(MessageType.Info, "Shot a " + color
+            BustaMove.getGameInstance().log(MessageType.Info, "Shot a " + type.ordinal()
                     + " ball at angle " + cannon.getAngle() + " with speed " + newSpeed);
             this.ballCount++;
         }
@@ -229,10 +220,12 @@ public class BallManager {
     public void shootRandomBall() {
         Random random = new Random();
         int rand;
+        int maxType = BallType.MAX_COLORS.ordinal();
         do {
-            rand = random.nextInt(Ball.MAX_COLORS + 1);
-        } while (rand < Ball.MAX_COLORS && colorList.get(rand).get() <= 0);
-        shootBall(rand);
+            rand = random.nextInt(maxType);
+        } while (rand < maxType && colorList.get(rand).get() <= 0);
+        BallType ballType = BallType.values()[maxType];
+        shootBall(ballType);
     }
 
     /**

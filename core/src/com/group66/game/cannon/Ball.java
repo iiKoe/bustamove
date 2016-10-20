@@ -19,29 +19,6 @@ public abstract class Ball {
         DONE 
     }
 
-    public enum BallType {
-        BLUE,
-        GREEN,
-        RED,
-        YELLOW,
-        BOMB
-    }
-
-    /** The Constant that represents a BLUE ball. */
-    public static final int BLUE = BallType.BLUE.ordinal();
-
-    /** The Constant that represents a GREEN ball. */
-    public static final int GREEN = BallType.GREEN.ordinal();
-
-    /** The Constant that represents a RED ball. */
-    public static final int RED = BallType.RED.ordinal();
-
-    /** The Constant that represents a YELLOW ball. */
-    public static final int YELLOW = BallType.YELLOW.ordinal();
-
-    /** The Constant that represents the maximum number of available colors. */
-    public static final int MAX_COLORS = 4;
-
     /** The Ball hitbox. */
     private Circle hitbox;
 
@@ -388,6 +365,9 @@ public abstract class Ball {
      * @return Boolean whether balls are of the same type
      */
     public Boolean isEqual(Ball ball) {
+        if (ball instanceof Ball && this.getType().equals(ball.getType())) {
+            return true;
+        }
         return false;
     }
 }
