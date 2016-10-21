@@ -74,7 +74,7 @@ public class DynamicSettings {
         this.buySpeedBoostStateMachine = new BuySpeedBoost();
 
         this.currentLevel = 1;
-        this.levelCleared = 1;
+        this.levelCleared = 0;
         this.levelHighscore = new ArrayList<Integer>();
         for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
             this.levelHighscore.add(0);            
