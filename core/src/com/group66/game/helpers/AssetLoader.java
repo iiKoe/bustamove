@@ -65,7 +65,7 @@ public class AssetLoader {
 
     /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation,
-            yellowAnimation;
+            yellowAnimation, bombAnimation;
     
     /** The ball animation texture regions. */
     private static TextureRegion[] bluePopTextureRegions = new TextureRegion[7];
@@ -166,9 +166,13 @@ public class AssetLoader {
         yellowAnimation = new Animation(0.1f, yellowTR);
         yellowAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         
-        //creating texture bomb
+        //creating the bomb ball animation
         bomb = new Texture(Gdx.files.internal("bomb.png"));
         bomb.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        TextureRegion bombTextureRegion = new TextureRegion(bomb);
+        TextureRegion[] bombTR = { bombTextureRegion };
+        bombAnimation = new Animation(0.1f, bombTR);
+        bombAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         
         
         /* 
@@ -213,6 +217,51 @@ public class AssetLoader {
         yellowPopTextureRegions[4] = new TextureRegion(ballPopTexture, 134, 99, 32, 32);
         yellowPopTextureRegions[5] = new TextureRegion(ballPopTexture, 171, 99, 34, 34);
         yellowPopTextureRegions[6] = new TextureRegion(ballPopTexture, 212, 99, 32, 32);
+    }
+    
+    /**
+     * Gets the blue animation.
+     *
+     * @return the blue animation
+     */
+    public static Animation getBlueAnimation() {
+        return blueAnimation;
+    }
+    
+    /**
+     * Gets the green animation.
+     *
+     * @return the green animation
+     */
+    public static Animation getGreenAnimation() {
+        return greenAnimation;
+    }
+    
+    /**
+     * Gets the red animation.
+     *
+     * @return the red animation
+     */
+    public static Animation getRedAnimation() {
+        return redAnimation;
+    }
+    
+    /**
+     * Gets the yellow animation.
+     *
+     * @return the yellow animation
+     */
+    public static Animation getYellowAnimation() {
+        return yellowAnimation;
+    }
+
+    /**
+     * Gets the bomb  animation.
+     *
+     * @return the yellow animation
+     */
+    public static Animation getBombAnimation() {
+        return bombAnimation;
     }
     
     /**

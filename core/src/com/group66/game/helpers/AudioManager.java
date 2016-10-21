@@ -6,15 +6,14 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class AudioManager {
-    private static Boolean mute = false;
-    private static Sound shoot, wallhit, ballpop;
-    private static Music gameMusic;
+    public static AudioStateMachine audioStateMachine;
+    public static Sound shoot, wallhit, ballpop;
+    public static Music gameMusic;
     
     /**
      * Load all the audioclips from files
      */
     public static void load() {
-        mute = false;
         try {
             shoot = Gdx.audio.newSound(Gdx.files.internal("audio/shoot.wav"));
             wallhit = Gdx.audio.newSound(Gdx.files.internal("audio/wallhit.wav"));
@@ -22,6 +21,7 @@ public class AudioManager {
             gameMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/gamemusic.wav"));
             gameMusic.setVolume(0.5f);
             gameMusic.setLooping(true);
+            audioStateMachine = new AudioStateMachine();
         } catch (GdxRuntimeException e) {
             e.printStackTrace();
         }
@@ -31,27 +31,21 @@ public class AudioManager {
      * Mute the music and sounds
      */
     public static void mute() {
-        mute = true;
-        stopMusic();
+        audioStateMachine.setState(new AudioStateMachine.Muted());
     }
     
     /**
      * Unmute the music and sounds
      */
     public static void unmute() {
-        mute = false;
-        startMusic();
+        audioStateMachine.setState(new AudioStateMachine.Active());
     }
     
     /**
      * Toggle the mute for music and sounds
      */
     public static void toggleMute() {
-        if (mute) {
-            unmute();
-        } else {
-            mute();
-        }
+        audioStateMachine.toggleMute();
     }
     
     /**
@@ -59,53 +53,46 @@ public class AudioManager {
      * @return the mute status
      */
     public static Boolean isMuted() {
-        return mute;
+        return audioStateMachine.muted();
     }
     
     /**
      * Start the background music
      */
     public static void startMusic() {
-        if (!mute) {
-            gameMusic.play();
-        }
+        System.out.println("Starting music");
+        audioStateMachine.playMusic();
     }
     
     /**
      * Stop the background music
      */
     public static void stopMusic() {
-        gameMusic.stop();
+        audioStateMachine.playMusic();
     }
     
     /**
      * Play the sound for shooting
      */
     public static void shoot() {
-        if (!mute) {
-            shoot.play();
-        }
+        audioStateMachine.playShoot();
     }
     
     /**
      * Play the sound for when a ball hits the wall
      */
     public static void wallhit() {
-        if (!mute) {
-            wallhit.play();
-        }
+        audioStateMachine.playWall();
     }
     
     /**
      * Play the sound for when a ball pops
      */
     public static void ballpop() {
-        if (!mute) {
-            try {
-                ballpop.play();
-            } catch (NullPointerException e) {
-                return;
-            }
+        try {
+            audioStateMachine.playPop();
+        } catch (NullPointerException e) {
+            return;
         }
     }
     
