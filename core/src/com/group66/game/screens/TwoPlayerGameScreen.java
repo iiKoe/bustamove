@@ -116,8 +116,9 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         /* Check if game-complete condition is reached */
         if (ballManager1.isGameComplete() || ballManager2.isGameComplete()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
-            HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
-            HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
+            HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
+            highScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
+            highScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
             
             int score1 = ballManager1.scoreKeeper.getCurrentScore();
             int score2 = ballManager2.scoreKeeper.getCurrentScore();

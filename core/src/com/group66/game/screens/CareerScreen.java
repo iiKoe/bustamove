@@ -48,7 +48,7 @@ public class CareerScreen implements Screen {
     public CareerScreen() {
         this.game = BustaMove.getGameInstance();
         AssetLoader.load();
-        HighScoreManager.loadData();
+        BustaMove.getGameInstance().getHighScoreManager().loadData();
         ownInstance = this;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
