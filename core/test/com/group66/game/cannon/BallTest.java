@@ -19,7 +19,7 @@ public class BallTest {
      */
     @Test
     public void ballTest() {
-        Ball ball = new ColoredBall(BallType.BLUE, 1f, 2f, 4, 6.4f);
+        Ball ball = new ColoredBall(0, 1f, 2f, 4, 6.4f);
         assertNotNull(ball);
         assertEquals(1f, ball.getX(), 0.001);
         assertEquals(2f, ball.getY(), 0.001);
@@ -50,7 +50,7 @@ public class BallTest {
      */
     @Test
     public void setMoveTest() {
-        Ball ball = new ColoredBall(BallType.BLUE, 10f, 10f, 4, 6.4f);
+        Ball ball = new ColoredBall(0, 10f, 10f, 4, 6.4f);
         ball.setX(20f);
         ball.setY(30f);
         assertEquals(20f, ball.getX(), 0.001);
@@ -69,7 +69,7 @@ public class BallTest {
         float x = 10f;
         float y = 20f;
         float angle = 6.4f;
-        Ball ball = new ColoredBall(BallType.BLUE, x, y, speed, angle);
+        Ball ball = new ColoredBall(0, x, y, speed, angle);
         assertEquals(10f, ball.getX(), 0.001);
         float resx = x + speed * (float) Math.cos(angle) * delta;
         float resy = y + speed * (float) Math.sin(angle) * delta;
@@ -83,7 +83,7 @@ public class BallTest {
      */
     @Test
     public void deadTest() {
-        Ball ball = new ColoredBall(BallType.BLUE, 10f, 10f, 4, 6.4f);
+        Ball ball = new ColoredBall(0, 10f, 10f, 4, 6.4f);
         assertEquals(false, ball.isDead());
         ball.update(5);
         assertEquals(false, ball.isDead());
@@ -96,7 +96,7 @@ public class BallTest {
      */
     @Test
     public void hitTest() {
-        Ball ball = new ColoredBall(BallType.BLUE, 100, 100, 4, 6.4f);
+        Ball ball = new ColoredBall(0, 100, 100, 4, 6.4f);
         
         Circle circleHit = new Circle(100, 100, 10);
         Circle circleMiss = new Circle(0, 0, 10);
@@ -110,13 +110,12 @@ public class BallTest {
     /**
      * Pop test.
      */
-    /*
     @Test
     public void popTest() {
         SpriteBatch batchMock = mock(SpriteBatch.class);
         
-        for (int i = BallType.BLUE.ordinal(); i < BallType.MAX_COLORS.ordinal(); i++) {
-            Ball ball = new ColoredBall(BallType.values()[i], 100, 100, 4, 6.4f);
+        for (int i = Ball.BLUE; i < Ball.MAX_COLORS; i++) {
+            Ball ball = new ColoredBall(i, 100, 100, 4, 6.4f);
             assertEquals(false, ball.popDone());
             ball.popStart();
             ball.draw(batchMock, 0);
@@ -126,7 +125,6 @@ public class BallTest {
             assertEquals(true, ball.popDone());
         }
     }
-    */
     
     /* TODO fix audiomanager to have error handling
     @Test
@@ -146,7 +144,7 @@ public class BallTest {
     @Test(expected=NullPointerException.class)
     public void addGraphNullTest() {
         BallGraph graphMock = mock(BallGraph.class);
-        Ball ball = new ColoredBall(BallType.BLUE, 100, 100, 4, 6.4f);
+        Ball ball = new ColoredBall(Ball.BLUE, 100, 100, 4, 6.4f);
         ball.addToGraph(graphMock);
         ball.addToGraph(null);
     }
@@ -157,7 +155,7 @@ public class BallTest {
     @Test(expected=NullPointerException.class)
     public void deleteGraphNullTest() {
         BallGraph graphMock = mock(BallGraph.class);
-        Ball ball = new ColoredBall(BallType.BLUE, 100, 100, 4, 6.4f);
+        Ball ball = new ColoredBall(Ball.BLUE, 100, 100, 4, 6.4f);
         ball.deleteBallFromGraph(graphMock);
         ball.deleteBallFromGraph(null);
     }
