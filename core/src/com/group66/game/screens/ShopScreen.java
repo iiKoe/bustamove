@@ -61,6 +61,8 @@ public class ShopScreen implements Screen {
     
     /** The text drawer. */
     private TextDrawer textDrawer;
+    
+    private Screen origin;
 
     /**
      * Instantiates a new main menu screen.
@@ -69,6 +71,7 @@ public class ShopScreen implements Screen {
      */
     public ShopScreen(DynamicSettings dynamicSettings, Screen origin) {
         this.dynamicSettings = dynamicSettings;
+        this.origin = origin;
         AssetLoader.load();
         createScreen();
     }
