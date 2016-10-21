@@ -65,7 +65,7 @@ public class AssetLoader {
 
     /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation,
-            yellowAnimation;
+            yellowAnimation, bombAnimation;
     
     /** The ball animation texture regions. */
     private static TextureRegion[] bluePopTextureRegions = new TextureRegion[7];
@@ -166,9 +166,13 @@ public class AssetLoader {
         yellowAnimation = new Animation(0.1f, yellowTR);
         yellowAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         
-        //creating texture bomb
+        //creating the bomb ball animation
         bomb = new Texture(Gdx.files.internal("bomb.png"));
         bomb.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        TextureRegion bombTextureRegion = new TextureRegion(bomb);
+        TextureRegion[] bombTR = { bombTextureRegion };
+        bombAnimation = new Animation(0.1f, bombTR);
+        bombAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
         
         
         /* 
@@ -249,6 +253,15 @@ public class AssetLoader {
      */
     public static Animation getYellowAnimation() {
         return yellowAnimation;
+    }
+
+    /**
+     * Gets the bomb  animation.
+     *
+     * @return the yellow animation
+     */
+    public static Animation getBombAnimation() {
+        return bombAnimation;
     }
     
     /**

@@ -91,7 +91,7 @@ public enum BallType {
 
         @Override
         public Animation getAnimation() {
-            return null;
+            return AssetLoader.getBombAnimation();
         }
 
         @Override

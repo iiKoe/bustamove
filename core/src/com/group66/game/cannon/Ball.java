@@ -324,7 +324,7 @@ public abstract class Ball {
                 popStatus = PopStatus.DONE;
                 this.runtime = 0;
             }
-        } else if (animation) {
+        } else if (animation != null) {
             tr = animation.getKeyFrame(this.runtime);
         } else {
             return;

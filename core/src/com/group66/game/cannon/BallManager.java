@@ -100,15 +100,9 @@ public class BallManager {
         this.ballGraph = new BallGraph();
         this.timeKeeper = new TimeKeeper(this);
 
-        BallType ballType;
         Random random = new Random();
-        int rand = random.nextInt(100);
-        if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())) {
-            ballType = BallType.BOMB;
-        } else {
-            rand = random.nextInt(BallType.MAX_COLORS.ordinal());
-            ballType = BallType.values()[rand];
-        }
+        int rand = random.nextInt(BallType.MAX_COLORS.ordinal());
+        BallType ballType = BallType.values()[rand];
         cannonBallList.add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));  
         
         for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
@@ -220,7 +214,15 @@ public class BallManager {
     public void shootRandomBall() {
         Random random = new Random();
         int rand;
-        int maxType = BallType.MAX_COLORS.ordinal();
+        int maxType = BallType.BOMB.ordinal();
+
+        rand = random.nextInt(100);
+        if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())) {
+            BallType ballType = BallType.BOMB;
+            shootBall(ballType);
+            return;
+        }
+
         do {
             rand = random.nextInt(maxType);
         } while (rand < maxType && colorList.get(rand).get() <= 0);
