@@ -233,6 +233,53 @@ public class AssetLoader {
     }
 
     /**
+     * Gets the blue animation.
+     *
+     * @return the blue animation
+     */
+    public static Animation getBlueAnimation() {
+        return blueAnimation;
+    }
+    
+    /**
+     * Gets the green animation.
+     *
+     * @return the green animation
+     */
+    public static Animation getGreenAnimation() {
+        return greenAnimation;
+    }
+    
+    /**
+     * Gets the red animation.
+     *
+     * @return the red animation
+     */
+    public static Animation getRedAnimation() {
+        return redAnimation;
+    }
+    
+    /**
+     * Gets the yellow animation.
+     *
+     * @return the yellow animation
+     */
+    public static Animation getYellowAnimation() {
+        return yellowAnimation;
+    }
+
+    /**
+     * Gets the bomb  animation.
+     *
+     * @return the yellow animation
+     */
+    public static Animation getBombAnimation() {
+        return bombAnimation;
+    }
+    
+
+    
+    /**
      * Gets the blue pop animation.
      *
      * @return a blue pop animation instance
