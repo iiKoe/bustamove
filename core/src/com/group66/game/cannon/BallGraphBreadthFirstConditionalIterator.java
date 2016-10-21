@@ -14,7 +14,7 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
     private ArrayList<Ball> list = new ArrayList<Ball>();
     
     Queue<Ball> queue = new LinkedList<Ball>();
-        
+
     /**
      * Instantiates the iterator
      * @param graph  which the iterator should iterate over
@@ -64,7 +64,7 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
 
                 while (iterator.hasNext()) {
                     Ball adjacentBall = iterator.next();
-                    if (adjacentBall instanceof ColoredBall) {
+                    if (!(adjacentBall instanceof BombBall)) {
                         BallGraphBreadthFirstConditionalIterator checkIterator = 
                                 new BallGraphBreadthFirstConditionalIterator(graph, (ColoredBall)adjacentBall);
                         if (checkIterator.size() >= 2) {
