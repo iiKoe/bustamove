@@ -138,7 +138,7 @@ public class BallManager {
         this.timeKeeper = new TimeKeeper(this);
         
         Random random = new Random();
-        int rand = random.nextInt(BallType.MAX_COLORS.ordinal() + 1);
+        int rand = random.nextInt(BallType.MAX_COLORS.ordinal());
         BallType type = BallType.values()[rand];
         cannonBallList.add(type.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
 
@@ -224,7 +224,7 @@ public class BallManager {
         do {
             rand = random.nextInt(maxType);
         } while (rand < maxType && colorList.get(rand).get() <= 0);
-        BallType ballType = BallType.values()[maxType];
+        BallType ballType = BallType.values()[rand];
         shootBall(ballType);
     }
 
