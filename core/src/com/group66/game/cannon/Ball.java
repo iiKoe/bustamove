@@ -5,42 +5,27 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.settings.Config;
 
+/**
+ * The Class Ball.
+ */
 public abstract class Ball {
     /**
      * The Enum PopStatus.
      */
     private enum PopStatus {
+        
+        /** The none. */
         NONE, 
+        
+        /** The popping. */
         POPPING, 
+        
+        /** The done. */
         DONE 
     }
-
-    public enum BallType {
-        BLUE,
-        GREEN,
-        RED,
-        YELLOW,
-        BOMB
-    }
-
-    /** The Constant that represents a BLUE ball. */
-    public static final int BLUE = BallType.BLUE.ordinal();
-
-    /** The Constant that represents a GREEN ball. */
-    public static final int GREEN = BallType.GREEN.ordinal();
-
-    /** The Constant that represents a RED ball. */
-    public static final int RED = BallType.RED.ordinal();
-
-    /** The Constant that represents a YELLOW ball. */
-    public static final int YELLOW = BallType.YELLOW.ordinal();
-
-    /** The Constant that represents the maximum number of available colors. */
-    public static final int MAX_COLORS = 4;
 
     /** The Ball hitbox. */
     private Circle hitbox;
@@ -178,8 +163,8 @@ public abstract class Ball {
     }
 
     /**
-     * Gets the type
-     * 
+     * Gets the type.
+     *
      * @return the type
      */
     public BallType getType() {
@@ -281,34 +266,17 @@ public abstract class Ball {
 
     /**
      * Start the Pop animation.
+     *
+     * @param popAnimation the pop animation
      */
-    public void popStart() {
-        if (popStatus == PopStatus.POPPING) {
+    public void popStart(Animation popAnimation) {
+        if (popStatus == PopStatus.POPPING || popAnimation == null) {
             return;
         }
-
-        switch (type) {
-            case BLUE:
-                popAnimation = AssetLoader.getBluePopAnimation();
-                break;
-            case GREEN:
-                popAnimation = AssetLoader.getGreenPopAnimation();
-                break;
-            case RED:
-                popAnimation = AssetLoader.getRedPopAnimation();
-                break;
-            case YELLOW:
-                popAnimation = AssetLoader.getYellowPopAnimation();
-                break;
-            default:
-                popAnimation = AssetLoader.getBluePopAnimation(); // Error
-                return;
-        }
-
+        this.popAnimation = popAnimation;
         this.runtime = 0;
         popStatus = PopStatus.POPPING;
         AudioManager.ballpop();
-        //System.out.println("Popping Started!");
     }
 
     /**
@@ -339,11 +307,12 @@ public abstract class Ball {
 
     /**
      * Draw the Ball.
-     * 
+     *
      * @param batch the batch used to draw with
+     * @param animation the animation
      * @param delta the delta since the last draw
      */
-    public void draw(SpriteBatch batch, float delta) {
+    public void draw(SpriteBatch batch, Animation animation, float delta) {
         this.runtime += delta;
         // batch.draw(ball_texture, ); // TODO calc actual x and y
 
@@ -354,40 +323,26 @@ public abstract class Ball {
             if (popAnimation.isAnimationFinished(this.runtime)) {
                 popStatus = PopStatus.DONE;
                 this.runtime = 0;
-                //System.out.println("Popping Done!");
             }
+        } else if (animation != null) {
+            tr = animation.getKeyFrame(this.runtime);
         } else {
-            switch (type) {
-                case BLUE:
-                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
-                    break;
-                case GREEN:
-                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
-                    break;
-                case RED:
-                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
-                    break;
-                case YELLOW:
-                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
-                    break;
-                case BOMB:
-                    tr = new TextureRegion(AssetLoader.bomb);
-                    break;
-                default:
-                    return;
-            }
+            return;
         }
 
         batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
     }
 
     /**
-     * Checks if two balls of of the same type
-     * 
+     * Checks if two balls of of the same type.
+     *
      * @param ball to compare
      * @return Boolean whether balls are of the same type
      */
     public Boolean isEqual(Ball ball) {
+        if (ball instanceof Ball && this.getType().equals(ball.getType())) {
+            return true;
+        }
         return false;
     }
 }

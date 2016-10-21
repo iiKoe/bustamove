@@ -11,14 +11,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 public class HighScoreManager {
-    public static final TreeSet<HighScoreItem> highscores = new TreeSet<HighScoreItem>();
-    
-    private static FileHandle file = Gdx.files.external("bustamove/highscores.json");
+    private TreeSet<HighScoreItem> highscores;
+    private FileHandle file;
 
+    /**
+     * Constructor for high score manager
+     */
+    public HighScoreManager() {
+        highscores = new TreeSet<HighScoreItem>();
+        file = Gdx.files.external("bustamove/highscores.json");
+        loadData();
+    }
+    
     /**
      * Load high score data from file
      */
-    public static void loadData() {
+    public void loadData() {
         try {
             if (!file.exists()) {
                 return;
@@ -41,7 +49,7 @@ public class HighScoreManager {
     /**
      * Write high scores to file
      */
-    public static void writeData() {
+    public void writeData() {
         try {
             JSONArray arr = new JSONArray();
             int count = 0;
@@ -62,12 +70,20 @@ public class HighScoreManager {
             e.printStackTrace();
         }        
     }
+    
+    /**
+     * Gets the high scores list
+     * @return the high scores list
+     */
+    public TreeSet<HighScoreItem> getHighScores() {
+        return highscores;
+    }
 
     /**
      * Add a score to the high score list
      * @param score The score the user just achieved
      */
-    public static void addScore(int score) {
+    public void addScore(int score) {
         String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         highscores.add(new HighScoreItem("unknown", date, score));
         writeData();

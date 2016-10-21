@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
-import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
@@ -32,6 +31,8 @@ public class MainMenuScreen implements Screen {
     private Skin skin;
     
     private static DynamicSettings dynamicSettings = new DynamicSettings();
+    
+    private Screen ownInstance;
 
     /**
      * Instantiates a new main menu screen.
@@ -39,9 +40,18 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen() {
         this.game = BustaMove.getGameInstance();
         AssetLoader.load();
-        HighScoreManager.loadData();
+        ownInstance = this;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
+    }
+    
+    /**
+     * Instantiates a new main menu screen
+     * 
+     * @param dynamicSettings
+     */
+    public MainMenuScreen(DynamicSettings dynamicSettings) {
+        this();
     }
 
     private void createScreen() {
@@ -75,7 +85,7 @@ public class MainMenuScreen implements Screen {
         int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
         int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
         
-        TextButton levelButton = new TextButton("Play: Level 1", textButtonStyle);
+        TextButton levelButton = new TextButton("Career", textButtonStyle);
         levelButton.setPosition(leftcol, yoffset);
         
         TextButton randomButton = new TextButton("Play: Random Level", textButtonStyle);
@@ -113,38 +123,46 @@ public class MainMenuScreen implements Screen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(false, dynamicSettings));
+                dispose();
+                game.setScreen(new CareerScreen());
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new GameScreen(true, dynamicSettings));
+                dispose();
+                dynamicSettings.setRandomLevel(true);
+                game.setScreen(new OnePlayerGameScreen(true, dynamicSettings));
             }
         });
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new HighScoreScreen());
             }
         });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
                 Gdx.app.exit();
             }
         });
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 game.setScreen(new SettingsScreen());
             }
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new SplitGameScreen(true, dynamicSettings));
+                dispose();
+                game.setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
             }
         });
         shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(new ShopScreen(dynamicSettings));
+                dispose();
+                game.setScreen(new ShopScreen(dynamicSettings, ownInstance));
             }
         });
     }
@@ -160,11 +178,11 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        game.batch.end();
+        BustaMove.getGameInstance().batch.end();
         
         stage.act();
         stage.draw();
@@ -224,6 +242,7 @@ public class MainMenuScreen implements Screen {
      */
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 }

@@ -1,5 +1,7 @@
 package com.group66.game.cannon;
 
+import org.hamcrest.core.IsEqual;
+
 public class TopBall extends Ball {
 
     /**
@@ -12,6 +14,16 @@ public class TopBall extends Ball {
      */
     public TopBall(BallType type, float xpos, float ypos, int speed, float angle) {
         super(type, xpos, ypos, speed, angle);
+    }
+
+    /**
+     * Checks if two balls of of the same type.
+     *
+     * @param ball to compare
+     * @return Boolean whether balls are of the same type
+     */
+    public Boolean isEqual(Ball ball) {
+        return false;
     }
 
 }

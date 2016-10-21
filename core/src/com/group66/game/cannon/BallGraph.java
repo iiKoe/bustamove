@@ -8,7 +8,7 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
-import com.group66.game.cannon.Ball.BallType;
+import com.group66.game.cannon.BallType;
 import com.group66.game.settings.Config;
 import com.group66.game.cannon.BallGraphBreadthFirstConditionalIterator;
 

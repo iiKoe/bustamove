@@ -1,5 +1,8 @@
 package com.group66.game.settings;
 
+import java.util.ArrayList;
+
+import com.group66.game.helpers.AssetLoader;
 import com.group66.game.shop.BuyScoreMultiplier;
 import com.group66.game.shop.BuySpecialBombChance;
 import com.group66.game.shop.BuySpeedBoost;
@@ -8,38 +11,54 @@ import com.group66.game.shop.BuySpeedBoost;
  * The Class DynamicSettings for settings that can change throughout the game.
  */
 public class DynamicSettings {
-    
+    /** The name of the player. */
+    private String name;
+
     /** The amount of currency. */
     private int currency;
-    
+
     /** The score multiplier. */
     private double scoreMultiplier;
-    
+
     /** The special bomb chance multiplier. */
     private double specialBombChanceMultiplier;
-    
+
     /** The ball speed multiplier. */
     private double ballSpeedMultiplier;
-    
+
     /** The extra life. */
     boolean extraLife;
-    
+
     /** The buy score multiplier state machine. */
     private BuyScoreMultiplier buyScoreMultiplierStateMachine;
-    
+
     /** The buy special bomb chance state machine. */
     private BuySpecialBombChance buySpecialBombChanceStateMachine;
-    
+
     /** The buy speed boost state machine. */
     private BuySpeedBoost buySpeedBoostStateMachine;
-    
+
+    /** The current level being played. */
+    private int currentLevel;
+
+    /** The highest level cleared. */
+    private int levelCleared;
+
+    /** The levels that are cleared by the player. */
+    private ArrayList<Integer> levelHighscore;
+
+    /** Is current level a random level. */
+    private boolean randomLevel;
+
+
     /**
      * Instantiates a new dynamic settings instance.
      */
     public DynamicSettings() {
         reset();
+        name = new String();
     }
-    
+
     /**
      * Resets the settings to default.
      */
@@ -49,10 +68,33 @@ public class DynamicSettings {
         this.specialBombChanceMultiplier = 1;
         this.ballSpeedMultiplier = 1;
         this.extraLife = false;
-        
+
         this.buyScoreMultiplierStateMachine = new BuyScoreMultiplier();
         this.buySpecialBombChanceStateMachine = new BuySpecialBombChance();
         this.buySpeedBoostStateMachine = new BuySpeedBoost();
+
+        this.currentLevel = 1;
+        this.levelCleared = 0;
+        this.levelHighscore = new ArrayList<Integer>();
+        for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
+            this.levelHighscore.add(0);            
+        }
+        this.randomLevel = false;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -71,8 +113,9 @@ public class DynamicSettings {
      */
     public void setCurrency(int currency) {
         this.currency = currency;
+        AssetLoader.profileManager.writeData(this);
     }
-    
+
     /**
      * Adds the currency.
      *
@@ -80,8 +123,9 @@ public class DynamicSettings {
      */
     public void addCurrency(int dcurrency) {
         this.currency += dcurrency;
+        AssetLoader.profileManager.writeData(this);
     }
-    
+
     /**
      * Gets the score multiplier.
      *
@@ -89,6 +133,7 @@ public class DynamicSettings {
      */
     public double getScoreMultiplier() {
         return scoreMultiplier;
+
     }
 
     /**
@@ -98,8 +143,9 @@ public class DynamicSettings {
      */
     public void setScoreMultiplier(double scoreMultiplier) {
         this.scoreMultiplier = scoreMultiplier;
+        AssetLoader.profileManager.writeData(this);
     }
-    
+
     /**
      * Gets the special bomb chance multiplier.
      *
@@ -116,6 +162,7 @@ public class DynamicSettings {
      */
     public void setSpecialBombChanceMultiplier(double specialBombChance) {
         this.specialBombChanceMultiplier = specialBombChance;
+        AssetLoader.profileManager.writeData(this);
     }
 
 
@@ -135,8 +182,9 @@ public class DynamicSettings {
      */
     public void setBallSpeedMultiplier(double ballSpeedMultiplier) {
         this.ballSpeedMultiplier = ballSpeedMultiplier;
+        AssetLoader.profileManager.writeData(this);
     }
-    
+
     /**
      * Checks for extra life.
      *
@@ -145,7 +193,7 @@ public class DynamicSettings {
     public boolean hasExtraLife() {
         return this.extraLife;
     }
-    
+
     /**
      * Sets the extra life.
      *
@@ -153,6 +201,7 @@ public class DynamicSettings {
      */
     public void setExtraLife(boolean extraLife) {
         this.extraLife = extraLife;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -163,7 +212,7 @@ public class DynamicSettings {
     public BuyScoreMultiplier getBuyScoreMultiplierStateMachine() {
         return buyScoreMultiplierStateMachine;
     }
-    
+
     /**
      * Gets the buy special bomb chance state machine.
      *
@@ -180,5 +229,86 @@ public class DynamicSettings {
      */
     public BuySpeedBoost getBuySpeedBoostStateMachine() {
         return buySpeedBoostStateMachine;
+    }
+
+    /**
+     * Gets the current level.
+     * 
+     * @return the currentLevel
+     */
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    /**
+     * Set the current level.
+     * 
+     * @param currentLevel the currentLevel to set
+     */
+    public void setCurrentLevel(int currentLevel) {
+        if (currentLevel <= Config.NUMBER_OF_LEVELS) {
+            this.currentLevel = currentLevel;
+            AssetLoader.profileManager.writeData(this);
+        }
     } 
+
+    /**
+     * @return the levelCleared
+     */
+    public int getLevelCleared() {
+        return levelCleared;
+    }
+
+    /**
+     * @param levelCleared the levelCleared to set
+     */
+    public void setLevelCleared(int levelCleared) {
+        if (levelCleared > this.levelCleared) {
+            this.levelCleared = levelCleared;
+            AssetLoader.profileManager.writeData(this);
+        }
+    }
+
+    /** Is current level random?
+     * 
+     * @return the randomLevel
+     */
+    public boolean isRandomLevel() {
+        return randomLevel;
+    }
+
+    /**
+     * Set current level random. 
+     * 
+     * @param randomLevel the randomLevel to set
+     */
+    public void setRandomLevel(boolean randomLevel) {
+        this.randomLevel = randomLevel;
+        AssetLoader.profileManager.writeData(this);
+    }
+
+    /**
+     * Sets the highscore of a level
+     * 
+     * @param level
+     * @param score
+     */
+    public void setLevelHighscore(int level, int score) {
+        if (level <= Config.NUMBER_OF_LEVELS && levelHighscore.get(level - 1) < score) {
+            levelHighscore.set(level - 1, score);
+        }
+    }
+
+    /**
+     * Get the highscore of a level
+     * 
+     * @param level
+     * @return The highscore
+     */
+    public int getLevelHighscore(int level) {
+        if (level <= Config.NUMBER_OF_LEVELS) {
+            return levelHighscore.get(level - 1);
+        }
+        return 0;
+    }
 }

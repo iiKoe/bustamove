@@ -14,30 +14,52 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.group66.game.helpers.AssetLoader;
-import com.group66.game.settings.Config;
 import com.group66.game.BustaMove;
+import com.group66.game.helpers.AssetLoader;
+import com.group66.game.input.NameInputListener;
+import com.group66.game.logging.MessageType;
+import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the MainMenuScreen of the game.
  */
-public class YouWinScreen implements Screen {
+public class StartScreen implements Screen {
+    /** A place to store the game instance. */
+    private BustaMove game;
 
     private Stage stage;
+    
     private Skin skin;
+
+    private static DynamicSettings dynamicSettings = new DynamicSettings();
 
     /**
      * Instantiates a new main menu screen.
      */
-    public YouWinScreen() {
+    public StartScreen() {
+        this.game = BustaMove.getGameInstance();
         AssetLoader.load();
+        BustaMove.getGameInstance().getHighScoreManager().loadData();
+       
         createScreen();
+        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
+    }
+
+    /**
+     * instantiates a new start screen object
+     * @param dynamicSettings
+     */
+    public StartScreen(DynamicSettings dynamicSettings) {
+        this();
     }
 
     private void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+
         skin = new Skin();
+
 
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
@@ -61,16 +83,20 @@ public class YouWinScreen implements Screen {
 
         //all magic numbers in this section are offsets values adjusted to get better looks
         int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
-        
-        TextButton levelButton = new TextButton("Main Menu", textButtonStyle);
-        levelButton.setPosition(centercol, yoffset);
-        
-        TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
-        
-        stage.addActor(levelButton);
-        stage.addActor(exitButton);
+        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
+        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
+
+        TextButton setName = new TextButton("Enter name", textButtonStyle);
+        setName.setPosition(leftcol, yoffset);
+
+        TextButton startButton = new TextButton("Start game!", textButtonStyle);
+        startButton.setPosition(rightcol, yoffset);
+
+
+
+        stage.addActor(setName);
+        stage.addActor(startButton);
+
 
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
@@ -79,17 +105,22 @@ public class YouWinScreen implements Screen {
         // ClickListener could have been used, but would only fire when clicked.
         // Also, canceling a ClickListener event won't
         // revert the checked state.
-        levelButton.addListener(new ChangeListener() {
+        setName.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                NameInputListener listener = new NameInputListener(dynamicSettings);
+                Gdx.input.getTextInput(listener, "Enter your name", "", "");
+            }
+        });
+        startButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!dynamicSettings.getName().equals("")) {
+                    AssetLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
+                    dispose();
+                    game.setScreen(new MainMenuScreen());
+                }
             }
         });
 
-        exitButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
-            }
-        });
     }
 
     /*
@@ -101,14 +132,13 @@ public class YouWinScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        
+
         /* Draw the background */
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(AssetLoader.youwinbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
         BustaMove.getGameInstance().batch.end();
-        
         stage.act();
         stage.draw();
     }
@@ -167,6 +197,7 @@ public class YouWinScreen implements Screen {
      */
     @Override
     public void dispose() {
-
+        stage.dispose();
+        skin.dispose();
     }
 }

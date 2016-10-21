@@ -2,7 +2,6 @@ package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallManager;
@@ -18,30 +17,15 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * The Class for the main GameScreen of the game.
  */
-public class SplitGameScreen implements Screen {
-
-    /**
-     * The Enum GameState.
-     */
-    private enum GameState {
-        
-        /** The game is running. */
-        RUNNING,
-        
-        /** The game is paused. */
-        PAUSED
-    }
-    
-    /** The game state. */
-    private GameState gameState;
-    
-    /** The input handler. */
-    private InputHandler inputHandler = new InputHandler();
+public class ThreePlayerGameScreen extends AbstractGameScreen {
 
     /** The ball manager. */
     private BallManager ballManager1;
     private BallManager ballManager2;
     private BallManager ballManager3;
+    
+    /** The dynamic settings instance. */
+    private DynamicSettings dynamicSettings;
     
     /**
      * Instantiates the game screen.
@@ -51,8 +35,10 @@ public class SplitGameScreen implements Screen {
      * @param dynamicSettings
      *            the dynamicSettings set for this game turn
      */
-    public SplitGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public ThreePlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
+        inputHandler = new InputHandler();
+        this.dynamicSettings = dynamicSettings;
         ballManager1 = new BallManager(0, dynamicSettings);
         ballManager2 = new BallManager(2, dynamicSettings);
         ballManager3 = new BallManager(1, dynamicSettings);
@@ -61,7 +47,7 @@ public class SplitGameScreen implements Screen {
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager1, true);
+            LevelLoader.loadLevel(ballManager1, 1, true);
             ballManager2.shiftClone(ballManager1);
             ballManager3.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
@@ -76,19 +62,10 @@ public class SplitGameScreen implements Screen {
     /**
      * Instantiates the game screen.
      */
-    public SplitGameScreen(DynamicSettings dynamicSettings) {
+    public ThreePlayerGameScreen(DynamicSettings dynamicSettings) {
         this(false, dynamicSettings);
     }
     
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#show()
-     */
-    @Override
-    public void show() {
-    }
-
     /*
      * (non-Javadoc)
      * 
@@ -105,8 +82,18 @@ public class SplitGameScreen implements Screen {
             BustaMove.getGameInstance().batch.begin();
             BustaMove.getGameInstance().batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
             BustaMove.getGameInstance().batch.end();
+            
+            /* Update the balls without letting them move*/
+            ballManager1.update(0);
+            ballManager2.update(0);
+            ballManager2.update(0);
             return;
         }
+        
+        /* Update the balls */
+        ballManager1.update(delta);
+        ballManager2.update(delta);
+        ballManager3.update(delta);
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -130,75 +117,25 @@ public class SplitGameScreen implements Screen {
                 ds.reset();
                 BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
-            BustaMove.getGameInstance().setScreen(new YouLoseScreen());
+            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
         }
         
         /* Check if game-complete condition is reached */
         if (ballManager1.isGameComplete() || ballManager2.isGameComplete() || ballManager3.isGameComplete()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
-            HighScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
-            HighScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
-            HighScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
+            HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
+            highScoreManager.addScore(ballManager1.scoreKeeper.getCurrentScore());
+            highScoreManager.addScore(ballManager2.scoreKeeper.getCurrentScore());
+            highScoreManager.addScore(ballManager3.scoreKeeper.getCurrentScore());
             
             int score1 = ballManager1.scoreKeeper.getCurrentScore();
             int score2 = ballManager2.scoreKeeper.getCurrentScore();
             int score3 = ballManager3.scoreKeeper.getCurrentScore();
             ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 / Config.SCORE_CURRENCY_DIV);
-            BustaMove.getGameInstance().setScreen(new YouWinScreen());
+            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
         }
 
         BustaMove.getGameInstance().batch.end();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resize(int, int)
-     */
-    @Override
-    public void resize(int width, int height) {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#pause()
-     */
-    @Override
-    public void pause() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resume()
-     */
-    @Override
-    public void resume() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#hide()
-     */
-    @Override
-    public void hide() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#dispose()
-     */
-    @Override
-    public void dispose() {
-        // img.dispose();
-        AudioManager.stopMusic();
     }
 
     /**

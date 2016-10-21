@@ -1,19 +1,18 @@
 package com.group66.game.helpers;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+//import static org.junit.Assert.assertFalse;
+//import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 
 public class AudioManagerTest {
-    /*
     @Test
     public void loadTest() {
-        AudioManager.load();
+        //AudioManager.load();
     }
     
     @Test
     public void muteTest() {
+        /*
         AudioManager.load();
         assertFalse(AudioManager.isMuted());
         
@@ -31,5 +30,6 @@ public class AudioManagerTest {
         assertTrue(AudioManager.isMuted());
         
         AudioManager.dispose();
-    }*/
+        */
+    }
 }

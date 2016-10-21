@@ -16,78 +16,86 @@ public class AssetLoader {
     
     /** MainMenu Screen background texture region. */
     public static TextureRegion mmbg;
-    
+
     /** YouWin Screen background texture. */
     public static Texture youwinbgTexture;
-    
+
     /** YouWin Screen background texture region. */
     public static TextureRegion youwinbg;
-    
+
     /** YouLose Screen background texture. */
     public static Texture youlosebgTexture;
-    
+
     /** YouLose Screen background texture region. */
     public static TextureRegion youlosebg;
-    
+
+    /** YouWin Screen background texture. */
+    public static Texture youwinAllbgTexture;
+
+    /** YouWin Screen background texture region. */
+    public static TextureRegion youwinAllbg;
+
     /** YouLose Screen background texture. */
     public static Texture shopbgTexture;
-    
+
     /** YouLose Screen background texture region. */
     public static TextureRegion shopbg;
-    
+
     /** GameScreen brick wall texture. */
     public static Texture bwTexture;
-    
+
     /** GameScreen brick wall texture region. */
     public static TextureRegion bw;
-    
+
     /** GameScreen background texture. */
     public static Texture bgTexture;
-    
+
     /** GameScreen background texture region. */
     public static TextureRegion bg;
-    
+
     /** GameScreen Pause background texture. */
     public static Texture pausebgTexture;
-    
+
     /** GameScreen Pause background texture region. */
     public static TextureRegion pausebg;
 
     /** The ball texture. */
     public static Texture ballTexture;
-    
+
     /** The ball pop texture. */
     public static Texture ballPopTexture;
-    
+
     /** The ball texture regions. */
     private static TextureRegion blue1, blue2, blue3, green1, green2, green3,
-            red1, red2, red3, yellow1, yellow2, yellow3;
+        red1, red2, red3, yellow1, yellow2, yellow3;
 
     /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation,
-            yellowAnimation;
+        yellowAnimation, bombAnimation;
     
     /** The ball animation texture regions. */
     private static TextureRegion[] bluePopTextureRegions = new TextureRegion[7];
-    
+
     /** The Green pop texture regions. */
     private static TextureRegion[] greenPopTextureRegions = new TextureRegion[7];
-    
+
     /** The Red pop texture regions. */
     private static TextureRegion[] redPopTextureRegions = new TextureRegion[7];
-    
+
     /** The Yellow pop texture regions. */
     private static TextureRegion[] yellowPopTextureRegions = new TextureRegion[7];
-    
+
     /** The bomb texture. */
     public static Texture bomb;
-    
+
+    public static ProfileManager profileManager = new ProfileManager();
+
 
     /**
      * Load the sprites.
      */
     public static void load() {
-        
+
         /**
          * MainMenu, YouWin, and YouLose screens Sprites
          */
@@ -95,45 +103,50 @@ public class AssetLoader {
         mmbgTexture = new Texture(Gdx.files.internal("main_menu.png"));
         mmbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         mmbg = new TextureRegion(mmbgTexture, 0, 0, 600, 880);
-        
+
         //Creating the YouWin screen background
         youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));
         youwinbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         youwinbg = new TextureRegion(youwinbgTexture, 0, 0, 600, 880);
-        
+
+        //Creating the YouWin screen background
+        youwinAllbgTexture = new Texture(Gdx.files.internal("kicker.gif"));
+        youwinAllbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        youwinAllbg = new TextureRegion(youwinAllbgTexture, 0, 0, 600, 880);
+
         //Creating the YouLose screen background
         youlosebgTexture = new Texture(Gdx.files.internal("youlose.png"));
         youlosebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         youlosebg = new TextureRegion(youlosebgTexture, 0, 0, 600, 880);
-        
+
         //Creating the Store screen background
         shopbgTexture = new Texture(Gdx.files.internal("shop.png"));
         shopbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         shopbg = new TextureRegion(shopbgTexture, 0, 0, 600, 880);
-        
+
         /** 
          * GameScreen Sprites 
          */
-        
+
         //creating the brick wall
         bwTexture = new Texture(Gdx.files.internal("roof.png"));
         bwTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         bw = new TextureRegion(bwTexture, 0, 0, 600, 880);
-        
+
         //creating the background
         bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
         bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         bg = new TextureRegion(bgTexture, 0, 0, 128, 220);
-        
+
         //creating the pause screen
         pausebgTexture = new Texture(Gdx.files.internal("pause_screen.png"));
         pausebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        pausebg = new TextureRegion(pausebgTexture, 0, 0, 600, 880);
-        
+        pausebg = new TextureRegion(pausebgTexture, 0, 0, 1800, 880);
+
         //loading the textures for the balls
         ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
         ballTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        
+
         //creating the blue ball animation
         blue1 = new TextureRegion(ballTexture, 0, 0, 16, 16);
         blue2 = new TextureRegion(ballTexture, 20, 0, 16, 16);
@@ -141,7 +154,7 @@ public class AssetLoader {
         TextureRegion[] blueTR = { blue1, blue2, blue3};
         blueAnimation = new Animation(0.1f, blueTR);
         blueAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        
+
         //creating the green ball animation
         green1 = new TextureRegion(ballTexture, 0, 17, 16, 16);
         green2 = new TextureRegion(ballTexture, 20, 17, 16, 16);
@@ -149,7 +162,7 @@ public class AssetLoader {
         TextureRegion[] greenTR = { green1, green2, green3};
         greenAnimation = new Animation(0.1f, greenTR);
         greenAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        
+
         //creating the red ball animation
         red1 = new TextureRegion(ballTexture, 0, 34, 16, 16);
         red2 = new TextureRegion(ballTexture, 20, 34, 16, 16);
@@ -157,7 +170,7 @@ public class AssetLoader {
         TextureRegion[] redTR = { red1, red2, red3};
         redAnimation = new Animation(0.1f, redTR);
         redAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        
+
         //creating the yellow ball animation
         yellow1 = new TextureRegion(ballTexture, 0, 51, 16, 16);
         yellow2 = new TextureRegion(ballTexture, 20, 51, 16, 16);
@@ -165,12 +178,16 @@ public class AssetLoader {
         TextureRegion[] yellowTR = { yellow1, yellow2, yellow3};
         yellowAnimation = new Animation(0.1f, yellowTR);
         yellowAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
-        
+
         //creating texture bomb
         bomb = new Texture(Gdx.files.internal("bomb.png"));
         bomb.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        
-        
+        TextureRegion bombTextureRegion = new TextureRegion(bomb);
+        TextureRegion[] bombTR = { bombTextureRegion };
+        bombAnimation = new Animation(0.1f, bombTR);
+        bombAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
+
+
         /* 
          * Ball pop animations 
          */
@@ -214,6 +231,53 @@ public class AssetLoader {
         yellowPopTextureRegions[5] = new TextureRegion(ballPopTexture, 171, 99, 34, 34);
         yellowPopTextureRegions[6] = new TextureRegion(ballPopTexture, 212, 99, 32, 32);
     }
+
+    /**
+     * Gets the blue animation.
+     *
+     * @return the blue animation
+     */
+    public static Animation getBlueAnimation() {
+        return blueAnimation;
+    }
+    
+    /**
+     * Gets the green animation.
+     *
+     * @return the green animation
+     */
+    public static Animation getGreenAnimation() {
+        return greenAnimation;
+    }
+    
+    /**
+     * Gets the red animation.
+     *
+     * @return the red animation
+     */
+    public static Animation getRedAnimation() {
+        return redAnimation;
+    }
+    
+    /**
+     * Gets the yellow animation.
+     *
+     * @return the yellow animation
+     */
+    public static Animation getYellowAnimation() {
+        return yellowAnimation;
+    }
+
+    /**
+     * Gets the bomb  animation.
+     *
+     * @return the yellow animation
+     */
+    public static Animation getBombAnimation() {
+        return bombAnimation;
+    }
+    
+
     
     /**
      * Gets the blue pop animation.
@@ -222,17 +286,17 @@ public class AssetLoader {
      */
     public static Animation getBluePopAnimation() {
         Animation bluePopAnimation;
-        
+
         TextureRegion[] bluePopTR = { bluePopTextureRegions[0], 
                 bluePopTextureRegions[1], bluePopTextureRegions[2],
                 bluePopTextureRegions[3], bluePopTextureRegions[4], 
                 bluePopTextureRegions[5], bluePopTextureRegions[6]};
         bluePopAnimation = new Animation(0.1f, bluePopTR);
         bluePopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-        
+
         return bluePopAnimation;
     }
-    
+
     /**
      * Gets a green pop animation instance.
      *
@@ -240,17 +304,17 @@ public class AssetLoader {
      */
     public static Animation getGreenPopAnimation() {
         Animation greenPopAnimation;
-        
+
         TextureRegion[] greenPopTR = { greenPopTextureRegions[0], 
                 greenPopTextureRegions[1], greenPopTextureRegions[2],
                 greenPopTextureRegions[3], greenPopTextureRegions[4], 
                 greenPopTextureRegions[5], greenPopTextureRegions[6]};
         greenPopAnimation = new Animation(0.1f, greenPopTR);
         greenPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-        
+
         return greenPopAnimation;
     }
-    
+
     /**
      * Gets a red pop animation instance.
      *
@@ -258,17 +322,17 @@ public class AssetLoader {
      */
     public static Animation getRedPopAnimation() {
         Animation redPopAnimation;
-        
+
         TextureRegion[] redPopTR = { redPopTextureRegions[0], 
                 redPopTextureRegions[1], redPopTextureRegions[2],
                 redPopTextureRegions[3], redPopTextureRegions[4], 
                 redPopTextureRegions[5], redPopTextureRegions[6]};
         redPopAnimation = new Animation(0.1f, redPopTR);
         redPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-        
+
         return redPopAnimation;
     }
-    
+
     /**
      * Gets a yellow pop animation instance.
      *
@@ -276,14 +340,14 @@ public class AssetLoader {
      */
     public static Animation getYellowPopAnimation() {
         Animation yellowPopAnimation;
-        
+
         TextureRegion[] yellowPopTR = { yellowPopTextureRegions[0], 
                 yellowPopTextureRegions[1], yellowPopTextureRegions[2],
                 yellowPopTextureRegions[3], yellowPopTextureRegions[4], 
                 yellowPopTextureRegions[5], yellowPopTextureRegions[6]};
         yellowPopAnimation = new Animation(0.1f, yellowPopTR);
         yellowPopAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-        
+
         return yellowPopAnimation;
     }
 
@@ -296,6 +360,8 @@ public class AssetLoader {
         mmbg.getTexture().dispose();
         youwinbgTexture.dispose();
         youwinbg.getTexture().dispose();
+        youwinAllbgTexture.dispose();
+        youwinAllbg.getTexture().dispose();
         youlosebgTexture.dispose();
         youlosebg.getTexture().dispose();
         bwTexture.dispose();
