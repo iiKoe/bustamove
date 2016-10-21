@@ -195,7 +195,7 @@ public class BallManager {
     /**
      * Shoot ball.
      * 
-     * @param color the color of the Ball
+     * @param type the type of the Ball
      */
     public void shootBall(BallType type) {
         // TODO add math so ball comes out the top of the cannon?

@@ -12,7 +12,7 @@ public class ColoredBall extends Ball {
     /**
      * Instantiates a new ball.
      * 
-     * @param color the color can not be or exceed MAX_COLORS
+     * @param type the type
      * @param xpos the x coordinate of the Ball
      * @param ypos the y coordinate of the Ball
      * @param speed the speed of the Ball
