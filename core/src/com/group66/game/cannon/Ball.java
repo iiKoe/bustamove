@@ -270,7 +270,7 @@ public abstract class Ball {
      * @param popAnimation the pop animation
      */
     public void popStart(Animation popAnimation) {
-        if (popStatus == PopStatus.POPPING) {
+        if (popStatus == PopStatus.POPPING || popAnimation == null) {
             return;
         }
         this.popAnimation = popAnimation;
