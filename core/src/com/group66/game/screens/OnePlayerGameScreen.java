@@ -75,9 +75,15 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             BustaMove.getGameInstance().batch.begin();
             BustaMove.getGameInstance().batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
             BustaMove.getGameInstance().batch.end();
+            
+            /* Update the balls without letting them move*/
+            ballManager.update(0);
             return;
         }
-
+        
+        /* Update the balls */
+        ballManager.update(delta);
+        
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

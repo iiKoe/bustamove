@@ -13,7 +13,7 @@ public class AssetLoader {
 
     /** MainMenuScreen background texture. */
     public static Texture mmbgTexture;
-
+    
     /** MainMenu Screen background texture region. */
     public static TextureRegion mmbg;
 
@@ -71,8 +71,8 @@ public class AssetLoader {
 
     /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation,
-        yellowAnimation;
-
+        yellowAnimation, bombAnimation;
+    
     /** The ball animation texture regions. */
     private static TextureRegion[] bluePopTextureRegions = new TextureRegion[7];
 
@@ -182,6 +182,10 @@ public class AssetLoader {
         //creating texture bomb
         bomb = new Texture(Gdx.files.internal("bomb.png"));
         bomb.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        TextureRegion bombTextureRegion = new TextureRegion(bomb);
+        TextureRegion[] bombTR = { bombTextureRegion };
+        bombAnimation = new Animation(0.1f, bombTR);
+        bombAnimation.setPlayMode(Animation.PlayMode.LOOP_PINGPONG);
 
 
         /* 
@@ -309,6 +313,8 @@ public class AssetLoader {
         mmbg.getTexture().dispose();
         youwinbgTexture.dispose();
         youwinbg.getTexture().dispose();
+        youwinAllbgTexture.dispose();
+        youwinAllbg.getTexture().dispose();
         youlosebgTexture.dispose();
         youlosebg.getTexture().dispose();
         bwTexture.dispose();
