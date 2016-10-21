@@ -277,7 +277,6 @@ public abstract class Ball {
         this.runtime = 0;
         popStatus = PopStatus.POPPING;
         AudioManager.ballpop();
-        System.out.println("Popping Started!");
     }
 
     /**
@@ -324,10 +323,11 @@ public abstract class Ball {
             if (popAnimation.isAnimationFinished(this.runtime)) {
                 popStatus = PopStatus.DONE;
                 this.runtime = 0;
-                System.out.println("Popping Done!");
             }
-        } else {
+        } else if (animation) {
             tr = animation.getKeyFrame(this.runtime);
+        } else {
+            return;
         }
 
         batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
