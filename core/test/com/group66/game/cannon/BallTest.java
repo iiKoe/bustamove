@@ -6,9 +6,8 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
-import com.group66.game.cannon.Ball.BallType;
+import com.group66.game.cannon.BallType;
 
 /**
  * The Class BallTest.

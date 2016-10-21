@@ -24,6 +24,9 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
     private BallManager ballManager2;
     private BallManager ballManager3;
     
+    /** The dynamic settings instance. */
+    private DynamicSettings dynamicSettings;
+    
     /**
      * Instantiates the game screen.
      *
@@ -35,6 +38,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
     public ThreePlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
+        this.dynamicSettings = dynamicSettings;
         ballManager1 = new BallManager(0, dynamicSettings);
         ballManager2 = new BallManager(2, dynamicSettings);
         ballManager3 = new BallManager(1, dynamicSettings);
@@ -43,7 +47,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager1, true);
+            LevelLoader.loadLevel(ballManager1, 1, true);
             ballManager2.shiftClone(ballManager1);
             ballManager3.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
@@ -113,7 +117,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
                 ds.reset();
                 BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
-            BustaMove.getGameInstance().setScreen(new YouLoseScreen());
+            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
         }
         
         /* Check if game-complete condition is reached */
@@ -128,7 +132,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
             int score2 = ballManager2.scoreKeeper.getCurrentScore();
             int score3 = ballManager3.scoreKeeper.getCurrentScore();
             ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 / Config.SCORE_CURRENCY_DIV);
-            BustaMove.getGameInstance().setScreen(new YouWinScreen());
+            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
         }
 
         BustaMove.getGameInstance().batch.end();

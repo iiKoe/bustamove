@@ -89,7 +89,7 @@ public class Config {
     
     /* Shop settings */
     /** The Constant START_CURRENCY. */
-    public static final int START_CURRENCY = 200;
+    public static final int START_CURRENCY = 2000;
     
     /** The Constant SCORE_INCR_COST. */
     public static final int SCORE_INCR_COST = 100;
@@ -112,4 +112,7 @@ public class Config {
     
     /** The Constant CURRENCY_Y for the text drawing the the ShopScreen. */
     public static final int CURRENCY_Y = 600;
+    
+    /** the number of levels in the game (and present in the assets folder. */
+    public static final int NUMBER_OF_LEVELS = 10;
 }

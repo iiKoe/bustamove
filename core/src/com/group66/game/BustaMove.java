@@ -8,7 +8,7 @@ import com.group66.game.logging.ConsoleLogger;
 import com.group66.game.logging.FileLogger;
 import com.group66.game.logging.Logger;
 import com.group66.game.logging.MessageType;
-import com.group66.game.screens.MainMenuScreen;
+import com.group66.game.screens.StartScreen;
 import com.group66.game.settings.Config;
 
 /**
@@ -105,6 +105,6 @@ public class BustaMove extends Game {
         logger.log(MessageType.Default, "Game started");
         
         AudioManager.load();
-        this.setScreen(new MainMenuScreen());
+        this.setScreen(new StartScreen());
     }
 }

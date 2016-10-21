@@ -10,7 +10,7 @@ import com.group66.game.settings.DynamicSettings;
 public class LevelLoaderTest {
     @Test
     public void nullTest() {
-        LevelLoader.loadLevel(null, false);
+        LevelLoader.loadLevel(null, 1, false);
     }
     
     @Test

@@ -13,6 +13,6 @@ public class YouWinScreenTest extends ScreenTest {
 
     @Override
     public Screen getScreen() {
-        return new YouWinScreen();
+        return new YouWinScreenCareer(null);
     }
 }
