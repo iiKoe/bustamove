@@ -4,6 +4,9 @@ import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.Ball.BallType;
 import com.group66.game.settings.Config;
 import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 
@@ -38,8 +41,7 @@ public class BallGraphTest {
         testBallGraph.removeBall(ball1);
         assertEquals(testBallGraph.numberOfBalls(), 1);
         testBallGraph.removeBall(ball2);
-        assertEquals(testBallGraph.numberOfBalls(), 0);
-        
+        assertEquals(testBallGraph.numberOfBalls(), 0);      
     }
     
     /**
@@ -58,70 +60,45 @@ public class BallGraphTest {
         assertEquals(testBallGraph.numberOfBalls(), 1);
       }
     
+    /**
+     * Adjacent balls test:
+     * Tests getting adjacent balls
+     */
+    @Test
+    public void adjacentBallsTest() {
+        //test the numberOfAdjacentColoredBalls
+        BallGraph testBallGraph = new BallGraph();
+        Ball ball1 = new ColoredBall(BallType.GREEN, 50, 50, 0, 0);
+        testBallGraph.insertBall(ball1);
+        Ball ball2 = new ColoredBall(BallType.GREEN, ball1.getX() + Config.BALL_DIAM, 50, 0, 0);
+        testBallGraph.insertBall(ball2);
+        assertEquals(testBallGraph.numberOfAdjacentColoredBalls(ball1), 2);
+        //Tests the null check of numberOfAdjacentColoredBalls
+        Ball nullBall = null;
+        assertEquals(testBallGraph.numberOfAdjacentColoredBalls(nullBall), 0);
+        
+        // Tests getAdjacentColoredBalls
+        ArrayList <Ball> ret = new ArrayList<Ball>();
+        ret.add(ball1);
+        ret.add(ball2);
+        assertEquals(testBallGraph.getAdjacentColoredBalls(ball1), ret);
+        
+        // Tests null getAdjacentColoredBalls
+        assertEquals(testBallGraph.getAdjacentColoredBalls(nullBall), null);
+      }
     
-//    /**
-//     * Connect balls test.
-//     */
-//    @Test
-//    public void connectBallsTest(Ball ball1, Ball ball2) {
-//        
-//    }
-//    
-//    /**
-//     * Number of adjacent colored balls.
-//     */
-//    @Test
-//    public void numberOfAdjacentColoredBalls (Ball ball) {
-//        
-//        
-//    }
-//    
-//    /**
-//     * Gets the adjacent colored balls.
-//     *
-//     * @param ball the ball
-//     * @return the adjacent colored balls
-//     */
-//    @Test
-//    public ArrayList <Ball> getAdjacentColoredBalls(Ball ball) {
-//        
-//    }
-//    
-//    /**
-//     * Gets the free balls test.
-//     *
-//     * @return the free balls test
-//     */
-//    @Test
-//    public ArrayList<Ball> getFreeBallsTest() {
-//        
-//    }
-//    
-//    //public ArrayList<Ball> getFreeBallsTest(Ball top) {}
-//    
-//    //public ArrayList<Ball> getBallsTest(Ball exclude) {}
-//    
-//    
-//    /**
-//     * Gets the balls test.
-//     *
-//     * @return the balls test
-//     */
-//    @Test
-//    public ArrayList<Balls> getBallsTest() {
-//        
-//    }
-//    
-//    //public boolean placeTakenTest(float xpos, float ypos) { }
-//    
-//    /**
-//     * Sets the roof shift.
-//     *
-//     * @param shift the new roof shift
-//     */
-//    @Test
-//    public void setRoofShift(int shift) {
-//        
-//    }
     
+    /**
+     * BallGraph test:
+     * Tests if place is taken
+     */
+    @Test
+    public void placeTakenTest() {
+        BallGraph testBallGraph = new BallGraph();
+        Ball ball1 = new ColoredBall(BallType.GREEN, 50, 50, 0, 0);
+        testBallGraph.insertBall(ball1);
+        assertEquals(true, testBallGraph.placeTaken(ball1.getX(), ball1.getY()));
+        assertEquals(false, testBallGraph.placeTaken(10.0f,  10.0f));
+      }
+   
 }
