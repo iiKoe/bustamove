@@ -156,7 +156,8 @@ public class ShopScreen implements Screen {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
                 try {
-                    BustaMove.getGameInstance().setScreen(origin.getClass().getConstructor(DynamicSettings.class).newInstance(dynamicSettings));
+                    BustaMove.getGameInstance().setScreen(origin.getClass()
+                            .getConstructor(DynamicSettings.class).newInstance(dynamicSettings));
                 } catch (InstantiationException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

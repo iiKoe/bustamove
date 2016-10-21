@@ -102,7 +102,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
                 ds.reset();
                 BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
-            BustaMove.getGameInstance().setScreen(new YouLoseScreen());
+            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
         }
         
         /* Check if game-complete condition is reached */

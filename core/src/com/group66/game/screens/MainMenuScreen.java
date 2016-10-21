@@ -47,6 +47,11 @@ public class MainMenuScreen implements Screen {
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }
     
+    /**
+     * Instantiates a new main menu screen
+     * 
+     * @param dynamicSettings
+     */
     public MainMenuScreen(DynamicSettings dynamicSettings) {
         this();
     }
@@ -127,6 +132,7 @@ public class MainMenuScreen implements Screen {
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
+                dynamicSettings.setRandomLevel(true);
                 game.setScreen(new OnePlayerGameScreen(true, dynamicSettings));
             }
         });

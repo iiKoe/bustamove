@@ -17,8 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.HighScoreManager;
-import com.group66.game.helpers.TextDrawer;
 import com.group66.game.input.LevelSelectInputListener;
+import com.group66.game.input.NameInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
@@ -26,40 +26,34 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * A Class for the MainMenuScreen of the game.
  */
-public class CareerScreen implements Screen {
+public class StartScreen implements Screen {
     /** A place to store the game instance. */
     private BustaMove game;
 
     private Stage stage;
     private Skin skin;
 
-    private TextButton chooseButton;
-
     private static DynamicSettings dynamicSettings = new DynamicSettings();
-
-    /** The text drawer. */
-    private TextDrawer textDrawer;
 
     private Screen ownInstance;
 
     /**
      * Instantiates a new main menu screen.
      */
-    public CareerScreen() {
+    public StartScreen() {
         this.game = BustaMove.getGameInstance();
         AssetLoader.load();
         HighScoreManager.loadData();
         ownInstance = this;
         createScreen();
-        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
+        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
     }
 
     /**
-     * Creates an instance of careerscreen
-     * 
+     * instantiates a new start screen object
      * @param dynamicSettings
      */
-    public CareerScreen(DynamicSettings dynamicSettings) {
+    public StartScreen(DynamicSettings dynamicSettings) {
         this();
     }
 
@@ -67,14 +61,7 @@ public class CareerScreen implements Screen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        
-        
-        
         skin = new Skin();
-
-        // Setup the text drawer to show the amount of coins
-        textDrawer = new TextDrawer();
-        textDrawer.myFont.setColor(Color.BLACK);
 
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
@@ -98,34 +85,20 @@ public class CareerScreen implements Screen {
 
         //all magic numbers in this section are offsets values adjusted to get better looks
         int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        int centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2);
-
-        TextButton levelButton = new TextButton("Play: Level " + (dynamicSettings.getLevelCleared() + 1), 
-                textButtonStyle);
-        levelButton.setPosition(centercol, yoffset);
         int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
         int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
-        chooseButton = new TextButton("Choose level: ", textButtonStyle);
-        chooseButton.setPosition(leftcol, yoffset - 1 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
-        TextButton approveButton = new TextButton("Play", textButtonStyle);
-        approveButton.setPosition(rightcol, yoffset - 1 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        TextButton setName = new TextButton("Enter name", textButtonStyle);
+        setName.setPosition(leftcol, yoffset);
 
-        TextButton resetButton = new TextButton("Reset career", textButtonStyle);
-        resetButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        TextButton startButton = new TextButton("Start game!", textButtonStyle);
+        startButton.setPosition(rightcol, yoffset);
 
-        TextButton shopButton = new TextButton("Shop", textButtonStyle);
-        shopButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
-        TextButton exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
-        stage.addActor(levelButton);
-        stage.addActor(chooseButton);
-        stage.addActor(approveButton);
-        stage.addActor(resetButton);
-        stage.addActor(exitButton);
-        stage.addActor(shopButton);
+        stage.addActor(setName);
+        stage.addActor(startButton);
+
 
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
@@ -134,44 +107,22 @@ public class CareerScreen implements Screen {
         // ClickListener could have been used, but would only fire when clicked.
         // Also, canceling a ClickListener event won't
         // revert the checked state.
-        levelButton.addListener(new ChangeListener() {
+        setName.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                dynamicSettings.setCurrentLevel(dynamicSettings.getLevelCleared() + 1);
-                game.setScreen(new OnePlayerGameScreen(false, dynamicSettings));
+                NameInputListener listener = new NameInputListener(dynamicSettings);
+                Gdx.input.getTextInput(listener, "Enter your name", "", "");
             }
         });
-        chooseButton.addListener(new ChangeListener() {
+        startButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                LevelSelectInputListener listener = new LevelSelectInputListener(dynamicSettings);
-                Gdx.input.getTextInput(listener, "Choose level", "", "Number between 1 and" 
-                        + dynamicSettings.getLevelCleared());
-            }
-        });
-        approveButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                game.setScreen(new OnePlayerGameScreen(false, dynamicSettings));
-            }
-        });
-        resetButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                dynamicSettings.reset();
-            }
-        });
-        exitButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                game.setScreen(new MainMenuScreen());
+                if (!dynamicSettings.getName().equals("")) {
+                    AssetLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
+                    dispose();
+                    game.setScreen(new MainMenuScreen());
+                }
             }
         });
 
-        shopButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                game.setScreen(new ShopScreen(dynamicSettings, ownInstance));
-            }
-        });
     }
 
     /*
@@ -181,8 +132,6 @@ public class CareerScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        chooseButton.setText("Choose level: " + dynamicSettings.getCurrentLevel());
-
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -191,9 +140,6 @@ public class CareerScreen implements Screen {
         game.batch.enableBlending();
         game.batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " 
-                + dynamicSettings.getLevelCleared() + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
-                Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
         game.batch.end();
 
         stage.act();

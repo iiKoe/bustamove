@@ -2,6 +2,7 @@ package com.group66.game.settings;
 
 import java.util.ArrayList;
 
+import com.group66.game.helpers.AssetLoader;
 import com.group66.game.shop.BuyScoreMultiplier;
 import com.group66.game.shop.BuySpecialBombChance;
 import com.group66.game.shop.BuySpeedBoost;
@@ -10,6 +11,8 @@ import com.group66.game.shop.BuySpeedBoost;
  * The Class DynamicSettings for settings that can change throughout the game.
  */
 public class DynamicSettings {
+    /** The name of the player. */
+    private String name;
 
     /** The amount of currency. */
     private int currency;
@@ -53,6 +56,7 @@ public class DynamicSettings {
      */
     public DynamicSettings() {
         reset();
+        name = new String();
     }
 
     /**
@@ -70,12 +74,27 @@ public class DynamicSettings {
         this.buySpeedBoostStateMachine = new BuySpeedBoost();
 
         this.currentLevel = 1;
-        this.levelCleared = 0;
+        this.levelCleared = 1;
         this.levelHighscore = new ArrayList<Integer>();
         for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
             this.levelHighscore.add(0);            
         }
         this.randomLevel = false;
+    }
+
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -94,6 +113,7 @@ public class DynamicSettings {
      */
     public void setCurrency(int currency) {
         this.currency = currency;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -103,6 +123,7 @@ public class DynamicSettings {
      */
     public void addCurrency(int dcurrency) {
         this.currency += dcurrency;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -112,6 +133,7 @@ public class DynamicSettings {
      */
     public double getScoreMultiplier() {
         return scoreMultiplier;
+
     }
 
     /**
@@ -121,6 +143,7 @@ public class DynamicSettings {
      */
     public void setScoreMultiplier(double scoreMultiplier) {
         this.scoreMultiplier = scoreMultiplier;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -139,6 +162,7 @@ public class DynamicSettings {
      */
     public void setSpecialBombChanceMultiplier(double specialBombChance) {
         this.specialBombChanceMultiplier = specialBombChance;
+        AssetLoader.profileManager.writeData(this);
     }
 
 
@@ -158,6 +182,7 @@ public class DynamicSettings {
      */
     public void setBallSpeedMultiplier(double ballSpeedMultiplier) {
         this.ballSpeedMultiplier = ballSpeedMultiplier;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -176,6 +201,7 @@ public class DynamicSettings {
      */
     public void setExtraLife(boolean extraLife) {
         this.extraLife = extraLife;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -222,6 +248,7 @@ public class DynamicSettings {
     public void setCurrentLevel(int currentLevel) {
         if (currentLevel <= Config.NUMBER_OF_LEVELS) {
             this.currentLevel = currentLevel;
+            AssetLoader.profileManager.writeData(this);
         }
     } 
 
@@ -238,6 +265,7 @@ public class DynamicSettings {
     public void setLevelCleared(int levelCleared) {
         if (levelCleared > this.levelCleared) {
             this.levelCleared = levelCleared;
+            AssetLoader.profileManager.writeData(this);
         }
     }
 
@@ -256,6 +284,7 @@ public class DynamicSettings {
      */
     public void setRandomLevel(boolean randomLevel) {
         this.randomLevel = randomLevel;
+        AssetLoader.profileManager.writeData(this);
     }
 
     /**
@@ -265,10 +294,8 @@ public class DynamicSettings {
      * @param score
      */
     public void setLevelHighscore(int level, int score) {
-        if (level <= Config.NUMBER_OF_LEVELS) {
-            if (levelHighscore.get(level) < score) {
-                levelHighscore.set(level, score);
-            }
+        if (level <= Config.NUMBER_OF_LEVELS && levelHighscore.get(level - 1) < score) {
+            levelHighscore.set(level - 1, score);
         }
     }
 
@@ -280,7 +307,7 @@ public class DynamicSettings {
      */
     public int getLevelHighscore(int level) {
         if (level <= Config.NUMBER_OF_LEVELS) {
-            return levelHighscore.get(level);
+            return levelHighscore.get(level - 1);
         }
         return 0;
     }
