@@ -1,5 +1,6 @@
 package com.group66.game.cannon;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.cannon.Ball;
 /**
  * A basic Ball class.
@@ -33,6 +34,21 @@ public class ColoredBall extends Ball {
         }
         return false;
     }
-
-
+    
+    /**
+     * Draw the Ball.
+     * 
+     * @param batch the batch used to draw with
+     * @param delta the delta since the last draw
+     */
+    public void draw(SpriteBatch batch, float delta) {
+        super.draw(batch, this.getType().getPopAnimation(), delta);
+    }
+    
+    /**
+     * Start the Pop animation.
+     */
+    public void popStart() {
+        super.popStart(this.getType().getPopAnimation());
+    }
 }

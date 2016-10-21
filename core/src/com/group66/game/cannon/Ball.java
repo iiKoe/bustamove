@@ -5,17 +5,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.settings.Config;
 
+/**
+ * The Class Ball.
+ */
 public abstract class Ball {
     /**
      * The Enum PopStatus.
      */
     private enum PopStatus {
+        
+        /** The none. */
         NONE, 
+        
+        /** The popping. */
         POPPING, 
+        
+        /** The done. */
         DONE 
     }
 
@@ -155,8 +163,8 @@ public abstract class Ball {
     }
 
     /**
-     * Gets the type
-     * 
+     * Gets the type.
+     *
      * @return the type
      */
     public BallType getType() {
@@ -258,34 +266,18 @@ public abstract class Ball {
 
     /**
      * Start the Pop animation.
+     *
+     * @param popAnimation the pop animation
      */
-    public void popStart() {
+    public void popStart(Animation popAnimation) {
         if (popStatus == PopStatus.POPPING) {
             return;
         }
-
-        switch (type) {
-            case BLUE:
-                popAnimation = AssetLoader.getBluePopAnimation();
-                break;
-            case GREEN:
-                popAnimation = AssetLoader.getGreenPopAnimation();
-                break;
-            case RED:
-                popAnimation = AssetLoader.getRedPopAnimation();
-                break;
-            case YELLOW:
-                popAnimation = AssetLoader.getYellowPopAnimation();
-                break;
-            default:
-                popAnimation = AssetLoader.getBluePopAnimation(); // Error
-                return;
-        }
-
+        this.popAnimation = popAnimation;
         this.runtime = 0;
         popStatus = PopStatus.POPPING;
         AudioManager.ballpop();
-        //System.out.println("Popping Started!");
+        System.out.println("Popping Started!");
     }
 
     /**
@@ -316,11 +308,12 @@ public abstract class Ball {
 
     /**
      * Draw the Ball.
-     * 
+     *
      * @param batch the batch used to draw with
+     * @param animation the animation
      * @param delta the delta since the last draw
      */
-    public void draw(SpriteBatch batch, float delta) {
+    public void draw(SpriteBatch batch, Animation animation, float delta) {
         this.runtime += delta;
         // batch.draw(ball_texture, ); // TODO calc actual x and y
 
@@ -331,36 +324,18 @@ public abstract class Ball {
             if (popAnimation.isAnimationFinished(this.runtime)) {
                 popStatus = PopStatus.DONE;
                 this.runtime = 0;
-                //System.out.println("Popping Done!");
+                System.out.println("Popping Done!");
             }
         } else {
-            switch (type) {
-                case BLUE:
-                    tr = AssetLoader.blueAnimation.getKeyFrame(this.runtime);
-                    break;
-                case GREEN:
-                    tr = AssetLoader.greenAnimation.getKeyFrame(this.runtime);
-                    break;
-                case RED:
-                    tr = AssetLoader.redAnimation.getKeyFrame(this.runtime);
-                    break;
-                case YELLOW:
-                    tr = AssetLoader.yellowAnimation.getKeyFrame(this.runtime);
-                    break;
-                case BOMB:
-                    tr = new TextureRegion(AssetLoader.bomb);
-                    break;
-                default:
-                    return;
-            }
+            tr = animation.getKeyFrame(this.runtime);
         }
 
         batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
     }
 
     /**
-     * Checks if two balls of of the same type
-     * 
+     * Checks if two balls of of the same type.
+     *
      * @param ball to compare
      * @return Boolean whether balls are of the same type
      */

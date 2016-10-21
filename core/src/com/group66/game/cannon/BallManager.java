@@ -333,22 +333,22 @@ public class BallManager {
         
         /* Draw shot ball */
         for (Ball ball : ballList) {
-            ball.draw(batch, delta);
+            ball.draw(batch, ball.getType().getAnimation(), delta);
         }
 
         /* Draw static target balls */
         for (Ball ball : ballStaticList) {
-            ball.draw(batch, delta);
+            ball.draw(batch, ball.getType().getAnimation(), delta);
         }
 
         /* Draw popping balls */
         for (Ball ball : ballPopList) {
-            ball.draw(batch, delta);
+            ball.draw(batch, null, delta);
         }
 
         /* Draw cannon balls */
         for (Ball ball: cannonBallList) {
-            ball.draw(batch, delta);
+            ball.draw(batch, ball.getType().getAnimation(), delta);
         }
         
         //draw cannon
@@ -393,7 +393,7 @@ public class BallManager {
      * @param ball the ball
      */
     private void startPop(Ball ball) {
-        ball.popStart();
+        ball.popStart(ball.getType().getPopAnimation());
         ballPopList.add(ball);
     }
 
