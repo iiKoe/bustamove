@@ -66,7 +66,7 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
                     Ball adjacentBall = iterator.next();
                     if (!(adjacentBall instanceof BombBall)) {
                         BallGraphBreadthFirstConditionalIterator checkIterator = 
-                                new BallGraphBreadthFirstConditionalIterator(graph, (ColoredBall)adjacentBall);
+                                new BallGraphBreadthFirstConditionalIterator(graph, adjacentBall);
                         if (checkIterator.size() >= 2) {
                             while (checkIterator.hasNext()) {
                                 Ball next = checkIterator.next();
@@ -86,7 +86,7 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
                     Ball adjacentBall = iterator.next();
                     if (!(adjacentBall instanceof BombBall)) {
                         BallGraphBreadthFirstConditionalIterator checkIterator = 
-                                new BallGraphBreadthFirstConditionalIterator(graph, (ColoredBall)adjacentBall);
+                                new BallGraphBreadthFirstConditionalIterator(graph, adjacentBall);
                         if (checkIterator.size() >= 2) {
                             while (checkIterator.hasNext()) {
                                 Ball next = checkIterator.next();
