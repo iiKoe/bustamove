@@ -14,7 +14,9 @@ public class LevelLoader {
     
     /**
      * Load a test level.
-     * @param level TODO
+     * 
+     * @param ballManager which should handle the level.
+     * @param level to load
      */
     public static void loadLevel(BallManager ballManager, int level, boolean isSplit) {
         String levelFilePath = "levels/level" + new DecimalFormat("00").format(level) + ".txt";

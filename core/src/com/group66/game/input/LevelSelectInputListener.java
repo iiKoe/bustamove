@@ -6,10 +6,7 @@ package com.group66.game.input;
 import com.badlogic.gdx.Input.TextInputListener;
 import com.group66.game.settings.DynamicSettings;
 
-/**
- * @author Jeroen
- *
- */
+
 public class LevelSelectInputListener implements TextInputListener {
     private DynamicSettings dynamicSettings;
     /**

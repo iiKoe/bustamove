@@ -3,7 +3,6 @@
  */
 package com.group66.game.helpers;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
@@ -12,10 +11,7 @@ import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.DynamicSettings;
 
-/**
- * @author Jeroen
- *
- */
+
 public class ProfileManager {
 
     private FileHandle file;

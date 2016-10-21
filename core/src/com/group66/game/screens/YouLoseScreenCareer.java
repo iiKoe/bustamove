@@ -23,10 +23,7 @@ import com.group66.game.helpers.TextDrawer;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
-/**
- * @author Jeroen
- *
- */
+
 public class YouLoseScreenCareer extends AbstractYouLoseScreen {
 
     /** The text drawer. */
@@ -36,7 +33,6 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
      */
     public YouLoseScreenCareer(DynamicSettings dynamicSettings) {
         super(dynamicSettings);
-        // TODO Auto-generated constructor stub
     }
 
     protected void createScreen() {

@@ -98,14 +98,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         /* Check if game-over condition is reached */
         if (ballManager.isGameOver()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
-            //DynamicSettings ds = ballManager.getDynamicSettings();
-            //            if (ds.hasExtraLife()) {
-            //                ds.setExtraLife(false);
-            //                BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
-            //            } else {
-            //                ds.reset();
-            //                BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
-            //            }
+            
             if (dynamicSettings.isRandomLevel()) {
                 BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
             } else {

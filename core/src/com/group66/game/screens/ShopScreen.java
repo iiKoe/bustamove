@@ -158,22 +158,7 @@ public class ShopScreen implements Screen {
                 try {
                     BustaMove.getGameInstance().setScreen(origin.getClass()
                             .getConstructor(DynamicSettings.class).newInstance(dynamicSettings));
-                } catch (InstantiationException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IllegalArgumentException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (SecurityException e) {
+                } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
@@ -285,8 +270,7 @@ public class ShopScreen implements Screen {
      */
     @Override
     public void show() {
-        // TODO Auto-generated method stub
-
+        
     }
 
     /* (non-Javadoc)
@@ -294,7 +278,7 @@ public class ShopScreen implements Screen {
      */
     @Override
     public void resize(int width, int height) {
-        // TODO Auto-generated method stub
+        
 
     }
 
@@ -303,8 +287,7 @@ public class ShopScreen implements Screen {
      */
     @Override
     public void pause() {
-        // TODO Auto-generated method stub
-
+       
     }
 
     /* (non-Javadoc)
@@ -312,8 +295,7 @@ public class ShopScreen implements Screen {
      */
     @Override
     public void resume() {
-        // TODO Auto-generated method stub
-
+        
     }
 
     /* (non-Javadoc)
@@ -321,8 +303,7 @@ public class ShopScreen implements Screen {
      */
     @Override
     public void hide() {
-        // TODO Auto-generated method stub
-
+       
     }
 
     /* (non-Javadoc)
@@ -330,7 +311,6 @@ public class ShopScreen implements Screen {
      */
     @Override
     public void dispose() {
-        // TODO Auto-generated method stub
-
+        
     }
 }

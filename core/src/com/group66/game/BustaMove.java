@@ -1,7 +1,5 @@
 package com.group66.game;
 
-import org.antlr.v4.runtime.atn.StarBlockStartState;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.helpers.AudioManager;
@@ -9,7 +7,6 @@ import com.group66.game.logging.ConsoleLogger;
 import com.group66.game.logging.FileLogger;
 import com.group66.game.logging.Logger;
 import com.group66.game.logging.MessageType;
-import com.group66.game.screens.MainMenuScreen;
 import com.group66.game.screens.StartScreen;
 import com.group66.game.settings.Config;
 

@@ -180,11 +180,11 @@ public class MainMenuScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        game.batch.end();
+        BustaMove.getGameInstance().batch.end();
         
         stage.act();
         stage.draw();

@@ -66,10 +66,6 @@ public class CareerScreen implements Screen {
     private void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-
-        
-        
-        
         skin = new Skin();
 
         // Setup the text drawer to show the amount of coins

@@ -113,5 +113,6 @@ public class Config {
     /** The Constant CURRENCY_Y for the text drawing the the ShopScreen. */
     public static final int CURRENCY_Y = 600;
     
+    /** the number of levels in the game (and present in the assets folder. */
     public static final int NUMBER_OF_LEVELS = 10;
 }
