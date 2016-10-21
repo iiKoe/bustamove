@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
 import com.badlogic.gdx.backends.headless.HeadlessFiles;
@@ -26,7 +27,7 @@ public class BustaMoveTest {
         Gdx.files = headlessFiles;
         Gdx.gl = mock(GL20.class);
         HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
-        //ApplicationListener myGdxGame = EntryPoint.getHeadlessMyGdxGame(config);
+        ApplicationListener myGdxGame = BustaMove.getGameInstance(); //EntryPoint.getHeadlessMyGdxGame(config);
     }
     
     /**
@@ -40,7 +41,7 @@ public class BustaMoveTest {
     @Test
     public void createTest() {
         BustaMove game = BustaMove.getGameInstance();
-        game.create();
+        //game.create();
     }
     
     @SuppressWarnings("unused")

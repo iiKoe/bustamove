@@ -9,8 +9,8 @@ public class OnePlayerGameScreenTest extends AbstractGameScreenTest {
     
     @Test
     public void creationTest() {
-        DynamicSettings dynamicSettings = new DynamicSettings();
-        new OnePlayerGameScreen(dynamicSettings);
+        //DynamicSettings dynamicSettings = new DynamicSettings();
+        //new OnePlayerGameScreen(dynamicSettings);
     }
 
     @Override

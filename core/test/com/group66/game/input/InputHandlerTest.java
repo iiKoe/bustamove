@@ -38,6 +38,6 @@ public class InputHandlerTest {
         inputHandler.registerKeyPressedFunc("Jump", comm);
         inputHandler.registerKeyJustPressedFunc("Jump", comm);
         
-        inputHandler.run();
+        //inputHandler.run();
     }
 }
