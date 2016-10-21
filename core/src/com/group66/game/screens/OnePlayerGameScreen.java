@@ -121,8 +121,10 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
             dispose();
             if (dynamicSettings.isRandomLevel()) {
+                BustaMove.getGameInstance().log(MessageType.Info, "Randomlevel is won");
                 BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
             } else {
+                BustaMove.getGameInstance().log(MessageType.Info, "career level is won");
                 dynamicSettings.setLevelHighscore(dynamicSettings.getCurrentLevel(), score);
                 dynamicSettings.setLevelCleared(dynamicSettings.getCurrentLevel());
                 dynamicSettings.setCurrentLevel(dynamicSettings.getCurrentLevel() + 1);
