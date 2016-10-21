@@ -17,46 +17,8 @@ public class ColoredBall extends Ball {
      * @param speed the speed of the Ball
      * @param angle the angle of the Ball
      */
-    public ColoredBall(int color, float xpos, float ypos, int speed, float angle) {
-        super(getEnum(color), xpos, ypos, speed, angle);
-    }
-    
-    /**
-     * Instantiates a new ball.
-     * 
-     * @param type the color defined by Enum
-     * @param xpos the x coordinate of the Ball
-     * @param ypos the y coordinate of the Ball
-     * @param speed the speed of the Ball
-     * @param angle the angle of the Ball
-     */
     public ColoredBall(BallType type, float xpos, float ypos, int speed, float angle) {
         super(type, xpos, ypos, speed, angle);
-    }
-
-    /**
-     * generates the right Enum value of BallType
-     * 
-     * @param color
-     * @return the right balltype for the color
-     */
-    private static BallType getEnum(int color) {
-        BallType type = BallType.BLUE;
-        color %= MAX_COLORS;
-        if (color == BLUE) {
-            type = BallType.BLUE;
-        }
-        if (color == GREEN) {
-            type = BallType.GREEN;
-        }
-        if (color == RED) {
-            type = BallType.RED;
-        }
-        if (color == YELLOW) {
-            type = BallType.YELLOW;
-        }
-
-        return type;
     }
     
     /**
