@@ -16,8 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
-import com.group66.game.helpers.HighScoreManager;
-import com.group66.game.input.LevelSelectInputListener;
 import com.group66.game.input.NameInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
@@ -31,11 +29,10 @@ public class StartScreen implements Screen {
     private BustaMove game;
 
     private Stage stage;
+    
     private Skin skin;
 
     private static DynamicSettings dynamicSettings = new DynamicSettings();
-
-    private Screen ownInstance;
 
     /**
      * Instantiates a new main menu screen.
@@ -43,8 +40,8 @@ public class StartScreen implements Screen {
     public StartScreen() {
         this.game = BustaMove.getGameInstance();
         AssetLoader.load();
-        HighScoreManager.loadData();
-        ownInstance = this;
+        BustaMove.getGameInstance().getHighScoreManager().loadData();
+       
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
     }
@@ -62,6 +59,7 @@ public class StartScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
 
         skin = new Skin();
+
 
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
@@ -141,7 +139,6 @@ public class StartScreen implements Screen {
         BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
         BustaMove.getGameInstance().batch.end();
-
         stage.act();
         stage.draw();
     }

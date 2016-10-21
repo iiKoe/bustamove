@@ -16,12 +16,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
+
 
 
 public class YouLoseScreenCareer extends AbstractYouLoseScreen {
@@ -38,7 +38,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
     protected void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin();
+        Skin skin = new Skin();
 
 
         // Store the default libgdx font under the name "default".
@@ -127,6 +127,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
                     Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
         }
         BustaMove.getGameInstance().batch.end();
+
         
         stage.act();
         stage.draw();

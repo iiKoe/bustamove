@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
-import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
@@ -41,7 +40,6 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen() {
         this.game = BustaMove.getGameInstance();
         AssetLoader.load();
-        HighScoreManager.loadData();
         ownInstance = this;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
