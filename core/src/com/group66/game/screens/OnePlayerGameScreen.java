@@ -114,7 +114,8 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         if (ballManager.isGameComplete()) {
             int score = ballManager.scoreKeeper.getCurrentScore();
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level with score: " + score);
-            HighScoreManager.addScore(score);
+            HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
+            highScoreManager.addScore(score);
             ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
             BustaMove.getGameInstance().setScreen(new YouWinScreen());
         }

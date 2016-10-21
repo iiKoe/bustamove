@@ -1,17 +1,18 @@
 package com.group66.game.screens;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-import com.group66.game.BustaMove;
+import com.badlogic.gdx.Screen;
 
-public class YouWinScreenTest {
-    /*
+public class YouWinScreenTest extends ScreenTest {
+    
     @Test
     public void creationTest() {
-        BustaMove game = new BustaMove();
-        new YouWinScreen(game);
+        //new YouWinScreen();
     }
-    */
+
+    @Override
+    public Screen getScreen() {
+        return new YouWinScreen();
+    }
 }
