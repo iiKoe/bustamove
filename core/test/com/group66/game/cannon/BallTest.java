@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Circle;
+import com.group66.game.cannon.Ball.BallType;
 
 /**
  * The Class BallTest.
@@ -161,4 +162,31 @@ public class BallTest {
         ball.deleteBallFromGraph(graphMock);
         ball.deleteBallFromGraph(null);
     }
+    
+    /**
+     * Tests the balls comparison methods for the colored and bomb balls
+     */
+    @Test
+    public void compareBallTest() {
+        Ball ball1 = new ColoredBall(BallType.GREEN, 50, 50, 0, 0);
+        Ball ball2 = new ColoredBall(BallType.GREEN, 50, 80, 0, 0);
+        Ball ball3 = new ColoredBall(BallType.BLUE, 50, 110, 0, 0);
+        assertEquals(true, ball1.isEqual(ball2));
+        assertEquals(false, ball1.isEqual(ball3));
+        Ball ball4 = new BombBall(50, 50, 0, 0);
+        Ball ball5 = new BombBall(50, 80, 0, 0);
+        assertEquals(true, ball4.isEqual(ball5));
+        assertEquals(false, ball4.isEqual(ball3));
+        assertEquals(false, ball3.isEqual(ball4));
+    }
+        
+    /**
+     * Test the ball getColor method
+     */
+    @Test
+    public void getColorTest() {
+        Ball ball1 = new ColoredBall(BallType.BLUE, 50, 50, 0, 0);
+        assertEquals(ball1.getColor(), 0);
+    }
+    
 }
