@@ -152,9 +152,7 @@ public class BallManager {
         Ball ball;
         ball = type.newBall(xpos, ypos, 0, 0.0f);
         ballStaticList.add(ball);
-        if (type != BallType.BOMB) {
-            colorList.get(ball.getColor()).incrementAndGet();
-        }
+        colorList.get(ball.getColor()).incrementAndGet();
         ballGraph.insertBall(ball);
         
         BustaMove.getGameInstance().log(MessageType.Debug, "add ball: color(" + ball.getColor() + "), x(" + ball.getX()
@@ -217,15 +215,15 @@ public class BallManager {
         int maxType = BallType.BOMB.ordinal();
 
         rand = random.nextInt(100);
-        if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())) {
+        if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())
+                || colorList.get(BallType.BOMB.ordinal()).equals(ballGraph.numberOfBalls())) {
             BallType ballType = BallType.BOMB;
             shootBall(ballType);
             return;
         }
-
         do {
             rand = random.nextInt(maxType);
-        } while (rand < maxType && colorList.get(rand).get() <= 0);
+        } while (colorList.get(rand).get() <= 0);
         BallType ballType = BallType.values()[rand];
         shootBall(ballType);
     }
@@ -560,9 +558,8 @@ public class BallManager {
         while (ballStaticDeadList.size() != 0) {
             ballGraph.removeBall(ballStaticDeadList.get(0));
             ballStaticList.remove(ballStaticDeadList.get(0));
-            if (ballStaticDeadList.get(0).getType() != BallType.BOMB) {
-                colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
-            }
+            colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
+            
             ballStaticDeadList.remove(0);
             //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             if (ballStaticDeadList.size() == 0) {
