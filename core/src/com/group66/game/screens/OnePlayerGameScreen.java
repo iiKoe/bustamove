@@ -119,6 +119,8 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             if (dynamicSettings.isRandomLevel()) {
                 BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
             } else {
+                dynamicSettings.setLevelHighscore(dynamicSettings.getCurrentLevel(), score);
+                dynamicSettings.setLevelCleared(dynamicSettings.getCurrentLevel());
                 dynamicSettings.setCurrentLevel(dynamicSettings.getCurrentLevel() + 1);
                 BustaMove.getGameInstance().setScreen(new YouWinScreenCareer(dynamicSettings));
             }

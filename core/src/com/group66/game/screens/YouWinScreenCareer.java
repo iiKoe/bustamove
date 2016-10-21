@@ -4,6 +4,7 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -18,12 +19,14 @@ import com.group66.game.settings.DynamicSettings;
  */
 public class YouWinScreenCareer extends AbstractYouWinScreen {
 
+    private Screen ownInstance;
     /**
      * @param dynamicSettings TODO
      * 
      */
     public YouWinScreenCareer(DynamicSettings dynamicSettings) {
         super(dynamicSettings);
+        ownInstance = this;
     }
     
     /* (non-Javadoc)
@@ -37,11 +40,15 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
 
         TextButton levelButton = new TextButton("Play next level", textButtonStyle);
         levelButton.setPosition(centercol, yoffset);
+        
+        TextButton shopButton = new TextButton("Shop", textButtonStyle);
+        shopButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
 
         TextButton exitButton = new TextButton("Main menu", textButtonStyle);
-        exitButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
+        exitButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
         stage.addActor(levelButton);
+        stage.addActor(shopButton);
         stage.addActor(exitButton);
 
         // Add a listener to the button. ChangeListener is fired when the
@@ -55,6 +62,16 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
                 BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(dynamicSettings));
+            }
+        });
+        
+        shopButton.addListener(new ChangeListener() {
+            
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                dispose();
+                BustaMove.getGameInstance().setScreen(new ShopScreen(dynamicSettings, ownInstance));
+                
             }
         });
 

@@ -38,8 +38,11 @@ public class DynamicSettings {
     /** The current level being played. */
     private int currentLevel;
 
+    /** The highest level cleared. */
+    private int levelCleared;
+
     /** The levels that are cleared by the player. */
-    private ArrayList<Boolean> clearedLevels;
+    private ArrayList<Integer> levelHighscore;
 
     /** Is current level a random level. */
     private boolean randomLevel;
@@ -66,10 +69,11 @@ public class DynamicSettings {
         this.buySpecialBombChanceStateMachine = new BuySpecialBombChance();
         this.buySpeedBoostStateMachine = new BuySpeedBoost();
 
-        this.setCurrentLevel(1);
-        this.clearedLevels = new ArrayList<Boolean>();
+        this.currentLevel = 1;
+        this.levelCleared = 0;
+        this.levelHighscore = new ArrayList<Integer>();
         for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
-            this.clearedLevels.add(false);            
+            this.levelHighscore.add(0);            
         }
         this.randomLevel = false;
     }
@@ -221,6 +225,22 @@ public class DynamicSettings {
         }
     } 
 
+    /**
+     * @return the levelCleared
+     */
+    public int getLevelCleared() {
+        return levelCleared;
+    }
+
+    /**
+     * @param levelCleared the levelCleared to set
+     */
+    public void setLevelCleared(int levelCleared) {
+        if (levelCleared > this.levelCleared) {
+            this.levelCleared = levelCleared;
+        }
+    }
+
     /** Is current level random?
      * 
      * @return the randomLevel
@@ -236,5 +256,32 @@ public class DynamicSettings {
      */
     public void setRandomLevel(boolean randomLevel) {
         this.randomLevel = randomLevel;
+    }
+
+    /**
+     * Sets the highscore of a level
+     * 
+     * @param level
+     * @param score
+     */
+    public void setLevelHighscore(int level, int score) {
+        if (level <= Config.NUMBER_OF_LEVELS) {
+            if (levelHighscore.get(level) < score) {
+                levelHighscore.set(level, score);
+            }
+        }
+    }
+
+    /**
+     * Get the highscore of a level
+     * 
+     * @param level
+     * @return The highscore
+     */
+    public int getLevelHighscore(int level) {
+        if (level <= Config.NUMBER_OF_LEVELS) {
+            return levelHighscore.get(level);
+        }
+        return 0;
     }
 }
