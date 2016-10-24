@@ -23,7 +23,7 @@ public abstract class AbstractMenuScreen implements Screen {
     
     protected Skin skin;
     
-    protected TextButtonStyle textButtonStyle;
+    public TextButtonStyle textButtonStyle;
     
     /** MainMenuScreen background texture. */
     private static Texture mmbgTexture;

@@ -29,12 +29,6 @@ public class AssetLoader {
     /** YouWin Screen background texture region. */
     public static TextureRegion youwinAllbg;
 
-    /** ShopScreen background texture. */
-    private static Texture shopbgTexture;
-
-    /** ShopScreen background texture region. */
-    public static TextureRegion shopbg;
-
     /** The ball texture. */
     private static Texture ballTexture;
 
@@ -92,10 +86,6 @@ public class AssetLoader {
         youlosebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
         youlosebg = new TextureRegion(youlosebgTexture, 0, 0, 600, 880);
 
-        //Creating the Store screen background
-        shopbgTexture = new Texture(Gdx.files.internal("shop.png"));
-        shopbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        shopbg = new TextureRegion(shopbgTexture, 0, 0, 600, 880);
 
         /** 
          * GameScreen Sprites 
