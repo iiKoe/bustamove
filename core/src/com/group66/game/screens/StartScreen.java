@@ -73,44 +73,6 @@ public class StartScreen extends AbstractMenuScreen {
     /*
      * (non-Javadoc)
      * 
-     * @see com.badlogic.gdx.Screen#show()
-     */
-    @Override
-    public void show() {
-
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resize(int, int)
-     */
-    @Override
-    public void resize(int width, int height) {
-       
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#pause()
-     */
-    @Override
-    public void pause() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#resume()
-     */
-    @Override
-    public void resume() {
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see com.badlogic.gdx.Screen#hide()
      */
     @Override
