@@ -39,6 +39,7 @@ public abstract class AbstractGameScreen implements Screen {
 
     /** GameScreen background texture region. */
     public static TextureRegion bg;
+    
     /** GameScreen brick wall texture. */
     private static Texture bwTexture;
 

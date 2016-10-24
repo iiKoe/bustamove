@@ -11,12 +11,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
  */
 public class AssetLoader {
 
-    /** MainMenuScreen background texture. */
-    private static Texture mmbgTexture;
-    
-    /** MainMenu Screen background texture region. */
-    public static TextureRegion mmbg;
-
     /** YouWin Screen background texture. */
     private static Texture youwinbgTexture;
 
@@ -82,10 +76,6 @@ public class AssetLoader {
         /**
          * MainMenu, YouWin, and YouLose screens Sprites
          */
-        //Creating the MainMenu screen background
-        mmbgTexture = new Texture(Gdx.files.internal("main_menu.png"));
-        mmbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        mmbg = new TextureRegion(mmbgTexture, 0, 0, 600, 880);
 
         //Creating the YouWin screen background
         youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));
@@ -324,8 +314,6 @@ public class AssetLoader {
      */
     public static void dispose() {
         // We must dispose of the texture when we are finished.
-        mmbgTexture.dispose();
-        mmbg.getTexture().dispose();
         youwinbgTexture.dispose();
         youwinbg.getTexture().dispose();
         youwinAllbgTexture.dispose();
