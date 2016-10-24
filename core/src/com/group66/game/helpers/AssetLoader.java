@@ -35,29 +35,11 @@ public class AssetLoader {
     /** YouWin Screen background texture region. */
     public static TextureRegion youwinAllbg;
 
-    /** YouLose Screen background texture. */
+    /** ShopScreen background texture. */
     private static Texture shopbgTexture;
 
-    /** YouLose Screen background texture region. */
+    /** ShopScreen background texture region. */
     public static TextureRegion shopbg;
-
-    /** GameScreen brick wall texture. */
-    private static Texture bwTexture;
-
-    /** GameScreen brick wall texture region. */
-    public static TextureRegion bw;
-
-    /** GameScreen background texture. */
-    private static Texture bgTexture;
-
-    /** GameScreen background texture region. */
-    public static TextureRegion bg;
-
-    /** GameScreen Pause background texture. */
-    private static Texture pausebgTexture;
-
-    /** GameScreen Pause background texture region. */
-    public static TextureRegion pausebg;
 
     /** The ball texture. */
     private static Texture ballTexture;
@@ -87,6 +69,7 @@ public class AssetLoader {
 
     /** The bomb texture. */
     private static Texture bomb;
+
 
     public static ProfileManager profileManager = new ProfileManager();
 
@@ -127,21 +110,6 @@ public class AssetLoader {
         /** 
          * GameScreen Sprites 
          */
-
-        //creating the brick wall
-        bwTexture = new Texture(Gdx.files.internal("roof.png"));
-        bwTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        bw = new TextureRegion(bwTexture, 0, 0, 600, 880);
-
-        //creating the background
-        bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
-        bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        bg = new TextureRegion(bgTexture, 0, 0, 128, 220);
-
-        //creating the pause screen
-        pausebgTexture = new Texture(Gdx.files.internal("pause_screen.png"));
-        pausebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        pausebg = new TextureRegion(pausebgTexture, 0, 0, 1800, 880);
 
         //loading the textures for the balls
         ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
@@ -364,12 +332,6 @@ public class AssetLoader {
         youwinAllbg.getTexture().dispose();
         youlosebgTexture.dispose();
         youlosebg.getTexture().dispose();
-        bwTexture.dispose();
-        bw.getTexture().dispose();
-        bgTexture.dispose();
-        bg.getTexture().dispose();
-        pausebgTexture.dispose();
-        pausebg.getTexture().dispose();
         ballTexture.dispose();
         ballPopTexture.dispose();
         blue1.getTexture().dispose();

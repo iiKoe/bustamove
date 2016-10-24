@@ -22,7 +22,7 @@ import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
 /**
- * A Class for the MainMenuScreen of the game.
+ * A Class for the StarScreen of the game.
  */
 public class StartScreen implements Screen {
     /** A place to store the game instance. */
@@ -35,7 +35,7 @@ public class StartScreen implements Screen {
     private static DynamicSettings dynamicSettings = new DynamicSettings();
 
     /**
-     * Instantiates a new main menu screen.
+     * Instantiates a new start screen.
      */
     public StartScreen() {
         this.game = BustaMove.getGameInstance();
@@ -57,9 +57,7 @@ public class StartScreen implements Screen {
     private void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-
         skin = new Skin();
-
 
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
@@ -91,8 +89,6 @@ public class StartScreen implements Screen {
 
         TextButton startButton = new TextButton("Start game!", textButtonStyle);
         startButton.setPosition(rightcol, yoffset);
-
-
 
         stage.addActor(setName);
         stage.addActor(startButton);
