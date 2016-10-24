@@ -23,7 +23,7 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * A Class for the MainMenuScreen of the game.
  */
-public class MainMenuScreen implements Screen {
+public class MainMenuScreen extends AbstractMenuScreen {
     /** A place to store the game instance. */
     private BustaMove game;
 
@@ -180,7 +180,7 @@ public class MainMenuScreen implements Screen {
         /* Draw the background */
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
         BustaMove.getGameInstance().batch.end();
         

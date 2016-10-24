@@ -43,7 +43,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         ballManager2 = new BallManager(2, dynamicSettings);
         ballManager3 = new BallManager(1, dynamicSettings);
         setup_keys();
-        AssetLoader.load();
+        loadRelatedGraphics();
         AudioManager.startMusic();
 
         if (!randomLevel) {
@@ -80,7 +80,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         /* Don't update and render when the game is paused */
         if (gameState == GameState.PAUSED) {
             BustaMove.getGameInstance().batch.begin();
-            BustaMove.getGameInstance().batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
+            BustaMove.getGameInstance().batch.draw(pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
             BustaMove.getGameInstance().batch.end();
             
             /* Update the balls without letting them move*/
@@ -102,9 +102,9 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         BustaMove.getGameInstance().batch.enableBlending();
         
         /* Draw the balls */
-        ballManager1.draw(BustaMove.getGameInstance().batch, delta);
-        ballManager2.draw(BustaMove.getGameInstance().batch, delta);
-        ballManager3.draw(BustaMove.getGameInstance().batch, delta);
+        ballManager1.draw(this, BustaMove.getGameInstance().batch, delta);
+        ballManager2.draw(this, BustaMove.getGameInstance().batch, delta);
+        ballManager3.draw(this, BustaMove.getGameInstance().batch, delta);
         
         /* Check if game-over condition is reached */
         if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {

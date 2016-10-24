@@ -40,7 +40,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         this.dynamicSettings = dynamicSettings;
         this.dynamicSettings.setRandomLevel(randomLevel);
         setup_keys();
-        AssetLoader.load();
+        loadRelatedGraphics();
         AudioManager.startMusic();
 
         if (!randomLevel) {
@@ -73,7 +73,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         /* Don't update and render when the game is paused */
         if (gameState == GameState.PAUSED) {
             BustaMove.getGameInstance().batch.begin();
-            BustaMove.getGameInstance().batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
+            BustaMove.getGameInstance().batch.draw(pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
             BustaMove.getGameInstance().batch.end();
             
             /* Update the balls without letting them move*/
@@ -91,7 +91,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         BustaMove.getGameInstance().batch.enableBlending();
 
         /* Draw the balls */
-        ballManager.draw(BustaMove.getGameInstance().batch, delta);
+        ballManager.draw(this, BustaMove.getGameInstance().batch, delta);
 
         /* Check if balls need to move down */
         if (ballManager.getBallCount() >= Config.NBALLS_ROW_DOWN 

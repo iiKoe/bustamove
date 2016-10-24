@@ -26,7 +26,7 @@ import com.group66.game.settings.DynamicSettings;
 /**
  * A Class for the MainMenuScreen of the game.
  */
-public class CareerScreen implements Screen {
+public class CareerScreen extends AbstractMenuScreen {
     /** A place to store the game instance. */
     private BustaMove game;
 
@@ -185,7 +185,7 @@ public class CareerScreen implements Screen {
         /* Draw the background */
         game.batch.begin();
         game.batch.enableBlending();
-        game.batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        game.batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
         textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " 
                 + dynamicSettings.getLevelCleared() + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 

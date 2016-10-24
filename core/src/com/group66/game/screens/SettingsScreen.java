@@ -24,7 +24,7 @@ import com.group66.game.settings.Config;
 /**
  * A Class for the SettingsScreen of the game.
  */
-public class SettingsScreen implements Screen {
+public class SettingsScreen extends AbstractMenuScreen {
 
     private Stage stage;
     private Skin skin;
@@ -130,7 +130,7 @@ public class SettingsScreen implements Screen {
         /* Draw the background */
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(AssetLoader.mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
         BustaMove.getGameInstance().batch.end();
         
