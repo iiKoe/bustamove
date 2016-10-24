@@ -15,10 +15,13 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
 
     /**
      * Instantiates the iterator
-     * @param graph  which the iterator should iterate over
+     * @param graph graph which the iterator should iterate over
      * @param start where the iterator should start to iterate.
      */
     public BallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, DefaultEdge> graph, Ball start) {
+        if (graph == null || start == null) {
+            return;
+        }
 
         //queue of balls to be processed
         Queue<Ball> queue = new LinkedList<Ball>();
@@ -141,6 +144,9 @@ public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> 
      */
     @Override
     public Ball next() {
+        if (!hasNext()) {
+            return null;
+        }
         Ball ret = list.get(0);
         list.remove(0);
         return ret;

@@ -32,6 +32,11 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
 
     private Map<FrameworkMethod, RunNotifier> invokeInRender = new HashMap<FrameworkMethod, RunNotifier>();
 
+    /**
+     * Constructor for the gdx test runner
+     * @param klass The class (screen) to run headless
+     * @throws InitializationError
+     */
     public GdxTestRunner(Class<?> klass) throws InitializationError {
         super(klass);
         HeadlessApplicationConfiguration conf = new HeadlessApplicationConfiguration();
@@ -87,8 +92,9 @@ public class GdxTestRunner extends BlockJUnit4ClassRunner implements Application
             while (true) {
                 Thread.sleep(10);
                 synchronized (invokeInRender) {
-                    if (invokeInRender.isEmpty())
+                    if (invokeInRender.isEmpty()) {
                         break;
+                    }
                 }
             }
         } catch (InterruptedException e) {
