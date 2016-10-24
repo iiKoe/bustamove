@@ -41,6 +41,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         ballManager1 = new BallManager(0, dynamicSettings);
         ballManager2 = new BallManager(2, dynamicSettings);
         setup_keys();
+        AssetLoader.load();
         loadRelatedGraphics();
         AudioManager.startMusic();
 

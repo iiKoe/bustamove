@@ -43,6 +43,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         ballManager2 = new BallManager(2, dynamicSettings);
         ballManager3 = new BallManager(1, dynamicSettings);
         setup_keys();
+        AssetLoader.load();
         loadRelatedGraphics();
         AudioManager.startMusic();
 

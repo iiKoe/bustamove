@@ -41,6 +41,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         this.dynamicSettings.setRandomLevel(randomLevel);
         setup_keys();
         loadRelatedGraphics();
+        AssetLoader.load();
         AudioManager.startMusic();
 
         if (!randomLevel) {

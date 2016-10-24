@@ -243,14 +243,4 @@ public class CareerScreen extends AbstractMenuScreen {
     public void hide() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#dispose()
-     */
-    @Override
-    public void dispose() {
-        stage.dispose();
-        skin.dispose();
-    }
 }

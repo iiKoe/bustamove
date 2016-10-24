@@ -36,7 +36,6 @@ public class StartScreen extends AbstractMenuScreen {
      * Instantiates a new start screen.
      */
     public StartScreen() {
-        this.game = BustaMove.getGameInstance();
         BustaMove.getGameInstance().getHighScoreManager().loadData();
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
@@ -54,7 +53,6 @@ public class StartScreen extends AbstractMenuScreen {
         loadRelatedGraphics();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        loadButtonMaterials();
         setupButtons();
         stage.addActor(setName);
         stage.addActor(startButton);
@@ -97,7 +95,7 @@ public class StartScreen extends AbstractMenuScreen {
      */
     @Override
     public void resize(int width, int height) {
-        // game.batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
+       
     }
 
     /*
@@ -126,17 +124,6 @@ public class StartScreen extends AbstractMenuScreen {
     @Override
     public void hide() {
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#dispose()
-     */
-    @Override
-    public void dispose() {
-        stage.dispose();
-        skin.dispose();
-    }
     
     public void setupButtons() {
         loadButtonMaterials();
@@ -147,8 +134,10 @@ public class StartScreen extends AbstractMenuScreen {
 
         setName = new TextButton("Enter name", textButtonStyle);
         setName.setPosition(leftcol, yoffset);
+        
         startButton = new TextButton("Start game!", textButtonStyle);
         startButton.setPosition(rightcol, yoffset);
+        
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
         // Button#setChecked() is called, via a key press, etc. If the

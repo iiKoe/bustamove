@@ -17,7 +17,7 @@ import com.group66.game.settings.Config;
 
 public abstract class AbstractMenuScreen implements Screen {
     /** A place to store the game instance. */
-    protected BustaMove game;
+    public BustaMove game = BustaMove.getGameInstance();
 
     public Stage stage;
     
@@ -31,9 +31,7 @@ public abstract class AbstractMenuScreen implements Screen {
     /** MainMenu Screen background texture region. */
     public static TextureRegion mmbg;
 
-    private void createScreen() {  
-     }
-
+    
     public void render(float delta) {
     }
 
@@ -54,8 +52,8 @@ public abstract class AbstractMenuScreen implements Screen {
     }
 
     public void dispose() {
-        mmbgTexture.dispose();
-        mmbg.getTexture().dispose();
+        stage.dispose();
+        skin.dispose();
     }
     
     /**
