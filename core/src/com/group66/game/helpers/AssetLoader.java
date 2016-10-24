@@ -12,62 +12,62 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class AssetLoader {
 
     /** MainMenuScreen background texture. */
-    public static Texture mmbgTexture;
+    private static Texture mmbgTexture;
     
     /** MainMenu Screen background texture region. */
     public static TextureRegion mmbg;
 
     /** YouWin Screen background texture. */
-    public static Texture youwinbgTexture;
+    private static Texture youwinbgTexture;
 
     /** YouWin Screen background texture region. */
     public static TextureRegion youwinbg;
 
     /** YouLose Screen background texture. */
-    public static Texture youlosebgTexture;
+    private static Texture youlosebgTexture;
 
     /** YouLose Screen background texture region. */
     public static TextureRegion youlosebg;
 
     /** YouWin Screen background texture. */
-    public static Texture youwinAllbgTexture;
+    private static Texture youwinAllbgTexture;
 
     /** YouWin Screen background texture region. */
     public static TextureRegion youwinAllbg;
 
     /** YouLose Screen background texture. */
-    public static Texture shopbgTexture;
+    private static Texture shopbgTexture;
 
     /** YouLose Screen background texture region. */
     public static TextureRegion shopbg;
 
     /** GameScreen brick wall texture. */
-    public static Texture bwTexture;
+    private static Texture bwTexture;
 
     /** GameScreen brick wall texture region. */
     public static TextureRegion bw;
 
     /** GameScreen background texture. */
-    public static Texture bgTexture;
+    private static Texture bgTexture;
 
     /** GameScreen background texture region. */
     public static TextureRegion bg;
 
     /** GameScreen Pause background texture. */
-    public static Texture pausebgTexture;
+    private static Texture pausebgTexture;
 
     /** GameScreen Pause background texture region. */
     public static TextureRegion pausebg;
 
     /** The ball texture. */
-    public static Texture ballTexture;
-
-    /** The ball pop texture. */
-    public static Texture ballPopTexture;
+    private static Texture ballTexture;
 
     /** The ball texture regions. */
     private static TextureRegion blue1, blue2, blue3, green1, green2, green3,
         red1, red2, red3, yellow1, yellow2, yellow3;
+    
+    /** The ball pop texture. */
+    private static Texture ballPopTexture;
 
     /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation,
@@ -86,7 +86,7 @@ public class AssetLoader {
     private static TextureRegion[] yellowPopTextureRegions = new TextureRegion[7];
 
     /** The bomb texture. */
-    public static Texture bomb;
+    private static Texture bomb;
 
     public static ProfileManager profileManager = new ProfileManager();
 
