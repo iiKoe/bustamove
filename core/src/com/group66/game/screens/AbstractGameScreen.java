@@ -105,6 +105,9 @@ public abstract class AbstractGameScreen implements Screen {
         
     }
     
+    /**
+     * loads related Graphics
+     */
     public void loadRelatedGraphics() {
         
         //creating the brick wall
