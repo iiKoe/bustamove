@@ -116,7 +116,7 @@ public class StartScreen implements Screen {
                 if (!dynamicSettings.getName().equals("")) {
                     AssetLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
                     dispose();
-                    game.setScreen(new MainMenuScreen());
+                    game.setScreen(new MainMenuScreen(dynamicSettings));
                 }
             }
         });

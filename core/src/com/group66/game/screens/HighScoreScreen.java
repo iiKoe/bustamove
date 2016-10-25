@@ -19,15 +19,18 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.HighScoreItem;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 public class HighScoreScreen implements Screen {
     
     private Stage stage;
+    private DynamicSettings dynamicSettings;
     
     /**
      * Constructor for the high score screen
+     * @param dynamicSettings TODO
      */
-    public HighScoreScreen() {
+    public HighScoreScreen(DynamicSettings dynamicSettings) {
         createScreen();
     }
 
@@ -90,7 +93,7 @@ public class HighScoreScreen implements Screen {
         stage.addActor(backButton);
         backButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen(dynamicSettings));
             }
         });
     }

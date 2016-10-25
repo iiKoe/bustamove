@@ -55,7 +55,7 @@ public class YouWinScreenRandom extends AbstractYouWinScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen(dynamicSettings));
             }
         });
 

@@ -20,6 +20,7 @@ import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.DifficultyManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the SettingsScreen of the game.
@@ -29,12 +30,15 @@ public class SettingsScreen implements Screen {
     private Stage stage;
     private Skin skin;
     private DifficultyManager difficultyManager = new DifficultyManager();
+    private DynamicSettings dynamicSettings;
 
     /**
      * Instantiates a new main menu screen.
+     * @param dynamicSettings TODO
      */
-    public SettingsScreen() {
+    public SettingsScreen(DynamicSettings dynamicSettings) {
         AssetLoader.load();
+        this.dynamicSettings = dynamicSettings;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the settings screen");
     }
@@ -112,7 +116,7 @@ public class SettingsScreen implements Screen {
         });
         menuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen(dynamicSettings));
             }
         });
     }

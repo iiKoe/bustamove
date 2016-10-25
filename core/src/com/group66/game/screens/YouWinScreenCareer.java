@@ -99,7 +99,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen(dynamicSettings));
             }
         });
     }

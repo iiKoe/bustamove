@@ -99,7 +99,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen(dynamicSettings));
             }
         });
 

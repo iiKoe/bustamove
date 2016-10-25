@@ -30,29 +30,23 @@ public class MainMenuScreen implements Screen {
     private Stage stage;
     private Skin skin;
     
-    private static DynamicSettings dynamicSettings = new DynamicSettings();
+    private DynamicSettings dynamicSettings;
     
     private Screen ownInstance;
 
     /**
      * Instantiates a new main menu screen.
+     * @param dynamicSettings TODO
      */
-    public MainMenuScreen() {
+    public MainMenuScreen(DynamicSettings dynamicSettings) {
         this.game = BustaMove.getGameInstance();
         AssetLoader.load();
         ownInstance = this;
+        this.dynamicSettings = dynamicSettings;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }
     
-    /**
-     * Instantiates a new main menu screen
-     * 
-     * @param dynamicSettings
-     */
-    public MainMenuScreen(DynamicSettings dynamicSettings) {
-        this();
-    }
 
     private void createScreen() {
         stage = new Stage();
@@ -137,7 +131,7 @@ public class MainMenuScreen implements Screen {
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new HighScoreScreen());
+                game.setScreen(new HighScoreScreen(dynamicSettings));
             }
         });
         exitButton.addListener(new ChangeListener() {
@@ -150,7 +144,7 @@ public class MainMenuScreen implements Screen {
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new SettingsScreen());
+                game.setScreen(new SettingsScreen(dynamicSettings));
             }
         });
         splitButton.addListener(new ChangeListener() {

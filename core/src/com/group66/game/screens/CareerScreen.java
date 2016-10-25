@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.AssetLoader;
-import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.input.LevelSelectInputListener;
 import com.group66.game.logging.MessageType;
@@ -51,7 +50,7 @@ public class CareerScreen implements Screen {
         BustaMove.getGameInstance().getHighScoreManager().loadData();
         ownInstance = this;
         createScreen();
-        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
+        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the career screen");
     }
 
     /**
@@ -158,7 +157,7 @@ public class CareerScreen implements Screen {
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new MainMenuScreen());
+                game.setScreen(new MainMenuScreen(dynamicSettings));
             }
         });
 

@@ -30,7 +30,7 @@ public class ProfileManager {
      */
     public void writeData(DynamicSettings dynamicSettings) {
         try {
-            BustaMove.getGameInstance().log(MessageType.Info, "write profile to memory");
+            BustaMove.getGameInstance().log(MessageType.Info, "write profile to memory: " + dynamicSettings.getName());
             file = Gdx.files.external("bustamove/" + dynamicSettings.getName() + ".json");
             JSONObject profile = new JSONObject();
             profile.put("name", dynamicSettings.getName());
