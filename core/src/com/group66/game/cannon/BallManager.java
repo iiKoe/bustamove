@@ -314,18 +314,18 @@ public class BallManager {
      * @param batch the batch used to draw with
      * @param delta the delta
      */
-    public void draw(SpriteBatch batch, float delta) {
+    public void draw(AbstractGameScreen gameScreen, SpriteBatch batch, float delta) {
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset;
         }
         
         //draw the background
-        batch.draw(AbstractGameScreen.bg, xoffset + Config.BORDER_SIZE_SIDES, Config.BORDER_SIZE_BOT,
+        batch.draw(gameScreen.bg, xoffset + Config.BORDER_SIZE_SIDES, Config.BORDER_SIZE_BOT,
                 Config.LEVEL_WIDTH, Config.LEVEL_HEIGHT);
         
         /* Draw the brick wall */
-        batch.draw(AbstractGameScreen.bw, roofHitbox.x, roofHitbox.y + 10, roofHitbox.width, roofHitbox.height);
+        batch.draw(gameScreen.bw, roofHitbox.x, roofHitbox.y + 10, roofHitbox.width, roofHitbox.height);
         
         /* Draw shot ball */
         for (Ball ball : ballList) {

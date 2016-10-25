@@ -103,9 +103,9 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         BustaMove.getGameInstance().batch.enableBlending();
         
         /* Draw the balls */
-        ballManager1.draw(BustaMove.getGameInstance().batch, delta);
-        ballManager2.draw(BustaMove.getGameInstance().batch, delta);
-        ballManager3.draw(BustaMove.getGameInstance().batch, delta);
+        ballManager1.draw(this, BustaMove.getGameInstance().batch, delta);
+        ballManager2.draw(this, BustaMove.getGameInstance().batch, delta);
+        ballManager3.draw(this, BustaMove.getGameInstance().batch, delta);
         
         /* Check if game-over condition is reached */
         if (ballManager1.isGameOver() || ballManager2.isGameOver() || ballManager3.isGameOver()) {
