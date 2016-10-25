@@ -35,16 +35,17 @@ public class ShopScreen extends AbstractMenuScreen {
     private DynamicSettings dynamicSettings;
    
     /** New skin for this screen */
-    Skin skin;
+    private Stage stage;
+    private Skin skin;
     
     /**
      * Textures for the override loadRelatedGraphics
      */
     /** ShopScreen background texture. */
-    private static Texture shopbgTexture;
+    private Texture shopbgTexture;
 
     /** ShopScreen background texture region. */
-    public static TextureRegion shopbg;
+    private TextureRegion shopbg;
 
     
     /**
@@ -178,14 +179,6 @@ public class ShopScreen extends AbstractMenuScreen {
 
         stage.act();
         stage.draw();
-    }
-
-
-    /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#dispose()
-     */
-    @Override
-    public void dispose() {     
     }
     
     @Override

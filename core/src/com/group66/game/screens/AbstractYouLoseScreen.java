@@ -28,7 +28,7 @@ public abstract class AbstractYouLoseScreen implements Screen {
     private Texture youlosebgTexture;
 
     /** YouLose Screen background texture region. */
-    public TextureRegion youlosebg;
+    protected TextureRegion youlosebg;
     
     /**
      * Instantiates a new main menu screen.
@@ -103,6 +103,8 @@ public abstract class AbstractYouLoseScreen implements Screen {
     public void dispose() {
         youlosebgTexture.dispose();
         youlosebg.getTexture().dispose();
+        stage.dispose();
+        skin.dispose();
     }
     
     /**

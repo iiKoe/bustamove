@@ -77,7 +77,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         /* Don't update and render when the game is paused */
         if (gameState == GameState.PAUSED) {
             BustaMove.getGameInstance().batch.begin();
-            BustaMove.getGameInstance().batch.draw(pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
+            BustaMove.getGameInstance().batch.draw(getPauseBackground(), 0, 0, Config.WIDTH, Config.HEIGHT);
             BustaMove.getGameInstance().batch.end();
             
             /* Update the balls without letting them move*/

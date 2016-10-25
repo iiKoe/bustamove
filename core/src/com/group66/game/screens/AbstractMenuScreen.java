@@ -35,7 +35,7 @@ public abstract class AbstractMenuScreen implements Screen {
     private Texture mmbgTexture;
     
     /** MainMenu Screen background texture region. */
-    public TextureRegion mmbg;
+    protected TextureRegion mmbg;
 
     
     /** 

@@ -37,19 +37,19 @@ public abstract class AbstractGameScreen implements Screen {
     private Texture bgTexture;
 
     /** GameScreen background texture region. */
-    public TextureRegion bg;
+    private TextureRegion bg;
     
     /** GameScreen brick wall texture. */
     private Texture bwTexture;
 
     /** GameScreen brick wall texture region. */
-    public TextureRegion bw;
+    private TextureRegion bw;
 
     /** GameScreen Pause background texture. */
     private Texture pausebgTexture;
 
     /** GameScreen Pause background texture region. */
-    public TextureRegion pausebg;
+    private TextureRegion pausebg;
 
     
     /**
@@ -141,5 +141,12 @@ public abstract class AbstractGameScreen implements Screen {
         return this.bw;
     }
     
+    /**
+     * get the pause background
+     * @return pausebg
+     */
+    public TextureRegion getPauseBackground() {
+        return this.pausebg;
+    }
     
 }

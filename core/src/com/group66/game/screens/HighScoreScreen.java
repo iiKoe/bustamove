@@ -86,6 +86,7 @@ public class HighScoreScreen extends AbstractMenuScreen {
         backButton.setPosition(xoffset + labelwidth, labelheight);
         backButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
+                dispose();
                 BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });

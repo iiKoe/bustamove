@@ -33,13 +33,13 @@ public abstract class AbstractYouWinScreen implements Screen {
     private Texture youwinbgTexture;
 
     /** YouWin Screen background texture region. */
-    public TextureRegion youwinbg;
+    protected TextureRegion youwinbg;
     
     /** YouWin Screen background texture. */
     private Texture youwinAllbgTexture;
 
     /** YouWin Screen background texture region. */
-    public TextureRegion youwinAllbg;
+    protected TextureRegion youwinAllbg;
     
     
     /**
@@ -136,6 +136,8 @@ public abstract class AbstractYouWinScreen implements Screen {
         youwinbg.getTexture().dispose();
         youwinAllbgTexture.dispose();
         youwinAllbg.getTexture().dispose();
+        stage.dispose();
+        skin.dispose();
     }
     
     /**
