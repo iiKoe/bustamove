@@ -92,7 +92,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         BustaMove.getGameInstance().batch.enableBlending();
 
         /* Draw the balls */
-        ballManager.draw(this, BustaMove.getGameInstance().batch, delta);
+        ballManager.draw(BustaMove.getGameInstance().batch, delta);
 
         /* Check if balls need to move down */
         if (ballManager.getBallCount() >= Config.NBALLS_ROW_DOWN 
