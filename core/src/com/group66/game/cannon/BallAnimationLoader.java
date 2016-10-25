@@ -1,73 +1,26 @@
-package com.group66.game.helpers;
+package com.group66.game.cannon;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.group66.game.helpers.ProfileManager;
 
 /**
  * A AssetLoader for sprite textures.
  */
-public class AssetLoader {
-
-    /** MainMenuScreen background texture. */
-    public static Texture mmbgTexture;
-    
-    /** MainMenu Screen background texture region. */
-    public static TextureRegion mmbg;
-
-    /** YouWin Screen background texture. */
-    public static Texture youwinbgTexture;
-
-    /** YouWin Screen background texture region. */
-    public static TextureRegion youwinbg;
-
-    /** YouLose Screen background texture. */
-    public static Texture youlosebgTexture;
-
-    /** YouLose Screen background texture region. */
-    public static TextureRegion youlosebg;
-
-    /** YouWin Screen background texture. */
-    public static Texture youwinAllbgTexture;
-
-    /** YouWin Screen background texture region. */
-    public static TextureRegion youwinAllbg;
-
-    /** YouLose Screen background texture. */
-    public static Texture shopbgTexture;
-
-    /** YouLose Screen background texture region. */
-    public static TextureRegion shopbg;
-
-    /** GameScreen brick wall texture. */
-    public static Texture bwTexture;
-
-    /** GameScreen brick wall texture region. */
-    public static TextureRegion bw;
-
-    /** GameScreen background texture. */
-    public static Texture bgTexture;
-
-    /** GameScreen background texture region. */
-    public static TextureRegion bg;
-
-    /** GameScreen Pause background texture. */
-    public static Texture pausebgTexture;
-
-    /** GameScreen Pause background texture region. */
-    public static TextureRegion pausebg;
+public class BallAnimationLoader {
 
     /** The ball texture. */
-    public static Texture ballTexture;
-
-    /** The ball pop texture. */
-    public static Texture ballPopTexture;
+    private static Texture ballTexture;
 
     /** The ball texture regions. */
     private static TextureRegion blue1, blue2, blue3, green1, green2, green3,
         red1, red2, red3, yellow1, yellow2, yellow3;
+    
+    /** The ball pop texture. */
+    private static Texture ballPopTexture;
 
     /** The ball animations. */
     public static Animation blueAnimation, greenAnimation, redAnimation,
@@ -86,7 +39,8 @@ public class AssetLoader {
     private static TextureRegion[] yellowPopTextureRegions = new TextureRegion[7];
 
     /** The bomb texture. */
-    public static Texture bomb;
+    private static Texture bomb;
+
 
     public static ProfileManager profileManager = new ProfileManager();
 
@@ -99,49 +53,10 @@ public class AssetLoader {
         /**
          * MainMenu, YouWin, and YouLose screens Sprites
          */
-        //Creating the MainMenu screen background
-        mmbgTexture = new Texture(Gdx.files.internal("main_menu.png"));
-        mmbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        mmbg = new TextureRegion(mmbgTexture, 0, 0, 600, 880);
-
-        //Creating the YouWin screen background
-        youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));
-        youwinbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        youwinbg = new TextureRegion(youwinbgTexture, 0, 0, 600, 880);
-
-        //Creating the YouWin screen background
-        youwinAllbgTexture = new Texture(Gdx.files.internal("kicker.gif"));
-        youwinAllbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        youwinAllbg = new TextureRegion(youwinAllbgTexture, 0, 0, 600, 880);
-
-        //Creating the YouLose screen background
-        youlosebgTexture = new Texture(Gdx.files.internal("youlose.png"));
-        youlosebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        youlosebg = new TextureRegion(youlosebgTexture, 0, 0, 600, 880);
-
-        //Creating the Store screen background
-        shopbgTexture = new Texture(Gdx.files.internal("shop.png"));
-        shopbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        shopbg = new TextureRegion(shopbgTexture, 0, 0, 600, 880);
-
+        
         /** 
          * GameScreen Sprites 
          */
-
-        //creating the brick wall
-        bwTexture = new Texture(Gdx.files.internal("roof.png"));
-        bwTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        bw = new TextureRegion(bwTexture, 0, 0, 600, 880);
-
-        //creating the background
-        bgTexture = new Texture(Gdx.files.internal("purplebg.png"));
-        bgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        bg = new TextureRegion(bgTexture, 0, 0, 128, 220);
-
-        //creating the pause screen
-        pausebgTexture = new Texture(Gdx.files.internal("pause_screen.png"));
-        pausebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        pausebg = new TextureRegion(pausebgTexture, 0, 0, 1800, 880);
 
         //loading the textures for the balls
         ballTexture = new Texture(Gdx.files.internal("ballTextures.png"));
@@ -356,20 +271,6 @@ public class AssetLoader {
      */
     public static void dispose() {
         // We must dispose of the texture when we are finished.
-        mmbgTexture.dispose();
-        mmbg.getTexture().dispose();
-        youwinbgTexture.dispose();
-        youwinbg.getTexture().dispose();
-        youwinAllbgTexture.dispose();
-        youwinAllbg.getTexture().dispose();
-        youlosebgTexture.dispose();
-        youlosebg.getTexture().dispose();
-        bwTexture.dispose();
-        bw.getTexture().dispose();
-        bgTexture.dispose();
-        bg.getTexture().dispose();
-        pausebgTexture.dispose();
-        pausebg.getTexture().dispose();
         ballTexture.dispose();
         ballPopTexture.dispose();
         blue1.getTexture().dispose();

@@ -2,7 +2,6 @@ package com.group66.game.cannon;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.logging.MessageType;
 
 /**
@@ -19,12 +18,12 @@ public enum BallType {
 
         @Override
         public Animation getAnimation() {
-            return AssetLoader.getBlueAnimation();
+            return BallAnimationLoader.getBlueAnimation();
         }
 
         @Override
         public Animation getPopAnimation() {
-            return AssetLoader.getBluePopAnimation();
+            return BallAnimationLoader.getBluePopAnimation();
         }
     },
     
@@ -37,12 +36,12 @@ public enum BallType {
 
         @Override
         public Animation getAnimation() {
-            return AssetLoader.getGreenAnimation();
+            return BallAnimationLoader.getGreenAnimation();
         }
 
         @Override
         public Animation getPopAnimation() {
-            return AssetLoader.getGreenPopAnimation();
+            return BallAnimationLoader.getGreenPopAnimation();
         }
     },
     
@@ -55,12 +54,12 @@ public enum BallType {
 
         @Override
         public Animation getAnimation() {
-            return AssetLoader.getRedAnimation();
+            return BallAnimationLoader.getRedAnimation();
         }
 
         @Override
         public Animation getPopAnimation() {
-            return AssetLoader.getRedPopAnimation();
+            return BallAnimationLoader.getRedPopAnimation();
         }
     },
     
@@ -73,12 +72,12 @@ public enum BallType {
 
         @Override
         public Animation getAnimation() {
-            return AssetLoader.getYellowAnimation();
+            return BallAnimationLoader.getYellowAnimation();
         }
 
         @Override
         public Animation getPopAnimation() {
-            return AssetLoader.getYellowPopAnimation();
+            return BallAnimationLoader.getYellowPopAnimation();
         }
     },
     
@@ -91,7 +90,7 @@ public enum BallType {
 
         @Override
         public Animation getAnimation() {
-            return AssetLoader.getBombAnimation();
+            return BallAnimationLoader.getBombAnimation();
         }
 
         @Override

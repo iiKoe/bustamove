@@ -11,12 +11,12 @@ import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.Ball;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.helpers.TimeKeeper;
 import com.group66.game.logging.MessageType;
+import com.group66.game.screens.AbstractGameScreen;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
@@ -314,18 +314,18 @@ public class BallManager {
      * @param batch the batch used to draw with
      * @param delta the delta
      */
-    public void draw(SpriteBatch batch, float delta) {
+    public void draw(AbstractGameScreen gameScreen, SpriteBatch batch, float delta) {
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset;
         }
         
         //draw the background
-        batch.draw(AssetLoader.bg, xoffset + Config.BORDER_SIZE_SIDES, Config.BORDER_SIZE_BOT,
+        batch.draw(gameScreen.getBackground(), xoffset + Config.BORDER_SIZE_SIDES, Config.BORDER_SIZE_BOT,
                 Config.LEVEL_WIDTH, Config.LEVEL_HEIGHT);
         
         /* Draw the brick wall */
-        batch.draw(AssetLoader.bw, roofHitbox.x, roofHitbox.y + 10, roofHitbox.width, roofHitbox.height);
+        batch.draw(gameScreen.getBrickWall(), roofHitbox.x, roofHitbox.y + 10, roofHitbox.width, roofHitbox.height);
         
         /* Draw shot ball */
         for (Ball ball : ballList) {

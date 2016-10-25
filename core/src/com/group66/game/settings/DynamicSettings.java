@@ -2,7 +2,7 @@ package com.group66.game.settings;
 
 import java.util.ArrayList;
 
-import com.group66.game.helpers.AssetLoader;
+import com.group66.game.cannon.BallAnimationLoader;
 import com.group66.game.shop.BuyScoreMultiplier;
 import com.group66.game.shop.BuySpecialBombChance;
 import com.group66.game.shop.BuySpeedBoost;
@@ -94,7 +94,7 @@ public class DynamicSettings {
      */
     public void setName(String name) {
         this.name = name;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
     /**
@@ -113,7 +113,7 @@ public class DynamicSettings {
      */
     public void setCurrency(int currency) {
         this.currency = currency;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
     /**
@@ -123,7 +123,7 @@ public class DynamicSettings {
      */
     public void addCurrency(int dcurrency) {
         this.currency += dcurrency;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
     /**
@@ -143,7 +143,7 @@ public class DynamicSettings {
      */
     public void setScoreMultiplier(double scoreMultiplier) {
         this.scoreMultiplier = scoreMultiplier;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
     /**
@@ -162,7 +162,7 @@ public class DynamicSettings {
      */
     public void setSpecialBombChanceMultiplier(double specialBombChance) {
         this.specialBombChanceMultiplier = specialBombChance;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
 
@@ -182,7 +182,7 @@ public class DynamicSettings {
      */
     public void setBallSpeedMultiplier(double ballSpeedMultiplier) {
         this.ballSpeedMultiplier = ballSpeedMultiplier;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
     /**
@@ -201,7 +201,7 @@ public class DynamicSettings {
      */
     public void setExtraLife(boolean extraLife) {
         this.extraLife = extraLife;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
     /**
@@ -248,7 +248,7 @@ public class DynamicSettings {
     public void setCurrentLevel(int currentLevel) {
         if (currentLevel <= Config.NUMBER_OF_LEVELS) {
             this.currentLevel = currentLevel;
-            AssetLoader.profileManager.writeData(this);
+            BallAnimationLoader.profileManager.writeData(this);
         }
     } 
 
@@ -265,7 +265,7 @@ public class DynamicSettings {
     public void setLevelCleared(int levelCleared) {
         if (levelCleared > this.levelCleared) {
             this.levelCleared = levelCleared;
-            AssetLoader.profileManager.writeData(this);
+            BallAnimationLoader.profileManager.writeData(this);
         }
     }
 
@@ -284,7 +284,7 @@ public class DynamicSettings {
      */
     public void setRandomLevel(boolean randomLevel) {
         this.randomLevel = randomLevel;
-        AssetLoader.profileManager.writeData(this);
+        BallAnimationLoader.profileManager.writeData(this);
     }
 
     /**
