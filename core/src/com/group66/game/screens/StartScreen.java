@@ -7,7 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AssetLoader;
+import com.group66.game.cannon.BallAnimationLoader;
 import com.group66.game.input.NameInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
@@ -108,7 +108,7 @@ public class StartScreen extends AbstractMenuScreen {
         startButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 if (!dynamicSettings.getName().equals("")) {
-                    AssetLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
+                    BallAnimationLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
                     dispose();
                     game.setScreen(new MainMenuScreen());
                 }

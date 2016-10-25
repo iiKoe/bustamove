@@ -31,7 +31,7 @@ public class CareerScreen extends AbstractMenuScreen {
     private TextButton chooseButton;
     private TextButton approveButton;
     private TextButton resetButton;
-    private TextButton exitButton;
+    private TextButton mainMenuButton;
     private TextButton shopButton;
 
     /**
@@ -65,7 +65,7 @@ public class CareerScreen extends AbstractMenuScreen {
         stage.addActor(chooseButton);
         stage.addActor(approveButton);
         stage.addActor(resetButton);
-        stage.addActor(exitButton);
+        stage.addActor(mainMenuButton);
         stage.addActor(shopButton);       
     }
 
@@ -119,8 +119,8 @@ public class CareerScreen extends AbstractMenuScreen {
         shopButton = new TextButton("Shop", textButtonStyle);
         shopButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
-        exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        mainMenuButton = new TextButton("Main Menu", textButtonStyle);
+        mainMenuButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
         // Add a listener to the button. ChangeListener is fired when the
         // button's checked state changes, eg when clicked,
@@ -154,7 +154,7 @@ public class CareerScreen extends AbstractMenuScreen {
                 dynamicSettings.reset();
             }
         });
-        exitButton.addListener(new ChangeListener() {
+        mainMenuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
                 game.setScreen(new MainMenuScreen());

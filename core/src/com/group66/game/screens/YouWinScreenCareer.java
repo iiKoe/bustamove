@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
@@ -113,13 +112,14 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        loadRelatedGraphics();
+        
         /* Draw the background */
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        TextureRegion bg = AssetLoader.youwinbg;
+        TextureRegion bg = youwinbg;
         if (dynamicSettings.getLevelCleared() == Config.NUMBER_OF_LEVELS ) {
-            bg = AssetLoader.youwinAllbg;
+            bg = youwinAllbg;
         }
         BustaMove.getGameInstance().batch.draw(bg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());

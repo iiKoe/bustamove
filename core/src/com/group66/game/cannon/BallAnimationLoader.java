@@ -1,33 +1,16 @@
-package com.group66.game.helpers;
+package com.group66.game.cannon;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.group66.game.helpers.ProfileManager;
 
 /**
  * A AssetLoader for sprite textures.
  */
-public class AssetLoader {
-
-    /** YouWin Screen background texture. */
-    private static Texture youwinbgTexture;
-
-    /** YouWin Screen background texture region. */
-    public static TextureRegion youwinbg;
-
-    /** YouLose Screen background texture. */
-    private static Texture youlosebgTexture;
-
-    /** YouLose Screen background texture region. */
-    public static TextureRegion youlosebg;
-
-    /** YouWin Screen background texture. */
-    private static Texture youwinAllbgTexture;
-
-    /** YouWin Screen background texture region. */
-    public static TextureRegion youwinAllbg;
+public class BallAnimationLoader {
 
     /** The ball texture. */
     private static Texture ballTexture;
@@ -70,23 +53,7 @@ public class AssetLoader {
         /**
          * MainMenu, YouWin, and YouLose screens Sprites
          */
-
-        //Creating the YouWin screen background
-        youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));
-        youwinbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        youwinbg = new TextureRegion(youwinbgTexture, 0, 0, 600, 880);
-
-        //Creating the YouWin screen background
-        youwinAllbgTexture = new Texture(Gdx.files.internal("kicker.gif"));
-        youwinAllbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        youwinAllbg = new TextureRegion(youwinAllbgTexture, 0, 0, 600, 880);
-
-        //Creating the YouLose screen background
-        youlosebgTexture = new Texture(Gdx.files.internal("youlose.png"));
-        youlosebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        youlosebg = new TextureRegion(youlosebgTexture, 0, 0, 600, 880);
-
-
+        
         /** 
          * GameScreen Sprites 
          */
@@ -304,12 +271,6 @@ public class AssetLoader {
      */
     public static void dispose() {
         // We must dispose of the texture when we are finished.
-        youwinbgTexture.dispose();
-        youwinbg.getTexture().dispose();
-        youwinAllbgTexture.dispose();
-        youwinAllbg.getTexture().dispose();
-        youlosebgTexture.dispose();
-        youlosebg.getTexture().dispose();
         ballTexture.dispose();
         ballPopTexture.dispose();
         blue1.getTexture().dispose();

@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.BallAnimationLoader;
 import com.group66.game.cannon.BallManager;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
@@ -43,7 +43,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         ballManager2 = new BallManager(2, dynamicSettings);
         ballManager3 = new BallManager(1, dynamicSettings);
         setup_keys();
-        AssetLoader.load();
+        BallAnimationLoader.load();
         loadRelatedGraphics();
         AudioManager.startMusic();
 

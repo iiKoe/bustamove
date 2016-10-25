@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.BallAnimationLoader;
 import com.group66.game.cannon.BallManager;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
@@ -41,7 +41,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         this.dynamicSettings.setRandomLevel(randomLevel);
         setup_keys();
         loadRelatedGraphics();
-        AssetLoader.load();
+        BallAnimationLoader.load();
         AudioManager.startMusic();
 
         if (!randomLevel) {
