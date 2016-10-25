@@ -104,7 +104,9 @@ public abstract class AbstractYouLoseScreen implements Screen {
         youlosebgTexture.dispose();
         youlosebg.getTexture().dispose();
         stage.dispose();
-        skin.dispose();
+        if (skin != null) {
+            skin.dispose();
+        }
     }
     
     /**

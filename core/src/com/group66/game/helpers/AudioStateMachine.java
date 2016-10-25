@@ -54,7 +54,7 @@ public class AudioStateMachine {
      * Instantiates a new audio state machine.
      */
     public AudioStateMachine() {
-        this.setState(new Active());
+        this.setState(new Muted());
     }
     
     /**
