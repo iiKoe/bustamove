@@ -34,22 +34,22 @@ public abstract class AbstractGameScreen implements Screen {
      */
    
     /** GameScreen background texture. */
-    private static Texture bgTexture;
+    private Texture bgTexture;
 
     /** GameScreen background texture region. */
-    public static TextureRegion bg;
+    public TextureRegion bg;
     
     /** GameScreen brick wall texture. */
-    private static Texture bwTexture;
+    private Texture bwTexture;
 
     /** GameScreen brick wall texture region. */
-    public static TextureRegion bw;
+    public TextureRegion bw;
 
     /** GameScreen Pause background texture. */
-    private static Texture pausebgTexture;
+    private Texture pausebgTexture;
 
     /** GameScreen Pause background texture region. */
-    public static TextureRegion pausebg;
+    public TextureRegion pausebg;
 
     
     /**
@@ -108,8 +108,7 @@ public abstract class AbstractGameScreen implements Screen {
     /**
      * loads related Graphics
      */
-    public void loadRelatedGraphics() {
-        
+    public void loadRelatedGraphics() {      
         //creating the brick wall
         bwTexture = new Texture(Gdx.files.internal("roof.png"));
         bwTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
@@ -123,8 +122,24 @@ public abstract class AbstractGameScreen implements Screen {
         //creating the pause screen
         pausebgTexture = new Texture(Gdx.files.internal("pause_screen.png"));
         pausebgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
-        pausebg = new TextureRegion(pausebgTexture, 0, 0, 1800, 880);
-        
+        pausebg = new TextureRegion(pausebgTexture, 0, 0, 1800, 880);       
     }
-
+    
+    /**
+     * get the background
+     * @return bg
+     */
+    public TextureRegion getBackground() {
+        return this.bg;
+    }
+    
+    /**
+     * get the brickwall
+     * @return bw
+     */
+    public TextureRegion getBrickWall() {
+        return this.bw;
+    }
+    
+    
 }

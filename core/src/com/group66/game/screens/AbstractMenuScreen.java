@@ -23,7 +23,7 @@ public abstract class AbstractMenuScreen implements Screen {
     public BustaMove game = BustaMove.getGameInstance();
 
     /** The stage. */
-    public Stage stage;
+    protected Stage stage;
     
     /** The skin. */
     protected Skin skin;
@@ -32,10 +32,10 @@ public abstract class AbstractMenuScreen implements Screen {
     public TextButtonStyle textButtonStyle;
     
     /** MainMenuScreen background texture. */
-    private static Texture mmbgTexture;
+    private Texture mmbgTexture;
     
     /** MainMenu Screen background texture region. */
-    public static TextureRegion mmbg;
+    public TextureRegion mmbg;
 
     
     /** 

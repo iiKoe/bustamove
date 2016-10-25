@@ -25,10 +25,10 @@ public abstract class AbstractYouLoseScreen implements Screen {
      * Textures for the sprites
      */
     /** YouLose Screen background texture. */
-    private static Texture youlosebgTexture;
+    private Texture youlosebgTexture;
 
     /** YouLose Screen background texture region. */
-    public static TextureRegion youlosebg;
+    public TextureRegion youlosebg;
     
     /**
      * Instantiates a new main menu screen.

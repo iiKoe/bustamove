@@ -30,16 +30,16 @@ public abstract class AbstractYouWinScreen implements Screen {
      * Textures for the sprites
      */
     /** YouWin Screen background texture. */
-    private static Texture youwinbgTexture;
+    private Texture youwinbgTexture;
 
     /** YouWin Screen background texture region. */
-    public static TextureRegion youwinbg;
+    public TextureRegion youwinbg;
     
     /** YouWin Screen background texture. */
-    private static Texture youwinAllbgTexture;
+    private Texture youwinAllbgTexture;
 
     /** YouWin Screen background texture region. */
-    public static TextureRegion youwinAllbg;
+    public TextureRegion youwinAllbg;
     
     
     /**
