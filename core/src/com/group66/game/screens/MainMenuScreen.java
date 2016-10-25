@@ -147,20 +147,20 @@ public class MainMenuScreen extends AbstractMenuScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new CareerScreen());
+                BustaMove.getGameInstance().setScreen(new CareerScreen());
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
                 dynamicSettings.setRandomLevel(true);
-                game.setScreen(new OnePlayerGameScreen(true, dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true, dynamicSettings));
             }
         });
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new HighScoreScreen());
+                BustaMove.getGameInstance().setScreen(new HighScoreScreen());
             }
         });
         exitButton.addListener(new ChangeListener() {
@@ -173,19 +173,19 @@ public class MainMenuScreen extends AbstractMenuScreen {
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new SettingsScreen());
+                BustaMove.getGameInstance().setScreen(new SettingsScreen());
             }
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
             }
         });
         shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new ShopScreen(dynamicSettings, ownInstance));
+                BustaMove.getGameInstance().setScreen(new ShopScreen(dynamicSettings, ownInstance));
             }
         });
         

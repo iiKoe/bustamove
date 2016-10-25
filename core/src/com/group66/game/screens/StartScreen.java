@@ -118,7 +118,7 @@ public class StartScreen extends AbstractMenuScreen {
                 if (!dynamicSettings.getName().equals("")) {
                     BallAnimationLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
                     dispose();
-                    game.setScreen(new MainMenuScreen());
+                    BustaMove.getGameInstance().setScreen(new MainMenuScreen());
                 }
             }
         });    

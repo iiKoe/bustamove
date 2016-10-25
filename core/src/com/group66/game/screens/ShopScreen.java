@@ -33,10 +33,6 @@ public class ShopScreen extends AbstractMenuScreen {
 
     /** The dynamic settings. */
     private DynamicSettings dynamicSettings;
-   
-    /** New skin for this screen */
-    private Stage stage;
-    private Skin skin;
     
     /**
      * Textures for the override loadRelatedGraphics
@@ -294,9 +290,7 @@ public class ShopScreen extends AbstractMenuScreen {
         textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
         textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
         textButtonStyle.font = skin.getFont("default");
-        skin.add("default", textButtonStyle);
-        
-        
+        skin.add("default", textButtonStyle);      
     }
-    
+
 }

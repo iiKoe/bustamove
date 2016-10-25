@@ -12,16 +12,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.group66.game.BustaMove;
 import com.group66.game.settings.Config;
 
 /**
  * The Class AbstractMenuScreen.
  */
 public abstract class AbstractMenuScreen implements Screen {
-    /** A place to store the game instance. */
-    public BustaMove game = BustaMove.getGameInstance();
-
+    
     /** The stage. */
     protected Stage stage;
     
@@ -29,7 +26,7 @@ public abstract class AbstractMenuScreen implements Screen {
     protected Skin skin;
     
     /** The text button style. */
-    public TextButtonStyle textButtonStyle;
+    protected TextButtonStyle textButtonStyle;
     
     /** MainMenuScreen background texture. */
     private Texture mmbgTexture;

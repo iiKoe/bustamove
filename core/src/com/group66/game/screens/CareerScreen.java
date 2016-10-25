@@ -88,14 +88,14 @@ public class CareerScreen extends AbstractMenuScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /* Draw the background */
-        game.batch.begin();
-        game.batch.enableBlending();
-        game.batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
         textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " 
                 + dynamicSettings.getLevelCleared() + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
-        game.batch.end();
+        BustaMove.getGameInstance().batch.end();
 
         stage.act();
         stage.draw();
@@ -138,7 +138,7 @@ public class CareerScreen extends AbstractMenuScreen {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
                 dynamicSettings.setCurrentLevel(dynamicSettings.getLevelCleared() + 1);
-                game.setScreen(new OnePlayerGameScreen(false, dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false, dynamicSettings));
             }
         });
         chooseButton.addListener(new ChangeListener() {
@@ -151,7 +151,7 @@ public class CareerScreen extends AbstractMenuScreen {
         approveButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new OnePlayerGameScreen(false, dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false, dynamicSettings));
             }
         });
         resetButton.addListener(new ChangeListener() {
@@ -162,14 +162,14 @@ public class CareerScreen extends AbstractMenuScreen {
         mainMenuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new MainMenuScreen());
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
 
         shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                game.setScreen(new ShopScreen(dynamicSettings, ownInstance));
+                BustaMove.getGameInstance().setScreen(new ShopScreen(dynamicSettings, ownInstance));
             }
         });
         
