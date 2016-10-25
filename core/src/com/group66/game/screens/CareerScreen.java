@@ -33,6 +33,12 @@ public class CareerScreen extends AbstractMenuScreen {
     private TextButton resetButton;
     private TextButton mainMenuButton;
     private TextButton shopButton;
+    
+    /** variables used to calculate some drawing coordinates */
+    private int yoffset;
+    private int centercol;
+    private int leftcol;
+    private int rightcol;
 
     /**
      * Instantiates a new main menu screen.
@@ -94,22 +100,21 @@ public class CareerScreen extends AbstractMenuScreen {
         stage.act();
         stage.draw();
     }
-   
+
     @Override
     public void setupButtons() {
         loadButtonMaterials();
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        int centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2);
+        yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
+        centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2);
 
         levelButton = new TextButton("Play: Level " + (dynamicSettings.getLevelCleared() + 1), 
                 textButtonStyle);
         levelButton.setPosition(centercol, yoffset);
-        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
-        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
+        leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
+        rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
         chooseButton = new TextButton("Choose level: ", textButtonStyle);
         chooseButton.setPosition(leftcol, yoffset - 1 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
         approveButton = new TextButton("Play", textButtonStyle);
         approveButton.setPosition(rightcol, yoffset - 1 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 

@@ -24,6 +24,11 @@ public class StartScreen extends AbstractMenuScreen {
     private TextButton setName;
     private TextButton startButton;
     
+    /** variables used to calculate some drawing coordinates */
+    private int yoffset;
+    private int leftcol;
+    private int rightcol;
+    
     /**
      * Instantiates a new start screen.
      */
@@ -79,12 +84,15 @@ public class StartScreen extends AbstractMenuScreen {
     public void hide() {
     }
     
+    /**
+     * sets up buttons
+     */
     public void setupButtons() {
         loadButtonMaterials();
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
-        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
+        yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
+        leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
+        rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
 
         setName = new TextButton("Enter name", textButtonStyle);
         setName.setPosition(leftcol, yoffset);

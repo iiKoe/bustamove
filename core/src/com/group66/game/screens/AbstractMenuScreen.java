@@ -15,14 +15,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.group66.game.BustaMove;
 import com.group66.game.settings.Config;
 
+/**
+ * The Class AbstractMenuScreen.
+ */
 public abstract class AbstractMenuScreen implements Screen {
     /** A place to store the game instance. */
     public BustaMove game = BustaMove.getGameInstance();
 
+    /** The stage. */
     public Stage stage;
     
+    /** The skin. */
     protected Skin skin;
     
+    /** The text button style. */
     public TextButtonStyle textButtonStyle;
     
     /** MainMenuScreen background texture. */
@@ -32,32 +38,53 @@ public abstract class AbstractMenuScreen implements Screen {
     public static TextureRegion mmbg;
 
     
+    /** 
+     * @see com.badlogic.gdx.Screen#render(float)
+     */
     public void render(float delta) {
     }
 
+    /**
+     * @see com.badlogic.gdx.Screen#show()
+     */
     public void show() {
     
     }
 
+    /**
+     * @see com.badlogic.gdx.Screen#resize(int, int)
+     */
     public void resize(int width, int height) {
     }
 
+    /**
+     * @see com.badlogic.gdx.Screen#pause()
+     */
     public void pause() {
     }
 
+    /**
+     * @see com.badlogic.gdx.Screen#resume()
+     */
     public void resume() {
     }
 
+    /**
+     * @see com.badlogic.gdx.Screen#hide()
+     */
     public void hide() {
     }
 
+    /**
+     * @see com.badlogic.gdx.Screen#dispose()
+     */
     public void dispose() {
         stage.dispose();
         skin.dispose();
     }
     
     /**
-     * Loads related graphics
+     * Loads related graphics.
      */
     public void loadRelatedGraphics() {
         //Creating the MainMenu screen background
@@ -67,11 +94,14 @@ public abstract class AbstractMenuScreen implements Screen {
     }
     
     /**
-     * sets up screen related buttons
+     * sets up screen related buttons.
      */
     public void setupButtons() {        
     }
     
+    /**
+     * Load button materials.
+     */
     public void loadButtonMaterials() {
         skin = new Skin();
         // Store the default libgdx font under the name "default".

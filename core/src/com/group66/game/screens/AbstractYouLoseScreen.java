@@ -40,9 +40,7 @@ public abstract class AbstractYouLoseScreen implements Screen {
 
     protected void createScreen() { }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#render(float)
      */
     @Override
@@ -61,9 +59,7 @@ public abstract class AbstractYouLoseScreen implements Screen {
         stage.draw();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#show()
      */
     @Override
@@ -71,9 +67,7 @@ public abstract class AbstractYouLoseScreen implements Screen {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#resize(int, int)
      */
     @Override
@@ -81,36 +75,28 @@ public abstract class AbstractYouLoseScreen implements Screen {
         
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#pause()
      */
     @Override
     public void pause() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see com.badlogic.gdx.Screen#resume()
      */
     @Override
     public void resume() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#hide()
      */
     @Override
     public void hide() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#dispose()
      */
     @Override
@@ -119,6 +105,9 @@ public abstract class AbstractYouLoseScreen implements Screen {
         youlosebg.getTexture().dispose();
     }
     
+    /**
+     * loads related graphics
+     */
     public void loadRelatedGraphics() {
       //Creating the YouLose screen background
         youlosebgTexture = new Texture(Gdx.files.internal("youlose.png"));

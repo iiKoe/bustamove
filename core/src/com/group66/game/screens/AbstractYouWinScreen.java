@@ -82,9 +82,7 @@ public abstract class AbstractYouWinScreen implements Screen {
 
     protected void makeButtons(TextButtonStyle textButtonStyle) { };
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see com.badlogic.gdx.Screen#render(float)
      */
     @Override
@@ -92,9 +90,7 @@ public abstract class AbstractYouWinScreen implements Screen {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#show()
      */
     @Override
@@ -102,9 +98,7 @@ public abstract class AbstractYouWinScreen implements Screen {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#resize(int, int)
      */
     @Override
@@ -112,36 +106,28 @@ public abstract class AbstractYouWinScreen implements Screen {
         // game.batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#pause()
      */
     @Override
     public void pause() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#resume()
      */
     @Override
     public void resume() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#hide()
      */
     @Override
     public void hide() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#dispose()
      */
     @Override
@@ -152,6 +138,9 @@ public abstract class AbstractYouWinScreen implements Screen {
         youwinAllbg.getTexture().dispose();
     }
     
+    /**
+     * loads related graphics
+     */
     public void loadRelatedGraphics() {
         //Creating the YouWin screen background
         youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));

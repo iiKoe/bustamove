@@ -12,22 +12,43 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
+// TODO: Auto-generated Javadoc
 /**
  * A Class for the MainMenuScreen of the game.
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
+    
+    /** The dynamic settings. */
     private static DynamicSettings dynamicSettings = new DynamicSettings();
     
+    /** The own instance. */
     private Screen ownInstance;
     
-    /** screen buttons */
+    /**  screen buttons. */
     private TextButton levelButton;
+    
+    /** The random button. */
     private TextButton randomButton;
+    
+    /** The scores button. */
     private TextButton scoresButton;
+    
+    /** The exit button. */
     private TextButton exitButton;
+    
+    /** The settings button. */
     private TextButton settingsButton;
+    
+    /** The split button. */
     private TextButton splitButton;
+    
+    /** The shop button. */
     private TextButton shopButton;
+    
+    /** variables used to calculate some drawing coordinates */
+    private int yoffset;
+    private int leftcol;
+    private int rightcol;
 
     /**
      * Instantiates a new main menu screen.
@@ -40,14 +61,17 @@ public class MainMenuScreen extends AbstractMenuScreen {
     }
     
     /**
-     * Instantiates a new main menu screen
-     * 
-     * @param dynamicSettings
+     * Instantiates a new main menu screen.
+     *
+     * @param dynamicSettings the dynamic settings
      */
     public MainMenuScreen(DynamicSettings dynamicSettings) {
         this();
     }
 
+    /**
+     * Creates the screen.
+     */
     private void createScreen() {
         loadRelatedGraphics();
         stage = new Stage();
@@ -62,10 +86,8 @@ public class MainMenuScreen extends AbstractMenuScreen {
         stage.addActor(shopButton);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.badlogic.gdx.Screen#render(float)
+    /**
+     * renders the screen
      */
     @Override
     public void render(float delta) {
@@ -83,13 +105,16 @@ public class MainMenuScreen extends AbstractMenuScreen {
         stage.draw();
     }
 
+    /** 
+     * sets up screen buttons
+     */
     @Override
     public void setupButtons() {
         loadButtonMaterials();
         //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
-        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
+        yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
+        leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
+        rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
         
         levelButton = new TextButton("Career", textButtonStyle);
         levelButton.setPosition(leftcol, yoffset);
