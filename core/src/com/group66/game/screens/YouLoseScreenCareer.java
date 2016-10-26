@@ -17,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
@@ -39,7 +38,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         Skin skin = new Skin();
-
+        loadRelatedGraphics();
 
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
@@ -118,7 +117,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
         /* Draw the background */
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(AssetLoader.youlosebg, 
+        BustaMove.getGameInstance().batch.draw(youlosebg, 
                 Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
         
         if (!dynamicSettings.hasExtraLife()) { 

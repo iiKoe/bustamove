@@ -37,7 +37,7 @@ public class YouLoseScreenRandom extends AbstractYouLoseScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         skin = new Skin();
-
+        loadRelatedGraphics();
         // Store the default libgdx font under the name "default".
         BitmapFont bfont = new BitmapFont();
         skin.add("default", bfont);

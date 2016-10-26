@@ -4,6 +4,7 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -65,6 +66,28 @@ public class YouWinScreenRandom extends AbstractYouWinScreen {
                 Gdx.app.exit();
             }
         });
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.badlogic.gdx.Screen#render(float)
+     */
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        loadRelatedGraphics();
+        
+        /* Draw the background */
+        BustaMove.getGameInstance().batch.begin();
+        BustaMove.getGameInstance().batch.enableBlending();
+        BustaMove.getGameInstance().batch.draw(youwinbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+                Gdx.graphics.getHeight());
+        BustaMove.getGameInstance().batch.end();
+
+        stage.act();
+        stage.draw();
     }
 
 }
