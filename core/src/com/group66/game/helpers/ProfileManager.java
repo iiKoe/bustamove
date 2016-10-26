@@ -67,15 +67,15 @@ public class ProfileManager {
             }
             String contents = file.readString();
             JSONObject profile = new JSONObject(contents);
-            dynamicSettings.setName(profile.getString("name"));
-            dynamicSettings.setCurrency(profile.getInt("currency"));
-            dynamicSettings.setScoreMultiplier(profile.getDouble("scoreMultiplier"));
-            dynamicSettings.setSpecialBombChanceMultiplier(profile.getDouble("specialBombChanceMultiplier"));
-            dynamicSettings.setBallSpeedMultiplier(profile.getDouble("ballSpeedMultiplier"));
-            dynamicSettings.setExtraLife(profile.getBoolean("extraLife"));
-            dynamicSettings.setCurrentLevel(profile.getInt("currentLevel"));
-            dynamicSettings.setLevelCleared(profile.getInt("levelCleared"));
-            dynamicSettings.setRandomLevel(profile.getBoolean("randomLevel"));
+            dynamicSettings.setName(profile.getString("name"), false);
+            dynamicSettings.setCurrency(profile.getInt("currency"), false);
+            dynamicSettings.setScoreMultiplier(profile.getDouble("scoreMultiplier"), false);
+            dynamicSettings.setSpecialBombChanceMultiplier(profile.getDouble("specialBombChanceMultiplier"), false);
+            dynamicSettings.setBallSpeedMultiplier(profile.getDouble("ballSpeedMultiplier"), false);
+            dynamicSettings.setExtraLife(profile.getBoolean("extraLife"), false);
+            dynamicSettings.setCurrentLevel(profile.getInt("currentLevel"), false);
+            dynamicSettings.setLevelCleared(profile.getInt("levelCleared"), false);
+            dynamicSettings.setRandomLevel(profile.getBoolean("randomLevel"), false);
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -16,7 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * @author Jeroen
@@ -29,11 +28,10 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
     /** The text drawer. */
     private TextDrawer textDrawer;
     /**
-     * @param dynamicSettings TODO
      * 
      */
-    public YouWinScreenCareer(DynamicSettings dynamicSettings) {
-        super(dynamicSettings);
+    public YouWinScreenCareer() {
+        super();
         ownInstance = this;
     }
 
@@ -81,7 +79,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(BustaMove.getGameInstance().getDynamicSettings()));
             }
         });
 
@@ -90,7 +88,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new ShopScreen(dynamicSettings, ownInstance));
+                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
 
             }
         });
@@ -98,7 +96,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen(dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
     }
@@ -118,12 +116,12 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
         TextureRegion bg = youwinbg;
-        if (dynamicSettings.getLevelCleared() == Config.NUMBER_OF_LEVELS ) {
+        if (BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() == Config.NUMBER_OF_LEVELS ) {
             bg = youwinAllbg;
         }
         BustaMove.getGameInstance().batch.draw(bg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " + dynamicSettings.getLevelCleared() 
+        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() 
                 + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
 

@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * @author Jeroen
@@ -20,11 +19,10 @@ import com.group66.game.settings.DynamicSettings;
 public class YouWinScreenRandom extends AbstractYouWinScreen {
 
     /**
-     * @param dynamicSettings TODO
      * 
      */
-    public YouWinScreenRandom(DynamicSettings dynamicSettings) {
-        super(dynamicSettings);
+    public YouWinScreenRandom() {
+        super();
     }
 
     /* (non-Javadoc)
@@ -56,7 +54,7 @@ public class YouWinScreenRandom extends AbstractYouWinScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen(dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
 

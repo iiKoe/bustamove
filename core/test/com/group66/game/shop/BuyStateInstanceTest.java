@@ -36,7 +36,7 @@ public abstract class BuyStateInstanceTest {
     public void buyAllTest() {
         BuyStateInstance instance = getInstance();
         DynamicSettings dynamicSettings = new DynamicSettings();
-        dynamicSettings.addCurrency(1000);
+        dynamicSettings.addCurrency(1000, true);
         instance.buy(dynamicSettings);
         instance.buy(dynamicSettings);
         instance.buy(dynamicSettings);

@@ -13,14 +13,12 @@ import com.group66.game.helpers.TextDrawer;
 import com.group66.game.input.LevelSelectInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the MainMenuScreen of the game.
  */
 public class CareerScreen extends AbstractMenuScreen {
-    private static DynamicSettings dynamicSettings = new DynamicSettings();
-
+   
     /** The text drawer. */
     private TextDrawer textDrawer;
 
@@ -47,23 +45,18 @@ public class CareerScreen extends AbstractMenuScreen {
         BustaMove.getGameInstance().getHighScoreManager().loadData();
         ownInstance = this;
         createScreen();
-        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
+        BustaMove.getGameInstance().log(MessageType.Info, "Loaded the career menu screen");
     }
+
 
     /**
-     * Creates an instance of careerscreen
-     * 
-     * @param dynamicSettings
+     * creates the screen parts
      */
-    public CareerScreen(DynamicSettings dynamicSettings) {
-        this();
-    }
-
     private void createScreen() {
         loadRelatedGraphics();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        // Setup the text drawer to show the amount of coins
+        // Setup the text drawer to show the progress of career
         textDrawer = new TextDrawer();
         textDrawer.myFont.setColor(Color.BLACK);
         setupButtons();
@@ -82,7 +75,7 @@ public class CareerScreen extends AbstractMenuScreen {
      */
     @Override
     public void render(float delta) {
-        chooseButton.setText("Choose level: " + dynamicSettings.getCurrentLevel());
+        chooseButton.setText("Choose level: " + BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel());
 
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -93,7 +86,7 @@ public class CareerScreen extends AbstractMenuScreen {
         BustaMove.getGameInstance().batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
         textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " 
-                + dynamicSettings.getLevelCleared() + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
+                + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
         BustaMove.getGameInstance().batch.end();
 
@@ -108,7 +101,7 @@ public class CareerScreen extends AbstractMenuScreen {
         yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
         centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2);
 
-        levelButton = new TextButton("Play: Level " + (dynamicSettings.getLevelCleared() + 1), 
+        levelButton = new TextButton("Play: Level " + (BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() + 1), 
                 textButtonStyle);
         levelButton.setPosition(centercol, yoffset);
         leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
@@ -137,26 +130,26 @@ public class CareerScreen extends AbstractMenuScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                dynamicSettings.setCurrentLevel(dynamicSettings.getLevelCleared() + 1);
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false, dynamicSettings));
+                BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() + 1, true);
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false));
             }
         });
         chooseButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                LevelSelectInputListener listener = new LevelSelectInputListener(dynamicSettings);
+                LevelSelectInputListener listener = new LevelSelectInputListener(BustaMove.getGameInstance().getDynamicSettings());
                 Gdx.input.getTextInput(listener, "Choose level", "", "Number between 1 and" 
-                        + dynamicSettings.getLevelCleared());
+                        + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared());
             }
         });
         approveButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false, dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false));
             }
         });
         resetButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dynamicSettings.reset();
+                BustaMove.getGameInstance().getDynamicSettings().reset();
             }
         });
         mainMenuButton.addListener(new ChangeListener() {
@@ -169,7 +162,7 @@ public class CareerScreen extends AbstractMenuScreen {
         shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new ShopScreen(dynamicSettings, ownInstance));
+                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
             }
         });
         

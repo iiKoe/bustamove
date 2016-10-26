@@ -7,19 +7,15 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.BallAnimationLoader;
 import com.group66.game.input.NameInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the StarScreen of the game.
  */
 public class StartScreen extends AbstractMenuScreen {
 
-    private static DynamicSettings dynamicSettings = new DynamicSettings();
-    
     /** screen buttons */
     private TextButton setName;
     private TextButton startButton;
@@ -38,13 +34,6 @@ public class StartScreen extends AbstractMenuScreen {
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
     }
 
-    /**
-     * instantiates a new start screen object
-     * @param dynamicSettings
-     */
-    public StartScreen(DynamicSettings dynamicSettings) {
-        this();
-    }
 
     private void createScreen() {
         loadRelatedGraphics();
@@ -109,14 +98,14 @@ public class StartScreen extends AbstractMenuScreen {
         // revert the checked state.
         setName.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                NameInputListener listener = new NameInputListener(dynamicSettings);
+                NameInputListener listener = new NameInputListener(BustaMove.getGameInstance().getDynamicSettings());
                 Gdx.input.getTextInput(listener, "Enter your name", "", "");
             }
         });
         startButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                if (!dynamicSettings.getName().equals("")) {
-                    BallAnimationLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
+                if (!BustaMove.getGameInstance().getDynamicSettings().getName().equals("")) {
+                    BustaMove.getGameInstance().getProfileManager().readData(BustaMove.getGameInstance().getDynamicSettings().getName(), BustaMove.getGameInstance().getDynamicSettings());
                     dispose();
                     BustaMove.getGameInstance().setScreen(new MainMenuScreen());
                 }
