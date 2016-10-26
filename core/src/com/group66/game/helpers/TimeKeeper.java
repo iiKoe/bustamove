@@ -44,7 +44,6 @@ public class TimeKeeper {
      */
     public void shotTimeReset() {
         this.lastShotTime = this.universalTime;
-        System.out.println("Last shot time Reset!");
     }
     
     /**
