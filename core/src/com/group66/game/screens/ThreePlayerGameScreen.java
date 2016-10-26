@@ -52,6 +52,9 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
             ballManager3.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
+        ballManager1.addRandomBallToCanon();
+        ballManager2.addRandomBallToCanon();
+        ballManager3.addRandomBallToCanon();
     }
     
     /**
@@ -169,7 +172,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager1.shootRandomBall();
+                        ballManager1.shootBall();
                     }
                 });
         
@@ -190,7 +193,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager2.shootRandomBall();
+                        ballManager2.shootBall();;
                     }
                 });
 
@@ -211,7 +214,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 3",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager3.shootRandomBall();
+                        ballManager3.shootBall();;
                     }
                 });
 

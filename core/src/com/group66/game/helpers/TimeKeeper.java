@@ -53,7 +53,7 @@ public class TimeKeeper {
     public void didHeShoot() {
         if ((this.universalTime - this.lastShotTime) > 10) {
             System.out.println("10 secs passed!");          
-            ballManager.shootRandomBall();
+            ballManager.addRandomBallToCanon();
         }   
     }
 }

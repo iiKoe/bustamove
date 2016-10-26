@@ -47,6 +47,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             LevelLoader.generateLevel(ballManager, false);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
+        ballManager.addRandomBallToCanon();
     }
 
     /**
@@ -170,7 +171,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager.shootRandomBall();
+                        ballManager.shootBall ();
                     }
             });
 

@@ -48,6 +48,8 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
             ballManager2.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
+        ballManager1.addRandomBallToCanon();
+        ballManager2.addRandomBallToCanon();
     }
     
     /**
@@ -159,7 +161,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager1.shootRandomBall();
+                        ballManager1.shootBall();
                     }
                 });
         
@@ -180,7 +182,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager2.shootRandomBall();
+                        ballManager2.shootBall();
                     }
                 });
 
