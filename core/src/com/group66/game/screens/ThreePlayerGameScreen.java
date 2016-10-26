@@ -193,7 +193,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager2.shootBall();;
+                        ballManager2.shootBall();
                     }
                 });
 
@@ -214,7 +214,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 3",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager3.shootBall();;
+                        ballManager3.shootBall();
                     }
                 });
 

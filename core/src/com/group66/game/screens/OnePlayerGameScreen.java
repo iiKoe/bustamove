@@ -171,7 +171,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager.shootBall ();
+                        ballManager.shootBall();
                     }
             });
 
