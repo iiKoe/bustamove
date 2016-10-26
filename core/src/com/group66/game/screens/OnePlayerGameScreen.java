@@ -40,7 +40,8 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager, BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), false);
+            LevelLoader.loadLevel(ballManager, 
+                    BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), false);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
             LevelLoader.generateLevel(ballManager, false);
@@ -121,9 +122,12 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
                 BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
             } else {
                 BustaMove.getGameInstance().log(MessageType.Info, "career level is won");
-                BustaMove.getGameInstance().getDynamicSettings().setLevelHighscore(BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), score);
-                BustaMove.getGameInstance().getDynamicSettings().setLevelCleared(BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), true);
-                BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel() + 1, true);
+                BustaMove.getGameInstance().getDynamicSettings().setLevelHighscore(
+                        BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), score);
+                BustaMove.getGameInstance().getDynamicSettings().setLevelCleared(
+                        BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), true);
+                BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(
+                        BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel() + 1, true);
                 BustaMove.getGameInstance().setScreen(new YouWinScreenCareer());
             }
         }

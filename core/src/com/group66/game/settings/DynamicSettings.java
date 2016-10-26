@@ -207,7 +207,8 @@ public class DynamicSettings {
         if (writeToFile) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
-        BustaMove.getGameInstance().log(MessageType.Info, "profile ball speed multiplier set to: " + ballSpeedMultiplier);
+        BustaMove.getGameInstance().log(MessageType.Info, "profile ball speed multiplier set to: " 
+                + ballSpeedMultiplier);
     }
 
     /**

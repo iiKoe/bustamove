@@ -67,7 +67,7 @@ public class HighScoreScreen extends AbstractMenuScreen {
         }
         setupButtons();
         stage.addActor(backButton);
-}
+    }
 
     @Override
     public void render(float delta) {

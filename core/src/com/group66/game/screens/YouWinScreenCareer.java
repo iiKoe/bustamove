@@ -79,7 +79,8 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(BustaMove.getGameInstance().getDynamicSettings()));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(
+                        BustaMove.getGameInstance().getDynamicSettings()));
             }
         });
 
@@ -121,7 +122,8 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         }
         BustaMove.getGameInstance().batch.draw(bg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() 
+        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " 
+                + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() 
                 + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
 

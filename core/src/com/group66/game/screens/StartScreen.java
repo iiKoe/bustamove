@@ -105,7 +105,9 @@ public class StartScreen extends AbstractMenuScreen {
         startButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 if (!BustaMove.getGameInstance().getDynamicSettings().getName().equals("")) {
-                    BustaMove.getGameInstance().getProfileManager().readData(BustaMove.getGameInstance().getDynamicSettings().getName(), BustaMove.getGameInstance().getDynamicSettings());
+                    BustaMove.getGameInstance().getProfileManager().readData(
+                            BustaMove.getGameInstance().getDynamicSettings().getName(), 
+                            BustaMove.getGameInstance().getDynamicSettings());
                     dispose();
                     BustaMove.getGameInstance().setScreen(new MainMenuScreen());
                 }

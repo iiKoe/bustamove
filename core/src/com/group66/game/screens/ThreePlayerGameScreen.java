@@ -126,7 +126,8 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
             int score1 = ballManager1.scoreKeeper.getCurrentScore();
             int score2 = ballManager2.scoreKeeper.getCurrentScore();
             int score3 = ballManager3.scoreKeeper.getCurrentScore();
-            ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 / Config.SCORE_CURRENCY_DIV, true);
+            ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 
+                    / Config.SCORE_CURRENCY_DIV, true);
             BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
         }
 
