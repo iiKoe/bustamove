@@ -544,6 +544,7 @@ public class BallManager {
                 }
             }
             bounceEdge(ball);
+            timeKeeper.shotTimeReset();
         }
 
         while (ballDeadList.size() != 0) {
