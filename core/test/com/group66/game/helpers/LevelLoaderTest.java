@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.group66.game.cannon.BallManager;
+import com.group66.game.cannon.GameManager;
 import com.group66.game.settings.DynamicSettings;
 
 public class LevelLoaderTest {

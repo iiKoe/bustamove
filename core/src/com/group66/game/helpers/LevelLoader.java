@@ -6,8 +6,9 @@ import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.BallManager;
+import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.GameManager;
 import com.group66.game.settings.Config;
 
 public class LevelLoader {
