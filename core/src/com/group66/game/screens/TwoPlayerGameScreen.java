@@ -4,8 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.BallAnimationLoader;
 import com.group66.game.cannon.BallManager;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
@@ -23,29 +23,24 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
     private BallManager ballManager1;
     private BallManager ballManager2;
     
-    /** The dynamic settings instance. */
-    private DynamicSettings dynamicSettings;
-    
     /**
      * Instantiates the game screen.
      *
      * @param randomLevel
      *            determines if a set level or a random level is used
-     * @param dynamicSettings
-     *            the dynamicSettings set for this game turn
      */
-    public TwoPlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public TwoPlayerGameScreen(Boolean randomLevel, int level) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
-        this.dynamicSettings = dynamicSettings;
-        ballManager1 = new BallManager(0, dynamicSettings);
-        ballManager2 = new BallManager(2, dynamicSettings);
+        ballManager1 = new BallManager(0, BustaMove.getGameInstance().getDynamicSettings());
+        ballManager2 = new BallManager(2, BustaMove.getGameInstance().getDynamicSettings());
         setup_keys();
-        AssetLoader.load();
+        BallAnimationLoader.load();
+        loadRelatedGraphics();
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager1, 1, true);
+            LevelLoader.loadLevel(ballManager1, level, true);
             ballManager2.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
@@ -53,13 +48,31 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
             ballManager2.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
+        ballManager1.addRandomBallToCanon();
+        ballManager2.addRandomBallToCanon();
     }
     
     /**
      * Instantiates the game screen.
      */
     public TwoPlayerGameScreen(DynamicSettings dynamicSettings) {
-        this(false, dynamicSettings);
+        this(false);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param randomLevel determines if a set level or a random level is used
+     */
+    public TwoPlayerGameScreen(Boolean randomLevel) {
+        this(randomLevel, 1);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param level the level to load
+     */
+    public TwoPlayerGameScreen(int level) {
+        this(false, level);
     }
     
     /*
@@ -76,7 +89,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         /* Don't update and render when the game is paused */
         if (gameState == GameState.PAUSED) {
             BustaMove.getGameInstance().batch.begin();
-            BustaMove.getGameInstance().batch.draw(AssetLoader.pausebg, 0, 0, Config.WIDTH, Config.HEIGHT);
+            BustaMove.getGameInstance().batch.draw(getPauseBackground(), 0, 0, Config.WIDTH, Config.HEIGHT);
             BustaMove.getGameInstance().batch.end();
             
             /* Update the balls without letting them move*/
@@ -96,21 +109,21 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         BustaMove.getGameInstance().batch.enableBlending();
         
         /* Draw the balls */
-        ballManager1.draw(BustaMove.getGameInstance().batch, delta);
-        ballManager2.draw(BustaMove.getGameInstance().batch, delta);
+        ballManager1.draw(this, BustaMove.getGameInstance().batch, delta);
+        ballManager2.draw(this, BustaMove.getGameInstance().batch, delta);
         
         /* Check if game-over condition is reached */
         if (ballManager1.isGameOver() || ballManager2.isGameOver()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             DynamicSettings ds = ballManager1.getDynamicSettings();
             if (ds.hasExtraLife()) {
-                ds.setExtraLife(false);
+                ds.setExtraLife(false, true);
                 BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
             } else {
                 ds.reset();
                 BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
-            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
+            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom());
         }
         
         /* Check if game-complete condition is reached */
@@ -122,8 +135,8 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
             
             int score1 = ballManager1.scoreKeeper.getCurrentScore();
             int score2 = ballManager2.scoreKeeper.getCurrentScore();
-            ballManager1.getDynamicSettings().addCurrency((score1 + score2) / 2 / Config.SCORE_CURRENCY_DIV);
-            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
+            ballManager1.getDynamicSettings().addCurrency((score1 + score2) / 2 / Config.SCORE_CURRENCY_DIV, true);
+            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
         }
 
         BustaMove.getGameInstance().batch.end();
@@ -164,7 +177,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager1.shootRandomBall();
+                        ballManager1.shootBall();
                     }
                 });
         
@@ -185,7 +198,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager2.shootRandomBall();
+                        ballManager2.shootBall();
                     }
                 });
 

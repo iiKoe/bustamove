@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
+import com.group66.game.BustaMove;
 
 public class HighScoreManager {
     private TreeSet<HighScoreItem> highscores;
@@ -84,8 +85,9 @@ public class HighScoreManager {
      * @param score The score the user just achieved
      */
     public void addScore(int score) {
+        String name = BustaMove.getGameInstance().getDynamicSettings().getName();
         String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
-        highscores.add(new HighScoreItem("unknown", date, score));
+        highscores.add(new HighScoreItem(name, date, score));
         writeData();
     }
 }

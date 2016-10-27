@@ -12,6 +12,6 @@ public class YouLoseScreenTest extends ScreenTest {
 
     @Override
     public Screen getScreen() {
-        return new YouLoseScreenCareer(null);
+        return new YouLoseScreenCareer();
     }
 }

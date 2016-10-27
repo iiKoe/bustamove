@@ -14,10 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * @author Jeroen
@@ -30,11 +28,10 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
     /** The text drawer. */
     private TextDrawer textDrawer;
     /**
-     * @param dynamicSettings TODO
      * 
      */
-    public YouWinScreenCareer(DynamicSettings dynamicSettings) {
-        super(dynamicSettings);
+    public YouWinScreenCareer() {
+        super();
         ownInstance = this;
     }
 
@@ -82,7 +79,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen());
             }
         });
 
@@ -91,7 +88,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new ShopScreen(dynamicSettings, ownInstance));
+                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
 
             }
         });
@@ -113,17 +110,19 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
     public void render(float delta) {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        loadRelatedGraphics();
+        
         /* Draw the background */
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        TextureRegion bg = AssetLoader.youwinbg;
-        if (dynamicSettings.getLevelCleared() == Config.NUMBER_OF_LEVELS ) {
-            bg = AssetLoader.youwinAllbg;
+        TextureRegion bg = youwinbg;
+        if (BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() == Config.NUMBER_OF_LEVELS ) {
+            bg = youwinAllbg;
         }
         BustaMove.getGameInstance().batch.draw(bg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " + dynamicSettings.getLevelCleared() 
+        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " 
+                + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() 
                 + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
 

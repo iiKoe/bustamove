@@ -26,8 +26,8 @@ public class BuySpeedBoost extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST);
-                dynamicSettings.setBallSpeedMultiplier(1.25);
+                dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
+                dynamicSettings.setBallSpeedMultiplier(1.25, true);
                 instance.setCurrent(new Speedp25());
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Speedp25");
                 BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
@@ -58,8 +58,8 @@ public class BuySpeedBoost extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST);
-                dynamicSettings.setBallSpeedMultiplier(1.5);
+                dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
+                dynamicSettings.setBallSpeedMultiplier(1.5, true);
                 instance.setCurrent(new Speedp50());
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Speedp50");
                 BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
@@ -90,8 +90,8 @@ public class BuySpeedBoost extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST);
-                dynamicSettings.setBallSpeedMultiplier(1.75);
+                dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
+                dynamicSettings.setBallSpeedMultiplier(1.75, true);
                 instance.setCurrent(new Speedp75());
                 instance.setIsFinalState(true);
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Speedp75");

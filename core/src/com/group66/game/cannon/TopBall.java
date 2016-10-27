@@ -1,7 +1,5 @@
 package com.group66.game.cannon;
 
-import org.hamcrest.core.IsEqual;
-
 public class TopBall extends Ball {
 
     /**
