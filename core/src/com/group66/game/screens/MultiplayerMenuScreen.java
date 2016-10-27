@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.group66.game.BustaMove;
+import com.group66.game.helpers.DifficultyManager;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
@@ -76,6 +77,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
     @Override
     public void setupButtons() {
         loadButtonMaterials();
+        final DifficultyManager difficultyManager = new DifficultyManager();
         //all magic numbers in this section are offsets values adjusted to get better looks
 
         //players
@@ -132,7 +134,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
                 threePlayerButton.setChecked(true);
             }
         });
-        /*easyButton.addListener(new ChangeListener() {
+        easyButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 difficultyManager.setDifficulty("easy");
                 BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to easy");
@@ -164,7 +166,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
                     BustaMove.getGameInstance().setScreen(new ThreePlayerGameScreen(true));
                 }
             }
-        });*/
+        });
         mainMenuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
@@ -198,11 +200,11 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         imgButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                /*if (numPlayers == 2) {
+                if (numPlayers == 2) {
                     BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(level));
                 } else {
                     BustaMove.getGameInstance().setScreen(new ThreePlayerGameScreen(level));
-                }*/
+                }
             }
         });
         stage.addActor(imgButton);

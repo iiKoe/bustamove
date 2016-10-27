@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 import com.group66.game.BustaMove;
 
 /**
@@ -19,8 +18,7 @@ public abstract class AbstractYouLoseScreen implements Screen {
 
     protected Stage stage;
     protected Skin skin;
-    protected DynamicSettings dynamicSettings;
-
+   
     /** 
      * Textures for the sprites
      */
@@ -33,8 +31,7 @@ public abstract class AbstractYouLoseScreen implements Screen {
     /**
      * Instantiates a new main menu screen.
      */
-    public AbstractYouLoseScreen(DynamicSettings dynamicSettings) {
-        this.dynamicSettings = dynamicSettings;
+    public AbstractYouLoseScreen() {
         createScreen();
     }
 

@@ -45,8 +45,6 @@ public class SettingsScreen extends AbstractMenuScreen {
     }
 
     /*
-     * (non-Javadoc)
-     * 
      * @see com.badlogic.gdx.Screen#render(float)
      */
     @Override

@@ -23,32 +23,26 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
     private BallManager ballManager1;
     private BallManager ballManager2;
     private BallManager ballManager3;
-    
-    /** The dynamic settings instance. */
-    private DynamicSettings dynamicSettings;
-    
+   
     /**
      * Instantiates the game screen.
      *
      * @param randomLevel
      *            determines if a set level or a random level is used
-     * @param dynamicSettings
-     *            the dynamicSettings set for this game turn
      */
-    public ThreePlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public ThreePlayerGameScreen(Boolean randomLevel, int level) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
-        this.dynamicSettings = dynamicSettings;
-        ballManager1 = new BallManager(0, dynamicSettings);
-        ballManager2 = new BallManager(2, dynamicSettings);
-        ballManager3 = new BallManager(1, dynamicSettings);
+        ballManager1 = new BallManager(0, BustaMove.getGameInstance().getDynamicSettings());
+        ballManager2 = new BallManager(2, BustaMove.getGameInstance().getDynamicSettings());
+        ballManager3 = new BallManager(1, BustaMove.getGameInstance().getDynamicSettings());
         setup_keys();
         BallAnimationLoader.load();
         loadRelatedGraphics();
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager1, 1, true);
+            LevelLoader.loadLevel(ballManager1, level, true);
             ballManager2.shiftClone(ballManager1);
             ballManager3.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
@@ -58,13 +52,32 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
             ballManager3.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
+        ballManager1.addRandomBallToCanon();
+        ballManager2.addRandomBallToCanon();
+        ballManager3.addRandomBallToCanon();
     }
     
     /**
      * Instantiates the game screen.
      */
     public ThreePlayerGameScreen(DynamicSettings dynamicSettings) {
-        this(false, dynamicSettings);
+        this(false);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param randomLevel determines if a set level or a random level is used
+     */
+    public ThreePlayerGameScreen(Boolean randomLevel) {
+        this(randomLevel, 1);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param level the level to load
+     */
+    public ThreePlayerGameScreen(int level) {
+        this(false, level);
     }
     
     /*
@@ -112,13 +125,13 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             DynamicSettings ds = ballManager1.getDynamicSettings();
             if (ds.hasExtraLife()) {
-                ds.setExtraLife(false);
+                ds.setExtraLife(false, true);
                 BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
             } else {
                 ds.reset();
                 BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
-            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
+            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom());
         }
         
         /* Check if game-complete condition is reached */
@@ -132,8 +145,9 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
             int score1 = ballManager1.scoreKeeper.getCurrentScore();
             int score2 = ballManager2.scoreKeeper.getCurrentScore();
             int score3 = ballManager3.scoreKeeper.getCurrentScore();
-            ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 / Config.SCORE_CURRENCY_DIV);
-            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
+            ballManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 
+                    / Config.SCORE_CURRENCY_DIV, true);
+            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
         }
 
         BustaMove.getGameInstance().batch.end();
@@ -174,7 +188,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager1.shootRandomBall();
+                        ballManager1.shootBall();
                     }
                 });
         
@@ -195,7 +209,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager2.shootRandomBall();
+                        ballManager2.shootBall();
                     }
                 });
 
@@ -216,7 +230,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 3",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager3.shootRandomBall();
+                        ballManager3.shootBall();
                     }
                 });
 

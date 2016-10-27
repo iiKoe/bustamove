@@ -21,7 +21,7 @@ public class NameInputListener implements TextInputListener {
      */
     @Override
     public void input(String text) {
-        dynamicSettings.setName(text);
+        dynamicSettings.setName(text, false);
 
     }
 

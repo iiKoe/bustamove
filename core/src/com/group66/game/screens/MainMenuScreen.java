@@ -10,16 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the MainMenuScreen of the game.
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
     
-    /** The dynamic settings. */
-    private static DynamicSettings dynamicSettings = new DynamicSettings();
-    
+   
     /** The own instance. */
     private Screen ownInstance;
     
@@ -51,14 +48,6 @@ public class MainMenuScreen extends AbstractMenuScreen {
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }
     
-    /**
-     * Instantiates a new main menu screen.
-     *
-     * @param dynamicSettings the dynamic settings
-     */
-    public MainMenuScreen(DynamicSettings dynamicSettings) {
-        this();
-    }
 
     /**
      * Creates the screen.
@@ -138,8 +127,8 @@ public class MainMenuScreen extends AbstractMenuScreen {
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                dynamicSettings.setRandomLevel(true);
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true, dynamicSettings));
+                BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(true, true);
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true));
             }
         });
         scoresButton.addListener(new ChangeListener() {
@@ -167,6 +156,6 @@ public class MainMenuScreen extends AbstractMenuScreen {
                 //BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
                 BustaMove.getGameInstance().setScreen(new MultiplayerMenuScreen());
             }
-        });        
+        });
     }
 }
