@@ -31,7 +31,8 @@ public class LevelLoader {
                 String line = scanner.nextLine();
                 int ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - (2 * linenr + 1) * Config.BALL_RAD;
                 for (int i = 0; i < line.length(); i++) {
-                    float xpos = Config.SINGLE_PLAYER_OFFSET + (2 * i + 1) * Config.BALL_RAD;
+                    float xpos = Config.SINGLE_PLAYER_OFFSET + Config.BORDER_SIZE_SIDES + (2 * i + 1)
+                            * Config.BALL_RAD;
                     if (isSplit) {
                         xpos = Config.BORDER_SIZE_SIDES + (2 * i + 1) * Config.BALL_RAD;
                     }

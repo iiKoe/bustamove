@@ -112,7 +112,7 @@ public class BustaMove extends Game {
         return profileManager;
     }
 
-    /* (non-Javadoc)
+    /*
      * @see com.badlogic.gdx.ApplicationListener#create()
      */
     @Override

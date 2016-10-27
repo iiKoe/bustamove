@@ -11,7 +11,6 @@ import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
-// TODO: Auto-generated Javadoc
 /**
  * A Class for the MainMenuScreen of the game.
  */
@@ -38,14 +37,6 @@ public class MainMenuScreen extends AbstractMenuScreen {
     
     /** The split button. */
     private TextButton splitButton;
-    
-    /** The shop button. */
-    private TextButton shopButton;
-    
-    /** variables used to calculate some drawing coordinates */
-    private int yoffset;
-    private int leftcol;
-    private int rightcol;
 
     /**
      * Instantiates a new main menu screen.
@@ -72,7 +63,6 @@ public class MainMenuScreen extends AbstractMenuScreen {
         stage.addActor(exitButton);
         stage.addActor(settingsButton);
         stage.addActor(splitButton);
-        stage.addActor(shopButton);
     }
 
     /**
@@ -101,38 +91,33 @@ public class MainMenuScreen extends AbstractMenuScreen {
     public void setupButtons() {
         loadButtonMaterials();
         //all magic numbers in this section are offsets values adjusted to get better looks
-        yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
-        rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
+        int yoffset = Gdx.graphics.getHeight() / 2 + 40;
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
         
         levelButton = new TextButton("Career", textButtonStyle);
-        levelButton.setPosition(leftcol, yoffset);
+        levelButton.setPosition(centercol, yoffset);
         
+        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
         randomButton = new TextButton("Play: Random Level", textButtonStyle);
-        randomButton.setPosition(rightcol, yoffset);
-        
-        scoresButton = new TextButton("High scores", textButtonStyle);
-        scoresButton.setPosition(leftcol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
-        
+        randomButton.setPosition(leftcol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
+
+        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
         splitButton = new TextButton("Play: Split screen", textButtonStyle);
         splitButton.setPosition(rightcol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
         
-        settingsButton = new TextButton("Settings", textButtonStyle);
-        settingsButton.setPosition(leftcol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        scoresButton = new TextButton("High scores", textButtonStyle);
+        scoresButton.setPosition(leftcol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
-        shopButton = new TextButton("Shop", textButtonStyle);
-        shopButton.setPosition(rightcol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        settingsButton = new TextButton("Settings", textButtonStyle);
+        settingsButton.setPosition(rightcol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
         exitButton = new TextButton("Exit", textButtonStyle);
-        exitButton.setPosition(rightcol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        exitButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         
-        // Add a listener to the button. ChangeListener is fired when the
-        // button's checked state changes, eg when clicked,
-        // Button#setChecked() is called, via a key press, etc. If the
-        // event.cancel() is called, the checked state will be reverted.
-        // ClickListener could have been used, but would only fire when clicked.
-        // Also, canceling a ClickListener event won't
-        // revert the checked state.
+        // Add a listener to the button. ChangeListener is fired when the button's checked state changes, eg when
+        // clicked, Button#setChecked() is called, via a key press, etc. If the event.cancel() is called, the
+        // checked state will be reverted. ClickListener could have been used, but would only fire when clicked.
+        // Also, canceling a ClickListener event won't revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
@@ -168,15 +153,9 @@ public class MainMenuScreen extends AbstractMenuScreen {
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true));
+                //BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new MultiplayerMenuScreen());
             }
         });
-        shopButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
-            }
-        });
-        
     }
 }
