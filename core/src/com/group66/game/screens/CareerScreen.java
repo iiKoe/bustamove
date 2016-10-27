@@ -88,22 +88,22 @@ public class CareerScreen extends AbstractMenuScreen {
         loadButtonMaterials();
         //all magic numbers in this section are offsets values adjusted to get better looks
         int yoffset = Gdx.graphics.getHeight() / 2 + 20;
-        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
-        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
-        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
 
         for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
             addLevelButton(i);
         }
         
+        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
         TextButton shopButton = new TextButton("Shop", textButtonStyle);
         shopButton.setPosition(leftcol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         stage.addActor(shopButton);
 
+        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
         TextButton resetButton = new TextButton("Reset career", textButtonStyle);
         resetButton.setPosition(rightcol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         stage.addActor(resetButton);
 
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
         TextButton mainMenuButton = new TextButton("Back", textButtonStyle);
         mainMenuButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
         stage.addActor(mainMenuButton);

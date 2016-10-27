@@ -99,7 +99,8 @@ public class StartScreen extends AbstractMenuScreen {
         fieldStyle.font = textButtonStyle.font;
         //fieldStyle.cursor =
         final TextField nameField = new TextField("Player", fieldStyle);
-        nameField.setBounds(centercol, yoffset - Config.BUTTON_HEIGHT / 2, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT / 2);
+        nameField.setBounds(centercol, yoffset - Config.BUTTON_HEIGHT / 2, Config.BUTTON_WIDTH, 
+                Config.BUTTON_HEIGHT / 2);
         //nameField
         stage.addActor(nameField);
         
