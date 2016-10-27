@@ -1,16 +1,22 @@
 package com.group66.game.screens;
 
+import java.text.DecimalFormat;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.TextDrawer;
-import com.group66.game.input.LevelSelectInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
@@ -23,26 +29,11 @@ public class CareerScreen extends AbstractMenuScreen {
     private TextDrawer textDrawer;
 
     private Screen ownInstance;
-    
-    /** screen buttons */
-    private TextButton levelButton;
-    private TextButton chooseButton;
-    private TextButton approveButton;
-    private TextButton resetButton;
-    private TextButton mainMenuButton;
-    private TextButton shopButton;
-    
-    /** variables used to calculate some drawing coordinates */
-    private int yoffset;
-    private int centercol;
-    private int leftcol;
-    private int rightcol;
 
     /**
      * Instantiates a new main menu screen.
      */
     public CareerScreen() {
-        BustaMove.getGameInstance().getHighScoreManager().loadData();
         ownInstance = this;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the career menu screen");
@@ -60,36 +51,25 @@ public class CareerScreen extends AbstractMenuScreen {
         textDrawer = new TextDrawer();
         textDrawer.myFont.setColor(Color.BLACK);
         setupButtons();
-        stage.addActor(levelButton);
-        stage.addActor(chooseButton);
-        stage.addActor(approveButton);
-        stage.addActor(resetButton);
-        stage.addActor(mainMenuButton);
-        stage.addActor(shopButton);       
     }
 
     /*
-     * (non-Javadoc)
-     * 
      * @see com.badlogic.gdx.Screen#render(float)
      */
     @Override
     public void render(float delta) {
-        chooseButton.setText("Choose level: " + BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel());
-
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /* Draw the background */
-        BustaMove.getGameInstance().batch.begin();
-        BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
-                Gdx.graphics.getHeight());
-        textDrawer.draw(BustaMove.getGameInstance().batch, "You have cleared " 
-                + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() 
+        SpriteBatch batch = BustaMove.getGameInstance().batch;
+        batch.begin();
+        batch.enableBlending();
+        batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
+        textDrawer.draw(batch, "You have cleared " + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared()
                 + " out of " + Config.NUMBER_OF_LEVELS + " levels!", 
-                Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
-        BustaMove.getGameInstance().batch.end();
+                (Config.WIDTH - Config.LEVEL_WIDTH) / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 40);
+        batch.end();
 
         stage.act();
         stage.draw();
@@ -99,56 +79,33 @@ public class CareerScreen extends AbstractMenuScreen {
     public void setupButtons() {
         loadButtonMaterials();
         //all magic numbers in this section are offsets values adjusted to get better looks
-        yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2);
+        int yoffset = Gdx.graphics.getHeight() / 2 + 20;
 
-        levelButton = new TextButton("Play: Level "
-                + (BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() + 1), 
-                textButtonStyle);
-        levelButton.setPosition(centercol, yoffset);
-        leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
-        rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
-        chooseButton = new TextButton("Choose level: ", textButtonStyle);
-        chooseButton.setPosition(leftcol, yoffset - 1 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-        approveButton = new TextButton("Play", textButtonStyle);
-        approveButton.setPosition(rightcol, yoffset - 1 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
-        resetButton = new TextButton("Reset career", textButtonStyle);
-        resetButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
-        shopButton = new TextButton("Shop", textButtonStyle);
-        shopButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
-        mainMenuButton = new TextButton("Main Menu", textButtonStyle);
-        mainMenuButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
+            addLevelButton(i);
+        }
         
-        // Add a listener to the button. ChangeListener is fired when the
-        // button's checked state changes, eg when clicked,
-        // Button#setChecked() is called, via a key press, etc. If the
-        // event.cancel() is called, the checked state will be reverted.
-        // ClickListener could have been used, but would only fire when clicked.
-        // Also, canceling a ClickListener event won't
-        // revert the checked state.
-        levelButton.addListener(new ChangeListener() {
+        int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
+        TextButton shopButton = new TextButton("Shop", textButtonStyle);
+        shopButton.setPosition(leftcol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        stage.addActor(shopButton);
+
+        int rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
+        TextButton resetButton = new TextButton("Reset career", textButtonStyle);
+        resetButton.setPosition(rightcol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        stage.addActor(resetButton);
+
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
+        TextButton mainMenuButton = new TextButton("Back", textButtonStyle);
+
+        mainMenuButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+        stage.addActor(mainMenuButton);
+        
+        // Add a listener to the buttons
+        shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(
-                        BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() + 1, true);
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false));
-            }
-        });
-        chooseButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                LevelSelectInputListener listener = 
-                        new LevelSelectInputListener(BustaMove.getGameInstance().getDynamicSettings());
-                Gdx.input.getTextInput(listener, "Choose level", "", "Number between 1 and" 
-                        + BustaMove.getGameInstance().getDynamicSettings().getLevelCleared());
-            }
-        });
-        approveButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false));
+                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
             }
         });
         resetButton.addListener(new ChangeListener() {
@@ -162,14 +119,42 @@ public class CareerScreen extends AbstractMenuScreen {
                 BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
         });
-
-        shopButton.addListener(new ChangeListener() {
+    }
+    
+    /**
+     * Adds a button for the selected level
+     * @param level
+     */
+    private void addLevelButton(final int level) {
+        String textureName = "levelimages/level" + new DecimalFormat("00").format(level) + ".png";
+        if (BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() < level - 1) {
+            textureName = "levelimages/level" + new DecimalFormat("00").format(level) + "_grey.png";
+        }
+        if (!Gdx.files.internal(textureName).exists()) {
+            //backup texture
+            textureName = "ballTextures.png";
+        }
+        
+        int xoffset = (Gdx.graphics.getWidth() - 500 - 4 * Config.BUTTON_SPACING) / 2;
+        int xpos = xoffset + ((level - 1) % 5) * (100 + Config.BUTTON_SPACING);
+        int ypos = Gdx.graphics.getHeight() / 2 - 10 - ((level - 1) / 5) * (100 + Config.BUTTON_SPACING);
+        
+        Texture myTexture = new Texture(Gdx.files.internal(textureName));
+        TextureRegion myTextureRegion = new TextureRegion(myTexture, 100, 100);
+        TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
+        
+        ImageButton imgButton = new ImageButton(myTexRegionDrawable);
+        imgButton.setPosition(xpos, ypos);
+        imgButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
+                if (BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() >= level - 1) {
+                    dispose();
+                    BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(level, false);
+                    BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false));
+                }
             }
         });
-        
+        stage.addActor(imgButton);
     }
 
 }

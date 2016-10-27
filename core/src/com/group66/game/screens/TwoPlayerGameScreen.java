@@ -29,7 +29,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
      * @param randomLevel
      *            determines if a set level or a random level is used
      */
-    public TwoPlayerGameScreen(Boolean randomLevel) {
+    public TwoPlayerGameScreen(Boolean randomLevel, int level) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
         ballManager1 = new BallManager(0, BustaMove.getGameInstance().getDynamicSettings());
@@ -40,7 +40,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager1, 1, true);
+            LevelLoader.loadLevel(ballManager1, level, true);
             ballManager2.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
@@ -57,6 +57,22 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
      */
     public TwoPlayerGameScreen(DynamicSettings dynamicSettings) {
         this(false);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param randomLevel determines if a set level or a random level is used
+     */
+    public TwoPlayerGameScreen(Boolean randomLevel) {
+        this(randomLevel, 1);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param level the level to load
+     */
+    public TwoPlayerGameScreen(int level) {
+        this(false, level);
     }
     
     /*
