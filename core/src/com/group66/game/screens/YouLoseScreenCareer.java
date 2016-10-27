@@ -78,8 +78,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
                 public void changed(ChangeEvent event, Actor actor) {
                     BustaMove.getGameInstance().getDynamicSettings().setExtraLife(false, true);
                     dispose();
-                    BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(
-                            BustaMove.getGameInstance().getDynamicSettings()));
+                    BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen());
                 }
             });
         }

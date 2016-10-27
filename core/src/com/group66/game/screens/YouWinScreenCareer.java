@@ -79,8 +79,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
                 dispose();
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(
-                        BustaMove.getGameInstance().getDynamicSettings()));
+                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen());
             }
         });
 

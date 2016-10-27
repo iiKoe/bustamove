@@ -12,7 +12,6 @@ import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * The Class for the main GameScreen of the game.
@@ -53,7 +52,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
     /**
      * Instantiates the game screen.
      */
-    public OnePlayerGameScreen(DynamicSettings dynamicSettings) {
+    public OnePlayerGameScreen() {
         this(false);
     }
 

@@ -328,7 +328,8 @@ public class DynamicSettings {
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile random level set to: " + randomLevel);
     }
-
+    
+    
     /**
      * Sets the highscore of a level
      * 
