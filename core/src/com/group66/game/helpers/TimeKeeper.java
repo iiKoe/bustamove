@@ -44,7 +44,6 @@ public class TimeKeeper {
      */
     public void shotTimeReset() {
         this.lastShotTime = this.universalTime;
-        System.out.println("Last shot time Reset!");
     }
     
     /**
@@ -53,7 +52,7 @@ public class TimeKeeper {
     public void didHeShoot() {
         if ((this.universalTime - this.lastShotTime) > 10) {
             System.out.println("10 secs passed!");          
-            ballManager.shootRandomBall();
+            ballManager.shootBall();
         }   
     }
 }

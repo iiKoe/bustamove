@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.group66.game.helpers.ProfileManager;
 
 /**
  * A AssetLoader for sprite textures.
@@ -40,10 +39,6 @@ public class BallAnimationLoader {
 
     /** The bomb texture. */
     private static Texture bomb;
-
-
-    public static ProfileManager profileManager = new ProfileManager();
-
 
     /**
      * Load the sprites.

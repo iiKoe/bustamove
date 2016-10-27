@@ -76,8 +76,12 @@ public abstract class AbstractMenuScreen implements Screen {
      * @see com.badlogic.gdx.Screen#dispose()
      */
     public void dispose() {
-        stage.dispose();
-        skin.dispose();
+        if (stage != null) {
+            stage.dispose();
+        }
+        if (skin != null) {
+            skin.dispose();
+        }
     }
     
     /**

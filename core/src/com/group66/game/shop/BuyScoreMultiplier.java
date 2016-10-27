@@ -26,8 +26,8 @@ public class BuyScoreMultiplier extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SCORE_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
-                dynamicSettings.setScoreMultiplier(1.05);
+                dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST, true);
+                dynamicSettings.setScoreMultiplier(1.05, true);
                 instance.setCurrent(new Mulp5());
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Mulp5");
                 BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
@@ -59,8 +59,8 @@ public class BuyScoreMultiplier extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SCORE_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
-                dynamicSettings.setScoreMultiplier(1.1);
+                dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST, true);
+                dynamicSettings.setScoreMultiplier(1.1, true);
                 instance.setCurrent(new Mulp10());
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Mulp10");
                 BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
@@ -91,8 +91,8 @@ public class BuyScoreMultiplier extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.SCORE_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST);
-                dynamicSettings.setScoreMultiplier(1.2);
+                dynamicSettings.addCurrency(-1 * Config.SCORE_INCR_COST, true);
+                dynamicSettings.setScoreMultiplier(1.2, true);
                 instance.setCurrent(new Mulp20());
                 instance.setIsFinalState(true);
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Mulp20");

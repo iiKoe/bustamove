@@ -100,10 +100,6 @@ public class BallManager {
         this.ballGraph = new BallGraph();
         this.timeKeeper = new TimeKeeper(this);
 
-        Random random = new Random();
-        int rand = random.nextInt(BallType.MAX_COLORS.ordinal());
-        BallType ballType = BallType.values()[rand];
-        cannonBallList.add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));  
         
         for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
             this.colorList.add(new AtomicInteger(0));
@@ -131,10 +127,6 @@ public class BallManager {
         this.ballGraph = new BallGraph();
         this.timeKeeper = new TimeKeeper(this);
         
-        Random random = new Random();
-        int rand = random.nextInt(BallType.MAX_COLORS.ordinal());
-        BallType type = BallType.values()[rand];
-        cannonBallList.add(type.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
 
         for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
             this.colorList.add(new AtomicInteger(0));
@@ -186,22 +178,20 @@ public class BallManager {
 
     /**
      * Shoot ball.
-     * 
-     * @param type the type of the Ball
      */
-    public void shootBall(BallType type) {
+    public void shootBall() {
         // TODO add math so ball comes out the top of the cannon?
         if (canShoot()) {
             int newSpeed = (int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier());
             ballList.add(cannonBallList.get(0));
             ballList.get(ballList.size() - 1).setAngle((float) Math.toRadians(cannon.getAngle()));
             ballList.get(ballList.size() - 1).setSpeed(newSpeed);
-            cannonBallList.remove(0);
-            cannonBallList.add(type.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
+            
             AudioManager.shoot();
             timeKeeper.shotTimeReset();
-            BustaMove.getGameInstance().log(MessageType.Info, "Shot a " + type.ordinal()
+            BustaMove.getGameInstance().log(MessageType.Info, "Shot a " + cannonBallList.get(0).getColor()
                     + " ball at angle " + cannon.getAngle() + " with speed " + newSpeed);
+            cannonBallList.remove(0);
             this.ballCount++;
         }
     }
@@ -209,23 +199,29 @@ public class BallManager {
     /**
      * Shoot random colored ball.
      */
-    public void shootRandomBall() {
+    public void addRandomBallToCanon() {
+        if (ballStaticList.isEmpty()) {
+            return;
+        }
         Random random = new Random();
         int rand;
         int maxType = BallType.BOMB.ordinal();
 
+        
+        BustaMove.getGameInstance().log(MessageType.Info, "check if bomb balls is equal to total number of balls: " 
+                + (colorList.get(BallType.BOMB.ordinal()).get() == ballGraph.numberOfBalls()));
         rand = random.nextInt(100);
         if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())
-                || colorList.get(BallType.BOMB.ordinal()).equals(ballGraph.numberOfBalls())) {
+                || colorList.get(BallType.BOMB.ordinal()).get() == ballGraph.numberOfBalls()) {
             BallType ballType = BallType.BOMB;
-            shootBall(ballType);
+            cannonBallList.add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
             return;
         }
         do {
             rand = random.nextInt(maxType);
         } while (colorList.get(rand).get() <= 0);
         BallType ballType = BallType.values()[rand];
-        shootBall(ballType);
+        cannonBallList.add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
     }
 
     /**
@@ -234,7 +230,7 @@ public class BallManager {
      * @return true, if successful
      */
     public boolean canShoot() {
-        if (ballList.size() > 0 || ballPopList.size() > 1) {
+        if (ballList.size() > 0 || ballPopList.size() > 1 || cannonBallList.isEmpty()) {
             return false;
         }
         return true;
@@ -548,6 +544,7 @@ public class BallManager {
                 }
             }
             bounceEdge(ball);
+            timeKeeper.shotTimeReset();
         }
 
         while (ballDeadList.size() != 0) {
@@ -564,6 +561,7 @@ public class BallManager {
             //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             if (ballStaticDeadList.size() == 0) {
                 scoreKeeper.addCurrentScore(0, ballGraph.getFreeBalls().size(), dynamicSettings.getScoreMultiplier());
+                
                 for (Ball e:ballGraph.getFreeBalls()) {
                     ballStaticDeadList.add(e);
                     if (!ballPopList.contains(e) && e.getType() != BallType.BOMB) {
@@ -578,6 +576,9 @@ public class BallManager {
                     BustaMove.getGameInstance().log(MessageType.Info, "Number of balls with color " 
                             + count + " :" + e.get());
                     count++;
+                }
+                if (ballGraph.getFreeBalls().isEmpty() && cannonBallList.isEmpty()) {
+                    addRandomBallToCanon();
                 }
             }
         }
@@ -612,6 +613,8 @@ public class BallManager {
                     + " balls");
                 //scoreKeeper.setCurrentScore(score, 0);
                 //TODO 
+            } else {
+                addRandomBallToCanon();
             }
         }
 

@@ -4,12 +4,14 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
+import com.group66.game.helpers.ProfileManager;
 import com.group66.game.logging.ConsoleLogger;
 import com.group66.game.logging.FileLogger;
 import com.group66.game.logging.Logger;
 import com.group66.game.logging.MessageType;
 import com.group66.game.screens.StartScreen;
 import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 /**
  * The BustaMove main game class.
@@ -22,7 +24,14 @@ public class BustaMove extends Game {
     /** The logger. */
     private Logger logger;
     
+    /** The high score manager. */
     private HighScoreManager highScoreManager;
+    
+    /** The dynamic settings object. */
+    private DynamicSettings dynamicSettings;
+    
+    /** The profile manager. */
+    private ProfileManager profileManager;
     
     /** Create the only object of this class */
     private static BustaMove game = new BustaMove();
@@ -87,6 +96,22 @@ public class BustaMove extends Game {
         return highScoreManager;
     }
 
+    /**
+     * Gets the dynamic settings
+     * @return the dynamic settings
+     */
+    public DynamicSettings getDynamicSettings() {
+        return dynamicSettings;
+    }
+
+    /**
+     * Gets the profile manager
+     * @return the profileManager
+     */
+    public ProfileManager getProfileManager() {
+        return profileManager;
+    }
+
     /* (non-Javadoc)
      * @see com.badlogic.gdx.ApplicationListener#create()
      */
@@ -94,6 +119,8 @@ public class BustaMove extends Game {
     public void create() {
         batch = new SpriteBatch();
         highScoreManager = new HighScoreManager();
+        dynamicSettings = new DynamicSettings();
+        profileManager = new ProfileManager();
         
         Logger fileLogger = new FileLogger(MessageType.Debug);
         Logger consoleLogger = new ConsoleLogger(MessageType.Info);
