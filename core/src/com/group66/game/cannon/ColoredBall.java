@@ -1,7 +1,12 @@
 package com.group66.game.cannon;
 
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
+import com.group66.game.cannon.ballgraph.ColoredBallGraphBreadthFirstConditionalIterator;
 /**
  * A basic Ball class.
  */
@@ -50,5 +55,15 @@ public class ColoredBall extends Ball {
      */
     public void popStart() {
         super.popStart(this.getType().getPopAnimation());
+    }
+    
+    /**
+     * create iterator
+     * @param graph in which the ball is situated
+     * @return the iterator
+     */
+    public BallGraphBreadthFirstConditionalIterator createBallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, 
+            DefaultEdge> graph) {
+        return new ColoredBallGraphBreadthFirstConditionalIterator(graph, this);
     }
 }

@@ -1,7 +1,7 @@
 package com.group66.game.cannon;
-import com.group66.game.cannon.BallGraph;
 import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.settings.Config;
 import static org.junit.Assert.assertEquals;
 

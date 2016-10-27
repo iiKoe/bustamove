@@ -1,10 +1,16 @@
 package com.group66.game.cannon;
 
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.cannon.ballgraph.BallGraph;
+import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
+import com.group66.game.cannon.ballgraph.NullBallGraphBreadthFirstConditionalIterator;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.settings.Config;
 
@@ -344,5 +350,15 @@ public abstract class Ball {
             return true;
         }
         return false;
+    }
+    
+    /**
+     * create iterator
+     * @param graph in which the ball is situated
+     * @return the iterator
+     */
+    public BallGraphBreadthFirstConditionalIterator createBallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, 
+            DefaultEdge> graph) {
+        return new NullBallGraphBreadthFirstConditionalIterator(graph, this);
     }
 }
