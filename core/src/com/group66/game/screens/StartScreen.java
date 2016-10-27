@@ -1,15 +1,18 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.ui.TextField.TextFieldStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.BallAnimationLoader;
-import com.group66.game.input.NameInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
@@ -20,16 +23,7 @@ import com.group66.game.settings.DynamicSettings;
 public class StartScreen extends AbstractMenuScreen {
 
     private static DynamicSettings dynamicSettings = new DynamicSettings();
-    
-    /** screen buttons */
-    private TextButton setName;
-    private TextButton startButton;
-    
-    /** variables used to calculate some drawing coordinates */
-    private int yoffset;
-    private int leftcol;
-    private int rightcol;
-    
+        
     /**
      * Instantiates a new start screen.
      */
@@ -52,8 +46,6 @@ public class StartScreen extends AbstractMenuScreen {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         setupButtons();
-        stage.addActor(setName);
-        stage.addActor(startButton);
     }
 
     /*
@@ -92,38 +84,37 @@ public class StartScreen extends AbstractMenuScreen {
     public void setupButtons() {
         loadButtonMaterials();
         //all magic numbers in this section are offsets values adjusted to get better looks
-        yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
-        rightcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH + 250) / 2;
+        int yoffset = Gdx.graphics.getHeight() / 2 + 30;
+        int centercol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH) / 2;
 
-        setName = new TextButton("Enter name", textButtonStyle);
-        setName.setPosition(leftcol, yoffset);
+        LabelStyle infoStyle = new LabelStyle(textButtonStyle.font, Color.BLACK);
+        Label info = new Label("Enter your name:", infoStyle);
+        info.setBounds(centercol, yoffset, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT / 2);
+        info.setAlignment(2);
+        stage.addActor(info);
         
-        startButton = new TextButton("Start game!", textButtonStyle);
-        startButton.setPosition(rightcol, yoffset);
+        TextFieldStyle fieldStyle = new TextFieldStyle();
+        fieldStyle.fontColor = Color.WHITE;
+        fieldStyle.background = textButtonStyle.over;
+        fieldStyle.font = textButtonStyle.font;
+        //fieldStyle.cursor =
+        final TextField nameField = new TextField("Player", fieldStyle);
+        nameField.setBounds(centercol, yoffset - Config.BUTTON_HEIGHT / 2, Config.BUTTON_WIDTH, Config.BUTTON_HEIGHT / 2);
+        //nameField
+        stage.addActor(nameField);
         
-        // Add a listener to the button. ChangeListener is fired when the
-        // button's checked state changes, eg when clicked,
-        // Button#setChecked() is called, via a key press, etc. If the
-        // event.cancel() is called, the checked state will be reverted.
-        // ClickListener could have been used, but would only fire when clicked.
-        // Also, canceling a ClickListener event won't
-        // revert the checked state.
-        setName.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                NameInputListener listener = new NameInputListener(dynamicSettings);
-                Gdx.input.getTextInput(listener, "Enter your name", "", "");
-            }
-        });
+        TextButton startButton = new TextButton("Continue", textButtonStyle);
+        startButton.setPosition(centercol, yoffset - 2 * Config.BUTTON_HEIGHT);
+        stage.addActor(startButton);
+        
+        // Add a listener to the button
         startButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                if (!dynamicSettings.getName().equals("")) {
-                    BallAnimationLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
-                    dispose();
-                    BustaMove.getGameInstance().setScreen(new MainMenuScreen());
-                }
+                dynamicSettings.setName(nameField.getText());
+                dispose();
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
             }
-        });    
+        });
     }
 
 }
