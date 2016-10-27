@@ -35,8 +35,8 @@ public class TopBall extends Ball {
      * @param graph in which the ball is situated
      * @return the iterator
      */
-    public BallGraphBreadthFirstConditionalIterator createBallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, 
-            DefaultEdge> graph) {
+    public BallGraphBreadthFirstConditionalIterator createBallGraphBreadthFirstConditionalIterator(
+            UndirectedGraph<Ball, DefaultEdge> graph) {
         return new TopBallGraphBreadthFirstConditionalIterator(graph, this);
     }
 

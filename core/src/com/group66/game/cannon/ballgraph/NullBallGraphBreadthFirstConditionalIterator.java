@@ -14,7 +14,7 @@ public class NullBallGraphBreadthFirstConditionalIterator implements BallGraphBr
      */
     public NullBallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, DefaultEdge> graph, Ball start) {
 
-        }
+    }
 
     /**
      * Returns if the iterator has a next object
@@ -35,7 +35,7 @@ public class NullBallGraphBreadthFirstConditionalIterator implements BallGraphBr
     public Ball next() {
         return null;
     }
-    
+
     /**
      * remove is not supported by the iterator
      */

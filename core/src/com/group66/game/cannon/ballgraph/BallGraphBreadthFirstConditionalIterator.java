@@ -9,7 +9,7 @@ import com.group66.game.cannon.Ball;
 
 public interface BallGraphBreadthFirstConditionalIterator extends Iterator<Ball> {
 
-   
+
     /* (non-Javadoc)
      * @see java.util.Iterator#hasNext()
      */
@@ -31,6 +31,6 @@ public interface BallGraphBreadthFirstConditionalIterator extends Iterator<Ball>
       * Get size
       * @return the size
       */
-     int size();
-     
+    int size();
+
 }
