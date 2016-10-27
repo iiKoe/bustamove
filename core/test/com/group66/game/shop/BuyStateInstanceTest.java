@@ -65,6 +65,6 @@ public abstract class BuyStateInstanceTest {
         instance.getNextStateCost();
         instance.buy(dynamicSettings); //buy 20
         instance.getNextStateInfo();
-        instance.getNextStateCost();        
+        instance.getNextStateCost();
     }
 }

@@ -1,9 +1,11 @@
 package com.group66.game.helpers;
 
+//import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
-import com.group66.game.cannon.BallManager;
-import com.group66.game.settings.DynamicSettings;
+//import com.group66.game.cannon.BallManager;
+//import com.group66.game.settings.DynamicSettings;
 
 public class TimeKeeperTest {
     @Test
@@ -23,18 +25,18 @@ public class TimeKeeperTest {
         TimeKeeper timeKeeper = new TimeKeeper(ballManager);
         
         timeKeeper.shotTimeReset();
-        //assertEquals(0, timeKeeper.universalTime);
+        assertEquals(0, timeKeeper.universalTime, 0.001);
         
         timeKeeper.universalTimeCounter(1);
-        //assertEquals(1, timeKeeper.universalTime);
+        assertEquals(1, timeKeeper.universalTime, 0.001);
         
         timeKeeper.universalTimeCounter(8);
-        //assertEquals(9, timeKeeper.universalTime);
+        assertEquals(9, timeKeeper.universalTime, 0.001);
         
         timeKeeper.universalTimeCounter(2);
-        //assertEquals(11, timeKeeper.universalTime);
+        assertEquals(11, timeKeeper.universalTime, 0.001);
         timeKeeper.didHeShoot();
-        //assertEquals(0, timeKeeper.universalTime);
+        assertEquals(0, timeKeeper.universalTime, 0.001);
         */
     }
 }

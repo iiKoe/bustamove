@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -15,8 +16,9 @@ import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.logging.MessageType;
 
+import de.tomgrill.gdxtesting.GdxTestRunner;
 
-
+@RunWith(GdxTestRunner.class)
 public class BustaMoveTest {
     /**
      * Setup mocking so the game can run in headless mode
