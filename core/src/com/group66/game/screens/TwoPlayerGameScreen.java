@@ -63,6 +63,22 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         this(false, dynamicSettings);
     }
     
+    /**
+     * Instantiates the game screen.
+     * @param randomLevel determines if a set level or a random level is used
+     */
+    /*public TwoPlayerGameScreen(Boolean randomLevel) {
+        this(randomLevel, 1);
+    }*/
+    
+    /**
+     * Instantiates the game screen.
+     * @param level the level to load
+     */
+    /*public TwoPlayerGameScreen(int level) {
+        this(false, level);
+    }*/
+    
     /*
      * (non-Javadoc)
      * 

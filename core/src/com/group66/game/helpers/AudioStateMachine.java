@@ -1,7 +1,5 @@
 package com.group66.game.helpers;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class AudioStateMachine.
  */

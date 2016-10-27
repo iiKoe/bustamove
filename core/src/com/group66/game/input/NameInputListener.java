@@ -30,8 +30,7 @@ public class NameInputListener implements TextInputListener {
      */
     @Override
     public void canceled() {
-        // TODO Auto-generated method stub
-
+        
     }
 
 }

@@ -36,7 +36,6 @@ public class CareerScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public CareerScreen() {
-        BustaMove.getGameInstance().getHighScoreManager().loadData();
         ownInstance = this;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
@@ -142,7 +141,6 @@ public class CareerScreen extends AbstractMenuScreen {
             textureName = "ballTextures.png";
         }
         
-        //int ypos = Gdx.graphics.getHeight() - 200 - level * 60;
         int xoffset = (Gdx.graphics.getWidth() - 500 - 4 * Config.BUTTON_SPACING) / 2;
         int xpos = xoffset + ((level - 1) % 5) * (100 + Config.BUTTON_SPACING);
         int ypos = Gdx.graphics.getHeight() / 2 - 10 - ((level - 1) / 5) * (100 + Config.BUTTON_SPACING);

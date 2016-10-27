@@ -49,8 +49,6 @@ public class StartScreen extends AbstractMenuScreen {
     }
 
     /*
-     * (non-Javadoc)
-     * 
      * @see com.badlogic.gdx.Screen#render(float)
      */
     @Override
@@ -70,8 +68,6 @@ public class StartScreen extends AbstractMenuScreen {
     }
 
     /*
-     * (non-Javadoc)
-     * 
      * @see com.badlogic.gdx.Screen#hide()
      */
     @Override

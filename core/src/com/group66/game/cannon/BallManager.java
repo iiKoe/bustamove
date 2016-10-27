@@ -592,10 +592,8 @@ public class BallManager {
                 count++;
             }
             if (ballGraph.numberOfAdjacentColoredBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
-                //int score = 0;
                 for (Ball e:ballGraph.getAdjacentColoredBalls(ballStaticList.get(ballStaticList.size() - 1))) {
                     //System.out.println("ball added to deadlist (adjacent)");
-                    //score++;
                     if (!ballStaticDeadList.contains(e)) {
                         BustaMove.getGameInstance().log(MessageType.Debug, "Ball added to deadlist: " + e.toString() 
                             + " Location: (" + e.getX() + "," + e.getY() + ")");
@@ -605,13 +603,10 @@ public class BallManager {
                         } else {
                             scoreKeeper.doubleCurrentScore();
                         }
-                        //scoreKeeper.setCurrentScore(1, 0);
                     }
                 }
                 BustaMove.getGameInstance().log(MessageType.Info, "Started popping " + ballStaticDeadList.size() 
                     + " balls");
-                //scoreKeeper.setCurrentScore(score, 0);
-                //TODO 
             }
         }
 
