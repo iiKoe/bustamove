@@ -13,7 +13,6 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the YouWinuScreen of the game.
@@ -23,8 +22,6 @@ public abstract class AbstractYouWinScreen implements Screen {
     protected Stage stage;
     protected Skin skin;
     
-    protected DynamicSettings dynamicSettings;
-
     
     /**
      * Textures for the sprites
@@ -44,10 +41,8 @@ public abstract class AbstractYouWinScreen implements Screen {
     
     /**
      * Instantiates a new main menu screen.
-     * @param dynamicSettings TODO
      */
-    public AbstractYouWinScreen(DynamicSettings dynamicSettings) {
-        this.dynamicSettings = dynamicSettings;
+    public AbstractYouWinScreen() {
         createScreen();
     }
 

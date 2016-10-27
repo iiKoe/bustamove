@@ -19,7 +19,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 
 
@@ -28,10 +27,9 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
     /** The text drawer. */
     private TextDrawer textDrawer;
     /**
-     * @param dynamicSettings
      */
-    public YouLoseScreenCareer(DynamicSettings dynamicSettings) {
-        super(dynamicSettings);
+    public YouLoseScreenCareer() {
+        super();
     }
 
     protected void createScreen() {
@@ -72,15 +70,15 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
         TextButton levelButton = new TextButton("Main Menu", textButtonStyle);
         levelButton.setPosition(centercol, yoffset);
 
-        if (dynamicSettings.hasExtraLife()) {
+        if (BustaMove.getGameInstance().getDynamicSettings().hasExtraLife()) {
             TextButton tryAgainButton = new TextButton("Try again", textButtonStyle);
             tryAgainButton.setPosition(centercol, yoffset - Config.BUTTON_HEIGHT - Config.BUTTON_SPACING);
             stage.addActor(tryAgainButton);
             tryAgainButton.addListener(new ChangeListener() {
                 public void changed(ChangeEvent event, Actor actor) {
-                    dynamicSettings.setExtraLife(false);
+                    BustaMove.getGameInstance().getDynamicSettings().setExtraLife(false, true);
                     dispose();
-                    BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(dynamicSettings));
+                    BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen());
                 }
             });
         }
@@ -120,8 +118,8 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
         BustaMove.getGameInstance().batch.draw(youlosebg, 
                 Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
         
-        if (!dynamicSettings.hasExtraLife()) { 
-            dynamicSettings.reset();
+        if (!BustaMove.getGameInstance().getDynamicSettings().hasExtraLife()) { 
+            BustaMove.getGameInstance().getDynamicSettings().reset();
             textDrawer.draw(BustaMove.getGameInstance().batch, "You died.....Your career is reset.", 
                     Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X - 100, Config.CURRENCY_Y - 50);
         }

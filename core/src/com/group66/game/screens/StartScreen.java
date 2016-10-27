@@ -1,28 +1,29 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.BallAnimationLoader;
+import com.group66.game.helpers.AudioManager;
+import com.group66.game.input.InputHandler;
 import com.group66.game.input.NameInputListener;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * A Class for the StarScreen of the game.
  */
 public class StartScreen extends AbstractMenuScreen {
 
-    private static DynamicSettings dynamicSettings = new DynamicSettings();
-    
     /** screen buttons */
     private TextButton setName;
     private TextButton startButton;
+    /** The input handler. */
+    private InputHandler inputHandler;
     
     /** variables used to calculate some drawing coordinates */
     private int yoffset;
@@ -33,18 +34,13 @@ public class StartScreen extends AbstractMenuScreen {
      * Instantiates a new start screen.
      */
     public StartScreen() {
+        inputHandler = new InputHandler();
+        setup_keys();
         BustaMove.getGameInstance().getHighScoreManager().loadData();
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
     }
 
-    /**
-     * instantiates a new start screen object
-     * @param dynamicSettings
-     */
-    public StartScreen(DynamicSettings dynamicSettings) {
-        this();
-    }
 
     private void createScreen() {
         loadRelatedGraphics();
@@ -62,6 +58,10 @@ public class StartScreen extends AbstractMenuScreen {
      */
     @Override
     public void render(float delta) {
+        /* Handle input keys */
+        inputHandler.run();
+
+        
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -109,19 +109,39 @@ public class StartScreen extends AbstractMenuScreen {
         // revert the checked state.
         setName.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                NameInputListener listener = new NameInputListener(dynamicSettings);
+                NameInputListener listener = new NameInputListener(BustaMove.getGameInstance().getDynamicSettings());
                 Gdx.input.getTextInput(listener, "Enter your name", "", "");
             }
         });
         startButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                if (!dynamicSettings.getName().equals("")) {
-                    BallAnimationLoader.profileManager.readData(dynamicSettings.getName(), dynamicSettings);
+                if (!"".equals(BustaMove.getGameInstance().getDynamicSettings().getName())) {
+                    BustaMove.getGameInstance().getProfileManager().readData(
+                            BustaMove.getGameInstance().getDynamicSettings().getName(), 
+                            BustaMove.getGameInstance().getDynamicSettings());
                     dispose();
                     BustaMove.getGameInstance().setScreen(new MainMenuScreen());
                 }
             }
         });    
+    }
+    
+    /**
+     * Setup the keys used in the game screen keys.
+     */
+    private void setup_keys() {
+        // Setup the game keys
+        
+        inputHandler.registerKeyMap("Toggle mute", Keys.M);
+
+
+        inputHandler.registerKeyJustPressedFunc("Toggle mute",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        AudioManager.toggleMute();
+                    }
+            });
+
     }
 
 }

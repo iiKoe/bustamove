@@ -26,8 +26,8 @@ public class BuySpecialBombChance extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST);
-                dynamicSettings.setSpecialBombChanceMultiplier(1.05);
+                dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
+                dynamicSettings.setSpecialBombChanceMultiplier(1.05, true);
                 instance.setCurrent(new Chancep5());
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Chancep5");
                 BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
@@ -58,8 +58,8 @@ public class BuySpecialBombChance extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST);
-                dynamicSettings.setSpecialBombChanceMultiplier(1.1);
+                dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
+                dynamicSettings.setSpecialBombChanceMultiplier(1.1, true);
                 instance.setCurrent(new Chancep10());
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Chancep10");
                 BustaMove.getGameInstance().log(MessageType.Info, "Money: " + dynamicSettings.getCurrency());
@@ -90,8 +90,8 @@ public class BuySpecialBombChance extends BuyStateInstance {
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
-                dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST);
-                dynamicSettings.setSpecialBombChanceMultiplier(1.2);
+                dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
+                dynamicSettings.setSpecialBombChanceMultiplier(1.2, true);
                 instance.setCurrent(new Chancep20());
                 instance.setIsFinalState(true);
                 BustaMove.getGameInstance().log(MessageType.Info, "Set new state to Chancep20");

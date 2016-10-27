@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 import com.group66.game.shop.BuyScoreMultiplier;
 import com.group66.game.shop.BuySpecialBombChance;
 import com.group66.game.shop.BuySpeedBoost;
@@ -31,8 +30,6 @@ import com.group66.game.BustaMove;
  */
 public class ShopScreen extends AbstractMenuScreen {
 
-    /** The dynamic settings. */
-    private DynamicSettings dynamicSettings;
     
     /**
      * Textures for the override loadRelatedGraphics
@@ -43,10 +40,9 @@ public class ShopScreen extends AbstractMenuScreen {
     /** ShopScreen background texture region. */
     private TextureRegion shopbg;
 
-    
-    /**
-     * screen buttons
-     */
+    /** The skin. */
+    private Skin skin;
+
     /** The buy score multiplier button. */
     private TextButton buyScoreMultiplierButton;
 
@@ -78,11 +74,8 @@ public class ShopScreen extends AbstractMenuScreen {
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param dynamicSettings the dynamic settings
      */
-    public ShopScreen(DynamicSettings dynamicSettings, Screen origin) {
-        this.dynamicSettings = dynamicSettings;
+    public ShopScreen(Screen origin) {
         this.origin = origin;
         createScreen();
     }
@@ -144,7 +137,7 @@ public class ShopScreen extends AbstractMenuScreen {
         }
 
         /* Update Extra Life */
-        if (!dynamicSettings.hasExtraLife()) {
+        if (!BustaMove.getGameInstance().getDynamicSettings().hasExtraLife()) {
             buyExtraLifeButton.setText("Buy an Extra Life For " + Config.EXTRA_LIFE_COST + " Coins!");
         } else {
             buyExtraLifeButton.setText("You already have an Extra Life");
@@ -169,7 +162,8 @@ public class ShopScreen extends AbstractMenuScreen {
         BustaMove.getGameInstance().batch.enableBlending();
         BustaMove.getGameInstance().batch.draw(shopbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        textDrawer.draw(BustaMove.getGameInstance().batch, "You have " + dynamicSettings.getCurrency() + " Coins", 
+        textDrawer.draw(BustaMove.getGameInstance().batch, "You have " 
+                + BustaMove.getGameInstance().getDynamicSettings().getCurrency() + " Coins", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X, Config.CURRENCY_Y);
         BustaMove.getGameInstance().batch.end();
 
@@ -198,19 +192,21 @@ public class ShopScreen extends AbstractMenuScreen {
         levelButton.setPosition(centercol, yoffset);
 
         /* Buy Score Multiplier */
-        buyScoreMultiplierStateMachine = dynamicSettings.getBuyScoreMultiplierStateMachine();
+        buyScoreMultiplierStateMachine = 
+                BustaMove.getGameInstance().getDynamicSettings().getBuyScoreMultiplierStateMachine();
         buyScoreMultiplierButton = new TextButton("Buy: ", 
                 textButtonStyle);
         buyScoreMultiplierButton.setPosition(centercol, yoffset - (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
         /* Buy Special Bomb Chance */
-        buySpecialBombChanceStateMachine = dynamicSettings.getBuySpecialBombChanceStateMachine();
+        buySpecialBombChanceStateMachine = 
+                BustaMove.getGameInstance().getDynamicSettings().getBuySpecialBombChanceStateMachine();
         buyBombChanceButton = new TextButton("Buy: ", 
                 textButtonStyle);
         buyBombChanceButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
         /* Buy Ball Speed Multiplier */ 
-        buySpeedBoostStateMachine = dynamicSettings.getBuySpeedBoostStateMachine();
+        buySpeedBoostStateMachine = BustaMove.getGameInstance().getDynamicSettings().getBuySpeedBoostStateMachine();
         buySpeedMultiplierButton = new TextButton("Buy: ", 
                 textButtonStyle);
         buySpeedMultiplierButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
@@ -232,7 +228,7 @@ public class ShopScreen extends AbstractMenuScreen {
                 dispose();
                 try {
                     BustaMove.getGameInstance().setScreen(origin.getClass()
-                            .getConstructor(DynamicSettings.class).newInstance(dynamicSettings));
+                            .getConstructor().newInstance());
                 } catch (Exception e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -242,27 +238,28 @@ public class ShopScreen extends AbstractMenuScreen {
 
         buyScoreMultiplierButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                buyScoreMultiplierStateMachine.buy(dynamicSettings);
+                buyScoreMultiplierStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
             }
         });
 
         buyBombChanceButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                buySpecialBombChanceStateMachine.buy(dynamicSettings);
+                buySpecialBombChanceStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
             }
         });
 
         buySpeedMultiplierButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                buySpeedBoostStateMachine.buy(dynamicSettings);
+                buySpeedBoostStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
             }
         });
 
         buyExtraLifeButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                if (!dynamicSettings.hasExtraLife() && dynamicSettings.getCurrency() >= Config.EXTRA_LIFE_COST) {
-                    dynamicSettings.setExtraLife(true);
-                    dynamicSettings.addCurrency(-1 * Config.EXTRA_LIFE_COST);
+                if (!BustaMove.getGameInstance().getDynamicSettings().hasExtraLife() 
+                        && BustaMove.getGameInstance().getDynamicSettings().getCurrency() >= Config.EXTRA_LIFE_COST) {
+                    BustaMove.getGameInstance().getDynamicSettings().setExtraLife(true, true);
+                    BustaMove.getGameInstance().getDynamicSettings().addCurrency(-1 * Config.EXTRA_LIFE_COST, true);
                     BustaMove.getGameInstance().log(MessageType.Info, "Extra Life bought");
                 }
             }

@@ -12,7 +12,6 @@ import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 
 /**
  * The Class for the main GameScreen of the game.
@@ -22,42 +21,39 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
     /** The ball manager. */
     private BallManager ballManager;
 
-    /** The dynamic settings instance. */
-    private DynamicSettings dynamicSettings;
-
+   
     /**
      * Instantiates the game screen.
      * 
      * @param randomLevel
      *            determines if a set level or a random level is used
-     * @param dynamicSettings
-     *            the dynamicSettings set for this game turn
      */
-    public OnePlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public OnePlayerGameScreen(Boolean randomLevel) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
-        ballManager = new BallManager(dynamicSettings);
-        this.dynamicSettings = dynamicSettings;
-        this.dynamicSettings.setRandomLevel(randomLevel);
+        ballManager = new BallManager(BustaMove.getGameInstance().getDynamicSettings());
+        BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(randomLevel, true);
         setup_keys();
         loadRelatedGraphics();
         BallAnimationLoader.load();
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(ballManager, dynamicSettings.getCurrentLevel(), false);
+            LevelLoader.loadLevel(ballManager, 
+                    BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), false);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
         } else {
             LevelLoader.generateLevel(ballManager, false);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
+        ballManager.addRandomBallToCanon();
     }
 
     /**
      * Instantiates the game screen.
      */
-    public OnePlayerGameScreen(DynamicSettings dynamicSettings) {
-        this(false, dynamicSettings);
+    public OnePlayerGameScreen() {
+        this(false);
     }
 
     /*
@@ -106,10 +102,10 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         if (ballManager.isGameOver()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             
-            if (dynamicSettings.isRandomLevel()) {
-                BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
+            if (BustaMove.getGameInstance().getDynamicSettings().isRandomLevel()) {
+                BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom());
             } else {
-                BustaMove.getGameInstance().setScreen(new YouLoseScreenCareer(dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new YouLoseScreenCareer());
             }
         }
 
@@ -119,17 +115,20 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level with score: " + score);
             HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
             highScoreManager.addScore(score);
-            ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV);
+            ballManager.getDynamicSettings().addCurrency(score / Config.SCORE_CURRENCY_DIV, true);
             dispose();
-            if (dynamicSettings.isRandomLevel()) {
+            if (BustaMove.getGameInstance().getDynamicSettings().isRandomLevel()) {
                 BustaMove.getGameInstance().log(MessageType.Info, "Randomlevel is won");
-                BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
+                BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
             } else {
                 BustaMove.getGameInstance().log(MessageType.Info, "career level is won");
-                dynamicSettings.setLevelHighscore(dynamicSettings.getCurrentLevel(), score);
-                dynamicSettings.setLevelCleared(dynamicSettings.getCurrentLevel());
-                dynamicSettings.setCurrentLevel(dynamicSettings.getCurrentLevel() + 1);
-                BustaMove.getGameInstance().setScreen(new YouWinScreenCareer(dynamicSettings));
+                BustaMove.getGameInstance().getDynamicSettings().setLevelHighscore(
+                        BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), score);
+                BustaMove.getGameInstance().getDynamicSettings().setLevelCleared(
+                        BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), true);
+                BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(
+                        BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel() + 1, true);
+                BustaMove.getGameInstance().setScreen(new YouWinScreenCareer());
             }
         }
 
@@ -171,7 +170,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager.shootRandomBall();
+                        ballManager.shootBall();
                     }
             });
 

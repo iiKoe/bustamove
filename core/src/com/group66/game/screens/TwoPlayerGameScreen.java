@@ -23,23 +23,17 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
     private BallManager ballManager1;
     private BallManager ballManager2;
     
-    /** The dynamic settings instance. */
-    private DynamicSettings dynamicSettings;
-    
     /**
      * Instantiates the game screen.
      *
      * @param randomLevel
      *            determines if a set level or a random level is used
-     * @param dynamicSettings
-     *            the dynamicSettings set for this game turn
      */
-    public TwoPlayerGameScreen(Boolean randomLevel, DynamicSettings dynamicSettings) {
+    public TwoPlayerGameScreen(Boolean randomLevel) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
-        this.dynamicSettings = dynamicSettings;
-        ballManager1 = new BallManager(0, dynamicSettings);
-        ballManager2 = new BallManager(2, dynamicSettings);
+        ballManager1 = new BallManager(0, BustaMove.getGameInstance().getDynamicSettings());
+        ballManager2 = new BallManager(2, BustaMove.getGameInstance().getDynamicSettings());
         setup_keys();
         BallAnimationLoader.load();
         loadRelatedGraphics();
@@ -54,13 +48,15 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
             ballManager2.shiftClone(ballManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
+        ballManager1.addRandomBallToCanon();
+        ballManager2.addRandomBallToCanon();
     }
     
     /**
      * Instantiates the game screen.
      */
     public TwoPlayerGameScreen(DynamicSettings dynamicSettings) {
-        this(false, dynamicSettings);
+        this(false);
     }
     
     /*
@@ -105,13 +101,13 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
             BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
             DynamicSettings ds = ballManager1.getDynamicSettings();
             if (ds.hasExtraLife()) {
-                ds.setExtraLife(false);
+                ds.setExtraLife(false, true);
                 BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
             } else {
                 ds.reset();
                 BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
             }
-            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom(dynamicSettings));
+            BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom());
         }
         
         /* Check if game-complete condition is reached */
@@ -123,8 +119,8 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
             
             int score1 = ballManager1.scoreKeeper.getCurrentScore();
             int score2 = ballManager2.scoreKeeper.getCurrentScore();
-            ballManager1.getDynamicSettings().addCurrency((score1 + score2) / 2 / Config.SCORE_CURRENCY_DIV);
-            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom(dynamicSettings));
+            ballManager1.getDynamicSettings().addCurrency((score1 + score2) / 2 / Config.SCORE_CURRENCY_DIV, true);
+            BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
         }
 
         BustaMove.getGameInstance().batch.end();
@@ -165,7 +161,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager1.shootRandomBall();
+                        ballManager1.shootBall();
                     }
                 });
         
@@ -186,7 +182,7 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyJustPressedFunc("Shoot 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        ballManager2.shootRandomBall();
+                        ballManager2.shootBall();
                     }
                 });
 
