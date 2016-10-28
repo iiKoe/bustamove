@@ -4,7 +4,6 @@ import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class BallSnap.
  */

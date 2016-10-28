@@ -10,11 +10,15 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
+/**
+ * The Class BallManager.
+ */
 public class BallManager {
     
     /**  Dynamic settings. */
     private DynamicSettings dynamicSettings;
     
+    /** The cannon. */
     private Cannon cannon;
     
     /** The graph where all the connections between balls are stored. */
@@ -29,15 +33,26 @@ public class BallManager {
     /** The colors that exist in the grid. */
     private ArrayList<AtomicInteger> colorList = new ArrayList<AtomicInteger>();
     
+    /** The balls pop manager. */
     private BallsPop ballsPopManager;
     
+    /** The balls static manager. */
     private BallsStatic ballsStaticManager;
     
+    /** The balls moving manager. */
     private BallsMoving ballsMovingManager;
     
+    /** The balls cannon manager. */
     private BallsCannon ballsCannonManager;
 
-    
+    /**
+     * Instantiates a new ball manager.
+     *
+     * @param dynamicSettings the dynamic settings
+     * @param ballGraph the ball graph
+     * @param cannon the cannon
+     * @param scoreKeeper the score keeper
+     */
     public BallManager(DynamicSettings dynamicSettings, BallGraph ballGraph, Cannon cannon, ScoreKeeper scoreKeeper) {
         this.dynamicSettings = dynamicSettings;
         this.cannon = cannon;
@@ -49,16 +64,27 @@ public class BallManager {
         this.ballsCannonManager = new BallsCannon(dynamicSettings, ballGraph, cannon, this.colorList);
     }
     
+    /**
+     * Check if a Ball is dead
+     *
+     * @param ball the ball
+     */
     public void ballCheckDead(Ball ball) {
         if (ball.isDead()) {
             ballsMovingManager.addDeadBall(ball);
         }
     }
     
+    /**
+     * Clean the dead Balls.
+     */
     public void ballCleanDead() {
         ballsMovingManager.cleanDead();
     }
     
+    /**
+     * Clean static dead balls.
+     */
     public void cleanStaticDead() {
         while (ballsStaticManager.deadSize() != 0) {
             Ball kball = ballsStaticManager.getFirstDeadBall();
@@ -67,8 +93,6 @@ public class BallManager {
             colorList.get(kball.getColor()).decrementAndGet();
             
             ballsStaticManager.removeFirstDeadBall();
-            //ballStaticDeadList.remove(0);
-            //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
             if (ballsStaticManager.deadSize() == 0) {
                 scoreKeeper.addCurrentScore(0, ballGraph.getFreeBalls().size(), dynamicSettings.getScoreMultiplier());
                 
@@ -77,7 +101,6 @@ public class BallManager {
                     if (!ballsPopManager.contains(e) && e.getType() != BallType.BOMB) {
                         ballsPopManager.startPop(e);
                     }
-                    //System.out.println("ball added to deadlist(free)");
                 }
                 BustaMove.getGameInstance().log(MessageType.Info, "Number of balls in grid: " 
                         + ballGraph.numberOfBalls());
@@ -94,6 +117,9 @@ public class BallManager {
         } 
     }
     
+    /**
+     * Adds the static balls.
+     */
     public void addStaticBalls() {
         while (ballToBeAdded.size() != 0) {
             ballsStaticManager.addStaticBall(ballToBeAdded.get(0).getType(), ballToBeAdded.get(0).getX(), ballToBeAdded.get(0).getY());
@@ -105,10 +131,7 @@ public class BallManager {
                 count++;
             }
             if (ballGraph.numberOfAdjacentColoredBalls(ballsStaticManager.getLastStaticBall()) >= 3) {
-                //int score = 0;
                 for (Ball e:ballGraph.getAdjacentColoredBalls(ballsStaticManager.getLastStaticBall())) {
-                    //System.out.println("ball added to deadlist (adjacent)");
-                    //score++;
                     if (!ballsStaticManager.deadContains(e)) {
                         BustaMove.getGameInstance().log(MessageType.Debug, "Ball added to deadlist: " + e.toString() 
                             + " Location: (" + e.getX() + "," + e.getY() + ")");
@@ -118,7 +141,6 @@ public class BallManager {
                         } else {
                             scoreKeeper.doubleCurrentScore();
                         }
-                        //scoreKeeper.setCurrentScore(1, 0);
                     }
                 }
                 BustaMove.getGameInstance().log(MessageType.Info, "Started popping " + ballsStaticManager.deadSize()
@@ -131,6 +153,13 @@ public class BallManager {
         }
     }
     
+    /**
+     * Ball hit ball.
+     *
+     * @param ball the ball
+     * @param isSplit the is split
+     * @param segmentOffset the segment offset
+     */
     public void ballHitBall(Ball ball, boolean isSplit, int segmentOffset) {
         Ball hitBall = ballsStaticManager.hitsStaticBall(ball);
         if (hitBall != null) {
@@ -142,6 +171,9 @@ public class BallManager {
         }
     }
     
+    /**
+     * Shoot ball.
+     */
     public void shootBall() {
         int newSpeed = (int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier());
         Ball ball = ballsCannonManager.getFirst();
@@ -155,6 +187,12 @@ public class BallManager {
                 + " ball at angle " + cannon.getAngle() + " with speed " + newSpeed);
     }
     
+    /**
+     * Update.
+     *
+     * @param batch the batch
+     * @param delta the delta
+     */
     public void update(SpriteBatch batch, float delta) {
         /* Draw shot ball */
         ballsMovingManager.draw(batch, delta);
@@ -169,51 +207,104 @@ public class BallManager {
         ballsCannonManager.draw(batch, delta);
     }
     
+    /**
+     * Move row down.
+     */
     public void moveRowDown() {
         ballsStaticManager.moveRowDown();
     }
     
+    /**
+     * Hits botom (for game-over).
+     *
+     * @return true, if successful
+     */
     public boolean hitsBotom() {
         return ballsStaticManager.hitsBotom();
     }
     
-    
+    /**
+     * Gets the balls static manager.
+     *
+     * @return the balls static manager
+     */
     public BallsStatic getBallsStaticManager() {
         return this.ballsStaticManager;
     }
     
+    /**
+     * Gets the balls cannon manager.
+     *
+     * @return the balls cannon manager
+     */
     public BallsCannon getBallsCannonManager() {
         return this.ballsCannonManager;
     }
     
+    /**
+     * Gets the ball list.
+     *
+     * @return the ball list
+     */
     public ArrayList<Ball> getBallList() {
         return ballsMovingManager.getBallList();
     }
     
+    /**
+     * Adds the ball to the dead list.
+     *
+     * @param ball the ball
+     */
     public void addBallDeadlist(Ball ball) {
         ballsMovingManager.addDeadBall(ball);
     }
     
+    /**
+     * Adds the static ball to be added.
+     *
+     * @param ball the ball
+     */
     public void addStaticBallToBeAdded(Ball ball) {
         ballToBeAdded.add(ball);
     }
     
+    /**
+     * Gets the number of shot balls.
+     *
+     * @return the number of shot balls
+     */
     public int getNumberOfShotBalls() {
         return ballsMovingManager.aliveSize();
     }
     
+    /**
+     * Gets the number of popping balls.
+     *
+     * @return the number of popping balls
+     */
     public int getNumberOfPoppingBalls() {
         return ballsPopManager.size();
     }
     
+    /**
+     * Gets the number of cannon balls.
+     *
+     * @return the number of cannon balls
+     */
     public int getNumberOfCannonBalls() {
         return ballsCannonManager.size();
     }
     
+    /**
+     * Increase color list.
+     */
     public void increaseColorList() {
         this.colorList.add(new AtomicInteger(0));
     }
     
+    /**
+     * Check popping balls.
+     */
     public void checkPop() {
         this.ballsPopManager.checkPop();
     }

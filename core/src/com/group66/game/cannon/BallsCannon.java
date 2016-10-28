@@ -10,7 +10,9 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
-
+/**
+ * The Class BallsCannon.
+ */
 public class BallsCannon {
 
     /**  Dynamic settings. */
@@ -22,11 +24,20 @@ public class BallsCannon {
     /** The graph where all the connections between balls are stored. */
     private BallGraph ballGraph;
     
+    /** The cannon. */
     private Cannon cannon;
     
     /** The balls the canon will shoot. */
     private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
     
+    /**
+     * Instantiates a new balls cannon.
+     *
+     * @param dynamicSettings the dynamic settings
+     * @param ballGraph the ball graph
+     * @param cannon the cannon
+     * @param colorList the color list
+     */
     public BallsCannon(DynamicSettings dynamicSettings, BallGraph ballGraph, Cannon cannon, ArrayList<AtomicInteger> colorList) {
         this.dynamicSettings = dynamicSettings;
         this.ballGraph = ballGraph;
@@ -34,26 +45,55 @@ public class BallsCannon {
         this.colorList = colorList;
     }
 
+    /**
+     * Adds the ball to the cannonBallList.
+     *
+     * @param ball the ball
+     */
     public void add(Ball ball) {
         cannonBallList.add(ball);
     }
     
+    /**
+     * Checks if the cannonBallList is empty.
+     *
+     * @return true, if is empty
+     */
     public boolean isEmpty() {
         return cannonBallList.isEmpty();
     }
     
+    /**
+     * Gets the first ball.
+     *
+     * @return the first
+     */
     public Ball getFirst() {
         return cannonBallList.get(0);
     }
     
+    /**
+     * Removes the first ball.
+     */
     public void removeFirst() {
         cannonBallList.remove(0);
     }
     
+    /**
+     * The size of the cannonBallList.
+     *
+     * @return the int
+     */
     public int size() {
         return cannonBallList.size();
     }
     
+    /**
+     * Draw the balls.
+     *
+     * @param batch the batch used to draw with
+     * @param delta the delta
+     */
     public void draw(SpriteBatch batch, float delta) {
         for (Ball ball: cannonBallList) {
             ball.draw(batch, ball.getType().getAnimation(), delta);

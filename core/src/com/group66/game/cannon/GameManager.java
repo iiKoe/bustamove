@@ -54,6 +54,7 @@ public class GameManager {
     private static final float ROOF_OFFSET = 10;
     
 
+    /** The ball manager. */
     private BallManager ballManager;
 
     /**
@@ -87,6 +88,12 @@ public class GameManager {
         reset(dynamicSettings, xoffset);
     }
     
+    /**
+     * Reset.
+     *
+     * @param dynamicSettings the dynamic settings
+     * @param xoffset the xoffset
+     */
     private void reset(DynamicSettings dynamicSettings, int xoffset) {
         this.dynamicSettings = dynamicSettings;
         this.ballCount = 0;
@@ -173,8 +180,9 @@ public class GameManager {
     }
 
     /**
-     * Draw the Balls managed by BallManager.
+     * Draw the Balls managed by GameManager.
      *
+     * @param gameScreen the game screen
      * @param batch the batch used to draw with
      * @param delta the delta
      */
@@ -202,7 +210,11 @@ public class GameManager {
                 Config.SCORE_OFFSET);
     }
 
-
+    /**
+     * Shift clone.
+     *
+     * @param other the other
+     */
     public void shiftClone(GameManager other) {
         //TODO change to iterator
         for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
@@ -211,6 +223,11 @@ public class GameManager {
         }
     }
     
+    /**
+     * Ball check roof.
+     *
+     * @param ball the ball
+     */
     public void ballCheckRoof(Ball ball) {
         if (ball.getTopHitbox().overlaps(roofHitbox)) {
             System.out.println("Attach ball to top");
@@ -224,6 +241,9 @@ public class GameManager {
         }
     }
     
+    /**
+     * Move balls down.
+     */
     public void moveBallsDown() {
         if (getBallCount() >= Config.NBALLS_ROW_DOWN && canShoot()) {
             System.out.println("Move balls down");
@@ -282,20 +302,6 @@ public class GameManager {
     public void setBallCount(int bc) {
         this.ballCount = bc;
     }
-    
-    /**
-     * Copy all ball from the other ball manager into this one.
-     *
-     * @param other The other ball manager
-     */
-    /*
-    public void shiftClone(GameManager other) {
-        for (Ball b : other.ballStaticList) {
-            float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
-            ballManager.addStaticBall(b.getType(), xpos, b.getY());
-        }
-    }
-    */
 
     /**
      * Gets the dynamic settings.
@@ -315,6 +321,11 @@ public class GameManager {
         this.dynamicSettings = dynamicSettings;
     }
     
+    /**
+     * Gets the ball manager.
+     *
+     * @return the ball manager
+     */
     public BallManager getBallManager() {
         return this.ballManager;
     }
