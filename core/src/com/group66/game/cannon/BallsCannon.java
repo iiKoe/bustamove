@@ -38,7 +38,8 @@ public class BallsCannon {
      * @param cannon the cannon
      * @param colorList the color list
      */
-    public BallsCannon(DynamicSettings dynamicSettings, BallGraph ballGraph, Cannon cannon, ArrayList<AtomicInteger> colorList) {
+    public BallsCannon(DynamicSettings dynamicSettings, BallGraph ballGraph, Cannon cannon, 
+            ArrayList<AtomicInteger> colorList) {
         this.dynamicSettings = dynamicSettings;
         this.ballGraph = ballGraph;
         this.cannon = cannon;

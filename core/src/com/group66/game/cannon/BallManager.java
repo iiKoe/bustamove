@@ -122,7 +122,8 @@ public class BallManager {
      */
     public void addStaticBalls() {
         while (ballToBeAdded.size() != 0) {
-            ballsStaticManager.addStaticBall(ballToBeAdded.get(0).getType(), ballToBeAdded.get(0).getX(), ballToBeAdded.get(0).getY());
+            ballsStaticManager.addStaticBall(ballToBeAdded.get(0).getType(), 
+                    ballToBeAdded.get(0).getX(), ballToBeAdded.get(0).getY());
             ballToBeAdded.remove(0);
             int count = 0;
             for (AtomicInteger e: colorList) {

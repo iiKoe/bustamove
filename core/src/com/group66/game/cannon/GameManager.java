@@ -102,7 +102,7 @@ public class GameManager {
         this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
                 Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
         
-        this.ballManager = new BallManager(this.dynamicSettings, this.ballGraph, this.cannon, this.scoreKeeper); //TODO fix order
+        this.ballManager = new BallManager(this.dynamicSettings, this.ballGraph, this.cannon, this.scoreKeeper);
         
         for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
             ballManager.increaseColorList();
