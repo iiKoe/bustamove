@@ -1,10 +1,13 @@
-package com.group66.game.cannon;
+package com.group66.game.cannon.ballgraph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+
+import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.TopBall;
 
 public class BallGraphAdjacentIterator implements Iterator<Ball> {
 
@@ -17,7 +20,10 @@ public class BallGraphAdjacentIterator implements Iterator<Ball> {
      * @param start where the iterator should start to iterate.
      */
     public BallGraphAdjacentIterator(UndirectedGraph<Ball, DefaultEdge> graph, Ball start) {
-        // TODO Auto-generated constructor stub
+        if (graph == null || start == null) {
+            return;
+        }
+        
         for (DefaultEdge e : graph.edgesOf(start)) {
             //Check target of the edge
             Ball eball = graph.getEdgeTarget(e);
@@ -53,6 +59,9 @@ public class BallGraphAdjacentIterator implements Iterator<Ball> {
      */
     @Override
     public Ball next() {
+        if (!hasNext()) {
+            return null;
+        }
         Ball ret = list.get(0);
         list.remove(0);
         return ret;

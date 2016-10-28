@@ -1,28 +1,28 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.HighScoreItem;
 import com.group66.game.settings.Config;
 
-public class HighScoreScreen implements Screen {
+public class HighScoreScreen extends AbstractMenuScreen {
+    /** sets up buttons */
+    private TextButton backButton;
     
-    private Stage stage;
+    /** variables to calculate label locations */
+    private float labelheight;
+    private float labelwidth;
+    private float xoffset;
+    private float yoffset;
     
     /**
      * Constructor for the high score screen
@@ -35,12 +35,13 @@ public class HighScoreScreen implements Screen {
      * Create the stage for the highscore screen
      */
     private void createScreen() {
+        loadRelatedGraphics();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
         
-        float labelheight = Config.HEIGHT / 13f;
-        float labelwidth = 2f * labelheight;
-        float xoffset = Math.max((Config.WIDTH - 3f * labelwidth) / 2f, 0);
+        labelheight = Config.HEIGHT / 13f;
+        labelwidth = 2f * labelheight;
+        xoffset = Math.max((Config.WIDTH - 3f * labelwidth) / 2f, 0);
         
         LabelStyle labelStyle = new LabelStyle();
         labelStyle.font = new BitmapFont();
@@ -53,7 +54,7 @@ public class HighScoreScreen implements Screen {
             }
             count++;
             
-            float yoffset = Config.HEIGHT - count * labelheight;
+            yoffset = Config.HEIGHT - count * labelheight;
             
             Label name = new Label(hsi.name, labelStyle);
             name.setPosition(xoffset, yoffset);
@@ -65,38 +66,8 @@ public class HighScoreScreen implements Screen {
             score.setPosition(xoffset + 2 * labelwidth, yoffset);
             stage.addActor(score);
         }
-        
-        //create skin for back button
-        Skin skin = new Skin();
-        skin.add("default", new BitmapFont());
-        
-        Pixmap pixmap = new Pixmap((int) labelwidth, (int) labelheight, Format.RGBA8888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-        
-        //back button style
-        TextButtonStyle textButtonStyle = new TextButtonStyle();
-        textButtonStyle.font = skin.getFont("default");
-        textButtonStyle.up = skin.newDrawable("white", Color.GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.BLACK);
-        textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-        skin.add("default", textButtonStyle);
-        
-        //back button
-        TextButton backButton = new TextButton("Back", textButtonStyle);
-        backButton.setPosition(xoffset + labelwidth, labelheight);
+        setupButtons();
         stage.addActor(backButton);
-        backButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
-            }
-        });
-    }
-    
-    @Override
-    public void show() {
     }
 
     @Override
@@ -104,27 +75,28 @@ public class HighScoreScreen implements Screen {
         Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        /* Draw the background */
+        SpriteBatch batch = BustaMove.getGameInstance().batch;
+        batch.begin();
+        batch.enableBlending();
+        batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
+        batch.end();
+
         stage.act(delta);
         stage.draw();
     }
-
+    
     @Override
-    public void resize(int width, int height) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void hide() {
-    }
-
-    @Override
-    public void dispose() {
+    public void setupButtons() {
+        loadButtonMaterials();
+        //back button listener
+        backButton = new TextButton("Back", textButtonStyle);
+        backButton.setPosition(xoffset + labelwidth, labelheight);
+        backButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                dispose();
+                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+            }
+        });
     }
 }

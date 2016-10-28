@@ -6,7 +6,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class AudioManager {
-    public static AudioStateMachine audioStateMachine;
+    private static AudioStateMachine audioStateMachine;
     public static Sound shoot, wallhit, ballpop;
     public static Music gameMusic;
     

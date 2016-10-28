@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
@@ -15,9 +16,13 @@ import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.logging.MessageType;
 
+import de.tomgrill.gdxtesting.GdxTestRunner;
 
-
+@RunWith(GdxTestRunner.class)
 public class BustaMoveTest {
+    /**
+     * Setup mocking so the game can run in headless mode
+     */
     @Before
     public void setupTests() {
         HeadlessNativesLoader.load();
@@ -40,12 +45,18 @@ public class BustaMoveTest {
         BustaMove.getGameInstance();
     }
     
+    /**
+     * Test for game instantiation
+     */
     @Test
     public void createTest() {
         BustaMove game = BustaMove.getGameInstance();
-        //game.create();
+        //game.create(); //SpriteBatch causes NullPointerException
     }
     
+    /**
+     * Test for getting the size of the game
+     */
     @SuppressWarnings("unused")
     @Test
     public void sizeTest() {
@@ -54,9 +65,32 @@ public class BustaMoveTest {
         int width = game.getGameWidth();
     }
     
+    /**
+     * Test for calling the logger
+     */
     @Test
     public void loggingTest() {
         BustaMove game = BustaMove.getGameInstance();
+        //game.create(); //SpriteBatch causes NullPointerException
         game.log(MessageType.Info, "Test");
+    }
+    
+    @Test
+    public void nullTest() {
+        BustaMove game = BustaMove.getGameInstance();
+        game.log(null, null);
+        game.log(null, "");
+        game.log(null, "Test");
+        game.log(MessageType.Info, null);
+        game.log(MessageType.Info, "");
+        
+        //game.create(); //SpriteBatch causes NullPointerException
+        /*
+        game.log(null, null);
+        game.log(null, "");
+        game.log(null, "Test");
+        game.log(MessageType.Info, null);
+        game.log(MessageType.Info, "");
+        */
     }
 }

@@ -1,7 +1,5 @@
 package com.group66.game.helpers;
 
-
-// TODO: Auto-generated Javadoc
 /**
  * The Class AudioStateMachine.
  */
@@ -54,7 +52,7 @@ public class AudioStateMachine {
      * Instantiates a new audio state machine.
      */
     public AudioStateMachine() {
-        this.setState(new Active());
+        this.setState(new Muted());
     }
     
     /**

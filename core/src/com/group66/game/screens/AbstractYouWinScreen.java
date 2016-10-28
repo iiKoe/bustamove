@@ -3,36 +3,46 @@ package com.group66.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
-import com.group66.game.BustaMove;
 
 /**
- * A Class for the MainMenuScreen of the game.
+ * A Class for the YouWinuScreen of the game.
  */
 public abstract class AbstractYouWinScreen implements Screen {
 
     protected Stage stage;
     protected Skin skin;
     
-    protected DynamicSettings dynamicSettings;
+    
+    /**
+     * Textures for the sprites
+     */
+    /** YouWin Screen background texture. */
+    private Texture youwinbgTexture;
 
+    /** YouWin Screen background texture region. */
+    protected TextureRegion youwinbg;
+    
+    /** YouWin Screen background texture. */
+    private Texture youwinAllbgTexture;
+
+    /** YouWin Screen background texture region. */
+    protected TextureRegion youwinAllbg;
+    
+    
     /**
      * Instantiates a new main menu screen.
-     * @param dynamicSettings TODO
      */
-    public AbstractYouWinScreen(DynamicSettings dynamicSettings) {
-        this.dynamicSettings = dynamicSettings;
-        AssetLoader.load();
+    public AbstractYouWinScreen() {
         createScreen();
     }
 
@@ -67,30 +77,15 @@ public abstract class AbstractYouWinScreen implements Screen {
 
     protected void makeButtons(TextButtonStyle textButtonStyle) { };
 
-    /*
-     * (non-Javadoc)
-     * 
+    /** 
      * @see com.badlogic.gdx.Screen#render(float)
      */
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(0.2f, 0.2f, 0.3f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        /* Draw the background */
-        BustaMove.getGameInstance().batch.begin();
-        BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(AssetLoader.youwinbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
-                Gdx.graphics.getHeight());
-        BustaMove.getGameInstance().batch.end();
-
-        stage.act();
-        stage.draw();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#show()
      */
     @Override
@@ -98,9 +93,7 @@ public abstract class AbstractYouWinScreen implements Screen {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#resize(int, int)
      */
     @Override
@@ -108,40 +101,52 @@ public abstract class AbstractYouWinScreen implements Screen {
         // game.batch.getProjectionMatrix().setToOrtho2D(0, 0, width, height);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#pause()
      */
     @Override
     public void pause() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#resume()
      */
     @Override
     public void resume() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#hide()
      */
     @Override
     public void hide() {
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see com.badlogic.gdx.Screen#dispose()
      */
     @Override
     public void dispose() {
+        youwinbgTexture.dispose();
+        youwinbg.getTexture().dispose();
+        youwinAllbgTexture.dispose();
+        youwinAllbg.getTexture().dispose();
+        stage.dispose();
+        skin.dispose();
+    }
+    
+    /**
+     * loads related graphics
+     */
+    public void loadRelatedGraphics() {
+        //Creating the YouWin screen background
+        youwinbgTexture = new Texture(Gdx.files.internal("youwin.png"));
+        youwinbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        youwinbg = new TextureRegion(youwinbgTexture, 0, 0, 600, 880);
 
+        //Creating the YouWin screen background
+        youwinAllbgTexture = new Texture(Gdx.files.internal("kicker.gif"));
+        youwinAllbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        youwinAllbg = new TextureRegion(youwinAllbgTexture, 0, 0, 600, 880);      
     }
 }

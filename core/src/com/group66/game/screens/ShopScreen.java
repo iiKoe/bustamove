@@ -1,6 +1,5 @@
 package com.group66.game.screens;
 
-import java.lang.reflect.InvocationTargetException;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -8,19 +7,19 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.group66.game.helpers.AssetLoader;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
-import com.group66.game.settings.DynamicSettings;
 import com.group66.game.shop.BuyScoreMultiplier;
 import com.group66.game.shop.BuySpecialBombChance;
 import com.group66.game.shop.BuySpeedBoost;
@@ -29,13 +28,17 @@ import com.group66.game.BustaMove;
 /**
  * A Class for the MainMenuScreen of the game.
  */
-public class ShopScreen implements Screen {
+public class ShopScreen extends AbstractMenuScreen {
 
-    /** The dynamic settings. */
-    private DynamicSettings dynamicSettings;
+    
+    /**
+     * Textures for the override loadRelatedGraphics
+     */
+    /** ShopScreen background texture. */
+    private Texture shopbgTexture;
 
-    /** The stage. */
-    private Stage stage;
+    /** ShopScreen background texture region. */
+    private TextureRegion shopbg;
 
     /** The skin. */
     private Skin skin;
@@ -51,6 +54,9 @@ public class ShopScreen implements Screen {
 
     /** The buy extra life button. */
     private TextButton buyExtraLifeButton;
+    
+    /** Level button */
+    private TextButton levelButton;
 
     /** The buy score multiplier state machine. */
     private BuyScoreMultiplier buyScoreMultiplierStateMachine;
@@ -68,13 +74,9 @@ public class ShopScreen implements Screen {
 
     /**
      * Instantiates a new main menu screen.
-     *
-     * @param dynamicSettings the dynamic settings
      */
-    public ShopScreen(DynamicSettings dynamicSettings, Screen origin) {
-        this.dynamicSettings = dynamicSettings;
+    public ShopScreen(Screen origin) {
         this.origin = origin;
-        AssetLoader.load();
         createScreen();
     }
 
@@ -82,116 +84,19 @@ public class ShopScreen implements Screen {
      * Creates the screen.
      */
     private void createScreen() {
+        loadRelatedGraphics();
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
-        skin = new Skin();
-
-        // Store the default libgdx font under the name "default".
-        BitmapFont bfont = new BitmapFont();
-        skin.add("default", bfont);
 
         // Setup the text drawer to show the amount of coins
         textDrawer = new TextDrawer();
 
-        // Generate a 1x1 white texture and store it in the skin named "white".
-        Pixmap pixmap = new Pixmap((int) (Config.BUTTON_WIDTH * 2.5), Config.BUTTON_HEIGHT, Format.RGBA8888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        skin.add("white", new Texture(pixmap));
-
-        // Configure a TextButtonStyle and name it "default". Skin resources are
-        // stored by type, so this doesn't overwrite the font.
-        TextButtonStyle textButtonStyle = new TextButtonStyle();
-        textButtonStyle.up = skin.newDrawable("white", Color.GRAY);
-        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
-        //textButtonStyle.checked = skin.newDrawable("white", Color.BLUE);
-        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
-        textButtonStyle.font = skin.getFont("default");
-        skin.add("default", textButtonStyle);
-
-        //all magic numbers in this section are offsets values adjusted to get better looks
-        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
-        int centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH * 2.5) / 2);
-
-        TextButton levelButton = new TextButton("Back", textButtonStyle);
-        levelButton.setPosition(centercol, yoffset);
-
-        /* Buy Score Multiplier */
-        buyScoreMultiplierStateMachine = dynamicSettings.getBuyScoreMultiplierStateMachine();
-        buyScoreMultiplierButton = new TextButton("Buy: ", 
-                textButtonStyle);
-        buyScoreMultiplierButton.setPosition(centercol, yoffset - (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
-        /* Buy Special Bomb Chance */
-        buySpecialBombChanceStateMachine = dynamicSettings.getBuySpecialBombChanceStateMachine();
-        buyBombChanceButton = new TextButton("Buy: ", 
-                textButtonStyle);
-        buyBombChanceButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
-        /* Buy Ball Speed Multiplier */ 
-        buySpeedBoostStateMachine = dynamicSettings.getBuySpeedBoostStateMachine();
-        buySpeedMultiplierButton = new TextButton("Buy: ", 
-                textButtonStyle);
-        buySpeedMultiplierButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
-        /* Buy Extra Life */ 
-        buyExtraLifeButton = new TextButton("Buy: ", 
-                textButtonStyle);
-        buyExtraLifeButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
-
+        setupButtons();
         stage.addActor(levelButton);
         stage.addActor(buyScoreMultiplierButton);
         stage.addActor(buyBombChanceButton);
         stage.addActor(buySpeedMultiplierButton);
         stage.addActor(buyExtraLifeButton);
-
-        // Add a listener to the button. ChangeListener is fired when the
-        // button's checked state changes, eg when clicked,
-        // Button#setChecked() is called, via a key press, etc. If the
-        // event.cancel() is called, the checked state will be reverted.
-        // ClickListener could have been used, but would only fire when clicked.
-        // Also, canceling a ClickListener event won't
-        // revert the checked state.
-        levelButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                try {
-                    BustaMove.getGameInstance().setScreen(origin.getClass()
-                            .getConstructor(DynamicSettings.class).newInstance(dynamicSettings));
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        buyScoreMultiplierButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                buyScoreMultiplierStateMachine.buy(dynamicSettings);
-            }
-        });
-
-        buyBombChanceButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                buySpecialBombChanceStateMachine.buy(dynamicSettings);
-            }
-        });
-
-        buySpeedMultiplierButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                buySpeedBoostStateMachine.buy(dynamicSettings);
-            }
-        });
-
-        buyExtraLifeButton.addListener(new ChangeListener() {
-            public void changed(ChangeEvent event, Actor actor) {
-                if (!dynamicSettings.hasExtraLife() && dynamicSettings.getCurrency() >= Config.EXTRA_LIFE_COST) {
-                    dynamicSettings.setExtraLife(true);
-                    dynamicSettings.addCurrency(-1 * Config.EXTRA_LIFE_COST);
-                    BustaMove.getGameInstance().log(MessageType.Info, "Extra Life bought");
-                }
-            }
-        });
     }
 
     /**
@@ -232,7 +137,7 @@ public class ShopScreen implements Screen {
         }
 
         /* Update Extra Life */
-        if (!dynamicSettings.hasExtraLife()) {
+        if (!BustaMove.getGameInstance().getDynamicSettings().hasExtraLife()) {
             buyExtraLifeButton.setText("Buy an Extra Life For " + Config.EXTRA_LIFE_COST + " Coins!");
         } else {
             buyExtraLifeButton.setText("You already have an Extra Life");
@@ -255,62 +160,134 @@ public class ShopScreen implements Screen {
         /* Draw the background */
         BustaMove.getGameInstance().batch.begin();
         BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(AssetLoader.shopbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
+        BustaMove.getGameInstance().batch.draw(shopbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
                 Gdx.graphics.getHeight());
-        textDrawer.draw(BustaMove.getGameInstance().batch, "You have " + dynamicSettings.getCurrency() + " Coins", 
+        textDrawer.draw(BustaMove.getGameInstance().batch, "You have " 
+                + BustaMove.getGameInstance().getDynamicSettings().getCurrency() + " Coins", 
                 Config.WIDTH / 2 - Config.LEVEL_WIDTH / 2 + Config.CURRENCY_X, Config.CURRENCY_Y);
         BustaMove.getGameInstance().batch.end();
 
         stage.act();
         stage.draw();
     }
-
-    /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#show()
-     */
+    
     @Override
-    public void show() {
+    public void loadRelatedGraphics() {
+        //Creating the Store screen background
+        shopbgTexture = new Texture(Gdx.files.internal("shop.png"));
+        shopbgTexture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
+        shopbg = new TextureRegion(shopbgTexture, 0, 0, 600, 880);    
+    }
+    
+    @Override
+    public void setupButtons() {
+        loadButtonMaterials();
         
-    }
+        //all magic numbers in this section are offsets values adjusted to get better looks
+        int yoffset = Gdx.graphics.getHeight() / 2 + Config.BUTTON_HEIGHT + Config.BUTTON_SPACING - 50;
+        int centercol = (int) ((Gdx.graphics.getWidth() - Config.BUTTON_WIDTH * 2.5) / 2);
 
-    /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#resize(int, int)
-     */
+        /** level Button */
+        levelButton = new TextButton("Back", textButtonStyle);
+        levelButton.setPosition(centercol, yoffset);
+
+        /* Buy Score Multiplier */
+        buyScoreMultiplierStateMachine = 
+                BustaMove.getGameInstance().getDynamicSettings().getBuyScoreMultiplierStateMachine();
+        buyScoreMultiplierButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buyScoreMultiplierButton.setPosition(centercol, yoffset - (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+
+        /* Buy Special Bomb Chance */
+        buySpecialBombChanceStateMachine = 
+                BustaMove.getGameInstance().getDynamicSettings().getBuySpecialBombChanceStateMachine();
+        buyBombChanceButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buyBombChanceButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+
+        /* Buy Ball Speed Multiplier */ 
+        buySpeedBoostStateMachine = BustaMove.getGameInstance().getDynamicSettings().getBuySpeedBoostStateMachine();
+        buySpeedMultiplierButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buySpeedMultiplierButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+
+        /* Buy Extra Life */ 
+        buyExtraLifeButton = new TextButton("Buy: ", 
+                textButtonStyle);
+        buyExtraLifeButton.setPosition(centercol, yoffset - 4 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
+
+        // Add a listener to the button. ChangeListener is fired when the
+        // button's checked state changes, eg when clicked,
+        // Button#setChecked() is called, via a key press, etc. If the
+        // event.cancel() is called, the checked state will be reverted.
+        // ClickListener could have been used, but would only fire when clicked.
+        // Also, canceling a ClickListener event won't
+        // revert the checked state.
+        levelButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                dispose();
+                try {
+                    BustaMove.getGameInstance().setScreen(origin.getClass()
+                            .getConstructor().newInstance());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        buyScoreMultiplierButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                buyScoreMultiplierStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
+            }
+        });
+
+        buyBombChanceButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                buySpecialBombChanceStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
+            }
+        });
+
+        buySpeedMultiplierButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                buySpeedBoostStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
+            }
+        });
+
+        buyExtraLifeButton.addListener(new ChangeListener() {
+            public void changed(ChangeEvent event, Actor actor) {
+                if (!BustaMove.getGameInstance().getDynamicSettings().hasExtraLife() 
+                        && BustaMove.getGameInstance().getDynamicSettings().getCurrency() >= Config.EXTRA_LIFE_COST) {
+                    BustaMove.getGameInstance().getDynamicSettings().setExtraLife(true, true);
+                    BustaMove.getGameInstance().getDynamicSettings().addCurrency(-1 * Config.EXTRA_LIFE_COST, true);
+                    BustaMove.getGameInstance().log(MessageType.Info, "Extra Life bought");
+                }
+            }
+        });     
+    }
+    
     @Override
-    public void resize(int width, int height) {
+    public void loadButtonMaterials() {
+        skin = new Skin();
         
-
-    }
-
-    /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#pause()
-     */
-    @Override
-    public void pause() {
-       
-    }
-
-    /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#resume()
-     */
-    @Override
-    public void resume() {
+        // Store the default libgdx font under the name "default".
+        BitmapFont bfont = new BitmapFont();
+        skin.add("default", bfont);
         
+        // Generate a 1x1 white texture and store it in the skin named "white".
+        Pixmap pixmap = new Pixmap((int) (Config.BUTTON_WIDTH * 2.5), Config.BUTTON_HEIGHT, Format.RGBA8888);
+        pixmap.setColor(Color.WHITE);
+        pixmap.fill();
+        skin.add("white", new Texture(pixmap));
+
+        // Configure a TextButtonStyle and name it "default". Skin resources are
+        // stored by type, so this doesn't overwrite the font.
+        textButtonStyle = new TextButtonStyle();
+        textButtonStyle.up = skin.newDrawable("white", Color.GRAY);
+        textButtonStyle.down = skin.newDrawable("white", Color.DARK_GRAY);
+        textButtonStyle.over = skin.newDrawable("white", Color.LIGHT_GRAY);
+        textButtonStyle.font = skin.getFont("default");
+        skin.add("default", textButtonStyle);      
     }
 
-    /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#hide()
-     */
-    @Override
-    public void hide() {
-       
-    }
-
-    /* (non-Javadoc)
-     * @see com.badlogic.gdx.Screen#dispose()
-     */
-    @Override
-    public void dispose() {
-        
-    }
 }

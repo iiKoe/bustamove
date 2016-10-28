@@ -23,7 +23,7 @@ public class LevelSelectInputListener implements TextInputListener {
     public void input(String text) {
         int level = Integer.parseInt(text);
         if (level <= dynamicSettings.getLevelCleared()) {
-            dynamicSettings.setCurrentLevel(level);
+            dynamicSettings.setCurrentLevel(level, true);
         }
 
     }

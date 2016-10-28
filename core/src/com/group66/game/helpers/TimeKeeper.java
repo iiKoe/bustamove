@@ -1,13 +1,13 @@
 package com.group66.game.helpers;
 
-import com.group66.game.cannon.BallManager;
+import com.group66.game.cannon.GameManager;
 
 /**
  * The Class TimeKeeper.
  */
 public class TimeKeeper {
     /**The ball manager of this timekeeper*/
-    private BallManager ballManager;
+    private GameManager ballManager;
     
     /**Time since the start of this round. */
     public double universalTime;
@@ -21,7 +21,7 @@ public class TimeKeeper {
     /**
      * Instantiates a new time keeper.
      */
-    public TimeKeeper(BallManager ballManager) {
+    public TimeKeeper(GameManager ballManager) {
         this.ballManager = ballManager;
         this.universalTime = 0;
         this.lastShotTime = 0;
@@ -44,7 +44,6 @@ public class TimeKeeper {
      */
     public void shotTimeReset() {
         this.lastShotTime = this.universalTime;
-        System.out.println("Last shot time Reset!");
     }
     
     /**
@@ -53,7 +52,7 @@ public class TimeKeeper {
     public void didHeShoot() {
         if ((this.universalTime - this.lastShotTime) > 10) {
             System.out.println("10 secs passed!");          
-            ballManager.shootRandomBall();
+            ballManager.shootBall();
         }   
     }
 }

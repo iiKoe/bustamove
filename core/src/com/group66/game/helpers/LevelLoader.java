@@ -6,9 +6,8 @@ import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.group66.game.cannon.Ball;
-import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.BallManager;
+import com.group66.game.cannon.BallType;
 import com.group66.game.settings.Config;
 
 public class LevelLoader {
@@ -32,7 +31,8 @@ public class LevelLoader {
                 String line = scanner.nextLine();
                 int ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - (2 * linenr + 1) * Config.BALL_RAD;
                 for (int i = 0; i < line.length(); i++) {
-                    float xpos = Config.SINGLE_PLAYER_OFFSET + (2 * i + 1) * Config.BALL_RAD;
+                    float xpos = Config.SINGLE_PLAYER_OFFSET + Config.BORDER_SIZE_SIDES + (2 * i + 1)
+                            * Config.BALL_RAD;
                     if (isSplit) {
                         xpos = Config.BORDER_SIZE_SIDES + (2 * i + 1) * Config.BALL_RAD;
                     }
@@ -44,7 +44,7 @@ public class LevelLoader {
                     //spaces or dashes are used for empty spaces
                     if (line.charAt(i) != ' ' && line.charAt(i) != '-') {
                         int ballIndex = Integer.parseInt("" + line.charAt(i));
-                        ballManager.addStaticBall(ballIndex, xpos, ypos);
+                        ballManager.getBallsStaticManager().addStaticBall(ballIndex, xpos, ypos);
                     }
                 }
                 linenr++;
@@ -60,32 +60,37 @@ public class LevelLoader {
      * Generate a random level for players.
      */
     public static void generateLevel(BallManager ballManager, boolean isSplit) {
-        Random rand = new Random();
-        DifficultyManager difficultyManager = new DifficultyManager();
-        int numRows = difficultyManager.numRows();
-        System.out.println("Number of rows is " + difficultyManager.numRows());
-        //go over each row
-        for (int i = 0; i < numRows; i++) {
-            int ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - (2 * i + 1) * Config.BALL_RAD;
+        try {
+            Random rand = new Random();
+            DifficultyManager difficultyManager = new DifficultyManager();
+            int numRows = difficultyManager.numRows();
+            System.out.println("Number of rows is " + difficultyManager.numRows());
+            //go over each row
+            for (int i = 0; i < numRows; i++) {
+                int ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - (2 * i + 1) * Config.BALL_RAD;
+    
+                int numBalls = Config.NUM_BALLS_ROW;
+                int xoffset = 0;
+                if (i % 2 != 0) {
+                    numBalls--; // one less on the odd rows
+                    xoffset = Config.BALL_RAD;
+                }
 
-            int numBalls = Config.NUM_BALLS_ROW;
-            int xoffset = 0;
-            if (i % 2 != 0) {
-                numBalls--; // one less on the odd rows
-                xoffset = Config.BALL_RAD;
-            }
-            //fill the row with balls
-            for (int j = 0; j < numBalls; j++) {
-                int xpos = Config.SINGLE_PLAYER_OFFSET + (2 * j + 1) * Config.BALL_RAD + xoffset;
-                if (isSplit) {
-                    xpos = Config.BORDER_SIZE_SIDES + (2 * j + 1) * Config.BALL_RAD + xoffset;
-                }
-                
-                int ballIndex = rand.nextInt(BallType.MAX_COLORS.ordinal() + 1);
-                if (ballIndex != BallType.MAX_COLORS.ordinal()) { // max_colors is no ball
-                    ballManager.addStaticBall(ballIndex, xpos, ypos);
+                //fill the row with balls
+                for (int j = 0; j < numBalls; j++) {
+                    int xpos = Config.SINGLE_PLAYER_OFFSET + (2 * j + 1) * Config.BALL_RAD + xoffset;
+                    if (isSplit) {
+                        xpos = Config.BORDER_SIZE_SIDES + (2 * j + 1) * Config.BALL_RAD + xoffset;
+                    }
+                    
+                    int ballIndex = rand.nextInt(BallType.MAX_COLORS.ordinal() + 1);
+                    if (ballIndex != BallType.MAX_COLORS.ordinal()) { // max_colors is no ball
+                        ballManager.getBallsStaticManager().addStaticBall(ballIndex, xpos, ypos);
+                    }
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
