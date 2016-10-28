@@ -1,16 +1,33 @@
 package com.group66.game.cannon;
 
 import java.util.ArrayList;
+import java.util.Random;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.group66.game.BustaMove;
+import com.group66.game.logging.MessageType;
+import com.group66.game.settings.Config;
+import com.group66.game.settings.DynamicSettings;
 
 public class BallsStatic {
+    
+    /** The graph where all the connections between balls are stored. */
+    private BallGraph ballGraph;
+    
+    /** The colors that exist in the grid. */
+    private ArrayList<AtomicInteger> colorList;
 
     /** The static ball list. */
     private ArrayList<Ball> ballStaticList = new ArrayList<Ball>();
 
     /** The static ball dead list. */
     private ArrayList<Ball> ballStaticDeadList = new ArrayList<Ball>();
+    
+    public BallsStatic(DynamicSettings dynamicSettings, BallGraph ballGraph, ArrayList<AtomicInteger> colorList) {
+        this.ballGraph = ballGraph;
+        this.colorList = colorList;
+    }
     
     public void add(Ball ball) {
         ballStaticList.add(ball);
@@ -70,5 +87,73 @@ public class BallsStatic {
             }
         }
         return null;
+    }
+    
+    /**
+     * Adds a static ball.
+     * 
+     * @param type the color
+     * @param xpos the x coordinate
+     * @param ypos the y coordinate
+     */
+    public void addStaticBall(BallType type, float xpos, float ypos) {
+        Ball ball;
+        ball = type.newBall(xpos, ypos, 0, 0.0f);
+        add(ball);
+        colorList.get(ball.getColor()).incrementAndGet();
+        ballGraph.insertBall(ball);
+        
+        BustaMove.getGameInstance().log(MessageType.Debug, "add ball: color(" + ball.getColor() + "), x(" + ball.getX()
+            + "), y(" + ball.getY() + "), pointer(" + ball.toString() + ")");
+    }
+    
+    /**
+     * Adds a static ball.
+     *
+     * @param color the color
+     * @param xpos the xpos
+     * @param ypos the ypos
+     */
+    public void addStaticBall(int color, float xpos, float ypos) { 
+        color %= BallType.MAX_COLORS.ordinal();
+        BallType type = BallType.values()[color];
+        addStaticBall(type, xpos, ypos);
+    }
+    
+
+    /**
+     * Adds a random static ball.
+     * 
+     * @param xpos the x coordinate
+     * @param ypos the y coordinate
+     */
+    public void addRandomStaticBall(float xpos, float ypos) {
+        Random random = new Random();
+        int rand = random.nextInt(BallType.MAX_COLORS.ordinal() + 1);
+        addStaticBall(rand, xpos, ypos);
+    }
+    
+    public ArrayList<Ball> getBallStaticList() {
+        return ballStaticList;
+    }
+    
+    /**
+     * Move row down.
+     */
+    public void moveRowDown() {
+        // Move all the balls down
+        for (Ball b : ballStaticList) {
+            b.moveDown(Config.BALL_DIAM);
+        }
+    }
+    
+    public boolean hitsBotom() {
+        for (Ball b : ballStaticList) {
+            // TODO fix the != check
+            if (b.getY() - Config.BALL_DIAM <= Config.BORDER_SIZE_BOT && b.getY() != 0) {
+                return true;
+            }
+        }
+        return false;
     }
 }

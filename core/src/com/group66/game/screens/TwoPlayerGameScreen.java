@@ -48,8 +48,8 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
             gameManager2.shiftClone(gameManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
-        gameManager1.getBallManager().addRandomBallToCanon();
-        gameManager2.getBallManager().addRandomBallToCanon();
+        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
     }
     
     /**

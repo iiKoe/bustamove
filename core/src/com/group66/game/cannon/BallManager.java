@@ -1,8 +1,6 @@
 package com.group66.game.cannon;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -23,97 +21,32 @@ public class BallManager {
     private BallGraph ballGraph;
     
     /**  The score keeper. */
-    public ScoreKeeper scoreKeeper;
+    private ScoreKeeper scoreKeeper;
 
     /**  The ball to be added to static List. */
     private ArrayList<Ball> ballToBeAdded = new ArrayList<Ball>();
-
-    /** The balls the canon will shoot. */
-    private ArrayList<Ball> cannonBallList = new ArrayList<Ball>();
     
     /** The colors that exist in the grid. */
     private ArrayList<AtomicInteger> colorList = new ArrayList<AtomicInteger>();
     
-    private BallsPop ballsPopManager = new BallsPop();
+    private BallsPop ballsPopManager;
     
-    private BallsStatic ballsStaticManager = new BallsStatic();
+    private BallsStatic ballsStaticManager;
     
-    private BallsMoving ballsMovingManager = new BallsMoving();
+    private BallsMoving ballsMovingManager;
+    
+    private BallsCannon ballsCannonManager;
 
     
-    public BallManager(DynamicSettings dynamicSettings) {
-        
-    }
-    
-    /**
-     * Adds a static ball.
-     * 
-     * @param type the color
-     * @param xpos the x coordinate
-     * @param ypos the y coordinate
-     */
-    public void addStaticBall(BallType type, float xpos, float ypos) {
-        Ball ball;
-        ball = type.newBall(xpos, ypos, 0, 0.0f);
-        ballsStaticManager.add(ball);
-        colorList.get(ball.getColor()).incrementAndGet();
-        ballGraph.insertBall(ball);
-        
-        BustaMove.getGameInstance().log(MessageType.Debug, "add ball: color(" + ball.getColor() + "), x(" + ball.getX()
-            + "), y(" + ball.getY() + "), pointer(" + ball.toString() + ")");
-    }
-    
-    /**
-     * Adds a static ball.
-     *
-     * @param color the color
-     * @param xpos the xpos
-     * @param ypos the ypos
-     */
-    public void addStaticBall(int color, float xpos, float ypos) { 
-        color %= BallType.MAX_COLORS.ordinal();
-        BallType type = BallType.values()[color];
-        addStaticBall(type, xpos, ypos);
-    }
-
-    /**
-     * Adds a random static ball.
-     * 
-     * @param xpos the x coordinate
-     * @param ypos the y coordinate
-     */
-    public void addRandomStaticBall(float xpos, float ypos) {
-        Random random = new Random();
-        int rand = random.nextInt(BallType.MAX_COLORS.ordinal() + 1);
-        addStaticBall(rand, xpos, ypos);
-    }
-    
-    /**
-     * Shoot random colored ball.
-     */
-    public void addRandomBallToCanon() {
-        if (ballsStaticManager.isEmpty()) {
-            return;
-        }
-        Random random = new Random();
-        int rand;
-        int maxType = BallType.BOMB.ordinal();
-
-        
-        BustaMove.getGameInstance().log(MessageType.Info, "check if bomb balls is equal to total number of balls: " 
-                + (colorList.get(BallType.BOMB.ordinal()).get() == ballGraph.numberOfBalls()));
-        rand = random.nextInt(100);
-        if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())
-                || colorList.get(BallType.BOMB.ordinal()).get() == ballGraph.numberOfBalls()) {
-            BallType ballType = BallType.BOMB;
-            cannonBallList.add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
-            return;
-        }
-        do {
-            rand = random.nextInt(maxType);
-        } while (colorList.get(rand).get() <= 0);
-        BallType ballType = BallType.values()[rand];
-        cannonBallList.add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
+    public BallManager(DynamicSettings dynamicSettings, BallGraph ballGraph, Cannon cannon, ScoreKeeper scoreKeeper) {
+        this.dynamicSettings = dynamicSettings;
+        this.cannon = cannon;
+        this.ballGraph = ballGraph;
+        this.scoreKeeper = scoreKeeper;
+        this.ballsPopManager = new BallsPop();
+        this.ballsStaticManager = new BallsStatic(dynamicSettings, ballGraph, this.colorList);
+        this.ballsMovingManager = new BallsMoving();
+        this.ballsCannonManager = new BallsCannon(dynamicSettings, ballGraph, cannon, this.colorList);
     }
     
     public void ballCheckDead(Ball ball) {
@@ -126,7 +59,7 @@ public class BallManager {
         ballsMovingManager.cleanDead();
     }
     
-    public void cleanStaticDead(Cannon cannon) {
+    public void cleanStaticDead() {
         while (ballsStaticManager.deadSize() != 0) {
             Ball kball = ballsStaticManager.getFirstDeadBall();
             ballGraph.removeBall(kball);
@@ -154,16 +87,16 @@ public class BallManager {
                             + count + " :" + e.get());
                     count++;
                 }
-                if (ballGraph.getFreeBalls().isEmpty() && cannonBallList.isEmpty()) {
-                    addRandomBallToCanon();
+                if (ballGraph.getFreeBalls().isEmpty() && ballsCannonManager.isEmpty()) {
+                    ballsCannonManager.addRandomBallToCanon();
                 }
             }
         } 
     }
     
-    public void addStaticBalls(Cannon cannon) {
+    public void addStaticBalls() {
         while (ballToBeAdded.size() != 0) {
-            addStaticBall(ballToBeAdded.get(0).getType(), ballToBeAdded.get(0).getX(), ballToBeAdded.get(0).getY());
+            ballsStaticManager.addStaticBall(ballToBeAdded.get(0).getType(), ballToBeAdded.get(0).getX(), ballToBeAdded.get(0).getY());
             ballToBeAdded.remove(0);
             int count = 0;
             for (AtomicInteger e: colorList) {
@@ -193,7 +126,7 @@ public class BallManager {
                 //scoreKeeper.setCurrentScore(score, 0);
                 //TODO 
             } else {
-                addRandomBallToCanon();
+                ballsCannonManager.addRandomBallToCanon();
             }
         }
     }
@@ -211,13 +144,14 @@ public class BallManager {
     
     public void shootBall() {
         int newSpeed = (int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier());
-        ballsMovingManager.add(cannonBallList.get(0));
+        Ball ball = ballsCannonManager.getFirst();
+        ballsMovingManager.add(ball);
         Ball lastBall = ballsMovingManager.getLastBall();
         lastBall.setAngle((float) Math.toRadians(cannon.getAngle()));
         lastBall.setSpeed(newSpeed);
-        cannonBallList.remove(0);
+        ballsCannonManager.removeFirst();
         
-        BustaMove.getGameInstance().log(MessageType.Info, "Shot a " + cannonBallList.get(0).getColor()
+        BustaMove.getGameInstance().log(MessageType.Info, "Shot a " + ball.getColor()
                 + " ball at angle " + cannon.getAngle() + " with speed " + newSpeed);
     }
     
@@ -232,9 +166,28 @@ public class BallManager {
         ballsPopManager.draw(batch, delta);
 
         /* Draw cannon balls */
-        for (Ball ball: cannonBallList) {
-            ball.draw(batch, ball.getType().getAnimation(), delta);
-        }
+        ballsCannonManager.draw(batch, delta);
+    }
+    
+    public void moveRowDown() {
+        ballsStaticManager.moveRowDown();
+    }
+    
+    public boolean hitsBotom() {
+        return ballsStaticManager.hitsBotom();
+    }
+    
+    
+    public BallsStatic getBallsStaticManager() {
+        return this.ballsStaticManager;
+    }
+    
+    public BallsCannon getBallsCannonManager() {
+        return this.ballsCannonManager;
+    }
+    
+    public ArrayList<Ball> getBallList() {
+        return ballsMovingManager.getBallList();
     }
     
     public void addBallDeadlist(Ball ball) {
@@ -254,11 +207,15 @@ public class BallManager {
     }
     
     public int getNumberOfCannonBalls() {
-        return cannonBallList.size();
+        return ballsCannonManager.size();
     }
     
     public void increaseColorList() {
         this.colorList.add(new AtomicInteger(0));
+    }
+    
+    public void checkPop() {
+        this.ballsPopManager.checkPop();
     }
 
 }

@@ -52,9 +52,9 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
             gameManager3.shiftClone(gameManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
-        gameManager1.getBallManager().addRandomBallToCanon();
-        gameManager2.getBallManager().addRandomBallToCanon();
-        gameManager3.getBallManager().addRandomBallToCanon();
+        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        gameManager3.getBallManager().getBallsCannonManager().addRandomBallToCanon();
     }
     
     /**

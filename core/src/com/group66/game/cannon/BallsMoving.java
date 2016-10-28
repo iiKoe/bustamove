@@ -44,6 +44,10 @@ public class BallsMoving {
         return ballList.get(ballList.size() - 1);
     }
     
+    public ArrayList<Ball> getBallList() {
+        return ballList;
+    }
+    
     public void cleanDead() {
         while (deadSize() != 0) {
             ballList.remove(ballDeadList.get(0));

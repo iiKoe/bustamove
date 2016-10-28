@@ -53,7 +53,7 @@ public class GameManager {
     /** The roof hitbox offset. */
     private static final float ROOF_OFFSET = 10;
     
-    // TODO INIT IN CONSTRUCTOR
+
     private BallManager ballManager;
 
     /**
@@ -61,23 +61,14 @@ public class GameManager {
      *
      * @param dynamicSettings the dynamic settings
      */
-    public GameManager(DynamicSettings dynamicSettings) {
-        this.dynamicSettings = dynamicSettings;
-        
+    public GameManager(DynamicSettings dynamicSettings) {      
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
-        
-        cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
+        this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
                 Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
-        this.ballCount = 0;
         this.roofHitbox  = new Rectangle(xoffset, Config.HEIGHT - Config.BORDER_SIZE_TOP - ROOF_OFFSET,
                 Config.LEVEL_WIDTH + 2 * Config.BORDER_SIZE_SIDES, Config.LEVEL_HEIGHT);
-        this.ballGraph = new BallGraph();
-        this.timeKeeper = new TimeKeeper(this);
-
         
-        for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
-            ballManager.increaseColorList();
-        }
+        reset(dynamicSettings, xoffset);
     }
     
     /**
@@ -87,25 +78,29 @@ public class GameManager {
      * @param dynamicSettings the dynamic settings
      */
     public GameManager(int segmentOffset, DynamicSettings dynamicSettings) {
-        this.dynamicSettings = dynamicSettings;
-        
         int xoffset = Config.SEGMENT_OFFSET * segmentOffset;
         this.isSplit = true;
         this.segmentOffset = segmentOffset;
-        
-        cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
-                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
-        this.ballCount = 0;
         this.roofHitbox = new Rectangle(xoffset + Config.BORDER_SIZE_SIDES,
                 Config.HEIGHT - Config.BORDER_SIZE_TOP - ROOF_OFFSET, Config.LEVEL_WIDTH, Config.LEVEL_HEIGHT);
-        this.ballGraph = new BallGraph();
-        this.timeKeeper = new TimeKeeper(this);
         
-
+        reset(dynamicSettings, xoffset);
+    }
+    
+    private void reset(DynamicSettings dynamicSettings, int xoffset) {
+        this.dynamicSettings = dynamicSettings;
+        this.ballCount = 0;
+        this.ballGraph = new BallGraph();
+        this.timeKeeper = new TimeKeeper(this);    
+        this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
+                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
+        
+        this.ballManager = new BallManager(this.dynamicSettings, this.ballGraph, this.cannon, this.scoreKeeper); //TODO fix order
+        
         for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
-            //this.colorList.add(new AtomicInteger(0));
             ballManager.increaseColorList();
         }
+        this.timeKeeper.shotTimeReset();
     }
 
     /**
@@ -127,7 +122,7 @@ public class GameManager {
      * @return true, if successful
      */
     public boolean canShoot() {
-        if (ballManager.getNumberOfPendingBalls() > 0
+        if (ballManager.getNumberOfShotBalls() > 0
                 || ballManager.getNumberOfPoppingBalls() > 1
                 || ballManager.getNumberOfCannonBalls() == 0) {
             return false;
@@ -151,9 +146,7 @@ public class GameManager {
         // Move the top hitbox down
         this.roofHitbox.y -= Config.BALL_DIAM;
         // Move all the balls down
-        for (Ball b : ballManager.getStaticBallList()) {
-            b.moveDown(Config.BALL_DIAM);
-        }
+        ballManager.moveRowDown();
         ballGraph.setRoofShift(Config.BALL_DIAM);
         BustaMove.getGameInstance().log(MessageType.Info, "Moved the roof a row down");
     }
@@ -164,13 +157,7 @@ public class GameManager {
      * @return true, if is game over
      */
     public boolean isGameOver() {
-        for (Ball b : ballManager.getStaticBallList()) {
-            // TODO fix the != check
-            if (b.getY() - Config.BALL_DIAM <= Config.BORDER_SIZE_BOT && b.getY() != 0) {
-                return true;
-            }
-        }
-        return false;
+        return ballManager.hitsBotom();
     }
     
     /**
@@ -216,7 +203,13 @@ public class GameManager {
     }
 
 
-    
+    public void shiftClone(GameManager other) {
+        //TODO change to iterator
+        for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
+            float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
+            ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());
+        }
+    }
     
     public void ballCheckRoof(Ball ball) {
         if (ball.getTopHitbox().overlaps(roofHitbox)) {
@@ -254,143 +247,22 @@ public class GameManager {
         /* Check shooting balls */
         // NB. Currently only 1 ball can be shot at a time in the game nevertheless the
         // current BallList implementation is kept for versatility and to be future proof
+        // TODO change to iterator
         for (Ball ball : ballManager.getBallList()) {
             ball.update(delta);
             ballManager.ballCheckDead(ball);
-            /*
-            if (ball.isDead()) {
-                ballDeadList.add(ball);
-            }
-            */
-            
             ballCheckRoof(ball);
-            /*
-            if (ball.getTopHitbox().overlaps(roofHitbox)) {
-                System.out.println("Attach ball to top");
-                ball.setSpeed(0);
-                BallSnap.snapBallToRoof(ball, roofHitbox.y + ROOF_OFFSET, this.isSplit, this.segmentOffset);
-                ballDeadList.add(ball);
-                ballToBeAdded.add(ball);
-            }
-            */
             ballManager.ballHitBall(ball, this.isSplit, this.segmentOffset);
-            /*
-            for (Ball t : ballStaticList) {
-                // Does the ball hit a target ball?
-                if (t.doesHit(ball.getHitbox()) && !ballToBeAdded.contains(ball)) {
-                    ball.setSpeed(0);
-                    // A hack for now
-                    BallSnap.snapBallToGrid(ball, t, this.isSplit, this.segmentOffset);
-                    ballDeadList.add(ball);
-                    ballToBeAdded.add(ball);
-                    BustaMove.getGameInstance().log(MessageType.Info, "Ball hit");
-                }
-            }
-            */
             BallBounce.bounceEdge(ball, this.isSplit, this.segmentOffset);
             timeKeeper.shotTimeReset();
         }
         
         ballManager.ballCleanDead();
-        /*
-        while (ballDeadList.size() != 0) {
-            ballList.remove(ballDeadList.get(0));
-            ballDeadList.remove(0);
-        }
-        */
-
-        ballManager.cleanStaticDead(this.cannon);
-        /*
-        while (ballStaticDeadList.size() != 0) {
-            ballGraph.removeBall(ballStaticDeadList.get(0));
-            ballStaticList.remove(ballStaticDeadList.get(0));
-            colorList.get(ballStaticDeadList.get(0).getColor()).decrementAndGet();
-            
-            ballStaticDeadList.remove(0);
-            //System.out.println("number of balls left: " + ballGraph.numberOfBalls());
-            if (ballStaticDeadList.size() == 0) {
-                scoreKeeper.addCurrentScore(0, ballGraph.getFreeBalls().size(), dynamicSettings.getScoreMultiplier());
-                
-                for (Ball e:ballGraph.getFreeBalls()) {
-                    ballStaticDeadList.add(e);
-                    if (!ballPopList.contains(e) && e.getType() != BallType.BOMB) {
-                        startPop(e);
-                    }
-                    //System.out.println("ball added to deadlist(free)");
-                }
-                BustaMove.getGameInstance().log(MessageType.Info, "Number of balls in grid: " 
-                        + ballGraph.numberOfBalls());
-                int count = 0;
-                for (AtomicInteger e: colorList) {
-                    BustaMove.getGameInstance().log(MessageType.Info, "Number of balls with color " 
-                            + count + " :" + e.get());
-                    count++;
-                }
-                if (ballGraph.getFreeBalls().isEmpty() && cannonBallList.isEmpty()) {
-                    addRandomBallToCanon();
-                }
-            }
-        }
-        */
-
-        ballManager.addStaticBalls(this.cannon);
-        /*
-        while (ballToBeAdded.size() != 0) {
-            addStaticBall(ballToBeAdded.get(0).getType(), ballToBeAdded.get(0).getX(), ballToBeAdded.get(0).getY());
-            ballToBeAdded.remove(0);
-            int count = 0;
-            for (AtomicInteger e: colorList) {
-                BustaMove.getGameInstance().log(MessageType.Info, "Number of balls with color " 
-                        + count + " :" + e.get());
-                count++;
-            }
-            if (ballGraph.numberOfAdjacentColoredBalls(ballStaticList.get(ballStaticList.size() - 1)) >= 3) {
-                //int score = 0;
-                for (Ball e:ballGraph.getAdjacentColoredBalls(ballStaticList.get(ballStaticList.size() - 1))) {
-                    //System.out.println("ball added to deadlist (adjacent)");
-                    //score++;
-                    if (!ballStaticDeadList.contains(e)) {
-                        BustaMove.getGameInstance().log(MessageType.Debug, "Ball added to deadlist: " + e.toString() 
-                            + " Location: (" + e.getX() + "," + e.getY() + ")");
-                        ballStaticDeadList.add(e);
-                        if (e.getType() != BallType.BOMB) {
-                            startPop(e);
-                        } else {
-                            scoreKeeper.doubleCurrentScore();
-                        }
-                        //scoreKeeper.setCurrentScore(1, 0);
-                    }
-                }
-                BustaMove.getGameInstance().log(MessageType.Info, "Started popping " + ballStaticDeadList.size() 
-                    + " balls");
-                //scoreKeeper.setCurrentScore(score, 0);
-                //TODO 
-            } else {
-                addRandomBallToCanon();
-            }
-        }
-        */
-
+        ballManager.cleanStaticDead();
+        ballManager.addStaticBalls();
         ballManager.checkPop();
-        /* Check if the popping balls are done */
-        /*
-        for (Iterator<Ball> it = ballPopList.iterator(); it.hasNext();) {
-            Ball ball = it.next();
-            if (ball.popDone() == true) {
-                it.remove();
-                //System.out.println("Pop list size: " + ballPopList.size());
-            }
-        }
-        */
         
         moveBallsDown();
-        /*
-        if (getBallCount() >= Config.NBALLS_ROW_DOWN && canShoot()) {
-            System.out.println("Move balls down");
-            moveRowDown();
-            setBallCount(0);
-        }
-        */
     }
     
     /**
@@ -447,4 +319,3 @@ public class GameManager {
         return this.ballManager;
     }
 }
-

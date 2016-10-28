@@ -46,7 +46,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
             LevelLoader.generateLevel(gameManager.getBallManager(), false);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
-        gameManager.getBallManager().addRandomBallToCanon();
+        gameManager.getBallManager().getBallsCannonManager().addRandomBallToCanon();
     }
 
     /**
