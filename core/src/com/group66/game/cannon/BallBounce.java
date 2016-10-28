@@ -5,6 +5,9 @@ import com.group66.game.helpers.AudioManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
+/**
+ * A helper Class to manage the Ball bouncing of the edges.
+ */
 public class BallBounce {
 
     /**

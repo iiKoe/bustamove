@@ -11,7 +11,7 @@ import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
 /**
- * The Class BallsStatic.
+ * A Class to manage the Balls that are currently not moving in the game.
  */
 public class BallsStatic {
     

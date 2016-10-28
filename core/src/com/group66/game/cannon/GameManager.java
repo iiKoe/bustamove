@@ -16,7 +16,7 @@ import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
 /**
- * A Class to manage the Balls in the game.
+ * A Class to manage the game rules.
  */
 public class GameManager {
     
@@ -114,7 +114,6 @@ public class GameManager {
      * Shoot ball.
      */
     public void shootBall() {
-        // TODO add math so ball comes out the top of the cannon?
         if (canShoot()) {
             ballManager.shootBall();
             AudioManager.shoot();
@@ -164,7 +163,7 @@ public class GameManager {
      * @return true, if is game over
      */
     public boolean isGameOver() {
-        return ballManager.hitsBotom();
+        return ballManager.hitsBottom();
     }
     
     /**
@@ -236,8 +235,6 @@ public class GameManager {
             
             ballManager.addBallDeadlist(ball);
             ballManager.addStaticBallToBeAdded(ball);
-            //ballDeadList.add(ball);
-            //ballToBeAdded.add(ball);
         }
     }
     

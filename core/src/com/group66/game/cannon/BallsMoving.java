@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * The Class BallsMoving.
+ * A Class to manage the Balls that are currently moving in the game.
  */
 public class BallsMoving {
     

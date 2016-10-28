@@ -11,7 +11,7 @@ import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
 /**
- * The Class BallsCannon.
+ * A Class to manage the Balls ready to be shot from the Cannon.
  */
 public class BallsCannon {
 

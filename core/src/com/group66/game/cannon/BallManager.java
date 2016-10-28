@@ -11,7 +11,7 @@ import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
 
 /**
- * The Class BallManager.
+ * A Class to manage the Balls in the game.
  */
 public class BallManager {
     
@@ -214,11 +214,11 @@ public class BallManager {
     }
     
     /**
-     * Hits botom (for game-over).
+     * Hits bottom (for game-over).
      *
      * @return true, if successful
      */
-    public boolean hitsBotom() {
+    public boolean hitsBottom() {
         return ballsStaticManager.hitsBotom();
     }
     

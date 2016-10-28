@@ -5,7 +5,7 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
 /**
- * The Class BallSnap.
+ * A helper Class to manage the Ball snapping.
  */
 public class BallSnap {
 
@@ -20,7 +20,7 @@ public class BallSnap {
     public static void snapBallToGrid(Ball ball, Ball hitb, boolean isSplit, int segmentOffset) {
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
-            xoffset = Config.SEGMENT_OFFSET * segmentOffset;
+            xoffset = Config.SEGMENT_OFFSET * segmentOffset + Config.BORDER_SIZE_SIDES;
         }
 
         float hitx = hitb.getX();
@@ -110,7 +110,7 @@ public class BallSnap {
     public static void snapBallToRoof(Ball ball, float roofy, boolean isSplit, int segmentOffset) {
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
-            xoffset = Config.SEGMENT_OFFSET * segmentOffset;
+            xoffset = Config.SEGMENT_OFFSET * segmentOffset + Config.BORDER_SIZE_SIDES;
         }
 
         //distance to the left side of the screen

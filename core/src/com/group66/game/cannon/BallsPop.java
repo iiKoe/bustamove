@@ -6,7 +6,7 @@ import java.util.Iterator;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /**
- * The Class BallsPop.
+ * A helper Class to manage the Ball popping.
  */
 public class BallsPop {
     
