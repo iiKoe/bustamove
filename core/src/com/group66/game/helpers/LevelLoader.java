@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
-import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.BallManager;
+import com.group66.game.cannon.BallType;
 import com.group66.game.settings.Config;
 
 public class LevelLoader {
@@ -44,7 +44,7 @@ public class LevelLoader {
                     //spaces or dashes are used for empty spaces
                     if (line.charAt(i) != ' ' && line.charAt(i) != '-') {
                         int ballIndex = Integer.parseInt("" + line.charAt(i));
-                        ballManager.addStaticBall(ballIndex, xpos, ypos);
+                        ballManager.getBallsStaticManager().addStaticBall(ballIndex, xpos, ypos);
                     }
                 }
                 linenr++;
@@ -75,6 +75,7 @@ public class LevelLoader {
                     numBalls--; // one less on the odd rows
                     xoffset = Config.BALL_RAD;
                 }
+
                 //fill the row with balls
                 for (int j = 0; j < numBalls; j++) {
                     int xpos = Config.SINGLE_PLAYER_OFFSET + (2 * j + 1) * Config.BALL_RAD + xoffset;
@@ -84,7 +85,7 @@ public class LevelLoader {
                     
                     int ballIndex = rand.nextInt(BallType.MAX_COLORS.ordinal() + 1);
                     if (ballIndex != BallType.MAX_COLORS.ordinal()) { // max_colors is no ball
-                        ballManager.addStaticBall(ballIndex, xpos, ypos);
+                        ballManager.getBallsStaticManager().addStaticBall(ballIndex, xpos, ypos);
                     }
                 }
             }
