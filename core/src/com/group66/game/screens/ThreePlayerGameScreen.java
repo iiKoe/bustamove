@@ -30,7 +30,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
      * @param randomLevel
      *            determines if a set level or a random level is used
      */
-    public ThreePlayerGameScreen(Boolean randomLevel) {
+    public ThreePlayerGameScreen(Boolean randomLevel, int level) {
         gameState = GameState.RUNNING;
         inputHandler = new InputHandler();
         gameManager1 = new GameManager(0, BustaMove.getGameInstance().getDynamicSettings());
@@ -42,7 +42,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         AudioManager.startMusic();
 
         if (!randomLevel) {
-            LevelLoader.loadLevel(gameManager1.getBallManager(), 1, true);
+            LevelLoader.loadLevel(gameManager1.getBallManager(), level, true);
             gameManager2.shiftClone(gameManager1);
             gameManager3.shiftClone(gameManager1);
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
@@ -62,6 +62,22 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
      */
     public ThreePlayerGameScreen(DynamicSettings dynamicSettings) {
         this(false);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param randomLevel determines if a set level or a random level is used
+     */
+    public ThreePlayerGameScreen(Boolean randomLevel) {
+        this(randomLevel, 1);
+    }
+    
+    /**
+     * Instantiates the game screen.
+     * @param level the level to load
+     */
+    public ThreePlayerGameScreen(int level) {
+        this(false, level);
     }
     
     /*

@@ -146,8 +146,6 @@ public class BallManager {
                 }
                 BustaMove.getGameInstance().log(MessageType.Info, "Started popping " + ballsStaticManager.deadSize()
                     + " balls");
-                //scoreKeeper.setCurrentScore(score, 0);
-                //TODO 
             } else {
                 ballsCannonManager.addRandomBallToCanon();
             }
