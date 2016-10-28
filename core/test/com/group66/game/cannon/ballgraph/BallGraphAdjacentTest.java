@@ -1,4 +1,4 @@
-package com.group66.game.cannon;
+package com.group66.game.cannon.ballgraph;
 
 import java.util.Iterator;
 
@@ -7,6 +7,11 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.junit.Test;
 
+import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.BombBall;
+import com.group66.game.cannon.ColoredBall;
+import com.group66.game.cannon.TopBall;
 import com.group66.game.settings.Config;
 
 public class BallGraphAdjacentTest {

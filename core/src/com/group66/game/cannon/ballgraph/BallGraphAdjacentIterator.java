@@ -1,10 +1,13 @@
-package com.group66.game.cannon;
+package com.group66.game.cannon.ballgraph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
+
+import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.TopBall;
 
 public class BallGraphAdjacentIterator implements Iterator<Ball> {
 

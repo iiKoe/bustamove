@@ -1,4 +1,4 @@
-package com.group66.game.cannon;
+package com.group66.game.cannon.ballgraph;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,9 +8,11 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.alg.ConnectivityInspector;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
+
+import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.TopBall;
 import com.group66.game.settings.Config;
-import com.group66.game.cannon.BallGraphBreadthFirstConditionalIterator;
 
 /**
  * The Class BallGraph.
@@ -112,7 +114,8 @@ public class BallGraph {
         }
         
         ArrayList<Ball> ret = new ArrayList<Ball>();
-        Iterator<Ball> iterator = new BallGraphBreadthFirstConditionalIterator(graph, ball);
+        Iterator<Ball> iterator = ball.createBallGraphBreadthFirstConditionalIterator(graph);
+       
         while (iterator.hasNext()) {
             ret.add(iterator.next());
         }

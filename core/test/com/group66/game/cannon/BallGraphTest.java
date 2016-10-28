@@ -1,13 +1,14 @@
 package com.group66.game.cannon;
 
+import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.ballgraph.BallGraph;
+import com.group66.game.settings.Config;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
-
-import com.group66.game.settings.Config;
-
 
 /**
  * The Class BallGraphTest.

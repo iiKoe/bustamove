@@ -8,6 +8,8 @@ import java.util.Queue;
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
+import com.group66.game.cannon.ballgraph.BallGraphAdjacentIterator;
+
 public class BallGraphBreadthFirstConditionalIterator implements Iterator<Ball> {
 
     /** List of all objects the iterator needs to give. */

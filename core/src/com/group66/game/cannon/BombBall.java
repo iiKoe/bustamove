@@ -1,5 +1,11 @@
 package com.group66.game.cannon;
 
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+
+import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
+import com.group66.game.cannon.ballgraph.BombBallGraphBreadthFirstConditionalIterator;
+
 /**
  * 
  * @author Jeroen
@@ -28,6 +34,16 @@ public class BombBall extends Ball {
         }
         
         return false;
+    }
+    
+    /**
+     * create iterator
+     * @param graph in which the ball is situated
+     * @return the iterator
+     */
+    public BallGraphBreadthFirstConditionalIterator createBallGraphBreadthFirstConditionalIterator(
+            UndirectedGraph<Ball, DefaultEdge> graph) {
+        return new BombBallGraphBreadthFirstConditionalIterator(graph, this);
     }
 
 }
