@@ -1,14 +1,14 @@
 package com.group66.game.cannon;
-import com.group66.game.cannon.BallGraph;
+
 import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.settings.Config;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 
 import org.junit.Test;
-
 
 /**
  * The Class BallGraphTest.
@@ -58,7 +58,7 @@ public class BallGraphTest {
         Ball ball2 = null;
         testBallGraph.insertBall(ball2);
         assertEquals(testBallGraph.numberOfBalls(), 1);
-      }
+    }
     
     /**
      * Adjacent balls test:
@@ -78,14 +78,14 @@ public class BallGraphTest {
         assertEquals(testBallGraph.numberOfAdjacentColoredBalls(nullBall), 0);
         
         // Tests getAdjacentColoredBalls
-        ArrayList <Ball> ret = new ArrayList<Ball>();
+        ArrayList<Ball> ret = new ArrayList<Ball>();
         ret.add(ball1);
         ret.add(ball2);
         assertEquals(testBallGraph.getAdjacentColoredBalls(ball1), ret);
         
         // Tests null getAdjacentColoredBalls
         assertEquals(testBallGraph.getAdjacentColoredBalls(nullBall), null);
-      }
+    }
     
     
     /**
@@ -99,6 +99,22 @@ public class BallGraphTest {
         testBallGraph.insertBall(ball1);
         assertEquals(true, testBallGraph.placeTaken(ball1.getX(), ball1.getY()));
         assertEquals(false, testBallGraph.placeTaken(10.0f,  10.0f));
-      }
-   
+    }
+
+    /**
+     * Test for free balls
+     */
+    @Test
+    public void freeBallTest() {
+        BallGraph testBallGraph = new BallGraph();
+        testBallGraph.getFreeBalls();
+        
+        float ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD;
+        Ball ball1 = new ColoredBall(BallType.GREEN, -Config.BALL_RAD, ypos, 0, 0);
+        testBallGraph.insertBall(ball1);
+        Ball ball2 = new ColoredBall(BallType.YELLOW, Config.BALL_RAD, ypos, 0, 0);
+        testBallGraph.insertBall(ball2);
+
+        testBallGraph.getFreeBalls();
+    }
 }

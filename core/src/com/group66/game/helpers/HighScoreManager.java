@@ -85,7 +85,10 @@ public class HighScoreManager {
      * @param score The score the user just achieved
      */
     public void addScore(int score) {
-        String name = BustaMove.getGameInstance().getDynamicSettings().getName();
+        String name = "";
+        if (BustaMove.getGameInstance().getDynamicSettings() != null) {
+            name = BustaMove.getGameInstance().getDynamicSettings().getName();
+        }
         String date = DateFormatUtils.format(new Date(), "yyyy-MM-dd");
         highscores.add(new HighScoreItem(name, date, score));
         writeData();

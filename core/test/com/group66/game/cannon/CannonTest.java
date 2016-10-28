@@ -17,7 +17,7 @@ public class CannonTest {
     /**
      * Cannon test.
      */
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void cannonTest() {
         @SuppressWarnings("unused")
         Cannon cannon = new Cannon(null, 0, 0, 0, 0, 0, 180);
@@ -68,7 +68,7 @@ public class CannonTest {
     /**
      * Draw null test.
      */
-    @Test(expected=NullPointerException.class)
+    @Test(expected = NullPointerException.class)
     public void drawNullTest() {
         Texture textureMock = mock(Texture.class);
         Cannon cannon = new Cannon(textureMock, 0, 0, 0, 0, -1, 180);

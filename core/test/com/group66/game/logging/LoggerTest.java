@@ -2,6 +2,7 @@ package com.group66.game.logging;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 

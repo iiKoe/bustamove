@@ -1,5 +1,11 @@
 package com.group66.game.cannon;
 
+import org.jgrapht.UndirectedGraph;
+import org.jgrapht.graph.DefaultEdge;
+
+import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
+import com.group66.game.cannon.ballgraph.TopBallGraphBreadthFirstConditionalIterator;
+
 public class TopBall extends Ball {
 
     /**
@@ -22,6 +28,16 @@ public class TopBall extends Ball {
      */
     public Boolean isEqual(Ball ball) {
         return false;
+    }
+    
+    /**
+     * create iterator
+     * @param graph in which the ball is situated
+     * @return the iterator
+     */
+    public BallGraphBreadthFirstConditionalIterator createBallGraphBreadthFirstConditionalIterator(
+            UndirectedGraph<Ball, DefaultEdge> graph) {
+        return new TopBallGraphBreadthFirstConditionalIterator(graph, this);
     }
 
 }

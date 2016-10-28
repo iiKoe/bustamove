@@ -15,8 +15,7 @@ import com.group66.game.settings.Config;
  * A Class for the MainMenuScreen of the game.
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
-    
-   
+
     /** The own instance. */
     private Screen ownInstance;
     

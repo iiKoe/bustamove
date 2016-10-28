@@ -14,6 +14,7 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.screens.AbstractGameScreen;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
+import com.group66.game.cannon.ballgraph.BallGraph;
 
 /**
  * A Class to manage the game rules.
