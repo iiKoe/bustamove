@@ -56,6 +56,7 @@ public class DynamicSettings {
      * Instantiates a new dynamic settings instance.
      */
     public DynamicSettings() {
+        currency = 0;
         reset();
         name = new String();
     }
@@ -78,7 +79,7 @@ public class DynamicSettings {
         this.levelCleared = 0;
         this.levelHighscore = new ArrayList<Integer>();
         for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
-            this.levelHighscore.add(0);            
+            this.levelHighscore.add(0);
         }
         this.randomLevel = false;
     }
@@ -96,7 +97,7 @@ public class DynamicSettings {
      */
     public void setName(String name, boolean writeToFile) {
         this.name = name;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile name set to: " + name);
@@ -119,7 +120,7 @@ public class DynamicSettings {
      */
     public void setCurrency(int currency, boolean writeToFile) {
         this.currency = currency;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile currency set to: " + currency);
@@ -133,7 +134,7 @@ public class DynamicSettings {
      */
     public void addCurrency(int dcurrency, boolean writeToFile) {
         this.currency += dcurrency;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile currency added: " + dcurrency);
@@ -157,7 +158,7 @@ public class DynamicSettings {
      */
     public void setScoreMultiplier(double scoreMultiplier, boolean writeToFile) {
         this.scoreMultiplier = scoreMultiplier;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile scoremultiplier set to: " + scoreMultiplier);
@@ -180,7 +181,7 @@ public class DynamicSettings {
      */
     public void setSpecialBombChanceMultiplier(double specialBombChance, boolean writeToFile) {
         this.specialBombChanceMultiplier = specialBombChance;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile special bomb change set to: " + specialBombChance);
@@ -204,7 +205,7 @@ public class DynamicSettings {
      */
     public void setBallSpeedMultiplier(double ballSpeedMultiplier, boolean writeToFile) {
         this.ballSpeedMultiplier = ballSpeedMultiplier;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile ball speed multiplier set to: " 
@@ -228,7 +229,7 @@ public class DynamicSettings {
      */
     public void setExtraLife(boolean extraLife, boolean writeToFile) {
         this.extraLife = extraLife;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile extra life set to: " + extraLife);
@@ -279,7 +280,7 @@ public class DynamicSettings {
     public void setCurrentLevel(int currentLevel, boolean writeToFile) {
         if (currentLevel <= Config.NUMBER_OF_LEVELS) {
             this.currentLevel = currentLevel;
-            if (writeToFile) {
+            if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
                 BustaMove.getGameInstance().getProfileManager().writeData(this);
             }
             BustaMove.getGameInstance().log(MessageType.Info, "profile currentLevel set to: " + currentLevel);
@@ -300,7 +301,7 @@ public class DynamicSettings {
     public void setLevelCleared(int levelCleared, boolean writeToFile) {
         if (levelCleared > this.levelCleared) {
             this.levelCleared = levelCleared;
-            if (writeToFile) {
+            if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
                 BustaMove.getGameInstance().getProfileManager().writeData(this);
             }
             BustaMove.getGameInstance().log(MessageType.Info, "profile level cleared set to: " + levelCleared);
@@ -323,7 +324,7 @@ public class DynamicSettings {
      */
     public void setRandomLevel(boolean randomLevel, boolean writeToFile) {
         this.randomLevel = randomLevel;
-        if (writeToFile) {
+        if (writeToFile && BustaMove.getGameInstance().getProfileManager() != null) {
             BustaMove.getGameInstance().getProfileManager().writeData(this);
         }
         BustaMove.getGameInstance().log(MessageType.Info, "profile random level set to: " + randomLevel);
