@@ -5,7 +5,7 @@ import org.jgrapht.graph.DefaultEdge;
 
 import com.group66.game.cannon.Ball;
 
-public class NullBallGraphBreadthFirstConditionalIterator implements BallGraphBreadthFirstConditionalIterator {
+public class NullBallGraphBreadthFirstConditionalIterator extends BallGraphBreadthFirstConditionalIterator {
 
     /**
      * Instantiates the iterator
@@ -15,42 +15,4 @@ public class NullBallGraphBreadthFirstConditionalIterator implements BallGraphBr
     public NullBallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, DefaultEdge> graph, Ball start) {
 
     }
-
-    /**
-     * Returns if the iterator has a next object
-     * s
-     * @return if the iterator has another object
-     */
-    @Override
-    public boolean hasNext() {
-        return false;
-    }
-
-    /**
-     * returns the next object
-     * 
-     * @return The next object of the iterator
-     */
-    @Override
-    public Ball next() {
-        return null;
-    }
-
-    /**
-     * remove is not supported by the iterator
-     */
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * current size of the iterator
-     * 
-     * @return the size of the iterator
-     */
-    public int size() {
-        return 0;
-    }
-
 }

@@ -1,6 +1,5 @@
 package com.group66.game.cannon.ballgraph;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -10,10 +9,8 @@ import org.jgrapht.graph.DefaultEdge;
 import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.ColoredBall;
 
-public class ColoredBallGraphBreadthFirstConditionalIterator implements BallGraphBreadthFirstConditionalIterator {
+public class ColoredBallGraphBreadthFirstConditionalIterator extends BallGraphBreadthFirstConditionalIterator {
 
-    /** List of all objects the iterator needs to give. */
-    private ArrayList<Ball> list = new ArrayList<Ball>();
     /** queue of balls to be processed. */
     Queue<Ball> queue = new LinkedList<Ball>();
     /** The start ball for the iterator. */
@@ -40,50 +37,6 @@ public class ColoredBallGraphBreadthFirstConditionalIterator implements BallGrap
             //investigate all the edges of the ball
             addEqualBallsOnEdges(qball);            
         }
-    }
-    
-
-    /**
-     * Returns if the iterator has a next object
-     * 
-     * @return if the iterator has another object
-     */
-    @Override
-    public boolean hasNext() {
-        if (list.isEmpty()) {
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * returns the next object
-     * 
-     * @return The next object of the iterator
-     */
-    @Override
-    public Ball next() {
-        Ball ret = list.get(0);
-        list.remove(0);
-        return ret;
-    }
-    
-    /**
-     * remove is not supported by the iterator
-     */
-    @Override
-    public void remove() {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * current size of the iterator
-     * 
-     * @return the size of the iterator
-     */
-    public int size() {
-        return list.size();
     }
     
     /**
