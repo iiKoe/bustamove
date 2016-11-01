@@ -7,23 +7,11 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.input.InputHandler;
+import com.group66.game.screencontrollers.AbstractGameController;
 
 public abstract class AbstractGameScreen implements Screen {
     
-    /**
-     * The Enum GameState.
-     */
-    protected enum GameState {
-        
-        /** The game is running. */
-        RUNNING,
-        
-        /** The game is paused. */
-        PAUSED
-    }
-    
-    /** The game state. */
-    protected GameState gameState;
+    protected AbstractGameController gameController;
     
     /** The input handler. */
     protected InputHandler inputHandler;
@@ -63,7 +51,7 @@ public abstract class AbstractGameScreen implements Screen {
      * @param delta The time in seconds since the last render.
      * @see com.badlogic.gdx.Screen#render(float)
      */
-    public void render(float delta) { }
+    public abstract void render(float delta);
     
     /**
      * Resize
