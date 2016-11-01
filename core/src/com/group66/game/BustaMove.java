@@ -49,6 +49,14 @@ public class BustaMove extends Game {
     }
     
     /**
+     * 
+     * @return
+     */
+    public SpriteBatch getBatch() {
+        return batch;
+    }
+    
+    /**
      * Gets the game height.
      *
      * @return the game height

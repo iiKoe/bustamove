@@ -14,7 +14,7 @@ import com.group66.game.settings.Config;
 public class TextDrawer {
     
     /** The used font. */
-    public BitmapFont myFont;
+    private BitmapFont myFont;
         
     /**
      * Generates the font and its settings.
@@ -51,6 +51,14 @@ public class TextDrawer {
      */
     public void draw(SpriteBatch batch, String text, int xpos, int ypos) {
         myFont.draw(batch, text, xpos, ypos);
+    }
+    
+    /**
+     * Return the font
+     * @return the font
+     */
+    public BitmapFont getFont() {
+        return myFont;
     }
 }
 

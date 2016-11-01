@@ -40,7 +40,7 @@ public class GameManager {
     private TextDrawer textDrawer = new TextDrawer();
 
     /**  The TimeKeeper. */
-    public TimeKeeper timeKeeper;
+    private TimeKeeper timeKeeper;
     
     /** The ball count. */
     private int ballCount;

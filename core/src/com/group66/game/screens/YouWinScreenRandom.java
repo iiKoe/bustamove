@@ -5,6 +5,7 @@ package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
@@ -78,11 +79,11 @@ public class YouWinScreenRandom extends AbstractYouWinScreen {
         loadRelatedGraphics();
         
         /* Draw the background */
-        BustaMove.getGameInstance().batch.begin();
-        BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(youwinbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
-                Gdx.graphics.getHeight());
-        BustaMove.getGameInstance().batch.end();
+        SpriteBatch batch = BustaMove.getGameInstance().getBatch();
+        batch.begin();
+        batch.enableBlending();
+        batch.draw(youwinbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
+        batch.end();
 
         stage.act();
         stage.draw();

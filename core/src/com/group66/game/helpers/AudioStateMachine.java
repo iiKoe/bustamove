@@ -97,21 +97,21 @@ public class AudioStateMachine {
     }
     
     /**
-     * Play shoot.
+     * Play shoot sound effect.
      */
     public void playShoot() {
         this.getState().playShoot();
     }
     
     /**
-     * Play wall.
+     * Play wall sound effect.
      */
     public void playWall() {
         this.getState().playWall();
     }
     
     /**
-     * Play pop.
+     * Play pop sound effect.
      */
     public void playPop() {
         this.getState().playPop();
@@ -147,23 +147,11 @@ public class AudioStateMachine {
             AudioManager.gameMusic.stop();
         }
 
-        /* (non-Javadoc)
-         */
-        public void playShoot() {
-            AudioManager.shoot.stop();
-        }
+        public void playShoot() { }
 
-        /* (non-Javadoc)
-         */
-        public void playWall() {
-            AudioManager.wallhit.stop();
-        }
+        public void playWall() { }
 
-        /* (non-Javadoc)
-         */
-        public void playPop() {
-            AudioManager.ballpop.stop();
-        }
+        public void playPop() { }
     }
     
     /**
@@ -198,20 +186,14 @@ public class AudioStateMachine {
             AudioManager.gameMusic.play();
         }
 
-        /* (non-Javadoc)
-         */
         public void playShoot() {
             AudioManager.shoot.play();
         }
 
-        /* (non-Javadoc)
-         */
         public void playWall() {
             AudioManager.wallhit.play();
         }
 
-        /* (non-Javadoc)
-         */
         public void playPop() {
             AudioManager.ballpop.play();
         }

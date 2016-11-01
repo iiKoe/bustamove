@@ -1,8 +1,8 @@
 package com.group66.game.helpers;
 
 public class HighScoreItem implements Comparable<HighScoreItem> {
-    public final String name, date;
-    public final int score;
+    private final String name, date;
+    private final int score;
     
     /**
      * Constructor for a high score item
@@ -54,5 +54,27 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
                 return this.name.compareTo(other.name);
             }
         }
+    }
+    
+    /**
+     * Returns the name
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * Returns the date
+     * @return the date
+     */
+    public String getDate() {
+        return date;
+    }
+    /**
+     * Returns the score
+     * @return the score
+     */
+    public int getScore() {
+        return score;
     }
 }

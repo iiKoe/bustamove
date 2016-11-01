@@ -28,7 +28,7 @@ public class DynamicSettings {
     private double ballSpeedMultiplier;
 
     /** The extra life. */
-    boolean extraLife;
+    private boolean extraLife;
 
     /** The buy score multiplier state machine. */
     private BuyScoreMultiplier buyScoreMultiplierStateMachine;
