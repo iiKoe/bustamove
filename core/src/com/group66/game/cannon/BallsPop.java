@@ -19,8 +19,10 @@ public class BallsPop {
      * @param ball the ball
      */
     public void startPop(Ball ball) {
-        ball.popStart(ball.getType().getPopAnimation());
-        ballPopList.add(ball);
+        if (ball != null) {
+            ball.popStart(ball.getType().getPopAnimation());
+            ballPopList.add(ball);
+        }
     }
     
     /**
@@ -44,7 +46,10 @@ public class BallsPop {
      * @return true, if successful
      */
     public boolean contains(Ball ball) {
-        return ballPopList.contains(ball);
+        if (ball != null) {
+            return ballPopList.contains(ball);
+        }
+        return false;
     }
     
     /**
@@ -63,8 +68,10 @@ public class BallsPop {
      * @param delta the delta
      */
     public void draw(SpriteBatch batch, float delta) {
-        for (Ball ball : ballPopList) {
-            ball.draw(batch, null, delta);
+        if (batch != null) {
+            for (Ball ball : ballPopList) {
+                ball.draw(batch, null, delta);
+            }
         }
     }
 }

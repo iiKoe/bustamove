@@ -46,7 +46,7 @@ public class BuyStateInstance {
      * @return the next state info
      */
     public String getNextStateInfo() {
-        return this.getCurrent().getNextStateInfo(this);
+        return this.getCurrent().getNextStateInfo();
     }
 
     /**
@@ -55,7 +55,7 @@ public class BuyStateInstance {
      * @return the next state cost
      */
     public int getNextStateCost() {
-        return this.getCurrent().getNextStateCost(this);
+        return this.getCurrent().getNextStateCost();
     }
     
     /**

@@ -54,20 +54,22 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
      * @param qball
      */
     private void addEqualBombBallsOnEdges(Ball qball) {
-        for (DefaultEdge e : graph.edgesOf(qball)) {
-            //Check target of the edge
-            Ball eball = graph.getEdgeTarget(e);
-            if (eball instanceof BombBall && !list.contains(eball)) {
-                queue.add(eball);
-                ballsToCheckAdjacenBalls.add(eball);
-                list.add(eball);
-            }
-            //check source of the edge
-            eball = graph.getEdgeSource(e);
-            if (eball instanceof BombBall && !list.contains(eball)) {
-                queue.add(eball);
-                ballsToCheckAdjacenBalls.add(eball);
-                list.add(eball);
+        if (qball != null) {
+            for (DefaultEdge e : graph.edgesOf(qball)) {
+                //Check target of the edge
+                Ball eball = graph.getEdgeTarget(e);
+                if (eball instanceof BombBall && !list.contains(eball)) {
+                    queue.add(eball);
+                    ballsToCheckAdjacenBalls.add(eball);
+                    list.add(eball);
+                }
+                //check source of the edge
+                eball = graph.getEdgeSource(e);
+                if (eball instanceof BombBall && !list.contains(eball)) {
+                    queue.add(eball);
+                    ballsToCheckAdjacenBalls.add(eball);
+                    list.add(eball);
+                }
             }
         }
     }
@@ -77,16 +79,17 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
      * @param ball the bomb ball to investigate
      */
     private void investigateEdgesOfBombBall(Ball ball) {
-        for (DefaultEdge e : graph.edgesOf(ball)) {
-            //Check target of the edge
-            Ball eball = graph.getEdgeTarget(e);
-            getAllAdjacentBalls(eball);
-
-            //check source of the edge
-            eball = graph.getEdgeSource(e);
-            getAllAdjacentBalls(eball);
+        if (ball != null) {
+            for (DefaultEdge e : graph.edgesOf(ball)) {
+                //Check target of the edge
+                Ball eball = graph.getEdgeTarget(e);
+                getAllAdjacentBalls(eball);
+    
+                //check source of the edge
+                eball = graph.getEdgeSource(e);
+                getAllAdjacentBalls(eball);
+            }
         }
-
     }
     
     /**
@@ -94,16 +97,18 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
      * @param ball 
      */
     private void getAllAdjacentBalls(Ball ball) {
-        Iterator<Ball> iterator = new BallGraphAdjacentIterator(graph, ball);
-
-        while (iterator.hasNext()) {
-            Ball adjacentBall = iterator.next();
-            checkAndAddColoredBalls(adjacentBall);
+        if (ball != null) {
+            Iterator<Ball> iterator = new BallGraphAdjacentIterator(graph, ball);
+    
+            while (iterator.hasNext()) {
+                Ball adjacentBall = iterator.next();
+                checkAndAddColoredBalls(adjacentBall);
+            }
         }
     }
     
     private void checkAndAddColoredBalls(Ball ball) {
-        if (ball instanceof ColoredBall) {
+        if (ball != null && ball instanceof ColoredBall) {
             BallGraphBreadthFirstConditionalIterator checkIterator = 
                     ball.createBallGraphBreadthFirstConditionalIterator(graph);
             if (checkIterator.size() >= 2) {
