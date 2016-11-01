@@ -43,7 +43,11 @@ public abstract class AbstractYouWinScreen implements Screen {
      * Instantiates a new main menu screen.
      */
     public AbstractYouWinScreen() {
-        createScreen();
+        try {
+            createScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void createScreen() {
