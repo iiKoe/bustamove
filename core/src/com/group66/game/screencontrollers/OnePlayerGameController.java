@@ -50,6 +50,7 @@ public class OnePlayerGameController extends AbstractGameController {
             if (gameManager1.isGameOver()) {
                 BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
                 DynamicSettings ds = gameManager1.getDynamicSettings();
+                ds = (ds == null ? new DynamicSettings() : ds);
                 if (ds.hasExtraLife()) {
                     ds.setExtraLife(false, true);
                     BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");
@@ -58,8 +59,8 @@ public class OnePlayerGameController extends AbstractGameController {
                     BustaMove.getGameInstance().log(MessageType.Info, "Resetting Dynamic Settings");
                 }
                 
-                //dispose();
-                if (BustaMove.getGameInstance().getDynamicSettings().isRandomLevel()) {
+                if (BustaMove.getGameInstance().getDynamicSettings() == null
+                        || BustaMove.getGameInstance().getDynamicSettings().isRandomLevel()) {
                     BustaMove.getGameInstance().setScreen(new YouLoseScreenRandom());
                 } else {
                     BustaMove.getGameInstance().setScreen(new YouLoseScreenCareer());
@@ -77,8 +78,8 @@ public class OnePlayerGameController extends AbstractGameController {
                 
                 gameManager1.getDynamicSettings().addCurrency(score1 / Config.SCORE_CURRENCY_DIV, true);
                 
-                //dispose();
-                if (BustaMove.getGameInstance().getDynamicSettings().isRandomLevel()) {
+                if (BustaMove.getGameInstance().getDynamicSettings() == null
+                        || BustaMove.getGameInstance().getDynamicSettings().isRandomLevel()) {
                     BustaMove.getGameInstance().log(MessageType.Info, "Randomlevel is won");
                     BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
                 } else {

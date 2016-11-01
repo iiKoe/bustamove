@@ -54,6 +54,7 @@ public class TwoPlayerGameController extends AbstractGameController {
             if (gameManager1.isGameOver() || gameManager2.isGameOver()) {
                 BustaMove.getGameInstance().log(MessageType.Info, "Failed the level");
                 DynamicSettings ds = gameManager1.getDynamicSettings();
+                ds = (ds == null ? new DynamicSettings() : ds);
                 if (ds.hasExtraLife()) {
                     ds.setExtraLife(false, true);
                     BustaMove.getGameInstance().log(MessageType.Info, "Keeping Dynamic Settings");

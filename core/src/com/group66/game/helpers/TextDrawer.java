@@ -20,15 +20,18 @@ public class TextDrawer {
      * Generates the font and its settings.
      */
     public TextDrawer() {
-        
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Courier.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = Config.FONT_SIZE; //font size
-        parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()?:&"; 
-        //list of printable chars
-        myFont = generator.generateFont(parameter);
-        myFont.setColor(Color.WHITE);
-        generator.dispose();
+        try {
+            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Courier.ttf"));
+            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+            parameter.size = Config.FONT_SIZE; //font size
+            parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()?:&"; 
+            //list of printable chars
+            myFont = generator.generateFont(parameter);
+            myFont.setColor(Color.WHITE);
+            generator.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**

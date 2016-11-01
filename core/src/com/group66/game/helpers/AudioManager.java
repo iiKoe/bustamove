@@ -60,7 +60,7 @@ public class AudioManager {
      * Start the background music
      */
     public static void startMusic() {
-        System.out.println("Starting music");
+        //System.out.println("Starting music");
         audioStateMachine.playMusic();
     }
     
