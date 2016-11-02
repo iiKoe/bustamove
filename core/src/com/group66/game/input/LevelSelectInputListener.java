@@ -33,7 +33,6 @@ public class LevelSelectInputListener implements TextInputListener {
      */
     @Override
     public void canceled() {
-        // TODO Auto-generated method stub
 
     }
 
