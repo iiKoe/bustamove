@@ -4,8 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.BallType;
-import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.helpers.TextDrawer;
@@ -14,7 +13,6 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.screens.AbstractGameScreen;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
-import com.group66.game.cannon.ballgraph.BallGraph;
 
 /**
  * A Class to manage the game rules.

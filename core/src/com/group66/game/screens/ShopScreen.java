@@ -7,8 +7,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -17,13 +17,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.group66.game.BustaMove;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.shop.BuyScoreMultiplier;
 import com.group66.game.shop.BuySpecialBombChance;
 import com.group66.game.shop.BuySpeedBoost;
-import com.group66.game.BustaMove;
 
 /**
  * A Class for the MainMenuScreen of the game.
@@ -230,7 +230,6 @@ public class ShopScreen extends AbstractMenuScreen {
                     BustaMove.getGameInstance().setScreen(origin.getClass()
                             .getConstructor().newInstance());
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
             }
