@@ -19,11 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.helpers.TextDrawer;
-import com.group66.game.logging.MessageType;
+import com.group66.game.screencontrollers.ShopMenuController;
+import com.group66.game.screencontrollers.actions.BuyBombChanceButton;
+import com.group66.game.screencontrollers.actions.BuyExtraLifeButton;
+import com.group66.game.screencontrollers.actions.BuyScoreMultiplierButton;
+import com.group66.game.screencontrollers.actions.BuySpeedMultiplierButton;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
 import com.group66.game.settings.Config;
-import com.group66.game.shop.BuyScoreMultiplier;
-import com.group66.game.shop.BuySpecialBombChance;
-import com.group66.game.shop.BuySpeedBoost;
 import com.group66.game.BustaMove;
 
 /**
@@ -31,7 +33,8 @@ import com.group66.game.BustaMove;
  */
 public class ShopScreen extends AbstractMenuScreen {
 
-    
+    /** The controller. */
+    ShopMenuController controller;
     /**
      * Textures for the override loadRelatedGraphics
      */
@@ -59,15 +62,7 @@ public class ShopScreen extends AbstractMenuScreen {
     /** Level button */
     private TextButton levelButton;
 
-    /** The buy score multiplier state machine. */
-    private BuyScoreMultiplier buyScoreMultiplierStateMachine;
-
-    /** The buy special bomb chance state machine. */
-    private BuySpecialBombChance buySpecialBombChanceStateMachine;
-
-    /** The buy speed boost state machine. */
-    private BuySpeedBoost buySpeedBoostStateMachine;
-
+    
     /** The text drawer. */
     private TextDrawer textDrawer;
 
@@ -78,6 +73,7 @@ public class ShopScreen extends AbstractMenuScreen {
      */
     public ShopScreen(Screen origin) {
         this.origin = origin;
+        controller = new ShopMenuController(this);
         createScreen();
     }
 
@@ -105,35 +101,35 @@ public class ShopScreen extends AbstractMenuScreen {
      */
     private void update() {
         /* Update the Buy Score Multiplier */
-        if (!buyScoreMultiplierStateMachine.isFinalState()) {
+        if (!controller.getBuyScoreMultiplierStateMachine().isFinalState()) {
             buyScoreMultiplierButton.setText("Buy a score increase of "
-                    + buyScoreMultiplierStateMachine.getNextStateInfo()
-                    + " For " + buyScoreMultiplierStateMachine.getNextStateCost() + " Coins!");
+                    + controller.getBuyScoreMultiplierStateMachine().getNextStateInfo()
+                    + " For " + controller.getBuyScoreMultiplierStateMachine().getNextStateCost() + " Coins!");
         } else {
             buyScoreMultiplierButton.setText("The maximum Score increase of "
-                    + buyScoreMultiplierStateMachine.getNextStateInfo() + " is reached");
+                    + controller.getBuyScoreMultiplierStateMachine().getNextStateInfo() + " is reached");
             buyScoreMultiplierButton.setColor(Color.DARK_GRAY);
         }
 
         /* Update Buy Special Bomb Chance */
-        if (!buySpecialBombChanceStateMachine.isFinalState()) {
+        if (!controller.getBuySpecialBombChanceStateMachine().isFinalState()) {
             buyBombChanceButton.setText("Buy a Special Bomb Chance increase of "
-                    + buySpecialBombChanceStateMachine.getNextStateInfo()
-                    + " For " + buySpecialBombChanceStateMachine.getNextStateCost() + " Coins!");
+                    + controller.getBuySpecialBombChanceStateMachine().getNextStateInfo()
+                    + " For " + controller.getBuySpecialBombChanceStateMachine().getNextStateCost() + " Coins!");
         } else {
             buyBombChanceButton.setText("The maximum Special Bomb Chance increase of "
-                    + buySpecialBombChanceStateMachine.getNextStateInfo() + " is reached");
+                    + controller.getBuySpecialBombChanceStateMachine().getNextStateInfo() + " is reached");
             buyBombChanceButton.setColor(Color.DARK_GRAY);
         }
 
         /* Update Buy Ball Speed Multiplier */ 
-        if (!buySpeedBoostStateMachine.isFinalState()) {
+        if (!controller.getBuySpeedBoostStateMachine().isFinalState()) {
             buySpeedMultiplierButton.setText("Buy a Ball Speed increase of "
-                    + buySpeedBoostStateMachine.getNextStateInfo()
-                    + " For " + buySpeedBoostStateMachine.getNextStateCost() + " Coins!");
+                    + controller.getBuySpeedBoostStateMachine().getNextStateInfo()
+                    + " For " + controller.getBuySpeedBoostStateMachine().getNextStateCost() + " Coins!");
         } else {
             buySpeedMultiplierButton.setText("The maximum Ball Speed increase of "
-                    + buySpeedBoostStateMachine.getNextStateInfo() + " is reached");
+                    + controller.getBuySpeedBoostStateMachine().getNextStateInfo() + " is reached");
             buySpeedMultiplierButton.setColor(Color.DARK_GRAY);
         }
 
@@ -192,21 +188,16 @@ public class ShopScreen extends AbstractMenuScreen {
         levelButton.setPosition(centercol, yoffset);
 
         /* Buy Score Multiplier */
-        buyScoreMultiplierStateMachine = 
-                BustaMove.getGameInstance().getDynamicSettings().getBuyScoreMultiplierStateMachine();
         buyScoreMultiplierButton = new TextButton("Buy: ", 
                 textButtonStyle);
         buyScoreMultiplierButton.setPosition(centercol, yoffset - (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
         /* Buy Special Bomb Chance */
-        buySpecialBombChanceStateMachine = 
-                BustaMove.getGameInstance().getDynamicSettings().getBuySpecialBombChanceStateMachine();
         buyBombChanceButton = new TextButton("Buy: ", 
                 textButtonStyle);
         buyBombChanceButton.setPosition(centercol, yoffset - 2 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
 
         /* Buy Ball Speed Multiplier */ 
-        buySpeedBoostStateMachine = BustaMove.getGameInstance().getDynamicSettings().getBuySpeedBoostStateMachine();
         buySpeedMultiplierButton = new TextButton("Buy: ", 
                 textButtonStyle);
         buySpeedMultiplierButton.setPosition(centercol, yoffset - 3 * (Config.BUTTON_HEIGHT + Config.BUTTON_SPACING));
@@ -225,43 +216,31 @@ public class ShopScreen extends AbstractMenuScreen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                try {
-                    BustaMove.getGameInstance().setScreen(origin.getClass()
-                            .getConstructor().newInstance());
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+                controller.performUserAction(new MainMenuButton(origin));
             }
         });
 
         buyScoreMultiplierButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                buyScoreMultiplierStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
+                controller.performUserAction(new BuyScoreMultiplierButton());
             }
         });
 
         buyBombChanceButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                buySpecialBombChanceStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
+                controller.performUserAction(new BuyBombChanceButton());
             }
         });
 
         buySpeedMultiplierButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                buySpeedBoostStateMachine.buy(BustaMove.getGameInstance().getDynamicSettings());
+                controller.performUserAction(new BuySpeedMultiplierButton());
             }
         });
 
         buyExtraLifeButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                if (!BustaMove.getGameInstance().getDynamicSettings().hasExtraLife() 
-                        && BustaMove.getGameInstance().getDynamicSettings().getCurrency() >= Config.EXTRA_LIFE_COST) {
-                    BustaMove.getGameInstance().getDynamicSettings().setExtraLife(true, true);
-                    BustaMove.getGameInstance().getDynamicSettings().addCurrency(-1 * Config.EXTRA_LIFE_COST, true);
-                    BustaMove.getGameInstance().log(MessageType.Info, "Extra Life bought");
-                }
+                controller.performUserAction(new BuyExtraLifeButton());
             }
         });     
     }

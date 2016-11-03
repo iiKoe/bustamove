@@ -19,7 +19,7 @@ import com.group66.game.settings.DynamicSettings;
 public class BustaMove extends Game {   
     
     /** The batch. */
-    public SpriteBatch batch;
+    private SpriteBatch batch;
     
     /** The logger. */
     private Logger logger;
@@ -46,14 +46,6 @@ public class BustaMove extends Game {
      */
     public static BustaMove getGameInstance() {
         return game;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public SpriteBatch getBatch() {
-        return batch;
     }
     
     /**
@@ -118,6 +110,14 @@ public class BustaMove extends Game {
      */
     public ProfileManager getProfileManager() {
         return profileManager;
+    }
+    
+    /**
+     * Gets the sprite batch
+     * @return the sprite batch
+     */
+    public SpriteBatch getBatch() {
+        return batch;
     }
 
     /*

@@ -4,7 +4,6 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -16,6 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.TextDrawer;
+import com.group66.game.screencontrollers.YouWinCareerController;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
+import com.group66.game.screencontrollers.actions.PlayNextLevelButton;
+import com.group66.game.screencontrollers.actions.ShopButton;
 import com.group66.game.settings.Config;
 
 /**
@@ -24,7 +27,8 @@ import com.group66.game.settings.Config;
  */
 public class YouWinScreenCareer extends AbstractYouWinScreen {
 
-    private Screen ownInstance;
+    /** The controller. */
+    private YouWinCareerController controller;
 
     /** The text drawer. */
     private TextDrawer textDrawer;
@@ -33,7 +37,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
      */
     public YouWinScreenCareer() {
         super();
-        ownInstance = this;
+        controller = new YouWinCareerController(this);
     }
 
     /* (non-Javadoc)
@@ -79,8 +83,7 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen());
+                controller.performUserAction(new PlayNextLevelButton());
             }
         });
 
@@ -88,16 +91,13 @@ public class YouWinScreenCareer extends AbstractYouWinScreen {
 
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
-
+                controller.performUserAction(new ShopButton());               
             }
         });
 
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
     }

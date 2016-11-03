@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.utils.GdxRuntimeException;
+import com.group66.game.BustaMove;
+import com.group66.game.logging.MessageType;
 
 public class AudioManager {
     private static AudioStateMachine audioStateMachine;
@@ -92,7 +94,7 @@ public class AudioManager {
      * Start the background music
      */
     public static void startMusic() {
-        System.out.println("Starting music");
+        BustaMove.getGameInstance().log(MessageType.Info, "Starting music");
         audioStateMachine.playMusic();
     }
     

@@ -93,7 +93,7 @@ public class DynamicSettings {
 
     /**
      * @param name the name to set
-     * @param writeToFile TODO
+     * @param writeToFile
      */
     public void setName(String name, boolean writeToFile) {
         this.name = name;
@@ -116,7 +116,7 @@ public class DynamicSettings {
      * Sets the currency.
      *
      * @param currency the new currency
-     * @param writeToFile TODO
+     * @param writeToFile
      */
     public void setCurrency(int currency, boolean writeToFile) {
         this.currency = currency;
@@ -130,7 +130,7 @@ public class DynamicSettings {
      * Adds the currency.
      *
      * @param dcurrency the delta currency
-     * @param writeToFile TODO
+     * @param writeToFile
      */
     public void addCurrency(int dcurrency, boolean writeToFile) {
         this.currency += dcurrency;
@@ -154,7 +154,7 @@ public class DynamicSettings {
      * Sets the score multiplier.
      *
      * @param scoreMultiplier the new score multiplier
-     * @param writeToFile TODO
+     * @param writeToFile
      */
     public void setScoreMultiplier(double scoreMultiplier, boolean writeToFile) {
         this.scoreMultiplier = scoreMultiplier;
@@ -177,7 +177,7 @@ public class DynamicSettings {
      * Sets the special bomb chance multiplier.
      *
      * @param specialBombChance the new special bomb chance multiplier
-     * @param writeToFile TODO
+     * @param writeToFile
      */
     public void setSpecialBombChanceMultiplier(double specialBombChance, boolean writeToFile) {
         this.specialBombChanceMultiplier = specialBombChance;
@@ -201,7 +201,7 @@ public class DynamicSettings {
      * Sets the ball speed multiplier.
      *
      * @param ballSpeedMultiplier the new ball speed multiplier
-     * @param writeToFile TODO
+     * @param writeToFile
      */
     public void setBallSpeedMultiplier(double ballSpeedMultiplier, boolean writeToFile) {
         this.ballSpeedMultiplier = ballSpeedMultiplier;
@@ -225,7 +225,7 @@ public class DynamicSettings {
      * Sets the extra life.
      *
      * @param extraLife the new extra life
-     * @param writeToFile TODO
+     * @param writeToFile
      */
     public void setExtraLife(boolean extraLife, boolean writeToFile) {
         this.extraLife = extraLife;
@@ -275,7 +275,7 @@ public class DynamicSettings {
      * Set the current level.
      * 
      * @param currentLevel the currentLevel to set
-     * @param writeToFile TODO
+     * @param writeToFile 
      */
     public void setCurrentLevel(int currentLevel, boolean writeToFile) {
         if (currentLevel <= Config.NUMBER_OF_LEVELS) {
@@ -296,7 +296,7 @@ public class DynamicSettings {
 
     /**
      * @param levelCleared the levelCleared to set
-     * @param writeToFile TODO
+     * @param writeToFile 
      */
     public void setLevelCleared(int levelCleared, boolean writeToFile) {
         if (levelCleared > this.levelCleared) {
@@ -320,7 +320,7 @@ public class DynamicSettings {
      * Set current level random. 
      * 
      * @param randomLevel the randomLevel to set
-     * @param writeToFile TODO
+     * @param writeToFile 
      */
     public void setRandomLevel(boolean randomLevel, boolean writeToFile) {
         this.randomLevel = randomLevel;

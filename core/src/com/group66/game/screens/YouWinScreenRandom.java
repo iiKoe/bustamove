@@ -11,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
+import com.group66.game.screencontrollers.YouWinRandomController;
+import com.group66.game.screencontrollers.actions.ExitButton;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
 import com.group66.game.settings.Config;
 
 /**
@@ -18,12 +21,16 @@ import com.group66.game.settings.Config;
  *
  */
 public class YouWinScreenRandom extends AbstractYouWinScreen {
+    
+    /** The controller. */
+    private YouWinRandomController controller;
 
     /**
-     * 
+     * Instantiates a new you win screen random.
      */
     public YouWinScreenRandom() {
         super();
+        controller = new YouWinRandomController(this);
     }
 
     /* (non-Javadoc)
@@ -54,15 +61,13 @@ public class YouWinScreenRandom extends AbstractYouWinScreen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
 
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                Gdx.app.exit();
+                controller.performUserAction(new ExitButton());
             }
         });
     }

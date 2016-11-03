@@ -19,9 +19,9 @@ public abstract class ScreenTest {
         assertTrue(Gdx.files.internal("roof.png").exists());
     }
     
+    /*
     @Test
     public void functionTest() {
-        /*
         Screen screen = getScreen();
         screen.show();
         screen.resize(200, 100);
@@ -29,14 +29,14 @@ public abstract class ScreenTest {
         screen.resume();
         screen.hide();
         screen.dispose();
-        */
     }
+    */
     
+    /*
     @Test
     public void renderTest() {
-        /*
         Screen screen = getScreen();
         screen.render(1);
-        */
     }
+    */
 }
