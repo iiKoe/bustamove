@@ -42,9 +42,15 @@ public class ThreePlayerGameController extends AbstractGameController {
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
         
-        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-        gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-        gameManager3.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        if (gameManager1.getBallManager() != null) {
+            gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
+        if (gameManager2.getBallManager() != null) {
+            gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
+        if (gameManager3.getBallManager() != null) {
+            gameManager3.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
     }
 
     @Override

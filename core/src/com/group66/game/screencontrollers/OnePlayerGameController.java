@@ -38,7 +38,9 @@ public class OnePlayerGameController extends AbstractGameController {
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
         
-        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        if (gameManager1.getBallManager() != null) {
+            gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
     }
 
     @Override
