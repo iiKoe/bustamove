@@ -1,7 +1,6 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -9,6 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
+import com.group66.game.screencontrollers.MainMenuController;
+import com.group66.game.screencontrollers.actions.ExitButton;
+import com.group66.game.screencontrollers.actions.LevelButton;
+import com.group66.game.screencontrollers.actions.RandomButton;
+import com.group66.game.screencontrollers.actions.ScoresButton;
+import com.group66.game.screencontrollers.actions.SettingsButton;
+import com.group66.game.screencontrollers.actions.SplitButton;
 import com.group66.game.settings.Config;
 
 /**
@@ -16,8 +22,8 @@ import com.group66.game.settings.Config;
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
 
-    /** The own instance. */
-    private Screen ownInstance;
+    /** The Menu Controller. */
+    private MainMenuController controller;
     
     /**  screen buttons. */
     private TextButton levelButton;
@@ -41,8 +47,8 @@ public class MainMenuScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public MainMenuScreen() {
-        ownInstance = this;
         System.out.println("now start create main menu screen");
+        controller = new MainMenuController(this);
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }
@@ -119,41 +125,32 @@ public class MainMenuScreen extends AbstractMenuScreen {
         // Also, canceling a ClickListener event won't revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new CareerScreen());
+                controller.performUserAction(new LevelButton());
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(true, true);
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true));
+                controller.performUserAction(new RandomButton());
             }
         });
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new HighScoreScreen());
+                controller.performUserAction(new ScoresButton());
             }
         });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
-                Gdx.app.exit();
+                controller.performUserAction(new ExitButton());
             }
         });
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new SettingsScreen());
+                controller.performUserAction(new SettingsButton());
             }
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                //BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
-                BustaMove.getGameInstance().setScreen(new MultiplayerMenuScreen());
+                controller.performUserAction(new SplitButton());
             }
         });
     }

@@ -1,6 +1,7 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -12,9 +13,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.HighScoreItem;
+import com.group66.game.screencontrollers.HighScoreMenuController;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
 import com.group66.game.settings.Config;
 
 public class HighScoreScreen extends AbstractMenuScreen {
+    
+    /** The controller. */
+    private HighScoreMenuController controller;
+    
     /** sets up buttons */
     private TextButton backButton;
     
@@ -28,6 +35,7 @@ public class HighScoreScreen extends AbstractMenuScreen {
      * Constructor for the high score screen
      */
     public HighScoreScreen() {
+        controller = new HighScoreMenuController(this);
         createScreen();
     }
 
@@ -43,9 +51,8 @@ public class HighScoreScreen extends AbstractMenuScreen {
         labelwidth = 2f * labelheight;
         xoffset = Math.max((Config.WIDTH - 3f * labelwidth) / 2f, 0);
         
-        LabelStyle labelStyle = new LabelStyle();
-        labelStyle.font = new BitmapFont();
-        
+        LabelStyle labelStyle = new LabelStyle(new BitmapFont(), Color.BLACK);
+       
         //create main highscore list
         int count = 0;
         for (HighScoreItem hsi : BustaMove.getGameInstance().getHighScoreManager().getHighScores()) {
@@ -94,8 +101,7 @@ public class HighScoreScreen extends AbstractMenuScreen {
         backButton.setPosition(xoffset + labelwidth, labelheight);
         backButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
     }
