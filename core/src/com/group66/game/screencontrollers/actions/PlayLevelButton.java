@@ -5,6 +5,9 @@ public class PlayLevelButton implements UserAction {
     /** The level. */
     private int level;
     
+    /** The number of players. */
+    private int numberOfPlayers;
+    
     /**
      * Instantiates a new play level button.
      *
@@ -12,6 +15,18 @@ public class PlayLevelButton implements UserAction {
      */
     public PlayLevelButton(int level) {
         this.level = level;
+        this.numberOfPlayers = 1;
+    }
+    
+    /**
+     * Instantiates a new play level button.
+     *
+     * @param level the level
+     * @param numberOfPlayers the number of players
+     */
+    public PlayLevelButton(int level, int numberOfPlayers) {
+        this.level = level;
+        this.numberOfPlayers = numberOfPlayers;
     }
 
     /**
@@ -21,6 +36,15 @@ public class PlayLevelButton implements UserAction {
      */
     public int getLevel() {
         return level;
+    }
+
+    /**
+     * Gets the number of players.
+     *
+     * @return the number of players
+     */
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
     }
 
 }

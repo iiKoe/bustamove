@@ -53,8 +53,7 @@ public class StartMenuController extends AbstractMenuController {
                     public void runCommand() {
                         AudioManager.toggleMute();
                     }
-            });
-        
+            });        
     }
     
     
