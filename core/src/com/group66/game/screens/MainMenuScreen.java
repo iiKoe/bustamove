@@ -16,10 +16,6 @@ import com.group66.game.settings.Config;
  * A Class for the MainMenuScreen of the game.
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
-
-    /** The own instance. */
-    private Screen ownInstance;
-    
     /**  screen buttons. */
     private TextButton levelButton;
     
@@ -42,8 +38,7 @@ public class MainMenuScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public MainMenuScreen() {
-        ownInstance = this;
-        System.out.println("now start create main menu screen");
+        //System.out.println("now start create main menu screen");
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }
