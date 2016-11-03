@@ -1,10 +1,12 @@
 package com.group66.game.screencontrollers;
 
+import com.badlogic.gdx.Input.Keys;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.GameManager;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
+import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.screens.YouLoseScreenRandom;
 import com.group66.game.screens.YouWinScreenRandom;
@@ -24,6 +26,8 @@ public class ThreePlayerGameController extends AbstractGameController {
         gameManager1 = new GameManager(0, BustaMove.getGameInstance().getDynamicSettings());
         gameManager2 = new GameManager(2, BustaMove.getGameInstance().getDynamicSettings());
         gameManager3 = new GameManager(1, BustaMove.getGameInstance().getDynamicSettings());
+        inputHandler = new InputHandler();
+        setupKeys();
         AudioManager.startMusic();
 
         if (!randomLevel) {
@@ -45,6 +49,9 @@ public class ThreePlayerGameController extends AbstractGameController {
 
     @Override
     public void update(float delta) {
+        /* Handle input keys */
+        inputHandler.run();
+        
         if (gameState == GameState.PAUSED) {
             /* Update the balls without letting them move*/
             gameManager1.update(0);
@@ -91,6 +98,139 @@ public class ThreePlayerGameController extends AbstractGameController {
         }
     }
     
+    /**
+     * Setup the keys used in the game screen keys.
+     */
+    protected void setupKeys() {
+        // Setup the game keys
+        inputHandler.registerKeyMap("Shoot 1", Keys.W);
+        inputHandler.registerKeyMap("Aim Left 1", Keys.A);
+        inputHandler.registerKeyMap("Aim Right 1", Keys.D);
+        inputHandler.registerKeyMap("Shoot 2", Keys.UP);
+        inputHandler.registerKeyMap("Aim Left 2", Keys.LEFT);
+        inputHandler.registerKeyMap("Aim Right 2", Keys.RIGHT);
+        inputHandler.registerKeyMap("Toggle Pause", Keys.ESCAPE);
+        inputHandler.registerKeyMap("Toggle mute", Keys.M);
+        inputHandler.registerKeyMap("Shoot 3", Keys.I);
+        inputHandler.registerKeyMap("Aim Left 3", Keys.J);
+        inputHandler.registerKeyMap("Aim Right 3", Keys.L);
+        
+        /* Register key names to functions */
+        inputHandler.registerKeyPressedFunc("Aim Left 1",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyPressedFunc("Aim Right 1",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager1.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyJustPressedFunc("Shoot 1",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager1.shootBall();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+        
+        inputHandler.registerKeyPressedFunc("Aim Left 2",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager2.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyPressedFunc("Aim Right 2",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager2.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyJustPressedFunc("Shoot 2",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager2.shootBall();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyPressedFunc("Aim Left 3",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager3.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyPressedFunc("Aim Right 3",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager3.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyJustPressedFunc("Shoot 3",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager3.shootBall();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+        inputHandler.registerKeyJustPressedFunc("Toggle Pause",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        togglePause();
+                    }
+                });
+        
+        inputHandler.registerKeyJustPressedFunc("Toggle mute",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        AudioManager.toggleMute();
+                    }
+                });
+        
+    }
+
     /**
      * Gets the first game manager
      * @return the game manager

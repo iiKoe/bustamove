@@ -4,6 +4,7 @@ import javax.naming.OperationNotSupportedException;
 
 import com.group66.game.cannon.GameManager;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.input.InputHandler;
 
 public abstract class AbstractGameController {
     /**
@@ -20,6 +21,9 @@ public abstract class AbstractGameController {
     
     /** The game state. */
     protected GameState gameState;
+
+    /** The input handler. */
+    protected InputHandler inputHandler;
     
     /**
      * Get the game state
@@ -34,6 +38,11 @@ public abstract class AbstractGameController {
      * @param delta The time in seconds since the last render
      */
     public abstract void update(float delta);
+    
+    /**
+     * Setup the keys used in the game screen keys.
+     */
+    protected abstract void setupKeys();
     
     /**
      * Toggles the pause state

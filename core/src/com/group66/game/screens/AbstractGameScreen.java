@@ -6,16 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.group66.game.helpers.AudioManager;
-import com.group66.game.input.InputHandler;
 import com.group66.game.screencontrollers.AbstractGameController;
 
 public abstract class AbstractGameScreen implements Screen {
     
     protected AbstractGameController gameController;
-    
-    /** The input handler. */
-    protected InputHandler inputHandler;
-    
     
     /**
      * Initialization of all graphic related o

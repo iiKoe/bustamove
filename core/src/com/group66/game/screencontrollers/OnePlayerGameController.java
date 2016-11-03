@@ -1,10 +1,12 @@
 package com.group66.game.screencontrollers;
 
+import com.badlogic.gdx.Input.Keys;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.GameManager;
 import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
+import com.group66.game.input.InputHandler;
 import com.group66.game.logging.MessageType;
 import com.group66.game.screens.YouLoseScreenCareer;
 import com.group66.game.screens.YouLoseScreenRandom;
@@ -24,6 +26,8 @@ public class OnePlayerGameController extends AbstractGameController {
     public OnePlayerGameController(Boolean randomLevel, int level) {
         gameState = GameState.RUNNING;
         gameManager1 = new GameManager(BustaMove.getGameInstance().getDynamicSettings());
+        inputHandler = new InputHandler();
+        setupKeys();
         AudioManager.startMusic();
 
         if (!randomLevel) {
@@ -39,6 +43,9 @@ public class OnePlayerGameController extends AbstractGameController {
 
     @Override
     public void update(float delta) {
+        /* Handle input keys */
+        inputHandler.run();
+        
         if (gameState == GameState.PAUSED) {
             /* Update the balls without letting them move*/
             gameManager1.update(0);
@@ -94,6 +101,73 @@ public class OnePlayerGameController extends AbstractGameController {
             }
 
         }
+    }
+    
+    /**
+     * Setup the keys used in the game screen keys.
+     */
+    @Override
+    protected void setupKeys() {
+        // Setup the game keys
+        inputHandler.registerKeyMap("Shoot", Keys.SPACE);
+        inputHandler.registerKeyMap("Shoot", Keys.BACKSPACE);
+        inputHandler.registerKeyMap("Shoot", Keys.W);
+        inputHandler.registerKeyMap("Shoot", Keys.UP);
+        inputHandler.registerKeyMap("Aim Left", Keys.A);
+        inputHandler.registerKeyMap("Aim Left", Keys.LEFT);
+        inputHandler.registerKeyMap("Aim Right", Keys.D);
+        inputHandler.registerKeyMap("Aim Right", Keys.RIGHT);
+        inputHandler.registerKeyMap("Place Ball", Keys.ENTER);
+        inputHandler.registerKeyMap("Toggle Pause", Keys.ESCAPE);
+        inputHandler.registerKeyMap("Toggle mute", Keys.M);
+
+        /* Register key names to functions */
+        inputHandler.registerKeyPressedFunc("Aim Left",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+            });
+
+        inputHandler.registerKeyPressedFunc("Aim Right",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager1.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+            });
+
+        inputHandler.registerKeyJustPressedFunc("Shoot",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        try {
+                            gameManager1.shootBall();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+            });
+
+        inputHandler.registerKeyJustPressedFunc("Toggle Pause",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        togglePause();
+                    }
+            });
+
+        inputHandler.registerKeyJustPressedFunc("Toggle mute",
+                new InputHandler.KeyCommand() {
+                    public void runCommand() {
+                        AudioManager.toggleMute();
+                    }
+            });
     }
     
     /**
