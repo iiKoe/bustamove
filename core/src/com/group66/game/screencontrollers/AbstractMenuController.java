@@ -24,6 +24,11 @@ public abstract class AbstractMenuController {
         setupKeys();
     }
     
+    /**
+     * Perform user action.
+     *
+     * @param action the action
+     */
     public void performUserAction(UserAction action) {
         throw new UnsupportedOperationException();
     }

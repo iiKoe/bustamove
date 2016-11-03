@@ -2,7 +2,9 @@ package com.group66.game.screencontrollers.actions;
 
 public class LevelButton implements UserAction {
 
-    public LevelButton() {
-    }
+    /**
+     * Instantiates a new level button.
+     */
+    public LevelButton() { }
 
 }

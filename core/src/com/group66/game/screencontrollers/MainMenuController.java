@@ -39,28 +39,53 @@ public class MainMenuController extends AbstractMenuController {
         BustaMove.getGameInstance().setScreen(new CareerScreen());
     }
     
+    /**
+     * Perform user action.
+     *
+     * @param action the action
+     */
     public void performUserAction(RandomButton action) {
         super.screen.dispose();
         BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(true, true);
         BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true));
     }
     
+    /**
+     * Perform user action.
+     *
+     * @param action the action
+     */
     public void performUserAction(ScoresButton action) {
         super.screen.dispose();
         BustaMove.getGameInstance().setScreen(new HighScoreScreen());
     }
     
+    /**
+     * Perform user action.
+     *
+     * @param action the action
+     */
     public void performUserAction(SettingsButton action) {
         super.screen.dispose();
         BustaMove.getGameInstance().setScreen(new SettingsScreen());
     }
     
+    /**
+     * Perform user action.
+     *
+     * @param action the action
+     */
     public void performUserAction(ExitButton action) {
         super.screen.dispose();
         BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
         Gdx.app.exit();
     }
     
+    /**
+     * Perform user action.
+     *
+     * @param action the action
+     */
     public void performUserAction(SplitButton action) {
         super.screen.dispose();
         BustaMove.getGameInstance().setScreen(new MultiplayerMenuScreen());
