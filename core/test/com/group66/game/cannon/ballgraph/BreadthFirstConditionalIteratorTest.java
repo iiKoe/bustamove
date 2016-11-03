@@ -1,4 +1,4 @@
-package com.group66.game.cannon;
+package com.group66.game.cannon.ballgraph;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,6 +9,10 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.junit.Test;
 
+import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.BombBall;
+import com.group66.game.cannon.ColoredBall;
 import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
 import com.group66.game.cannon.ballgraph.ColoredBallGraphBreadthFirstConditionalIterator;

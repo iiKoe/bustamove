@@ -1,7 +1,9 @@
-package com.group66.game.cannon;
+package com.group66.game.cannon.ballgraph;
 
 import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.BombBall;
+import com.group66.game.cannon.ColoredBall;
 import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.settings.Config;
 import static org.junit.Assert.assertEquals;
@@ -39,6 +41,8 @@ public class BallGraphTest {
         testBallGraph.insertBall(ball2);
         assertEquals(testBallGraph.numberOfBalls(), 2);
         testBallGraph.removeBall(ball1);
+        assertEquals(testBallGraph.numberOfBalls(), 1);
+        testBallGraph.removeBall(null);
         assertEquals(testBallGraph.numberOfBalls(), 1);
         testBallGraph.removeBall(ball2);
         assertEquals(testBallGraph.numberOfBalls(), 0);      
@@ -116,5 +120,22 @@ public class BallGraphTest {
         testBallGraph.insertBall(ball2);
 
         testBallGraph.getFreeBalls();
+    }
+    
+    /**
+     * Test2 for free balls
+     */
+    @Test
+    public void freeBallTest2() {
+        BallGraph testBallGraph = new BallGraph();
+        testBallGraph.getFreeBalls();
+        
+        float ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD;
+        Ball ball1 = new ColoredBall(BallType.GREEN, -Config.BALL_RAD, ypos, 0, 0);
+        testBallGraph.insertBall(ball1);
+        Ball ball2 = new ColoredBall(BallType.YELLOW, Config.BALL_RAD, ypos, 0, 0);
+        testBallGraph.insertBall(ball2);
+
+        testBallGraph.getFreeBalls(ball1);
     }
 }
