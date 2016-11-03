@@ -16,6 +16,10 @@ public class BallBounce {
      * @param ball the ball
      */
     public static void bounceEdge(Ball ball, boolean isSplit, int segmentOffset) {
+        if (ball == null) {
+            return;
+        }
+        
         /* Check if an edge is hit */
         int left = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {

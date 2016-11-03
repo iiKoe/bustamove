@@ -38,7 +38,9 @@ public class TextDrawer {
      * @param score the score
      */
     public void drawScore(SpriteBatch batch, int score) {
-        myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_OFFSET, Config.SCORE_OFFSET);
+        if (batch != null) {
+            myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_OFFSET, Config.SCORE_OFFSET);
+        }
     }
     
     /**
@@ -50,7 +52,9 @@ public class TextDrawer {
      * @param ypos the y coordinate
      */
     public void draw(SpriteBatch batch, String text, int xpos, int ypos) {
-        myFont.draw(batch, text, xpos, ypos);
+        if (batch != null) {
+            myFont.draw(batch, text, xpos, ypos);
+        }
     }
 }
 

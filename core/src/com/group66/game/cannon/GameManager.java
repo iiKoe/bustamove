@@ -96,7 +96,7 @@ public class GameManager {
      * @param xoffset the xoffset
      */
     private void reset(DynamicSettings dynamicSettings, int xoffset) {
-        this.dynamicSettings = dynamicSettings;
+        this.dynamicSettings = (dynamicSettings == null ? new DynamicSettings() : dynamicSettings);
         this.ballCount = 0;
         this.ballGraph = new BallGraph();
         this.timeKeeper = new TimeKeeper(this);    
@@ -187,6 +187,10 @@ public class GameManager {
      * @param delta the delta
      */
     public void draw(AbstractGameScreen gameScreen, SpriteBatch batch, float delta) {
+        if (gameScreen == null || batch == null) {
+            return;
+        }
+        
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset;
@@ -216,10 +220,12 @@ public class GameManager {
      * @param other the other
      */
     public void shiftClone(GameManager other) {
-        //TODO change to iterator
-        for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
-            float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
-            ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());
+        if (other != null) {
+            //TODO change to iterator
+            for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
+                float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
+                ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());
+            }
         }
     }
     
@@ -229,7 +235,7 @@ public class GameManager {
      * @param ball the ball
      */
     public void ballCheckRoof(Ball ball) {
-        if (ball.getTopHitbox().overlaps(roofHitbox)) {
+        if (ball != null && ball.getTopHitbox().overlaps(roofHitbox)) {
             System.out.println("Attach ball to top");
             ball.setSpeed(0);
             BallSnap.snapBallToRoof(ball, roofHitbox.y + ROOF_OFFSET, this.isSplit, this.segmentOffset);

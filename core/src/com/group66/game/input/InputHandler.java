@@ -59,13 +59,13 @@ public class InputHandler {
      * @param com the command to be run when the Key is Pressed
      */
     public void registerKeyPressedFunc(String keyname, KeyCommand com) {
-
         // Init if key is not yet registered
         if (multiFunctionMapKP.get(keyname) == null) {
             multiFunctionMapKP.put(keyname, new ArrayList<KeyCommand>());
         }
-
-        multiFunctionMapKP.get(keyname).add(com);
+        if (com != null) {
+            multiFunctionMapKP.get(keyname).add(com);
+        }
     }
     
     /**
@@ -79,8 +79,9 @@ public class InputHandler {
         if (multiFunctionMapKJP.get(key) == null) {
             multiFunctionMapKJP.put(key, new ArrayList<KeyCommand>());
         }
-
-        multiFunctionMapKJP.get(key).add(com);
+        if (com != null) {
+            multiFunctionMapKJP.get(key).add(com);
+        }
     }
     
     /**
@@ -88,8 +89,7 @@ public class InputHandler {
      */
     public void run() {
         // KeyPressed
-        for (Map.Entry<String, Collection<KeyCommand>> entry 
-                :multiFunctionMapKP.entrySet()) {
+        for (Map.Entry<String, Collection<KeyCommand>> entry : multiFunctionMapKP.entrySet()) {
             String key = entry.getKey();
             
             Collection<Integer> keyInts = keyMap.get(key);
@@ -107,8 +107,7 @@ public class InputHandler {
         }
         
         // KeyJustPressed
-        for (Map.Entry<String, Collection<KeyCommand>> entry
-                :multiFunctionMapKJP.entrySet()) {
+        for (Map.Entry<String, Collection<KeyCommand>> entry : multiFunctionMapKJP.entrySet()) {
             String key = entry.getKey();
             
             Collection<Integer> keyInts = keyMap.get(key);
