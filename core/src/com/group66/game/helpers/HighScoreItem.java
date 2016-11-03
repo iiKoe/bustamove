@@ -21,12 +21,12 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
      */
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
+        if (other == null || !(other instanceof HighScoreItem)) {
+            return false;
         }
 
-        if (!(other instanceof HighScoreItem)) {
-            return false;
+        if (other == this) {
+            return true;
         }
 
         HighScoreItem that = (HighScoreItem) other;
@@ -43,6 +43,10 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
      * Standard compare function, used for sorting
      */
     public int compareTo(HighScoreItem other) {
+        if (other == null) {
+            return 1;
+        }
+        
         int compa = Integer.compare(other.score, this.score);
         if (compa != 0) {
             return compa;

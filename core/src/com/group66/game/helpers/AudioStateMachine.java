@@ -64,7 +64,9 @@ public class AudioStateMachine {
      * @param state the new state
      */
     public void setState(AudioState state) {
-        this.state = state;
+        if (state != null) {
+            this.state = state;
+        }
     }
     
     /**
@@ -140,7 +142,9 @@ public class AudioStateMachine {
         }
         
         public void toggleMute(AudioStateMachine state) {
-            state.setState(new Active());
+            if (state != null) {
+                state.setState(new Active());
+            }
         }
 
         public Boolean muted() {
@@ -173,8 +177,10 @@ public class AudioStateMachine {
         }
         
         public void toggleMute(AudioStateMachine state) {
-            state.setState(new Muted());
-            AudioManager.getGameMusic().stop();
+            if (state != null) {
+                state.setState(new Muted());
+                AudioManager.getGameMusic().stop();
+            }
         }
 
         public Boolean muted() {

@@ -44,18 +44,20 @@ public class ColoredBallGraphBreadthFirstConditionalIterator extends BallGraphBr
      * @param ball
      */
     private void addEqualBallsOnEdges(Ball ball) {
-        for (DefaultEdge e : graph.edgesOf(ball)) {
-            //Check target of the edge
-            Ball eball = graph.getEdgeTarget(e);
-            if (eball.isEqual(startBall) && !list.contains(eball)) {
-                queue.add(eball);
-                list.add(eball);
-            }
-            //check source of the edge
-            eball = graph.getEdgeSource(e);
-            if (eball.isEqual(startBall) && !list.contains(eball)) {
-                queue.add(eball);
-                list.add(eball);
+        if (ball != null) {
+            for (DefaultEdge e : graph.edgesOf(ball)) {
+                //Check target of the edge
+                Ball eball = graph.getEdgeTarget(e);
+                if (eball.isEqual(startBall) && !list.contains(eball)) {
+                    queue.add(eball);
+                    list.add(eball);
+                }
+                //check source of the edge
+                eball = graph.getEdgeSource(e);
+                if (eball.isEqual(startBall) && !list.contains(eball)) {
+                    queue.add(eball);
+                    list.add(eball);
+                }
             }
         }
     }

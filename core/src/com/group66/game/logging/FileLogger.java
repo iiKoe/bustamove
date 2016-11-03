@@ -21,7 +21,7 @@ public class FileLogger extends Logger {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.verbosity = mt;
+        this.verbosity = (mt == null ? MessageType.Default : mt);
     }
 
     @Override

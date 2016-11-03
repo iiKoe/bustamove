@@ -25,6 +25,9 @@ public class BuySpeedBoost extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null || dynamicSettings == null) {
+                return;
+            }
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
                 dynamicSettings.setBallSpeedMultiplier(1.25, true);
@@ -38,13 +41,13 @@ public class BuySpeedBoost extends BuyStateInstance {
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+25%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return Config.SPEED_INCR_COST;
         }
     }
@@ -57,6 +60,9 @@ public class BuySpeedBoost extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null || dynamicSettings == null) {
+                return;
+            }
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
                 dynamicSettings.setBallSpeedMultiplier(1.5, true);
@@ -70,13 +76,13 @@ public class BuySpeedBoost extends BuyStateInstance {
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+50%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return Config.SPEED_INCR_COST;
         }
     }
@@ -89,6 +95,9 @@ public class BuySpeedBoost extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null || dynamicSettings == null) {
+                return;
+            }
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
                 dynamicSettings.setBallSpeedMultiplier(1.75, true);
@@ -103,13 +112,13 @@ public class BuySpeedBoost extends BuyStateInstance {
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+75%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return Config.SPEED_INCR_COST;
         }
     }
@@ -122,19 +131,22 @@ public class BuySpeedBoost extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null) {
+                return;
+            }
             instance.setCurrent(this);
             BustaMove.getGameInstance().log(MessageType.Info, "Stay in the top state (Speedp20)");
         }
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+75%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return 0;
         }
     }

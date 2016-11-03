@@ -53,7 +53,9 @@ public class BallsCannon {
      * @param ball the ball
      */
     public void add(Ball ball) {
-        cannonBallList.add(ball);
+        if (ball != null) {
+            cannonBallList.add(ball);
+        }
     }
     
     /**
@@ -97,8 +99,10 @@ public class BallsCannon {
      * @param delta the delta
      */
     public void draw(SpriteBatch batch, float delta) {
-        for (Ball ball: cannonBallList) {
-            ball.draw(batch, ball.getType().getAnimation(), delta);
+        if (batch != null) {
+            for (Ball ball: cannonBallList) {
+                ball.draw(batch, ball.getType().getAnimation(), delta);
+            }
         }
     }
     
