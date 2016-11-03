@@ -1,5 +1,8 @@
 package com.group66.game.screencontrollers.actions;
 
+/**
+ * The Class SetDifficultyButton.
+ */
 public class SetDifficultyButton implements UserAction {
 
     /** The difficulty. */

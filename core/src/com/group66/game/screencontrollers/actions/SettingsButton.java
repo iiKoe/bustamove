@@ -1,6 +1,5 @@
 package com.group66.game.screencontrollers.actions;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SettingsButton.
  */

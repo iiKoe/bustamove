@@ -1,7 +1,11 @@
 package com.group66.game.screencontrollers.actions;
 
+/**
+ * The Class RandomButton.
+ */
 public class RandomButton implements UserAction {
 
+    /** The number of players. */
     private int numberOfPlayers;
     /**
      * Instantiates a new random button.

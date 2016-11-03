@@ -19,6 +19,9 @@ import com.group66.game.screens.MultiplayerMenuScreen;
 import com.group66.game.screens.OnePlayerGameScreen;
 import com.group66.game.screens.SettingsScreen;
 
+/**
+ * The Class MainMenuController.
+ */
 public class MainMenuController extends AbstractMenuController {
 
    
@@ -35,8 +38,10 @@ public class MainMenuController extends AbstractMenuController {
      * @param action the action
      */
     public void performUserAction(LevelButton action) {
-        super.screen.dispose();
-        BustaMove.getGameInstance().setScreen(new CareerScreen());
+        if (action != null) {
+            super.screen.dispose();
+            BustaMove.getGameInstance().setScreen(new CareerScreen());
+        }
     }
     
     /**
@@ -45,9 +50,11 @@ public class MainMenuController extends AbstractMenuController {
      * @param action the action
      */
     public void performUserAction(RandomButton action) {
-        super.screen.dispose();
-        BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(true, true);
-        BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true));
+        if (action != null) {
+            super.screen.dispose();
+            BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(true, true);
+            BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true));
+        }
     }
     
     /**
@@ -56,8 +63,10 @@ public class MainMenuController extends AbstractMenuController {
      * @param action the action
      */
     public void performUserAction(ScoresButton action) {
-        super.screen.dispose();
-        BustaMove.getGameInstance().setScreen(new HighScoreScreen());
+        if (action != null) {
+            super.screen.dispose();
+            BustaMove.getGameInstance().setScreen(new HighScoreScreen());
+        }
     }
     
     /**
@@ -66,8 +75,10 @@ public class MainMenuController extends AbstractMenuController {
      * @param action the action
      */
     public void performUserAction(SettingsButton action) {
-        super.screen.dispose();
-        BustaMove.getGameInstance().setScreen(new SettingsScreen());
+        if (action != null) {
+            super.screen.dispose();
+            BustaMove.getGameInstance().setScreen(new SettingsScreen());
+        }
     }
     
     /**
@@ -76,9 +87,11 @@ public class MainMenuController extends AbstractMenuController {
      * @param action the action
      */
     public void performUserAction(ExitButton action) {
-        super.screen.dispose();
-        BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
-        Gdx.app.exit();
+        if (action != null) {
+            super.screen.dispose();
+            BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
+            Gdx.app.exit();
+        }
     }
     
     /**
@@ -87,17 +100,16 @@ public class MainMenuController extends AbstractMenuController {
      * @param action the action
      */
     public void performUserAction(SplitButton action) {
-        super.screen.dispose();
-        BustaMove.getGameInstance().setScreen(new MultiplayerMenuScreen());
-
+        if (action != null) {
+            super.screen.dispose();
+            BustaMove.getGameInstance().setScreen(new MultiplayerMenuScreen());
+        }
     }
 
     /* (non-Javadoc)
      * @see com.group66.game.screencontrollers.AbstractMenuController#setupKeys()
      */
     @Override
-    public void setupKeys() {
-        
-    }
+    public void setupKeys() { }
 
 }

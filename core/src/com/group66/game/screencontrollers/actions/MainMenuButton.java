@@ -2,6 +2,9 @@ package com.group66.game.screencontrollers.actions;
 
 import com.badlogic.gdx.Screen;
 
+/**
+ * The Class MainMenuButton.
+ */
 public class MainMenuButton implements UserAction {
 
     /** The origin. */

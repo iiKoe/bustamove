@@ -1,5 +1,8 @@
 package com.group66.game.screencontrollers.actions;
 
+/**
+ * The Class StartGameButton.
+ */
 public class StartGameButton implements UserAction {
 
     /** The name. */

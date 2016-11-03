@@ -1,5 +1,8 @@
 package com.group66.game.screencontrollers.actions;
 
+/**
+ * The Class PlayLevelButton.
+ */
 public class PlayLevelButton implements UserAction {
 
     /** The level. */

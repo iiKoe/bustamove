@@ -7,6 +7,9 @@ import com.badlogic.gdx.Screen;
 import com.group66.game.input.InputHandler;
 import com.group66.game.screencontrollers.actions.UserAction;
 
+/**
+ * The Class AbstractMenuController.
+ */
 public abstract class AbstractMenuController {
 
     /* The instance of the screen it controls. */
@@ -16,7 +19,9 @@ public abstract class AbstractMenuController {
     protected InputHandler inputHandler;
     
     /**
-     * 
+     * Instantiates a new abstract menu controller.
+     *
+     * @param screen the screen
      */
     public AbstractMenuController(Screen screen) {
         this.screen = screen;
@@ -30,9 +35,11 @@ public abstract class AbstractMenuController {
      * @param action the action
      */
     public void performUserAction(UserAction action) {
-        throw new UnsupportedOperationException();
+        if (action != null) {
+            throw new UnsupportedOperationException();
+        }
     }
-    
+
     /**
      * Setup keys.
      */

@@ -1,21 +1,24 @@
 package com.group66.game.screencontrollers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.group66.game.BustaMove;
+import com.group66.game.logging.MessageType;
+import com.group66.game.screencontrollers.actions.ExitButton;
 import com.group66.game.screencontrollers.actions.MainMenuButton;
 import com.group66.game.screens.MainMenuScreen;
 
 /**
- * The Class HighScoreMenuController.
+ * The Class YouWinRandomController.
  */
-public class HighScoreMenuController extends AbstractMenuController {
+public class YouWinRandomController extends AbstractMenuController {
 
     /**
-     * Instantiates a new high score menu controller.
+     * Instantiates a new you win random controller.
      *
      * @param screen the screen
      */
-    public HighScoreMenuController(Screen screen) {
+    public YouWinRandomController(Screen screen) {
         super(screen);
     }
 
@@ -24,7 +27,7 @@ public class HighScoreMenuController extends AbstractMenuController {
      */
     @Override
     public void setupKeys() { }
-
+    
     /**
      * Perform user action.
      *
@@ -36,4 +39,16 @@ public class HighScoreMenuController extends AbstractMenuController {
             BustaMove.getGameInstance().setScreen(new MainMenuScreen());
         }
     }
+    
+    /**
+     * Perform user action.
+     *
+     * @param action the action
+     */
+    public void performUserAction(ExitButton action) {
+        super.screen.dispose();
+        BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
+        Gdx.app.exit();
+    }
+
 }

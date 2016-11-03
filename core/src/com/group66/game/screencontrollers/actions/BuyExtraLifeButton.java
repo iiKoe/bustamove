@@ -1,5 +1,8 @@
 package com.group66.game.screencontrollers.actions;
 
+/**
+ * The Class BuyExtraLifeButton.
+ */
 public class BuyExtraLifeButton implements UserAction {
 
     /**

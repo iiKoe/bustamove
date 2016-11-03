@@ -19,7 +19,7 @@ import com.group66.game.settings.Config;
  */
 public class SettingsScreen extends AbstractMenuScreen {
 
-    SettingsMenuController controller; 
+    private SettingsMenuController controller; 
     /** sets up button */
     private TextButton easyButton;
     private TextButton mediumButton;
