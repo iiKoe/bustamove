@@ -111,6 +111,14 @@ public class BustaMove extends Game {
     public ProfileManager getProfileManager() {
         return profileManager;
     }
+    
+    /**
+     * Gets the sprite batch
+     * @return the sprite batch
+     */
+    public SpriteBatch getBatch() {
+        return batch;
+    }
 
     /*
      * @see com.badlogic.gdx.ApplicationListener#create()

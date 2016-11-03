@@ -32,7 +32,11 @@ public abstract class AbstractYouLoseScreen implements Screen {
      * Instantiates a new main menu screen.
      */
     public AbstractYouLoseScreen() {
-        createScreen();
+        try {
+            createScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void createScreen() { }
