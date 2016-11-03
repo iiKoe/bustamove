@@ -138,13 +138,13 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         if (gameManager1.isGameComplete() || gameManager2.isGameComplete() || gameManager3.isGameComplete()) {
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
             HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
-            highScoreManager.addScore(gameManager1.scoreKeeper.getCurrentScore());
-            highScoreManager.addScore(gameManager2.scoreKeeper.getCurrentScore());
-            highScoreManager.addScore(gameManager3.scoreKeeper.getCurrentScore());
+            highScoreManager.addScore(gameManager1.getScoreKeeper().getCurrentScore());
+            highScoreManager.addScore(gameManager2.getScoreKeeper().getCurrentScore());
+            highScoreManager.addScore(gameManager3.getScoreKeeper().getCurrentScore());
             
-            int score1 = gameManager1.scoreKeeper.getCurrentScore();
-            int score2 = gameManager2.scoreKeeper.getCurrentScore();
-            int score3 = gameManager3.scoreKeeper.getCurrentScore();
+            int score1 = gameManager1.getScoreKeeper().getCurrentScore();
+            int score2 = gameManager2.getScoreKeeper().getCurrentScore();
+            int score3 = gameManager3.getScoreKeeper().getCurrentScore();
             gameManager1.getDynamicSettings().addCurrency((score1 + score2 + score3) / 3 
                     / Config.SCORE_CURRENCY_DIV, true);
             BustaMove.getGameInstance().setScreen(new YouWinScreenRandom());
@@ -174,14 +174,14 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyPressedFunc("Aim Left 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        gameManager1.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
         inputHandler.registerKeyPressedFunc("Aim Right 1",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager1.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        gameManager1.getCannon().cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 
@@ -195,14 +195,14 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyPressedFunc("Aim Left 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager2.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        gameManager2.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
         inputHandler.registerKeyPressedFunc("Aim Right 2",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager2.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        gameManager2.getCannon().cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 
@@ -216,14 +216,14 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyPressedFunc("Aim Left 3",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager3.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        gameManager3.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
                 });
 
         inputHandler.registerKeyPressedFunc("Aim Right 3",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager3.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        gameManager3.getCannon().cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
                 });
 

@@ -25,7 +25,7 @@ public class GameManager {
     private DynamicSettings dynamicSettings;
 
     /** The cannon instance to shoot out. */
-    public Cannon cannon;
+    private Cannon cannon;
 
     /** The roof hitbox. */
     private Rectangle roofHitbox;
@@ -34,7 +34,7 @@ public class GameManager {
     private BallGraph ballGraph;
 
     /**  The score keeper. */
-    public ScoreKeeper scoreKeeper = new ScoreKeeper();
+    private ScoreKeeper scoreKeeper = new ScoreKeeper();
     
     /**  needed to draw text, draw score. */
     private TextDrawer textDrawer = new TextDrawer();
@@ -326,5 +326,21 @@ public class GameManager {
      */
     public BallManager getBallManager() {
         return this.ballManager;
+    }
+    
+    /**
+     * Gets the score keeper
+     * @return the score keeper
+     */
+    public ScoreKeeper getScoreKeeper() {
+        return scoreKeeper;
+    }
+    
+    /**
+     * Gets the cannon
+     * @return the cannon object
+     */
+    public Cannon getCannon() {
+        return cannon;
     }
 }

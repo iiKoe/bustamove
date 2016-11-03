@@ -111,7 +111,7 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
 
         /* Check if game-complete condition is reached */
         if (gameManager.isGameComplete()) {
-            int score = gameManager.scoreKeeper.getCurrentScore();
+            int score = gameManager.getScoreKeeper().getCurrentScore();
             BustaMove.getGameInstance().log(MessageType.Info, "Completed the level with score: " + score);
             HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
             highScoreManager.addScore(score);
@@ -156,14 +156,14 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         inputHandler.registerKeyPressedFunc("Aim Left",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                        gameManager.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                     }
             });
 
         inputHandler.registerKeyPressedFunc("Aim Right",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        gameManager.cannon.cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
+                        gameManager.getCannon().cannonAimAdjust(-1f * Config.CANNON_AIM_DELTA);
                     }
             });
 
