@@ -29,6 +29,9 @@ public class AudioStateMachine {
          */
         public void playMusic();
         
+        //Stop music
+        public void stopMusic();
+        
         /**
          * Play shoot.
          */
@@ -97,6 +100,13 @@ public class AudioStateMachine {
     }
     
     /**
+     * Stop music.
+     */
+    public void stopMusic() {
+        this.getState().stopMusic();
+    }
+    
+    /**
      * Play shoot sound effect.
      */
     public void playShoot() {
@@ -129,22 +139,18 @@ public class AudioStateMachine {
             this.playMusic();
         }
         
-        /* (non-Javadoc)
-         */
         public void toggleMute(AudioStateMachine state) {
             state.setState(new Active());
         }
 
-        /* (non-Javadoc)
-         */
         public Boolean muted() {
             return true;
         }
 
-        /* (non-Javadoc)
-         */
-        public void playMusic() {
-            AudioManager.gameMusic.stop();
+        public void playMusic() { }
+        
+        public void stopMusic() {
+            AudioManager.getGameMusic().stop();
         }
 
         public void playShoot() { }
@@ -166,36 +172,33 @@ public class AudioStateMachine {
             this.playMusic();
         }
         
-        /* (non-Javadoc)
-         */
         public void toggleMute(AudioStateMachine state) {
             state.setState(new Muted());
-            AudioManager.stopMusic();
-            AudioManager.gameMusic.stop();
+            AudioManager.getGameMusic().stop();
         }
 
-        /* (non-Javadoc)
-         */
         public Boolean muted() {
             return false;
         }
 
-        /* (non-Javadoc)
-         */
         public void playMusic() {
-            AudioManager.gameMusic.play();
+            AudioManager.getGameMusic().play();
+        }
+
+        public void stopMusic() {
+            AudioManager.getGameMusic().stop();
         }
 
         public void playShoot() {
-            AudioManager.shoot.play();
+            AudioManager.getShootSound().play();
         }
 
         public void playWall() {
-            AudioManager.wallhit.play();
+            AudioManager.getWallhitSound().play();
         }
 
         public void playPop() {
-            AudioManager.ballpop.play();
+            AudioManager.getBallpopSound().play();
         }
     }
 }

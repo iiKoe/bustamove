@@ -58,7 +58,7 @@ public class DynamicSettings {
     public DynamicSettings() {
         currency = 0;
         reset();
-        name = new String();
+        name = "";
     }
 
     /**
