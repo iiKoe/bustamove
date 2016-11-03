@@ -17,16 +17,14 @@ public interface BuyState {
     /**
      * Gets the next state info.
      *
-     * @param instance the state machine instance
      * @return the next state info (what does it do)
      */
-    public String getNextStateInfo(BuyStateInstance instance);
+    public String getNextStateInfo();
     
     /**
      * Gets the next state cost.
      *
-     * @param instance the state machine instance
      * @return the next state cost (coins/currency)
      */
-    public int getNextStateCost(BuyStateInstance instance);
+    public int getNextStateCost();
 }

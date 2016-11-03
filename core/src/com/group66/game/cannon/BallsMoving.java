@@ -21,7 +21,9 @@ public class BallsMoving {
      * @param ball the ball
      */
     public void add(Ball ball) {
-        ballList.add(ball);
+        if (ball != null) {
+            ballList.add(ball);
+        }
     }
     
     /**
@@ -58,7 +60,10 @@ public class BallsMoving {
      * @return true, if successful
      */
     public boolean aliveContains(Ball ball) {
-        return ballList.contains(ball);
+        if (ball != null) {
+            return ballList.contains(ball);
+        }
+        return false;
     }
     
     /**
@@ -68,7 +73,10 @@ public class BallsMoving {
      * @return true, if successful
      */
     public boolean deadContains(Ball ball) {
-        return ballDeadList.contains(ball);
+        if (ball != null) {
+            return ballDeadList.contains(ball);
+        }
+        return false;
     }
     
     /**
@@ -77,7 +85,9 @@ public class BallsMoving {
      * @param ball the ball
      */
     public void addDeadBall(Ball ball) {
-        ballDeadList.add(ball);
+        if (ball != null) {
+            ballDeadList.add(ball);
+        }
     }
     
     /**
@@ -115,8 +125,10 @@ public class BallsMoving {
      * @param delta the delta
      */
     public void draw(SpriteBatch batch, float delta) {
-        for (Ball ball : ballList) {
-            ball.draw(batch, ball.getType().getAnimation(), delta);
+        if (batch != null) {
+            for (Ball ball : ballList) {
+                ball.draw(batch, ball.getType().getAnimation(), delta);
+            }
         }
     }
 }

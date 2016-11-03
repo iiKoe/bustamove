@@ -7,7 +7,7 @@ public class ConsoleLogger extends Logger {
      * @param mt the message type to write
      */
     public ConsoleLogger(MessageType mt) {
-        this.verbosity = mt;
+        this.verbosity = (mt == null ? MessageType.Default : mt);
     }
 
     @Override
