@@ -6,10 +6,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
-import com.group66.game.cannon.ballgraph.BallGraph;
 
 /**
  * A Class to manage the Balls that are currently not moving in the game.

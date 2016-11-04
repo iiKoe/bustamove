@@ -25,7 +25,7 @@ public class MainMenuScreen extends AbstractMenuScreen {
 
     /** The Menu Controller. */
     private MainMenuController controller;
-    
+
     /**  screen buttons. */
     private TextButton levelButton;
     
@@ -48,7 +48,6 @@ public class MainMenuScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public MainMenuScreen() {
-        //System.out.println("now start create main menu screen");
         controller = new MainMenuController(this);
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");

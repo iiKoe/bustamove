@@ -1,6 +1,7 @@
 package com.group66.game.screens;
 
 import org.junit.Test;
+
 import com.badlogic.gdx.Screen;
 
 public class HighScoreScreenTest extends ScreenTest {

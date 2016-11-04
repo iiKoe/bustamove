@@ -28,6 +28,8 @@ public class BuySpecialBombChance extends BuyStateInstance {
             if (instance == null || dynamicSettings == null) {
                 return;
             }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.05, true);
@@ -63,6 +65,8 @@ public class BuySpecialBombChance extends BuyStateInstance {
             if (instance == null || dynamicSettings == null) {
                 return;
             }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.1, true);
@@ -98,6 +102,8 @@ public class BuySpecialBombChance extends BuyStateInstance {
             if (instance == null || dynamicSettings == null) {
                 return;
             }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.2, true);
