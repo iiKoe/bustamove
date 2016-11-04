@@ -11,7 +11,9 @@ public class ConsoleLogger extends Logger {
     }
 
     @Override
-    protected void write(String message) {       
-        System.out.println(message);
+    protected void write(String message) {  
+        if (message != null) {
+            System.out.println(message);
+        }
     }
 }

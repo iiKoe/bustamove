@@ -43,7 +43,7 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
                 addEqualBombBallsOnEdges(qball);
             }
 
-            while (!ballsToCheckAdjacenBalls.isEmpty()) {
+            while (!ballsToCheckAdjacenBalls.isEmpty() && list.size() > 1) {
                 Ball qball = ballsToCheckAdjacenBalls.remove();
                 //investigate all the edges of the ball
                 investigateEdgesOfBombBall(qball);

@@ -116,6 +116,7 @@ project(":core") {
         coverageFormats = ['html']
         coverageIgnoreTrivial = true
         coverageIgnores = ['org.slf4j.Logger.*']
+		coverageExcludes = ['.*com.group66.game.screens.*']
     }
 	
 	test.finalizedBy(project.tasks.cobertura)

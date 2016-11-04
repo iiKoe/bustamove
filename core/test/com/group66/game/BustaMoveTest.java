@@ -51,7 +51,11 @@ public class BustaMoveTest {
     @Test
     public void createTest() {
         BustaMove game = BustaMove.getGameInstance();
-        //game.create(); //SpriteBatch causes NullPointerException
+        try {
+            game.create(); //SpriteBatch causes NullPointerException
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -84,13 +88,17 @@ public class BustaMoveTest {
         game.log(MessageType.Info, null);
         game.log(MessageType.Info, "");
         
-        //game.create(); //SpriteBatch causes NullPointerException
-        /*
+        try {
+            game.create(); //SpriteBatch causes NullPointerException
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         game.log(null, null);
         game.log(null, "");
         game.log(null, "Test");
         game.log(MessageType.Info, null);
         game.log(MessageType.Info, "");
-        */
+        
     }
 }
