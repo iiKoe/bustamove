@@ -19,7 +19,7 @@ import com.group66.game.settings.DynamicSettings;
 public class BustaMove extends Game {   
     
     /** The batch. */
-    public SpriteBatch batch;
+    private SpriteBatch batch;
     
     /** The logger. */
     private Logger logger;
@@ -32,6 +32,9 @@ public class BustaMove extends Game {
     
     /** The profile manager. */
     private ProfileManager profileManager;
+    
+    /** The audio manager. */
+    private AudioManager audioManager;
     
     /** Create the only object of this class */
     private static BustaMove game = new BustaMove();
@@ -83,7 +86,11 @@ public class BustaMove extends Game {
         if (logger == null || mt == null || message == null || "".equals(message)) {
             return;
         }
-        logger.log(mt, message);
+        try {
+            logger.log(mt, message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -123,10 +130,10 @@ public class BustaMove extends Game {
      */
     @Override
     public void create() {
-        batch = new SpriteBatch();
         highScoreManager = new HighScoreManager();
         dynamicSettings = new DynamicSettings();
         profileManager = new ProfileManager();
+        audioManager = new AudioManager();
         
         Logger fileLogger = new FileLogger(MessageType.Debug);
         Logger consoleLogger = new ConsoleLogger(MessageType.Info);
@@ -137,7 +144,17 @@ public class BustaMove extends Game {
         /* Log start time */
         logger.log(MessageType.Default, "Game started");
         
-        AudioManager.load();
+        batch = new SpriteBatch();
+
         this.setScreen(new StartScreen());
+    }
+
+    /**
+     * Gets the audio manager.
+     *
+     * @return the audio manager
+     */
+    public AudioManager getAudioManager() {
+        return audioManager;
     }
 }

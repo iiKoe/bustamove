@@ -59,11 +59,10 @@ public class BallGraph {
             if (insert.getY() >= Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD - roofShift) {
                 connectBalls(insert, top);
             }
-            if (getBalls().size() > 0) {
-                for (Ball e : getBalls()) {
-                    if (e != insert && insert.isNextTo(e.getNeighborBox())) {
-                        connectBalls(insert, e);
-                    }
+
+            for (Ball e : getBalls()) {
+                if (e != insert && insert.isNextTo(e.getNeighborBox())) {
+                    connectBalls(insert, e);
                 }
             }
         }

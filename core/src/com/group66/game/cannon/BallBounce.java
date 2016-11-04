@@ -1,7 +1,6 @@
 package com.group66.game.cannon;
 
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
@@ -31,13 +30,13 @@ public class BallBounce {
                 && Math.toDegrees(ball.getAngle()) > 90) {
             // LEFT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-            AudioManager.wallhit();
+            BustaMove.getGameInstance().getAudioManager().wallhit();
             BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         } else if (ball.getX() + Config.BALL_RAD >= right
                 && Math.toDegrees(ball.getAngle()) < 90) {
             // RIGHT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-            AudioManager.wallhit();
+            BustaMove.getGameInstance().getAudioManager().wallhit();
             BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         }
     }

@@ -6,6 +6,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.helpers.AudioManager;
+import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.Ball;
+
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.helpers.TimeKeeper;
@@ -23,7 +26,7 @@ public class GameManager {
     private DynamicSettings dynamicSettings;
 
     /** The cannon instance to shoot out. */
-    public Cannon cannon;
+    private Cannon cannon;
 
     /** The roof hitbox. */
     private Rectangle roofHitbox;
@@ -32,13 +35,13 @@ public class GameManager {
     private BallGraph ballGraph;
 
     /**  The score keeper. */
-    public ScoreKeeper scoreKeeper = new ScoreKeeper();
+    private ScoreKeeper scoreKeeper = new ScoreKeeper();
     
     /**  needed to draw text, draw score. */
     private TextDrawer textDrawer = new TextDrawer();
 
     /**  The TimeKeeper. */
-    public TimeKeeper timeKeeper;
+    private TimeKeeper timeKeeper;
     
     /** The ball count. */
     private int ballCount;
@@ -61,10 +64,8 @@ public class GameManager {
      *
      * @param dynamicSettings the dynamic settings
      */
-    public GameManager(DynamicSettings dynamicSettings) {      
+    public GameManager(DynamicSettings dynamicSettings) {
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
-        this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
-                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
         this.roofHitbox  = new Rectangle(xoffset, Config.HEIGHT - Config.BORDER_SIZE_TOP - ROOF_OFFSET,
                 Config.LEVEL_WIDTH + 2 * Config.BORDER_SIZE_SIDES, Config.LEVEL_HEIGHT);
         
@@ -94,19 +95,24 @@ public class GameManager {
      * @param xoffset the xoffset
      */
     private void reset(DynamicSettings dynamicSettings, int xoffset) {
-        this.dynamicSettings = (dynamicSettings == null ? new DynamicSettings() : dynamicSettings);
-        this.ballCount = 0;
-        this.ballGraph = new BallGraph();
-        this.timeKeeper = new TimeKeeper(this);    
-        this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
-                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
-        
-        this.ballManager = new BallManager(this.dynamicSettings, this.ballGraph, this.cannon, this.scoreKeeper);
-        
-        for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
-            ballManager.increaseColorList();
+        try {
+            this.dynamicSettings = (dynamicSettings == null ? new DynamicSettings() : dynamicSettings);
+            this.ballCount = 0;
+            this.ballGraph = new BallGraph();
+            this.timeKeeper = new TimeKeeper(this);    
+            this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2,
+                    Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE,
+                    Config.CANNON_MAX_ANGLE);
+            
+            this.ballManager = new BallManager(this.dynamicSettings, this.ballGraph, this.cannon, this.scoreKeeper);
+            
+            for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
+                ballManager.increaseColorList();
+            }
+            this.timeKeeper.shotTimeReset();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        this.timeKeeper.shotTimeReset();
     }
 
     /**
@@ -115,7 +121,7 @@ public class GameManager {
     public void shootBall() {
         if (canShoot()) {
             ballManager.shootBall();
-            AudioManager.shoot();
+            BustaMove.getGameInstance().getAudioManager().shoot();
             timeKeeper.shotTimeReset();
             this.ballCount++;
         }
@@ -162,6 +168,9 @@ public class GameManager {
      * @return true, if is game over
      */
     public boolean isGameOver() {
+        if (ballManager == null) {
+            return true;
+        }
         return ballManager.hitsBottom();
     }
     
@@ -226,7 +235,9 @@ public class GameManager {
      * @param other the other
      */
     public void shiftClone(GameManager other) {
-        if (other != null) {
+
+        if (other != null && other.getBallManager() != null
+                && other.getBallManager().getBallsStaticManager() != null) {
             for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
                 float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
                 ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());
@@ -267,6 +278,10 @@ public class GameManager {
      * @param delta the delta
      */
     public void update(float delta) {
+        if (ballManager == null) {
+            return;
+        }
+        
         /* Start counting time*/
         timeKeeper.universalTimeCounter(delta);
         
@@ -337,5 +352,21 @@ public class GameManager {
      */
     public BallManager getBallManager() {
         return this.ballManager;
+    }
+    
+    /**
+     * Gets the score keeper
+     * @return the score keeper
+     */
+    public ScoreKeeper getScoreKeeper() {
+        return scoreKeeper;
+    }
+    
+    /**
+     * Gets the cannon
+     * @return the cannon object
+     */
+    public Cannon getCannon() {
+        return cannon;
     }
 }

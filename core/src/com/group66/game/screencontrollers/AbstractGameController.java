@@ -2,8 +2,8 @@ package com.group66.game.screencontrollers;
 
 import javax.naming.OperationNotSupportedException;
 
+import com.group66.game.BustaMove;
 import com.group66.game.cannon.GameManager;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.input.InputHandler;
 
 public abstract class AbstractGameController {
@@ -52,12 +52,12 @@ public abstract class AbstractGameController {
             case PAUSED:
                 /* Resume the game */
                 gameState = GameState.RUNNING;
-                AudioManager.startMusic();
+                BustaMove.getGameInstance().getAudioManager().startMusic();
                 break;
             case RUNNING:
                 /* Pause the game */
                 gameState = GameState.PAUSED;
-                AudioManager.stopMusic();
+                BustaMove.getGameInstance().getAudioManager().stopMusic();
                 break;
             default:
                 break;

@@ -61,9 +61,9 @@ public class HighScoreManager {
                 count++;
                 
                 JSONObject obj = new JSONObject();
-                obj.put("name", hsi.name);
-                obj.put("date", hsi.date);
-                obj.put("score", hsi.score);
+                obj.put("name", hsi.getName());
+                obj.put("date", hsi.getDate());
+                obj.put("score", hsi.getScore());
                 arr.put(obj);
             }
             file.writeString(arr.toString(), false);

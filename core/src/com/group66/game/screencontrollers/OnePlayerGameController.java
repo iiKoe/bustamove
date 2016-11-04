@@ -3,7 +3,6 @@ package com.group66.game.screencontrollers;
 import com.badlogic.gdx.Input.Keys;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.GameManager;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
@@ -28,7 +27,7 @@ public class OnePlayerGameController extends AbstractGameController {
         gameManager1 = new GameManager(BustaMove.getGameInstance().getDynamicSettings());
         inputHandler = new InputHandler();
         setupKeys();
-        AudioManager.startMusic();
+        BustaMove.getGameInstance().getAudioManager().startMusic();
 
         if (!randomLevel) {
             LevelLoader.loadLevel(gameManager1.getBallManager(), level, false);
@@ -38,7 +37,9 @@ public class OnePlayerGameController extends AbstractGameController {
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
         
-        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        if (gameManager1.getBallManager() != null) {
+            gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
     }
 
     @Override
@@ -78,7 +79,7 @@ public class OnePlayerGameController extends AbstractGameController {
             if (gameManager1.isGameComplete()) {
                 BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
                 
-                int score1 = gameManager1.scoreKeeper.getCurrentScore();
+                int score1 = gameManager1.getScoreKeeper().getCurrentScore();
                 
                 HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
                 highScoreManager.addScore(score1);
@@ -126,7 +127,7 @@ public class OnePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                            gameManager1.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -137,7 +138,7 @@ public class OnePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager1.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                            gameManager1.getCannon().cannonAimAdjust(-Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -165,7 +166,7 @@ public class OnePlayerGameController extends AbstractGameController {
         inputHandler.registerKeyJustPressedFunc("Toggle mute",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        AudioManager.toggleMute();
+                        BustaMove.getGameInstance().getAudioManager().toggleMute();
                     }
             });
     }
