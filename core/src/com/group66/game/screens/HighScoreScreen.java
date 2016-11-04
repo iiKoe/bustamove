@@ -63,13 +63,13 @@ public class HighScoreScreen extends AbstractMenuScreen {
             
             yoffset = Config.HEIGHT - count * labelheight;
             
-            Label name = new Label(hsi.name, labelStyle);
+            Label name = new Label(hsi.getName(), labelStyle);
             name.setPosition(xoffset, yoffset);
             stage.addActor(name);
-            Label date = new Label(hsi.date, labelStyle);
+            Label date = new Label(hsi.getDate(), labelStyle);
             date.setPosition(xoffset + labelwidth, yoffset);
             stage.addActor(date);
-            Label score = new Label("" + hsi.score, labelStyle);
+            Label score = new Label("" + hsi.getScore(), labelStyle);
             score.setPosition(xoffset + 2 * labelwidth, yoffset);
             stage.addActor(score);
         }
@@ -83,7 +83,7 @@ public class HighScoreScreen extends AbstractMenuScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /* Draw the background */
-        SpriteBatch batch = BustaMove.getGameInstance().batch;
+        SpriteBatch batch = BustaMove.getGameInstance().getBatch();
         batch.begin();
         batch.enableBlending();
         batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());

@@ -14,10 +14,10 @@ public class AudioManager {
     private AudioStateMachine audioStateMachine;
     
     /** The shoot. */
-    public Sound shoot, wallhit, ballpop;
+    private Sound shoot, wallhit, ballpop;
     
     /** The game music. */
-    public Music gameMusic;
+    private Music gameMusic;
     
     /**
      * Instantiates a new audio manager.
@@ -70,6 +70,38 @@ public class AudioManager {
      */
     public Boolean isMuted() {
         return audioStateMachine.muted();
+    }
+    
+    /**
+     * Get the game music
+     * @return the game music
+     */
+    public Music getGameMusic() {
+        return gameMusic;
+    }
+    
+    /**
+     * Get the shoot sound effect
+     * @return the shoot sound
+     */
+    public Sound getShootSound() {
+        return shoot;
+    }
+    
+    /**
+     * Get the wall hit sound effect
+     * @return the wall hit sound
+     */
+    public Sound getWallhitSound() {
+        return wallhit;
+    }
+    
+    /**
+     * Get the ball pop sound effect
+     * @return the ball pop sound
+     */
+    public Sound getBallpopSound() {
+        return ballpop;
     }
     
     /**

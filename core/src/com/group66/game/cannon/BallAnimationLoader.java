@@ -22,7 +22,7 @@ public class BallAnimationLoader {
     private static Texture ballPopTexture;
 
     /** The ball animations. */
-    public static Animation blueAnimation, greenAnimation, redAnimation,
+    private static Animation blueAnimation, greenAnimation, redAnimation,
         yellowAnimation, bombAnimation;
     
     /** The ball animation texture regions. */

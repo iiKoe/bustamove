@@ -101,7 +101,14 @@ public class AudioStateMachine {
     }
 
     /**
-     * Play shoot.
+     * Stop music.
+     */
+    public void stopMusic() {
+        this.getState().stopMusic();
+    }
+    
+    /**
+     * Play shoot sound effect.
      */
     public void playShoot() {
         this.getState().playShoot();
@@ -132,7 +139,7 @@ public class AudioStateMachine {
         public Muted() {
             this.playMusic();
         }
-
+        
         /* (non-Javadoc)
          */
         public void toggleMute(AudioStateMachine state) {

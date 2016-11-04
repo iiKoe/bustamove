@@ -5,8 +5,6 @@ import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.Input.Keys;
 import com.group66.game.input.InputHandler.KeyCommand;
-import com.group66.game.settings.DynamicSettings;
-
 import de.tomgrill.gdxtesting.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
@@ -53,26 +51,5 @@ public class InputHandlerTest {
         inputHandler.registerKeyJustPressedFunc("Jump", comm);
         
         inputHandler.run();
-    }
-    
-    @Test
-    public void nameInputTest() {
-        DynamicSettings dynamicSettings = new DynamicSettings();
-        NameInputListener nameInput = new NameInputListener(dynamicSettings);
-        
-        nameInput.input("John");
-        nameInput.canceled();
-    }
-    
-    @Test
-    public void levelSelectInputTest() {
-        DynamicSettings dynamicSettings = new DynamicSettings();
-        LevelSelectInputListener levelSelectInput = new LevelSelectInputListener(dynamicSettings);
-        
-        levelSelectInput.input("2");
-        levelSelectInput.canceled();
-        levelSelectInput.input("0");
-        levelSelectInput.canceled();
-        
     }
 }

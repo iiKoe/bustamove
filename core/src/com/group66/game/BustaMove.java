@@ -19,7 +19,7 @@ import com.group66.game.settings.DynamicSettings;
 public class BustaMove extends Game {   
     
     /** The batch. */
-    public SpriteBatch batch;
+    private SpriteBatch batch;
     
     /** The logger. */
     private Logger logger;
@@ -146,10 +146,15 @@ public class BustaMove extends Game {
         /* Log start time */
         logger.log(MessageType.Default, "Game started");
         
+<<<<<<< HEAD
         //AudioManager.load();
         
         batch = new SpriteBatch();
         
+=======
+        AudioManager.load();
+        batch = new SpriteBatch();
+>>>>>>> refs/remotes/origin/develop
         this.setScreen(new StartScreen());
     }
 
