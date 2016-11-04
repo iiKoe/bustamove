@@ -7,8 +7,10 @@ import de.tomgrill.gdxtesting.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
 public class OnePlayerGameControllerTest extends AbstractGameControllerTest {
+    
     @Override
     protected AbstractGameController getGameController() {
+        
         return new OnePlayerGameController(false, 3);
     }
     
@@ -16,4 +18,5 @@ public class OnePlayerGameControllerTest extends AbstractGameControllerTest {
     public void randomTest() {
         new OnePlayerGameController(true, 1);
     }
+    
 }

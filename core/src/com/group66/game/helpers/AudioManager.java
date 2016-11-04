@@ -8,14 +8,27 @@ import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
 
 public class AudioManager {
-    private static AudioStateMachine audioStateMachine;
-    private static Sound shoot, wallhit, ballpop;
-    private static Music gameMusic;
     
+
+    /** The audio state machine. */
+    private AudioStateMachine audioStateMachine;
+    
+    /** The shoot. */
+    private Sound shoot, wallhit, ballpop;
+    
+    /** The game music. */
+    private Music gameMusic;
+    
+    /**
+     * Instantiates a new audio manager.
+     */
+    public AudioManager() {
+        load();
+    }
     /**
      * Load all the audioclips from files
      */
-    public static void load() {
+    public void load() {
         try {
             shoot = Gdx.audio.newSound(Gdx.files.internal("audio/shoot.wav"));
             wallhit = Gdx.audio.newSound(Gdx.files.internal("audio/wallhit.wav"));
@@ -23,30 +36,31 @@ public class AudioManager {
             gameMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/gamemusic.wav"));
             gameMusic.setVolume(0.5f);
             gameMusic.setLooping(true);
-            audioStateMachine = new AudioStateMachine();
+            
         } catch (GdxRuntimeException e) {
             e.printStackTrace();
         }
+        audioStateMachine = new AudioStateMachine();
     }
     
     /**
      * Mute the music and sounds
      */
-    public static void mute() {
+    public void mute() {
         audioStateMachine.setState(new AudioStateMachine.Muted());
     }
     
     /**
      * Unmute the music and sounds
      */
-    public static void unmute() {
+    public void unmute() {
         audioStateMachine.setState(new AudioStateMachine.Active());
     }
     
     /**
      * Toggle the mute for music and sounds
      */
-    public static void toggleMute() {
+    public void toggleMute() {
         audioStateMachine.toggleMute();
     }
     
@@ -54,7 +68,7 @@ public class AudioManager {
      * See if the audiomanager is muted
      * @return the mute status
      */
-    public static Boolean isMuted() {
+    public Boolean isMuted() {
         return audioStateMachine.muted();
     }
     
@@ -62,7 +76,7 @@ public class AudioManager {
      * Get the game music
      * @return the game music
      */
-    public static Music getGameMusic() {
+    public Music getGameMusic() {
         return gameMusic;
     }
     
@@ -70,7 +84,7 @@ public class AudioManager {
      * Get the shoot sound effect
      * @return the shoot sound
      */
-    public static Sound getShootSound() {
+    public Sound getShootSound() {
         return shoot;
     }
     
@@ -78,7 +92,7 @@ public class AudioManager {
      * Get the wall hit sound effect
      * @return the wall hit sound
      */
-    public static Sound getWallhitSound() {
+    public Sound getWallhitSound() {
         return wallhit;
     }
     
@@ -86,14 +100,14 @@ public class AudioManager {
      * Get the ball pop sound effect
      * @return the ball pop sound
      */
-    public static Sound getBallpopSound() {
+    public Sound getBallpopSound() {
         return ballpop;
     }
     
     /**
      * Start the background music
      */
-    public static void startMusic() {
+    public void startMusic() {
         BustaMove.getGameInstance().log(MessageType.Info, "Starting music");
         audioStateMachine.playMusic();
     }
@@ -101,28 +115,28 @@ public class AudioManager {
     /**
      * Stop the background music
      */
-    public static void stopMusic() {
-        audioStateMachine.stopMusic();
+    public void stopMusic() {
+        audioStateMachine.playMusic();
     }
     
     /**
      * Play the sound for shooting
      */
-    public static void shoot() {
+    public void shoot() {
         audioStateMachine.playShoot();
     }
     
     /**
      * Play the sound for when a ball hits the wall
      */
-    public static void wallhit() {
+    public void wallhit() {
         audioStateMachine.playWall();
     }
     
     /**
      * Play the sound for when a ball pops
      */
-    public static void ballpop() {
+    public void ballpop() {
         try {
             audioStateMachine.playPop();
         } catch (NullPointerException e) {
@@ -133,7 +147,7 @@ public class AudioManager {
     /**
      * Dispose of all audioclips
      */
-    public static void dispose() {
+    public void dispose() {
         shoot.dispose();
         wallhit.dispose();
         ballpop.dispose();

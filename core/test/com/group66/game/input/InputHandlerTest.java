@@ -5,8 +5,6 @@ import org.junit.runner.RunWith;
 
 import com.badlogic.gdx.Input.Keys;
 import com.group66.game.input.InputHandler.KeyCommand;
-import com.group66.game.settings.DynamicSettings;
-
 import de.tomgrill.gdxtesting.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
@@ -25,9 +23,18 @@ public class InputHandlerTest {
         KeyCommand comm = new KeyCommand() {
             public void runCommand() { }
         };
+        KeyCommand comm2 = new KeyCommand() {
+            public void runCommand() { }
+        };
         
         inputHandler.registerKeyPressedFunc("Jump", comm);
+        inputHandler.registerKeyPressedFunc("Jump", comm2);
+        inputHandler.registerKeyPressedFunc("Jump", null);
+        inputHandler.registerKeyPressedFunc(null, null);
         inputHandler.registerKeyJustPressedFunc("Jump", comm);
+        inputHandler.registerKeyJustPressedFunc("Jump", comm2);
+        inputHandler.registerKeyJustPressedFunc("Jump", null);
+        inputHandler.registerKeyJustPressedFunc(null, null);
     }
     
     @Test

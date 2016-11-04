@@ -7,7 +7,7 @@ import de.tomgrill.gdxtesting.GdxTestRunner;
 
 @RunWith(GdxTestRunner.class)
 public class TwoPlayerGameControllerTest extends AbstractGameControllerTest {
-
+    
     @Override
     protected AbstractGameController getGameController() {
         return new TwoPlayerGameController(false, 3);

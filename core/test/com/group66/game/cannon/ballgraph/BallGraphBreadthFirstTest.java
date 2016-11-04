@@ -1,4 +1,4 @@
-package com.group66.game.cannon;
+package com.group66.game.cannon.ballgraph;
 
 import java.util.Iterator;
 
@@ -7,6 +7,11 @@ import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;
 import org.junit.Test;
 
+import com.group66.game.cannon.Ball;
+import com.group66.game.cannon.BallType;
+import com.group66.game.cannon.BombBall;
+import com.group66.game.cannon.ColoredBall;
+import com.group66.game.cannon.TopBall;
 import com.group66.game.settings.Config;
 
 public class BallGraphBreadthFirstTest {
@@ -15,12 +20,14 @@ public class BallGraphBreadthFirstTest {
         UndirectedGraph<Ball, DefaultEdge> graph = new SimpleGraph<Ball, DefaultEdge>(DefaultEdge.class);
         Ball start = new TopBall(BallType.BLUE,0,0,0,0.0f);
         graph.addVertex(start);
-        new BallGraphBreadthFirstConditionalIterator(graph, start);
+        //new BallGraphBreadthFirstConditionalIterator(graph, start);
+        start.createBallGraphBreadthFirstConditionalIterator(graph);
     }
     
     @Test
     public void nullTest() {
-        new BallGraphBreadthFirstConditionalIterator(null, null);
+        //new BallGraphBreadthFirstConditionalIterator(null, null);
+        
     }
     
     @Test
@@ -29,20 +36,21 @@ public class BallGraphBreadthFirstTest {
         Ball start = new TopBall(BallType.BLUE,0,0,0,0.0f);
         graph.addVertex(start);
         
-        Iterator<Ball> iterator = new BallGraphBreadthFirstConditionalIterator(graph, start);
+        Iterator<Ball> iterator = start.createBallGraphBreadthFirstConditionalIterator(graph);
         iterator.hasNext();
         
         float ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD;
         Ball ball1 = new ColoredBall(BallType.BLUE, Config.BALL_RAD, ypos, 0, 0.0f);
         graph.addVertex(ball1);
 
-        Ball ball2 = new ColoredBall(BallType.BLUE, -Config.BALL_RAD, ypos, 0, 0.0f);
+        Ball ball2 = new ColoredBall(BallType.BLUE, Config.BALL_RAD, ypos, 0, 0.0f);
         graph.addVertex(ball2);
+        graph.addEdge(ball1, ball2);
         
-        iterator = new BallGraphBreadthFirstConditionalIterator(graph, start);
+        iterator = start.createBallGraphBreadthFirstConditionalIterator(graph);
         //assertTrue(iterator.hasNext());
         iterator.hasNext();
-        iterator.next();
+        //iterator.next();
     }
     
     @Test
@@ -62,6 +70,6 @@ public class BallGraphBreadthFirstTest {
         Ball ball2 = new ColoredBall(BallType.RED, -Config.BALL_RAD, ypos, 0, 0.0f);
         graph.addVertex(ball2);
         
-        Iterator<Ball> iterator = new BallGraphBreadthFirstConditionalIterator(graph, ball0);        
+        Iterator<Ball> iterator = ball0.createBallGraphBreadthFirstConditionalIterator(graph);        
     }
 }

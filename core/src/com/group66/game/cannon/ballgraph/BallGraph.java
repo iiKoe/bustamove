@@ -60,12 +60,11 @@ public class BallGraph {
                 connectBalls(insert, top);
                 //System.out.println("Connected to top: "+graph.degreeOf(top));
             }
-            if (getBalls().size() > 0) {
-                for (Ball e : getBalls()) {
-                    if (e != insert && insert.isNextTo(e.getNeighborBox())) {
-                        //System.out.println("Balls connected");
-                        connectBalls(insert, e);
-                    }
+
+            for (Ball e : getBalls()) {
+                if (e != insert && insert.isNextTo(e.getNeighborBox())) {
+                    //System.out.println("Balls connected");
+                    connectBalls(insert, e);
                 }
             }
         }

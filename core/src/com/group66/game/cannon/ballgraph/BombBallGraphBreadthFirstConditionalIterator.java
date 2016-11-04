@@ -28,25 +28,27 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
      * @param start where the iterator should start to iterate.
      */
     public BombBallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, DefaultEdge> graph, BombBall start) {
-        startBall = start;
-        this.graph = graph;
-        
-        //Add the ball that is given as parameter
-        list.add(start);
-        queue.add(start);
+        if (graph != null && start != null) {
+            startBall = start;
+            this.graph = graph;
 
-        ballsToCheckAdjacenBalls.add(start);
-        while (!queue.isEmpty()) {
-            Ball qball = queue.remove();
-            addEqualBombBallsOnEdges(qball);
+            //Add the ball that is given as parameter
+            list.add(start);
+            queue.add(start);
+
+            ballsToCheckAdjacenBalls.add(start);
+
+            while (!queue.isEmpty()) {
+                Ball qball = queue.remove();
+                addEqualBombBallsOnEdges(qball);
+            }
+
+            while (!ballsToCheckAdjacenBalls.isEmpty() && list.size() > 1) {
+                Ball qball = ballsToCheckAdjacenBalls.remove();
+                //investigate all the edges of the ball
+                investigateEdgesOfBombBall(qball);
+            }
         }
-
-        while (!ballsToCheckAdjacenBalls.isEmpty() && list.size() > 1) {
-            Ball qball = ballsToCheckAdjacenBalls.remove();
-            //investigate all the edges of the ball
-            investigateEdgesOfBombBall(qball);
-        }
-
     }
 
     /**
@@ -73,7 +75,7 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
             }
         }
     }
-    
+
     /**
      * checks all the balls adjacent to a bomb ball
      * @param ball the bomb ball to investigate
@@ -84,14 +86,14 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
                 //Check target of the edge
                 Ball eball = graph.getEdgeTarget(e);
                 getAllAdjacentBalls(eball);
-    
+
                 //check source of the edge
                 eball = graph.getEdgeSource(e);
                 getAllAdjacentBalls(eball);
             }
         }
     }
-    
+
     /**
      * Gets all the balls adjacent to the given ball.
      * @param ball 
@@ -99,14 +101,14 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
     private void getAllAdjacentBalls(Ball ball) {
         if (ball != null) {
             Iterator<Ball> iterator = new BallGraphAdjacentIterator(graph, ball);
-    
+
             while (iterator.hasNext()) {
                 Ball adjacentBall = iterator.next();
                 checkAndAddColoredBalls(adjacentBall);
             }
         }
     }
-    
+
     private void checkAndAddColoredBalls(Ball ball) {
         if (ball != null && ball instanceof ColoredBall) {
             BallGraphBreadthFirstConditionalIterator checkIterator = 
