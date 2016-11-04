@@ -25,33 +25,6 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         
         BallAnimationLoader.load();
         loadRelatedGraphics();
-<<<<<<< HEAD
-        AudioManager.startMusic();
-
-        /* loads a random or a premade level */
-        if (!randomLevel) {
-            LevelLoader.loadLevel(gameManager1.getBallManager(), level, true);
-            gameManager2.shiftClone(gameManager1);
-            gameManager3.shiftClone(gameManager1);
-            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
-        } else {
-            LevelLoader.generateLevel(gameManager1.getBallManager(), true);
-            gameManager2.shiftClone(gameManager1);
-            gameManager3.shiftClone(gameManager1);
-            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
-        }
-        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-        gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-        gameManager3.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-    }
-    
-    /**
-     * Instantiates the game screen.
-     */
-    public ThreePlayerGameScreen(DynamicSettings dynamicSettings) {
-        this(false);
-=======
->>>>>>> refs/remotes/origin/develop
     }
     
     /**

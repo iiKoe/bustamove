@@ -25,30 +25,6 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
 
         BallAnimationLoader.load();
         loadRelatedGraphics();
-<<<<<<< HEAD
-        AudioManager.startMusic();
-        
-        /* Loads a random or a premade level */
-        if (!randomLevel) {
-            LevelLoader.loadLevel(gameManager1.getBallManager(), level, true);
-            gameManager2.shiftClone(gameManager1);
-            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
-        } else {
-            LevelLoader.generateLevel(gameManager1.getBallManager(), true);
-            gameManager2.shiftClone(gameManager1);
-            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
-        }
-        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-        gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-    }
-    
-    /**
-     * Instantiates the game screen.
-     */
-    public TwoPlayerGameScreen(DynamicSettings dynamicSettings) {
-        this(false);
-=======
->>>>>>> refs/remotes/origin/develop
     }
 
     /**

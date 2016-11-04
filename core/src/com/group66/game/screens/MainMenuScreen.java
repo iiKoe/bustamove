@@ -21,13 +21,10 @@ import com.group66.game.settings.Config;
  * A Class for the MainMenuScreen of the game.
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
-<<<<<<< HEAD
-=======
 
     /** The Menu Controller. */
     private MainMenuController controller;
->>>>>>> refs/remotes/origin/develop
-    
+
     /**  screen buttons. */
     private TextButton levelButton;
     
@@ -50,11 +47,7 @@ public class MainMenuScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public MainMenuScreen() {
-<<<<<<< HEAD
-=======
-        System.out.println("now start create main menu screen");
         controller = new MainMenuController(this);
->>>>>>> refs/remotes/origin/develop
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }

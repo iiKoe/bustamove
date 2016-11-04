@@ -130,11 +130,7 @@ public class DynamicSettings {
      * Adds the currency.
      *
      * @param dcurrency the delta currency
-<<<<<<< HEAD
      * @param writeToFile 
-=======
-     * @param writeToFile
->>>>>>> refs/remotes/origin/develop
      */
     public void addCurrency(int dcurrency, boolean writeToFile) {
         this.currency += dcurrency;
@@ -158,11 +154,7 @@ public class DynamicSettings {
      * Sets the score multiplier.
      *
      * @param scoreMultiplier the new score multiplier
-<<<<<<< HEAD
-     * @param writeToFile 
-=======
      * @param writeToFile
->>>>>>> refs/remotes/origin/develop
      */
     public void setScoreMultiplier(double scoreMultiplier, boolean writeToFile) {
         this.scoreMultiplier = scoreMultiplier;
@@ -185,11 +177,7 @@ public class DynamicSettings {
      * Sets the special bomb chance multiplier.
      *
      * @param specialBombChance the new special bomb chance multiplier
-<<<<<<< HEAD
      * @param writeToFile 
-=======
-     * @param writeToFile
->>>>>>> refs/remotes/origin/develop
      */
     public void setSpecialBombChanceMultiplier(double specialBombChance, boolean writeToFile) {
         this.specialBombChanceMultiplier = specialBombChance;
@@ -287,11 +275,7 @@ public class DynamicSettings {
      * Set the current level.
      * 
      * @param currentLevel the currentLevel to set
-<<<<<<< HEAD
      * @param writeToFile
-=======
-     * @param writeToFile 
->>>>>>> refs/remotes/origin/develop
      */
     public void setCurrentLevel(int currentLevel, boolean writeToFile) {
         if (currentLevel <= Config.NUMBER_OF_LEVELS) {
@@ -312,11 +296,7 @@ public class DynamicSettings {
 
     /**
      * @param levelCleared the levelCleared to set
-<<<<<<< HEAD
      * @param writeToFile
-=======
-     * @param writeToFile 
->>>>>>> refs/remotes/origin/develop
      */
     public void setLevelCleared(int levelCleared, boolean writeToFile) {
         if (levelCleared > this.levelCleared) {
@@ -340,11 +320,7 @@ public class DynamicSettings {
      * Set current level random. 
      * 
      * @param randomLevel the randomLevel to set
-<<<<<<< HEAD
      * @param writeToFile
-=======
-     * @param writeToFile 
->>>>>>> refs/remotes/origin/develop
      */
     public void setRandomLevel(boolean randomLevel, boolean writeToFile) {
         this.randomLevel = randomLevel;

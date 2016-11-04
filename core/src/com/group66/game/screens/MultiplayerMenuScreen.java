@@ -39,10 +39,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
      * Instantiates a new multiplayer menu screen.
      */
     public MultiplayerMenuScreen() {
-<<<<<<< HEAD
-=======
         controller = new MultiplayerMenuController(this);
->>>>>>> refs/remotes/origin/develop
         yoffset = Gdx.graphics.getHeight() / 2 + 200;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");

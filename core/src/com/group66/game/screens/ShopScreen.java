@@ -26,13 +26,6 @@ import com.group66.game.screencontrollers.actions.BuyScoreMultiplierButton;
 import com.group66.game.screencontrollers.actions.BuySpeedMultiplierButton;
 import com.group66.game.screencontrollers.actions.MainMenuButton;
 import com.group66.game.settings.Config;
-<<<<<<< HEAD
-import com.group66.game.shop.BuyScoreMultiplier;
-import com.group66.game.shop.BuySpecialBombChance;
-import com.group66.game.shop.BuySpeedBoost;
-=======
-import com.group66.game.BustaMove;
->>>>>>> refs/remotes/origin/develop
 
 /**
  * A Class for the MainMenuScreen of the game.
@@ -223,17 +216,7 @@ public class ShopScreen extends AbstractMenuScreen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-<<<<<<< HEAD
-                dispose();
-                try {
-                    BustaMove.getGameInstance().setScreen(origin.getClass()
-                            .getConstructor().newInstance());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-=======
                 controller.performUserAction(new MainMenuButton(origin));
->>>>>>> refs/remotes/origin/develop
             }
         });
 

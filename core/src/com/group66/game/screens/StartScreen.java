@@ -1,10 +1,6 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
-<<<<<<< HEAD
-import com.badlogic.gdx.Input.Keys;
-=======
->>>>>>> refs/remotes/origin/develop
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -118,22 +114,5 @@ public class StartScreen extends AbstractMenuScreen {
             }
         });
     }
-<<<<<<< HEAD
-    
-    /**
-     * Setup the keys used in the game screen keys.
-     */
-    private void setup_keys() {
-        // Setup the game keys        
-        inputHandler.registerKeyMap("Toggle mute", Keys.M);
-        inputHandler.registerKeyJustPressedFunc("Toggle mute",
-                new InputHandler.KeyCommand() {
-                    public void runCommand() {
-                        AudioManager.toggleMute();
-                    }
-            });
-    }
-=======
->>>>>>> refs/remotes/origin/develop
 
 }

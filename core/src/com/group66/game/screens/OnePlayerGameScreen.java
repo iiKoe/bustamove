@@ -27,21 +27,6 @@ public class OnePlayerGameScreen extends AbstractGameScreen {
         BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(randomLevel, true);
         loadRelatedGraphics();
         BallAnimationLoader.load();
-<<<<<<< HEAD
-        AudioManager.startMusic();
-
-        /* Loads a random or a premade level */
-        if (!randomLevel) {
-            LevelLoader.loadLevel(gameManager.getBallManager(), 
-                    BustaMove.getGameInstance().getDynamicSettings().getCurrentLevel(), false);
-            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a premade level");
-        } else {
-            LevelLoader.generateLevel(gameManager.getBallManager(), false);
-            BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
-        }
-        gameManager.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-=======
->>>>>>> refs/remotes/origin/develop
     }
 
     /**
