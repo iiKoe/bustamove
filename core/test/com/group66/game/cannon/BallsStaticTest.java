@@ -132,7 +132,7 @@ public class BallsStaticTest {
     @Test
     public void testHitsStaticBallNull() {
         ballsStatic = new BallsStatic(ds, bgMock, colorList);
-        assertNotEquals(ballsStatic.hitsStaticBall(null), null);
+        assertEquals(ballsStatic.hitsStaticBall(null), null);
     }
     
     @Test

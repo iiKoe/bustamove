@@ -48,4 +48,20 @@ public class ColoredBallTest extends BallTest {
     public void colorBombTest() {
         new ColoredBall(BallType.BOMB, 1.2f, 2.3f, 4, 5.6f);
     }
+    
+    @Test
+    public void testIsEqual() {
+        ColoredBall ball1 = new ColoredBall(BallType.RED, 1.2f, 2.3f, 4, 5.6f);
+        ColoredBall ball2 = new ColoredBall(BallType.BLUE, 1.2f, 2.3f, 4, 5.6f);
+        
+        assertTrue(ball1.isEqual(ball1));
+        assertFalse(ball1.isEqual(null));
+        assertFalse(ball1.isEqual(ball2));
+    }
+    
+    @Test
+    public void drawNullTest() {
+        ColoredBall red = new ColoredBall(BallType.RED, 1.2f, 2.3f, 4, 5.6f);
+        red.draw(null, 0);
+    }
 }

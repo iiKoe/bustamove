@@ -163,6 +163,9 @@ public class BallManager {
      * @param segmentOffset the segment offset
      */
     public void ballHitBall(Ball ball, boolean isSplit, int segmentOffset) {
+        if (ball == null) {
+            return;
+        }
         Ball hitBall = ballsStaticManager.hitsStaticBall(ball);
         if (hitBall != null) {
             ball.setSpeed(0);
@@ -179,6 +182,9 @@ public class BallManager {
     public void shootBall() {
         int newSpeed = (int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier());
         Ball ball = ballsCannonManager.getFirst();
+        if (ball == null) {
+            return;
+        }
         ballsMovingManager.add(ball);
         Ball lastBall = ballsMovingManager.getLastBall();
         lastBall.setAngle((float) Math.toRadians(cannon.getAngle()));

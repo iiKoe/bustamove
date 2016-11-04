@@ -148,7 +148,9 @@ public class AudioStateMachine {
         /* (non-Javadoc)
          */
         public void playMusic() {
-            AudioManager.getGameMusic().stop();
+            if (AudioManager.getGameMusic() != null) {
+                AudioManager.getGameMusic().stop();
+            }
         }
 
         /* (non-Javadoc)

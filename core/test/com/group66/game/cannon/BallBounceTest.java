@@ -38,6 +38,18 @@ public class BallBounceTest {
     }
     
     @Test
+    public void testBounceEdgeOUB() {
+        int left = Config.SINGLE_PLAYER_OFFSET;
+        int right = left + Config.LEVEL_WIDTH;
+        
+        Ball ballHitEdgeL = new ColoredBall(BallType.BLUE, left, 10f, 0, (float) Math.toRadians(10));
+        BallBounce.bounceEdge(ballHitEdgeL, false, 0);
+        
+        Ball ballHitEdgeR = new ColoredBall(BallType.BLUE, right, 10f, 0, (float) Math.toRadians(100));
+        BallBounce.bounceEdge(ballHitEdgeR, false, 0);
+    }
+    
+    @Test
     public void testBounceEdgeSplit() {
         int left = Config.SEGMENT_OFFSET + Config.BORDER_SIZE_SIDES;
         int right = left + Config.LEVEL_WIDTH;

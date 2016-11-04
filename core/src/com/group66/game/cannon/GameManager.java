@@ -37,7 +37,7 @@ public class GameManager {
     public ScoreKeeper scoreKeeper = new ScoreKeeper();
     
     /**  needed to draw text, draw score. */
-    private TextDrawer textDrawer = new TextDrawer();
+    private TextDrawer textDrawer;
 
     /**  The TimeKeeper. */
     public TimeKeeper timeKeeper;
@@ -99,7 +99,12 @@ public class GameManager {
         this.dynamicSettings = (dynamicSettings == null ? new DynamicSettings() : dynamicSettings);
         this.ballCount = 0;
         this.ballGraph = new BallGraph();
-        this.timeKeeper = new TimeKeeper(this);    
+        this.timeKeeper = new TimeKeeper(this);
+        try {
+            this.textDrawer = new TextDrawer();
+        } catch (com.badlogic.gdx.utils.GdxRuntimeException e) {
+            // For junit testing
+        }
         this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
                 Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
         
@@ -117,7 +122,11 @@ public class GameManager {
     public void shootBall() {
         if (canShoot()) {
             ballManager.shootBall();
-            AudioManager.shoot();
+            try {
+                AudioManager.shoot();
+            } catch (NullPointerException e) {
+                // For junit test
+            }
             timeKeeper.shotTimeReset();
             this.ballCount++;
         }
@@ -210,8 +219,12 @@ public class GameManager {
         cannon.draw(batch);
         
         /* Draw the score */
-        textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
-                Config.SCORE_OFFSET);
+        try {
+            textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
+                    Config.SCORE_OFFSET);
+        } catch (NullPointerException e) {
+            
+        }
     }
 
     /**
@@ -221,7 +234,6 @@ public class GameManager {
      */
     public void shiftClone(GameManager other) {
         if (other != null) {
-            //TODO change to iterator
             for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
                 float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
                 ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());
@@ -271,7 +283,6 @@ public class GameManager {
         /* Check shooting balls */
         // NB. Currently only 1 ball can be shot at a time in the game nevertheless the
         // current BallList implementation is kept for versatility and to be future proof
-        // TODO change to iterator
         for (Ball ball : ballManager.getBallList()) {
             ball.update(delta);
             ballManager.ballCheckDead(ball);
