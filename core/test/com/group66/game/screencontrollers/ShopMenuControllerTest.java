@@ -4,6 +4,7 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Test;
 
+import com.group66.game.BustaMove;
 import com.group66.game.screencontrollers.actions.BuyBombChanceButton;
 import com.group66.game.screencontrollers.actions.BuyExtraLifeButton;
 import com.group66.game.screencontrollers.actions.BuyScoreMultiplierButton;
@@ -58,6 +59,18 @@ public class ShopMenuControllerTest extends AbstractMenuControllerTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        try {
+            controller.performUserAction(new BuyExtraLifeButton());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            controller.performUserAction(new BuyExtraLifeButton());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        BustaMove.getGameInstance().getDynamicSettings().setExtraLife(false, false);
+        BustaMove.getGameInstance().getDynamicSettings().setCurrency(0, false);
         try {
             controller.performUserAction(new BuyExtraLifeButton());
         } catch (Exception e) {

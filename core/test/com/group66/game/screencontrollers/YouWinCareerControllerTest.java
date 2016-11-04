@@ -5,22 +5,21 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 
 import com.group66.game.screencontrollers.actions.MainMenuButton;
-import com.group66.game.screencontrollers.actions.PlayLevelButton;
-import com.group66.game.screencontrollers.actions.ResetButton;
+import com.group66.game.screencontrollers.actions.PlayNextLevelButton;
 import com.group66.game.screencontrollers.actions.ShopButton;
-import com.group66.game.screens.CareerScreen;
+import com.group66.game.screens.YouWinScreenCareer;
 
-public class CareerMenuControllerTest extends AbstractMenuControllerTest {
+public class YouWinCareerControllerTest extends AbstractMenuControllerTest {
 
     @Override
     protected AbstractMenuController getMenuController() {
-        CareerScreen screenMock = mock(CareerScreen.class);
-        return new CareerMenuController(screenMock);
+        YouWinScreenCareer screenMock = mock(YouWinScreenCareer.class);
+        return new YouWinCareerController(screenMock);
     }
     
     @Test
     public void performUserActionTest() {
-        CareerMenuController controller = (CareerMenuController) getMenuController();
+        YouWinCareerController controller = (YouWinCareerController) getMenuController();
         try {
             controller.performUserAction(new ShopButton());
         } catch (Exception e) {
@@ -32,12 +31,12 @@ public class CareerMenuControllerTest extends AbstractMenuControllerTest {
             e.printStackTrace();
         }
         try {
-            controller.performUserAction(new ResetButton());
+            controller.performUserAction(new PlayNextLevelButton());
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
-            controller.performUserAction((ResetButton)null);
+            controller.performUserAction((PlayNextLevelButton)null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -48,22 +47,6 @@ public class CareerMenuControllerTest extends AbstractMenuControllerTest {
         }
         try {
             controller.performUserAction((MainMenuButton)null);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            controller.performUserAction(new PlayLevelButton(1));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            controller.performUserAction(new PlayLevelButton(10));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            controller.performUserAction((PlayLevelButton)null);
-
         } catch (Exception e) {
             e.printStackTrace();
         }
