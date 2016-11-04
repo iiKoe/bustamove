@@ -4,7 +4,6 @@ import static org.mockito.Mockito.mock;
 
 import org.junit.Before;
 import org.junit.Test;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.headless.HeadlessFiles;
 import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
@@ -33,6 +32,7 @@ public abstract class AbstractGameControllerTest {
             e.printStackTrace();
         }
     }
+    
     
     protected abstract AbstractGameController getGameController();
     
