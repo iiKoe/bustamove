@@ -3,7 +3,7 @@ package com.group66.game.screencontrollers;
 import org.junit.Test;
 
 import com.group66.game.BustaMove;
-
+/*
 public class OnePlayerGameControllerTest extends AbstractGameControllerTest {
     @Override
     protected AbstractGameController getGameController() {
@@ -25,3 +25,4 @@ public class OnePlayerGameControllerTest extends AbstractGameControllerTest {
         new OnePlayerGameController(true, 1);
     }
 }
+*/
