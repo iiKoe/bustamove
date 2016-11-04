@@ -25,7 +25,11 @@ public class YouLoseCareerControllerTest extends AbstractMenuControllerTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BustaMove.getGameInstance().getDynamicSettings().setExtraLife(true, false);
+        try {
+            BustaMove.getGameInstance().getDynamicSettings().setExtraLife(true, false);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             controller.performUserAction(new TryAgainButton());
         } catch (Exception e) {

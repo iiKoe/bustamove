@@ -129,6 +129,7 @@ public class BustaMove extends Game {
      */
     @Override
     public void create() {
+        batch = new SpriteBatch();
         highScoreManager = new HighScoreManager();
         dynamicSettings = new DynamicSettings();
         profileManager = new ProfileManager();
@@ -144,7 +145,7 @@ public class BustaMove extends Game {
         
         AudioManager.load();
         
-        batch = new SpriteBatch();
+        
         
         this.setScreen(new StartScreen());
     }
