@@ -71,7 +71,7 @@ public class BallManager {
      * @param ball the ball
      */
     public void ballCheckDead(Ball ball) {
-        if (ball.isDead()) {
+        if (ball != null && ball.isDead()) {
             ballsMovingManager.addDeadBall(ball);
         }
     }
@@ -194,17 +194,19 @@ public class BallManager {
      * @param delta the delta
      */
     public void update(SpriteBatch batch, float delta) {
-        /* Draw shot ball */
-        ballsMovingManager.draw(batch, delta);
-
-        /* Draw static target balls */
-        ballsStaticManager.draw(batch, delta);
-
-        /* Draw popping balls */
-        ballsPopManager.draw(batch, delta);
-
-        /* Draw cannon balls */
-        ballsCannonManager.draw(batch, delta);
+        if (batch != null) {
+            /* Draw shot ball */
+            ballsMovingManager.draw(batch, delta);
+    
+            /* Draw static target balls */
+            ballsStaticManager.draw(batch, delta);
+    
+            /* Draw popping balls */
+            ballsPopManager.draw(batch, delta);
+    
+            /* Draw cannon balls */
+            ballsCannonManager.draw(batch, delta);
+        }
     }
     
     /**
@@ -256,7 +258,9 @@ public class BallManager {
      * @param ball the ball
      */
     public void addBallDeadlist(Ball ball) {
-        ballsMovingManager.addDeadBall(ball);
+        if (ball != null) {
+            ballsMovingManager.addDeadBall(ball);
+        }
     }
     
     /**
@@ -265,7 +269,9 @@ public class BallManager {
      * @param ball the ball
      */
     public void addStaticBallToBeAdded(Ball ball) {
-        ballToBeAdded.add(ball);
+        if (ball != null) {
+            ballToBeAdded.add(ball);
+        }
     }
     
     /**

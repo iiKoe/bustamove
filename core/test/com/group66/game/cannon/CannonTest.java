@@ -68,7 +68,7 @@ public class CannonTest {
     /**
      * Draw null test.
      */
-    @Test(expected = NullPointerException.class)
+    @Test
     public void drawNullTest() {
         Texture textureMock = mock(Texture.class);
         Cannon cannon = new Cannon(textureMock, 0, 0, 0, 0, -1, 180);

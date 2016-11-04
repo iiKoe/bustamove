@@ -50,7 +50,7 @@ public class Cannon {
         if (texture == null) {
             throw new NullPointerException();
         }
-        this.angle =  90;
+        this.angle = 90;
         this.xpos = xpos;
         this.ypos = ypos;
         this.height = height;
@@ -68,7 +68,7 @@ public class Cannon {
      * @param angleAdjust the angle which we add to the current Cannon angle
      */
     public void cannonAimAdjust(float angleAdjust) {
-        this.angle = checkAngle(this.angle + angleAdjust);
+        this.angle = clampAngle(this.angle + angleAdjust);
     }
     
     /**
@@ -77,7 +77,7 @@ public class Cannon {
      * @param angle the new angle
      */
     public void setAngle(float angle) {
-        this.angle = checkAngle(angle);
+        this.angle = clampAngle(angle);
     }
     
     /**
@@ -131,20 +131,19 @@ public class Cannon {
      * @param batch the batch used to draw with
      */
     public void draw(SpriteBatch batch) {
-        if (batch == null) {
-            throw new NullPointerException();
+        if (batch != null) {
+            batch.draw(cannonTextureRegion, xpos - width / 2f, ypos - height / 2f, width / 2f, height / 2f, width,
+                    height, 1, 1, angle, true);
         }
-        batch.draw(cannonTextureRegion, xpos - width / 2f, ypos - height / 2f, 
-                width / 2f, height / 2f, width, height, 1, 1, angle, true);
     }
     
     /**
-     * Check if the cannon angle is within boundaries.
+     * Make sure that the cannon angle is within boundaries.
      *
      * @param angle the angle
      * @return the angle within boundaries
      */
-    private float checkAngle(float angle) {
+    private float clampAngle(float angle) {
         if (angle > this.maxAngle) {
             angle = this.maxAngle;
         } else if (angle < this.minAngle) {

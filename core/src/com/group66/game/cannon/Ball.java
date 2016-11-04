@@ -76,7 +76,7 @@ public abstract class Ball {
         this.time = 10;
         this.speed = speed;
         this.angle = angle;
-        this.type = type;
+        this.type = (type == null ? BallType.BLUE : type);
         this.popStatus = PopStatus.NONE;
         this.runtime = 0f;
 
@@ -245,7 +245,7 @@ public abstract class Ball {
      * @return true, if the hitboxes overlap
      */
     public boolean doesHit(Circle circle) {
-        return circle.overlaps(hitbox);
+        return hitbox.overlaps(circle);
     }
 
     /**
@@ -254,7 +254,7 @@ public abstract class Ball {
      * @return true, if the neighborBoxes overlap.
      */
     public boolean isNextTo(Circle circle) {
-        return circle.overlaps(neighborBox);
+        return neighborBox.overlaps(circle);
     }
 
     /**
@@ -335,7 +335,9 @@ public abstract class Ball {
             return;
         }
 
-        batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
+        if (batch != null) {
+            batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
+        }
     }
 
     /**

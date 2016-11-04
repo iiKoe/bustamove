@@ -18,6 +18,10 @@ public class BallSnap {
      * @param segmentOffset the segment offset
      */
     public static void snapBallToGrid(Ball ball, Ball hitb, boolean isSplit, int segmentOffset) {
+        if (ball == null || hitb == null) {
+            return;
+        }
+        
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset + Config.BORDER_SIZE_SIDES;
@@ -108,6 +112,10 @@ public class BallSnap {
      * @param segmentOffset the segment offset
      */
     public static void snapBallToRoof(Ball ball, float roofy, boolean isSplit, int segmentOffset) {
+        if (ball == null) {
+            return;
+        }
+        
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset + Config.BORDER_SIZE_SIDES;

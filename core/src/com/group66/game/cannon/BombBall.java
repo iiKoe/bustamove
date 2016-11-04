@@ -29,11 +29,7 @@ public class BombBall extends Ball {
      * Checks if the balls are equal
      */
     public Boolean isEqual(Ball ball) {
-        if (ball.getType().equals(this.getType())) {
-            return true;
-        }
-        
-        return false;
+        return ball != null && ball.getType().equals(this.getType());
     }
     
     /**
