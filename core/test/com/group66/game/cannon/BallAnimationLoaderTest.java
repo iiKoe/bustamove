@@ -6,7 +6,7 @@ public class BallAnimationLoaderTest {
     
     BallAnimationLoader ballAnimationLoader = new BallAnimationLoader();
 
-    @Test
+    @Test(expected=NullPointerException.class)
     public void testLoad() {
         BallAnimationLoader.load();
     }
@@ -31,7 +31,7 @@ public class BallAnimationLoaderTest {
         BallAnimationLoader.getYellowPopAnimation();
     }
 
-    @Test
+    @Test(expected=NullPointerException.class)
     public void testDispose() {
         BallAnimationLoader.dispose();
     }
