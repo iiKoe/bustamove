@@ -8,10 +8,23 @@ import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
 
 public class AudioManager {
+    
+
+    /** The audio state machine. */
     private AudioStateMachine audioStateMachine;
+    
+    /** The shoot. */
     public Sound shoot, wallhit, ballpop;
+    
+    /** The game music. */
     public Music gameMusic;
     
+    /**
+     * Instantiates a new audio manager.
+     */
+    public AudioManager() {
+        load();
+    }
     /**
      * Load all the audioclips from files
      */
