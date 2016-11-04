@@ -74,8 +74,8 @@ public class CareerMenuController extends AbstractMenuController {
         if (action != null && BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() 
                 >= action.getLevel() - 1) {
             screen.dispose();
-            BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(action.getLevel(), false);
-            BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false));
+            BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(action.getLevel(), true);
+            BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen());
         }
     }
 

@@ -103,6 +103,7 @@ public class BallGraphTest {
         testBallGraph.insertBall(ball1);
         assertEquals(true, testBallGraph.placeTaken(ball1.getX(), ball1.getY()));
         assertEquals(false, testBallGraph.placeTaken(10.0f,  10.0f));
+        assertEquals(false, testBallGraph.placeTaken(ball1.getX(), 100.0f));
     }
 
     /**
@@ -128,7 +129,7 @@ public class BallGraphTest {
     @Test
     public void freeBallTest2() {
         BallGraph testBallGraph = new BallGraph();
-        testBallGraph.getFreeBalls();
+        testBallGraph.getFreeBalls(null);
         
         float ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD;
         Ball ball1 = new ColoredBall(BallType.GREEN, -Config.BALL_RAD, ypos, 0, 0);
@@ -137,5 +138,61 @@ public class BallGraphTest {
         testBallGraph.insertBall(ball2);
 
         testBallGraph.getFreeBalls(ball1);
+    }
+    
+    /**
+     * Test3 for free balls
+     */
+    @Test
+    public void freeBallTest3() {
+        BallGraph testBallGraph = new BallGraph();
+        testBallGraph.getFreeBalls(null);
+        
+        float ypos = Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD;
+        Ball ball1 = new ColoredBall(BallType.GREEN, -Config.BALL_RAD, ypos, 0, 0);
+        testBallGraph.insertBall(ball1);
+        Ball ball2 = new ColoredBall(BallType.YELLOW, Config.BALL_RAD + 1000, ypos + 1000, 0, 0);
+        testBallGraph.insertBall(ball2);
+        Ball ball3 = new ColoredBall(BallType.YELLOW, Config.BALL_RAD + 10000, ypos + 10000, 0, 0);
+        testBallGraph.insertBall(ball3);
+        Ball ball4 = new ColoredBall(BallType.YELLOW, 0, 0, 0, 0);
+        testBallGraph.insertBall(ball4);
+        Ball ball5 = new ColoredBall(BallType.YELLOW, 50, 50, 0, 0);
+        testBallGraph.insertBall(ball5);
+        testBallGraph.getFreeBalls();
+        testBallGraph.getFreeBalls(null);
+
+        testBallGraph.getFreeBalls(ball2);
+    }
+    
+    /**
+     * Connect test.
+     */
+    @Test
+    public void connectTest() {
+        BallGraph testBallGraph = new BallGraph();
+        Ball ball1 = new ColoredBall(BallType.GREEN, 0, 0, 0, 0);
+        testBallGraph.insertBall(ball1);
+        testBallGraph.connectBalls(null, null);
+        testBallGraph.connectBalls(ball1, null);
+        testBallGraph.connectBalls(null, ball1);
+    }
+    
+    /**
+     * Roof shift test.
+     */
+    @Test
+    public void roofShiftTest() {
+        BallGraph testBallGraph = new BallGraph();
+        testBallGraph.setRoofShift(10);
+    }
+    
+    @Test
+    public void getBallsTest() {
+        BallGraph testBallGraph = new BallGraph();
+        Ball ball1 = new ColoredBall(BallType.GREEN, 0, 0, 0, 0);
+        testBallGraph.insertBall(ball1);
+        testBallGraph.getBalls(null);
+        testBallGraph.getBalls(ball1);
     }
 }
