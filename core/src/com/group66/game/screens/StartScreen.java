@@ -36,7 +36,9 @@ public class StartScreen extends AbstractMenuScreen {
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
     }
 
-
+    /**
+     * Creates a screen
+     */
     private void createScreen() {
         loadRelatedGraphics();
         stage = new Stage();

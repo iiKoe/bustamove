@@ -58,7 +58,6 @@ public class BustaMove extends Game {
      */
     public int getGameHeight() {
         return Config.HEIGHT;
-        //return Gdx.graphics.getHeight();
     }
     
     /**
@@ -68,7 +67,6 @@ public class BustaMove extends Game {
      */
     public int getGameWidth() {
         return Config.WIDTH;
-        //return Gdx.graphics.getWidth();
     }
     
     /**

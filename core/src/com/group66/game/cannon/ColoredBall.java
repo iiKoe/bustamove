@@ -4,7 +4,6 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
 import com.group66.game.cannon.ballgraph.ColoredBallGraphBreadthFirstConditionalIterator;
 /**

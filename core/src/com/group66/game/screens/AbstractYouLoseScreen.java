@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.group66.game.settings.Config;
 import com.group66.game.BustaMove;
+import com.group66.game.settings.Config;
 
 /**
  * A Class for the MainMenuScreen of the game.

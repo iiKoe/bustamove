@@ -28,6 +28,8 @@ public class BuySpeedBoost extends BuyStateInstance {
             if (instance == null || dynamicSettings == null) {
                 return;
             }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
                 dynamicSettings.setBallSpeedMultiplier(1.25, true);
@@ -63,6 +65,8 @@ public class BuySpeedBoost extends BuyStateInstance {
             if (instance == null || dynamicSettings == null) {
                 return;
             }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
                 dynamicSettings.setBallSpeedMultiplier(1.5, true);
@@ -98,6 +102,7 @@ public class BuySpeedBoost extends BuyStateInstance {
             if (instance == null || dynamicSettings == null) {
                 return;
             }
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.SPEED_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.SPEED_INCR_COST, true);
                 dynamicSettings.setBallSpeedMultiplier(1.75, true);

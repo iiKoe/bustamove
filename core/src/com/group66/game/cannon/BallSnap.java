@@ -27,6 +27,7 @@ public class BallSnap {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset + Config.BORDER_SIZE_SIDES;
         }
 
+        //Calculating snap points
         float hitx = hitb.getX();
         float hity = hitb.getY();
 

@@ -34,7 +34,6 @@ public class BallsPop {
             Ball ball = it.next();
             if (ball.popDone() == true) {
                 it.remove();
-                //System.out.println("Pop list size: " + ballPopList.size());
             }
         }
     }

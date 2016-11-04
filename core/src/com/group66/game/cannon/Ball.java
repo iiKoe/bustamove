@@ -324,7 +324,6 @@ public abstract class Ball {
      */
     public void draw(SpriteBatch batch, Animation animation, float delta) {
         this.runtime += delta;
-        // batch.draw(ball_texture, ); // TODO calc actual x and y
 
         TextureRegion tr;
         // TODO What to draw when popping is done? Nothing?
