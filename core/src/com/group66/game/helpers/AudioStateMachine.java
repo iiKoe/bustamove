@@ -29,6 +29,9 @@ public class AudioStateMachine {
          */
         public void playMusic();
         
+        //Stop music
+        public void stopMusic();
+        
         /**
          * Play shoot.
          */
@@ -99,21 +102,28 @@ public class AudioStateMachine {
     }
     
     /**
-     * Play shoot.
+     * Stop music.
+     */
+    public void stopMusic() {
+        this.getState().stopMusic();
+    }
+    
+    /**
+     * Play shoot sound effect.
      */
     public void playShoot() {
         this.getState().playShoot();
     }
     
     /**
-     * Play wall.
+     * Play wall sound effect.
      */
     public void playWall() {
         this.getState().playWall();
     }
     
     /**
-     * Play pop.
+     * Play pop sound effect.
      */
     public void playPop() {
         this.getState().playPop();
@@ -131,43 +141,27 @@ public class AudioStateMachine {
             this.playMusic();
         }
         
-        /* (non-Javadoc)
-         */
         public void toggleMute(AudioStateMachine state) {
             if (state != null) {
                 state.setState(new Active());
             }
         }
 
-        /* (non-Javadoc)
-         */
         public Boolean muted() {
             return true;
         }
 
-        /* (non-Javadoc)
-         */
-        public void playMusic() {
-            AudioManager.gameMusic.stop();
+        public void playMusic() { }
+        
+        public void stopMusic() {
+            AudioManager.getGameMusic().stop();
         }
 
-        /* (non-Javadoc)
-         */
-        public void playShoot() {
-            AudioManager.shoot.stop();
-        }
+        public void playShoot() { }
 
-        /* (non-Javadoc)
-         */
-        public void playWall() {
-            AudioManager.wallhit.stop();
-        }
+        public void playWall() { }
 
-        /* (non-Javadoc)
-         */
-        public void playPop() {
-            AudioManager.ballpop.stop();
-        }
+        public void playPop() { }
     }
     
     /**
@@ -182,44 +176,35 @@ public class AudioStateMachine {
             this.playMusic();
         }
         
-        /* (non-Javadoc)
-         */
         public void toggleMute(AudioStateMachine state) {
             if (state != null) {
                 state.setState(new Muted());
-                AudioManager.stopMusic();
-                AudioManager.gameMusic.stop();
+                AudioManager.getGameMusic().stop();
             }
         }
 
-        /* (non-Javadoc)
-         */
         public Boolean muted() {
             return false;
         }
 
-        /* (non-Javadoc)
-         */
         public void playMusic() {
-            AudioManager.gameMusic.play();
+            AudioManager.getGameMusic().play();
         }
 
-        /* (non-Javadoc)
-         */
+        public void stopMusic() {
+            AudioManager.getGameMusic().stop();
+        }
+
         public void playShoot() {
-            AudioManager.shoot.play();
+            AudioManager.getShootSound().play();
         }
 
-        /* (non-Javadoc)
-         */
         public void playWall() {
-            AudioManager.wallhit.play();
+            AudioManager.getWallhitSound().play();
         }
 
-        /* (non-Javadoc)
-         */
         public void playPop() {
-            AudioManager.ballpop.play();
+            AudioManager.getBallpopSound().play();
         }
     }
 }

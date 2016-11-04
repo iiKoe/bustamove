@@ -8,21 +8,19 @@ public abstract class BuyStateInstanceTest {
     
     public abstract BuyStateInstance getInstance();
     
-    @SuppressWarnings("unused")
     @Test
     public void currentTest() {
         BuyStateInstance instance = getInstance();
-        BuyState state = instance.getCurrent();
+        instance.getCurrent();
     }
     
-    @SuppressWarnings("unused")
     @Test
     public void getterTest() {
         BuyStateInstance instance = getInstance();
-        BuyState state = instance.getCurrent();
-        String info = instance.getNextStateInfo();
-        int cost = instance.getNextStateCost();
-        boolean fin = instance.isFinalState();
+        instance.getCurrent();
+        instance.getNextStateInfo();
+        instance.getNextStateCost();
+        instance.isFinalState();
     }
     
     @Test

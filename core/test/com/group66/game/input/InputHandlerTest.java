@@ -45,22 +45,4 @@ public class InputHandlerTest {
         
         inputHandler.run();
     }
-    
-    @Test
-    public void nameInputTest() {
-        DynamicSettings dynamicSettings = new DynamicSettings();
-        NameInputListener nameInput = new NameInputListener(dynamicSettings);
-        
-        nameInput.input("John");
-        nameInput.canceled();
-    }
-    
-    @Test
-    public void levelSelectInputTest() {
-        DynamicSettings dynamicSettings = new DynamicSettings();
-        LevelSelectInputListener levelSelectInput = new LevelSelectInputListener(dynamicSettings);
-        
-        levelSelectInput.input("2");
-        levelSelectInput.canceled();
-    }
 }

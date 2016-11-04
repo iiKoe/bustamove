@@ -14,13 +14,13 @@ import com.group66.game.cannon.ColoredBall;
 public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBreadthFirstConditionalIterator {
 
     /** queue of balls to be processed. */
-    Queue<Ball> queue = new LinkedList<Ball>();
+    private Queue<Ball> queue = new LinkedList<Ball>();
     
-    Queue<Ball> ballsToCheckAdjacenBalls = new LinkedList<Ball>();
+    private Queue<Ball> ballsToCheckAdjacenBalls = new LinkedList<Ball>();
     /** The start ball for the iterator. */
-    BombBall startBall;
+    private BombBall startBall;
     /** The graph where the iterator iterates over. */
-    UndirectedGraph<Ball, DefaultEdge> graph;
+    private UndirectedGraph<Ball, DefaultEdge> graph;
     
     /**
      * Instantiates the iterator

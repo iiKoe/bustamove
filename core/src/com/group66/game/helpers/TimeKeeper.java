@@ -10,7 +10,7 @@ public class TimeKeeper {
     private GameManager ballManager;
     
     /**Time since the start of this round. */
-    public double universalTime;
+    private double universalTime;
     
     /** Time since the last ball shot. */
     private double lastShotTime;

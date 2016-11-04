@@ -19,7 +19,7 @@ import com.group66.game.settings.DynamicSettings;
 public class BustaMove extends Game {   
     
     /** The batch. */
-    public SpriteBatch batch;
+    private SpriteBatch batch;
     
     /** The logger. */
     private Logger logger;
@@ -125,7 +125,6 @@ public class BustaMove extends Game {
      */
     @Override
     public void create() {
-        batch = new SpriteBatch();
         highScoreManager = new HighScoreManager();
         dynamicSettings = new DynamicSettings();
         profileManager = new ProfileManager();
@@ -140,6 +139,7 @@ public class BustaMove extends Game {
         logger.log(MessageType.Default, "Game started");
         
         AudioManager.load();
+        batch = new SpriteBatch();
         this.setScreen(new StartScreen());
     }
 }

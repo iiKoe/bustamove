@@ -42,9 +42,15 @@ public class ThreePlayerGameController extends AbstractGameController {
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
         
-        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-        gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
-        gameManager3.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        if (gameManager1.getBallManager() != null) {
+            gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
+        if (gameManager2.getBallManager() != null) {
+            gameManager2.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
+        if (gameManager3.getBallManager() != null) {
+            gameManager3.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
     }
 
     @Override
@@ -82,9 +88,9 @@ public class ThreePlayerGameController extends AbstractGameController {
             if (gameManager1.isGameComplete() || gameManager2.isGameComplete() || gameManager3.isGameComplete()) {
                 BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
                 
-                int score1 = gameManager1.scoreKeeper.getCurrentScore();
-                int score2 = gameManager2.scoreKeeper.getCurrentScore();
-                int score3 = gameManager3.scoreKeeper.getCurrentScore();
+                int score1 = gameManager1.getScoreKeeper().getCurrentScore();
+                int score2 = gameManager2.getScoreKeeper().getCurrentScore();
+                int score3 = gameManager3.getScoreKeeper().getCurrentScore();
                 
                 HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
                 highScoreManager.addScore(score1);
@@ -120,7 +126,7 @@ public class ThreePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                            gameManager1.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -131,7 +137,7 @@ public class ThreePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager1.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                            gameManager1.getCannon().cannonAimAdjust(-Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -153,7 +159,7 @@ public class ThreePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager2.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                            gameManager2.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -164,7 +170,7 @@ public class ThreePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager2.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                            gameManager2.getCannon().cannonAimAdjust(-Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -186,7 +192,7 @@ public class ThreePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager3.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                            gameManager3.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -197,7 +203,7 @@ public class ThreePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager3.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                            gameManager3.getCannon().cannonAimAdjust(-Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

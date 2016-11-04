@@ -6,7 +6,7 @@ package com.group66.game.helpers;
 public class DifficultyManager {
     
     /** The difficulty. */
-    public static String difficulty;
+    private static String difficulty;
     
     /**
      * Instantiates a new difficulty manager.

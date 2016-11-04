@@ -9,8 +9,8 @@ import com.group66.game.logging.MessageType;
 
 public class AudioManager {
     private static AudioStateMachine audioStateMachine;
-    public static Sound shoot, wallhit, ballpop;
-    public static Music gameMusic;
+    private static Sound shoot, wallhit, ballpop;
+    private static Music gameMusic;
     
     /**
      * Load all the audioclips from files
@@ -59,6 +59,38 @@ public class AudioManager {
     }
     
     /**
+     * Get the game music
+     * @return the game music
+     */
+    public static Music getGameMusic() {
+        return gameMusic;
+    }
+    
+    /**
+     * Get the shoot sound effect
+     * @return the shoot sound
+     */
+    public static Sound getShootSound() {
+        return shoot;
+    }
+    
+    /**
+     * Get the wall hit sound effect
+     * @return the wall hit sound
+     */
+    public static Sound getWallhitSound() {
+        return wallhit;
+    }
+    
+    /**
+     * Get the ball pop sound effect
+     * @return the ball pop sound
+     */
+    public static Sound getBallpopSound() {
+        return ballpop;
+    }
+    
+    /**
      * Start the background music
      */
     public static void startMusic() {
@@ -70,7 +102,7 @@ public class AudioManager {
      * Stop the background music
      */
     public static void stopMusic() {
-        audioStateMachine.playMusic();
+        audioStateMachine.stopMusic();
     }
     
     /**

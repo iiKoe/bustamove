@@ -38,7 +38,9 @@ public class OnePlayerGameController extends AbstractGameController {
             BustaMove.getGameInstance().log(MessageType.Info, "Loaded a random level");
         }
         
-        gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        if (gameManager1.getBallManager() != null) {
+            gameManager1.getBallManager().getBallsCannonManager().addRandomBallToCanon();
+        }
     }
 
     @Override
@@ -78,7 +80,7 @@ public class OnePlayerGameController extends AbstractGameController {
             if (gameManager1.isGameComplete()) {
                 BustaMove.getGameInstance().log(MessageType.Info, "Completed the level");
                 
-                int score1 = gameManager1.scoreKeeper.getCurrentScore();
+                int score1 = gameManager1.getScoreKeeper().getCurrentScore();
                 
                 HighScoreManager highScoreManager = BustaMove.getGameInstance().getHighScoreManager();
                 highScoreManager.addScore(score1);
@@ -126,7 +128,7 @@ public class OnePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager1.cannon.cannonAimAdjust(Config.CANNON_AIM_DELTA);
+                            gameManager1.getCannon().cannonAimAdjust(Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -137,7 +139,7 @@ public class OnePlayerGameController extends AbstractGameController {
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         try {
-                            gameManager1.cannon.cannonAimAdjust(-Config.CANNON_AIM_DELTA);
+                            gameManager1.getCannon().cannonAimAdjust(-Config.CANNON_AIM_DELTA);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
