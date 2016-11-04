@@ -1,19 +1,8 @@
 package com.group66.game;
 
-import static org.mockito.Mockito.mock;
-
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.badlogic.gdx.ApplicationListener;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.headless.HeadlessApplicationConfiguration;
-import com.badlogic.gdx.backends.headless.HeadlessFiles;
-import com.badlogic.gdx.backends.headless.HeadlessNativesLoader;
-import com.badlogic.gdx.backends.headless.HeadlessNet;
-import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
-import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.logging.MessageType;
 
 import de.tomgrill.gdxtesting.GdxTestRunner;
@@ -23,7 +12,7 @@ public class BustaMoveTest {
     /**
      * Setup mocking so the game can run in headless mode
      */
-    @SuppressWarnings("unused")
+    /*
     @Before
     public void setupTests() {
         HeadlessNativesLoader.load();
@@ -36,7 +25,7 @@ public class BustaMoveTest {
         Gdx.gl = mock(GL20.class);
         HeadlessApplicationConfiguration config = new HeadlessApplicationConfiguration();
         ApplicationListener myGdxGame = BustaMove.getGameInstance(); //EntryPoint.getHeadlessMyGdxGame(config);
-    }
+    }*/
     
     /**
      * Object creation test
@@ -51,20 +40,22 @@ public class BustaMoveTest {
      */
     @Test
     public void createTest() {
-        @SuppressWarnings("unused")
         BustaMove game = BustaMove.getGameInstance();
-        //game.create(); //SpriteBatch causes NullPointerException
+        try {
+            game.create(); //SpriteBatch causes NullPointerException
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
      * Test for getting the size of the game
      */
-    @SuppressWarnings("unused")
     @Test
     public void sizeTest() {
         BustaMove game = BustaMove.getGameInstance();
-        int height = game.getGameHeight();
-        int width = game.getGameWidth();
+        game.getGameHeight();
+        game.getGameWidth();
     }
     
     /**
@@ -86,13 +77,17 @@ public class BustaMoveTest {
         game.log(MessageType.Info, null);
         game.log(MessageType.Info, "");
         
-        //game.create(); //SpriteBatch causes NullPointerException
-        /*
+        try {
+            game.create(); //SpriteBatch causes NullPointerException
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         game.log(null, null);
         game.log(null, "");
         game.log(null, "Test");
         game.log(MessageType.Info, null);
         game.log(MessageType.Info, "");
-        */
+        
     }
 }

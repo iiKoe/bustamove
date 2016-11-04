@@ -3,7 +3,6 @@ package com.group66.game.screencontrollers;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Input.Keys;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.input.InputHandler;
 import com.group66.game.screencontrollers.actions.StartGameButton;
 import com.group66.game.screens.MainMenuScreen;
@@ -51,7 +50,7 @@ public class StartMenuController extends AbstractMenuController {
         inputHandler.registerKeyJustPressedFunc("Toggle mute",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        AudioManager.toggleMute();
+                        BustaMove.getGameInstance().getAudioManager().toggleMute();
                     }
             });        
     }

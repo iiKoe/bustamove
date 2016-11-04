@@ -1,7 +1,6 @@
 package com.group66.game.cannon;
 
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 
@@ -32,7 +31,7 @@ public class BallBounce {
             // LEFT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
             try {
-                AudioManager.wallhit();
+                BustaMove.getGameInstance().getAudioManager().wallhit();
             } catch (NullPointerException e) {
                 System.out.println("Error that should only happen in JUNIT tests");
             }
@@ -42,7 +41,7 @@ public class BallBounce {
             // RIGHT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
             try {
-                AudioManager.wallhit();
+                BustaMove.getGameInstance().getAudioManager().wallhit();
             } catch (NullPointerException e) {
                 System.out.println("Error that should only happen in JUNIT tests");
             }

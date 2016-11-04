@@ -51,7 +51,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         Gdx.input.setInputProcessor(stage);
         // Setup the text drawer to show the amount of coins
         textDrawer = new TextDrawer();
-        textDrawer.myFont.setColor(Color.BLACK);
+        textDrawer.getFont().setColor(Color.BLACK);
         setupButtons();
     }
     
@@ -64,7 +64,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /* Draw the background */
-        SpriteBatch batch = BustaMove.getGameInstance().batch;
+        SpriteBatch batch = BustaMove.getGameInstance().getBatch();
         batch.begin();
         batch.enableBlending();
         batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
