@@ -146,15 +146,8 @@ public class BustaMove extends Game {
         /* Log start time */
         logger.log(MessageType.Default, "Game started");
         
-<<<<<<< HEAD
-        //AudioManager.load();
-        
         batch = new SpriteBatch();
-        
-=======
-        AudioManager.load();
-        batch = new SpriteBatch();
->>>>>>> refs/remotes/origin/develop
+
         this.setScreen(new StartScreen());
     }
 

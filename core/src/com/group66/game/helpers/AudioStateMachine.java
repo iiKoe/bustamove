@@ -31,6 +31,9 @@ public class AudioStateMachine {
          */
         public void playMusic();
 
+        //Stop music
+        public void stopMusic();
+
         /**
          * Play shoot.
          */
@@ -106,7 +109,7 @@ public class AudioStateMachine {
     public void stopMusic() {
         this.getState().stopMusic();
     }
-    
+
     /**
      * Play shoot sound effect.
      */
@@ -139,7 +142,7 @@ public class AudioStateMachine {
         public Muted() {
             this.playMusic();
         }
-        
+
         /* (non-Javadoc)
          */
         public void toggleMute(AudioStateMachine state) {
@@ -158,17 +161,24 @@ public class AudioStateMachine {
          */
         public void playMusic() {
             try {
-                BustaMove.getGameInstance().getAudioManager().gameMusic.stop();
+                BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         /* (non-Javadoc)
+         * @see com.group66.game.helpers.AudioStateMachine.AudioState#stopMusic()
+         */
+        public void stopMusic() {
+            BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
+        }
+
+        /* (non-Javadoc)
          */
         public void playShoot() {
             try {
-                BustaMove.getGameInstance().getAudioManager().shoot.stop();
+                BustaMove.getGameInstance().getAudioManager().getShootSound().stop();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -178,7 +188,7 @@ public class AudioStateMachine {
          */
         public void playWall() {
             try {
-                BustaMove.getGameInstance().getAudioManager().wallhit.stop();
+                BustaMove.getGameInstance().getAudioManager().getWallhitSound().stop();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -188,7 +198,7 @@ public class AudioStateMachine {
          */
         public void playPop() {
             try {
-                BustaMove.getGameInstance().getAudioManager().ballpop.stop();
+                BustaMove.getGameInstance().getAudioManager().getBallpopSound().stop();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -214,7 +224,7 @@ public class AudioStateMachine {
                 state.setState(new Muted());
                 try {
                     BustaMove.getGameInstance().getAudioManager().stopMusic();
-                    BustaMove.getGameInstance().getAudioManager().gameMusic.stop();
+                    BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -231,17 +241,24 @@ public class AudioStateMachine {
          */
         public void playMusic() {
             try {
-                BustaMove.getGameInstance().getAudioManager().gameMusic.play();
+                BustaMove.getGameInstance().getAudioManager().getGameMusic().play();
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
         /* (non-Javadoc)
+         * @see com.group66.game.helpers.AudioStateMachine.AudioState#stopMusic()
+         */
+        public void stopMusic() {
+            BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
+        }
+
+        /* (non-Javadoc)
          */
         public void playShoot() {
             try {
-                BustaMove.getGameInstance().getAudioManager().shoot.play();
+                BustaMove.getGameInstance().getAudioManager().getShootSound().play();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -251,7 +268,7 @@ public class AudioStateMachine {
          */
         public void playWall() {
             try {
-                BustaMove.getGameInstance().getAudioManager().wallhit.play();
+                BustaMove.getGameInstance().getAudioManager().getWallhitSound().play();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -261,7 +278,7 @@ public class AudioStateMachine {
          */
         public void playPop() {
             try {
-                BustaMove.getGameInstance().getAudioManager().ballpop.play();
+                BustaMove.getGameInstance().getAudioManager().getBallpopSound().play();
             } catch (Exception e) {
                 e.printStackTrace();
             }
