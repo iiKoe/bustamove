@@ -64,6 +64,7 @@ public class BallGraphAdjacentTest {
         Ball ball2 = new ColoredBall(BallType.BLUE, -Config.BALL_RAD, ypos, 0, 0.0f);
         graph.addVertex(ball2);
         
+        @SuppressWarnings("unused")
         Iterator<Ball> iterator = new BallGraphAdjacentIterator(graph, start);        
     }
 }

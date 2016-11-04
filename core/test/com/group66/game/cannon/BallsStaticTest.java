@@ -188,11 +188,11 @@ public class BallsStaticTest {
         Ball noBotomBall = new ColoredBall(BallType.BLUE, 0, Config.BORDER_SIZE_BOT
                 + 2 * Config.BALL_DIAM, 0, 0);
         ballsStatic.add(noBotomBall);
-        assertEquals(ballsStatic.hitsBotom(), false);
+        assertEquals(ballsStatic.hitsBottom(), false);
         
         Ball botomBall = new ColoredBall(BallType.BLUE, 0, Config.BORDER_SIZE_BOT, 0, 0);
         ballsStatic.add(botomBall);
-        assertEquals(ballsStatic.hitsBotom(), true);
+        assertEquals(ballsStatic.hitsBottom(), true);
     }
     
     @Test

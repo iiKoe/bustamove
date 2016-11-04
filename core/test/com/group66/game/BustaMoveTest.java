@@ -23,6 +23,7 @@ public class BustaMoveTest {
     /**
      * Setup mocking so the game can run in headless mode
      */
+    @SuppressWarnings("unused")
     @Before
     public void setupTests() {
         HeadlessNativesLoader.load();
@@ -50,6 +51,7 @@ public class BustaMoveTest {
      */
     @Test
     public void createTest() {
+        @SuppressWarnings("unused")
         BustaMove game = BustaMove.getGameInstance();
         //game.create(); //SpriteBatch causes NullPointerException
     }

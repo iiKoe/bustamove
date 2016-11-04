@@ -1,7 +1,5 @@
 package com.group66.game.cannon;
 
-import static org.junit.Assert.*;
-
 import org.junit.Test;
 
 import com.group66.game.settings.Config;

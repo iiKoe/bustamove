@@ -3,7 +3,6 @@ package com.group66.game.screencontrollers;
 import org.junit.Test;
 
 import com.group66.game.cannon.GameManager;
-import com.group66.game.screencontrollers.AbstractGameController.GameState;
 
 public abstract class AbstractGameControllerTest {
     protected abstract AbstractGameController getGameController();
@@ -25,6 +24,7 @@ public abstract class AbstractGameControllerTest {
     public void winTest() {
         AbstractGameController controller = getGameController();
         try {
+            @SuppressWarnings("unused")
             GameManager gameManager = controller.getGameManager1();
             //gameManager.getBallManager().
         } catch (Exception e) {
