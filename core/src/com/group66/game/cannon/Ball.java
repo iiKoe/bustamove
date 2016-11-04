@@ -282,7 +282,11 @@ public abstract class Ball {
         this.popAnimation = popAnimation;
         this.runtime = 0;
         popStatus = PopStatus.POPPING;
-        BustaMove.getGameInstance().getAudioManager().ballpop();
+        try {
+            BustaMove.getGameInstance().getAudioManager().ballpop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
