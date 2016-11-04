@@ -40,7 +40,7 @@ public class DifficultyManager {
      *
      * @param difficultyLevel the new difficulty
      */
-    public void setDifficulty(String difficultyLevel) {
+    public static void setDifficulty(String difficultyLevel) {
         difficulty = difficultyLevel;
     }
     

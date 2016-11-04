@@ -5,6 +5,7 @@ import org.junit.Test;
 public class BallTypeTest {
     @Test
     public void creationTest() {
+        @SuppressWarnings("unused")
         BallType blue = BallType.BLUE;
     }
     

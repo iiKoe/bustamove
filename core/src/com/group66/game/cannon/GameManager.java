@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.ballgraph.BallGraph;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.Ball;
 
@@ -38,7 +37,7 @@ public class GameManager {
     private ScoreKeeper scoreKeeper = new ScoreKeeper();
     
     /**  needed to draw text, draw score. */
-    private TextDrawer textDrawer = new TextDrawer();
+    private TextDrawer textDrawer;
 
     /**  The TimeKeeper. */
     private TimeKeeper timeKeeper;
@@ -95,24 +94,24 @@ public class GameManager {
      * @param xoffset the xoffset
      */
     private void reset(DynamicSettings dynamicSettings, int xoffset) {
+        this.dynamicSettings = (dynamicSettings == null ? new DynamicSettings() : dynamicSettings);
+        this.ballCount = 0;
+        this.ballGraph = new BallGraph();
+        this.timeKeeper = new TimeKeeper(this);
         try {
-            this.dynamicSettings = (dynamicSettings == null ? new DynamicSettings() : dynamicSettings);
-            this.ballCount = 0;
-            this.ballGraph = new BallGraph();
-            this.timeKeeper = new TimeKeeper(this);    
-            this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2,
-                    Config.CANNON_Y_OFFSET, Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE,
-                    Config.CANNON_MAX_ANGLE);
-            
-            this.ballManager = new BallManager(this.dynamicSettings, this.ballGraph, this.cannon, this.scoreKeeper);
-            
-            for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
-                ballManager.increaseColorList();
-            }
-            this.timeKeeper.shotTimeReset();
-        } catch (Exception e) {
-            e.printStackTrace();
+            this.textDrawer = new TextDrawer();
+        } catch (com.badlogic.gdx.utils.GdxRuntimeException e) {
+            System.out.println("Error that should only happen in JUNIT tests");
         }
+        this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
+                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
+        
+        this.ballManager = new BallManager(this.dynamicSettings, this.ballGraph, this.cannon, this.scoreKeeper);
+        
+        for (int i = 0; i < BallType.MAX_COLORS.ordinal(); i++) {
+            ballManager.increaseColorList();
+        }
+        this.timeKeeper.shotTimeReset();
     }
 
     /**
@@ -121,7 +120,11 @@ public class GameManager {
     public void shootBall() {
         if (canShoot()) {
             ballManager.shootBall();
-            BustaMove.getGameInstance().getAudioManager().shoot();
+            try {
+                BustaMove.getGameInstance().getAudioManager().shoot();
+            } catch (NullPointerException e) {
+                System.out.println("Error that should only happen in JUNIT tests");
+            }
             timeKeeper.shotTimeReset();
             this.ballCount++;
         }
@@ -225,8 +228,12 @@ public class GameManager {
         cannon.draw(batch);
         
         /* Draw the score */
-        textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
-                Config.SCORE_OFFSET);
+        try {
+            textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
+                    Config.SCORE_OFFSET);
+        } catch (NullPointerException e) {
+            System.out.println("Error that should only happen in JUNIT tests");
+        }
     }
 
     /**
@@ -291,7 +298,6 @@ public class GameManager {
         /* Check shooting balls */
         // NB. Currently only 1 ball can be shot at a time in the game nevertheless the
         // current BallList implementation is kept for versatility and to be future proof
-        // TODO change to iterator
         for (Ball ball : ballManager.getBallList()) {
             ball.update(delta);
             ballManager.ballCheckDead(ball);

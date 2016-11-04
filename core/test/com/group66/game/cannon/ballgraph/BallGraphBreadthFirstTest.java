@@ -70,6 +70,7 @@ public class BallGraphBreadthFirstTest {
         Ball ball2 = new ColoredBall(BallType.RED, -Config.BALL_RAD, ypos, 0, 0.0f);
         graph.addVertex(ball2);
         
+        @SuppressWarnings("unused")
         Iterator<Ball> iterator = ball0.createBallGraphBreadthFirstConditionalIterator(graph);        
     }
 }

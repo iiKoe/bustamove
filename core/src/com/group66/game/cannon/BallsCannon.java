@@ -73,14 +73,19 @@ public class BallsCannon {
      * @return the first
      */
     public Ball getFirst() {
-        return cannonBallList.get(0);
+        if (cannonBallList.size() > 0) {
+            return cannonBallList.get(0);
+        }
+        return null;
     }
     
     /**
      * Removes the first ball.
      */
     public void removeFirst() {
-        cannonBallList.remove(0);
+        if (cannonBallList.size() > 0) {
+            cannonBallList.remove(0);
+        }
     }
     
     /**

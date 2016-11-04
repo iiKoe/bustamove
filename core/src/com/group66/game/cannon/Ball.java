@@ -351,7 +351,7 @@ public abstract class Ball {
      * @return Boolean whether balls are of the same type
      */
     public Boolean isEqual(Ball ball) {
-        if (ball instanceof Ball && this.getType().equals(ball.getType())) {
+        if (ball != null && this.getType().equals(ball.getType())) {
             return true;
         }
         return false;

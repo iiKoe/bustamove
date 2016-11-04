@@ -171,7 +171,11 @@ public class AudioStateMachine {
          * @see com.group66.game.helpers.AudioStateMachine.AudioState#stopMusic()
          */
         public void stopMusic() {
-            BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
+            try {
+                BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)
@@ -251,7 +255,11 @@ public class AudioStateMachine {
          * @see com.group66.game.helpers.AudioStateMachine.AudioState#stopMusic()
          */
         public void stopMusic() {
-            BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
+            try {
+                BustaMove.getGameInstance().getAudioManager().getGameMusic().stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)

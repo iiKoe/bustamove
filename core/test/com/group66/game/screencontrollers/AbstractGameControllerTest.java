@@ -88,6 +88,7 @@ public abstract class AbstractGameControllerTest {
         controller.update(0);
     }
     
+    @SuppressWarnings("unused")
     @Test
     public void getGameManagers() {
         AbstractGameController controller = getGameController();

@@ -7,17 +7,16 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
 
-public class AudioManager {
-    
+public class AudioManager {    
 
     /** The audio state machine. */
-    private AudioStateMachine audioStateMachine;
+    private static AudioStateMachine audioStateMachine;
     
     /** The shoot. */
-    private Sound shoot, wallhit, ballpop;
+    private static Sound shoot, wallhit, ballpop;
     
     /** The game music. */
-    private Music gameMusic;
+    private static Music gameMusic;
     
     /**
      * Instantiates a new audio manager.
@@ -70,30 +69,6 @@ public class AudioManager {
      */
     public Boolean isMuted() {
         return audioStateMachine.muted();
-    }
-    
-    /**
-     * Get the game music
-     * @return the game music
-     */
-    public Music getGameMusic() {
-        return gameMusic;
-    }
-    
-    /**
-     * Get the shoot sound effect
-     * @return the shoot sound
-     */
-    public Sound getShootSound() {
-        return shoot;
-    }
-    
-    /**
-     * Get the wall hit sound effect
-     * @return the wall hit sound
-     */
-    public Sound getWallhitSound() {
-        return wallhit;
     }
     
     /**
@@ -152,5 +127,33 @@ public class AudioManager {
         wallhit.dispose();
         ballpop.dispose();
         gameMusic.dispose();
+    }
+    
+    /**
+     * Returns shooting sound
+     */
+    public Sound getShootSound() {
+        return shoot;
+    }
+    
+    /**
+     * Returns wall hit sound
+     */
+    public Sound getWallhitSound() {
+        return wallhit;
+    }
+    
+    /**
+     * Returns ball popping sound
+     */
+    public Sound getBallPopSound() {
+        return ballpop;
+    }
+    
+    /**
+     * Returns the game music
+     */
+    public Music getGameMusic() {
+        return gameMusic;
     }
 }

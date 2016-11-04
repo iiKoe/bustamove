@@ -18,9 +18,6 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
     private Queue<Ball> queue = new LinkedList<Ball>();
     
     private Queue<Ball> ballsToCheckAdjacenBalls = new LinkedList<Ball>();
-    
-    /** The start ball for the iterator. */
-    private BombBall startBall;
 
     /** The graph where the iterator iterates over. */
     private UndirectedGraph<Ball, DefaultEdge> graph;
@@ -32,7 +29,6 @@ public class BombBallGraphBreadthFirstConditionalIterator extends BallGraphBread
      */
     public BombBallGraphBreadthFirstConditionalIterator(UndirectedGraph<Ball, DefaultEdge> graph, BombBall start) {
         if (graph != null && start != null) {
-            startBall = start;
             this.graph = graph;
 
             //Add the ball that is given as parameter

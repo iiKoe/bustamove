@@ -30,13 +30,21 @@ public class BallBounce {
                 && Math.toDegrees(ball.getAngle()) > 90) {
             // LEFT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-            BustaMove.getGameInstance().getAudioManager().wallhit();
+            try {
+                BustaMove.getGameInstance().getAudioManager().wallhit();
+            } catch (NullPointerException e) {
+                System.out.println("Error that should only happen in JUNIT tests");
+            }
             BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         } else if (ball.getX() + Config.BALL_RAD >= right
                 && Math.toDegrees(ball.getAngle()) < 90) {
             // RIGHT EDGE
             ball.setAngle((float) Math.toRadians(180) - ball.getAngle());
-            BustaMove.getGameInstance().getAudioManager().wallhit();
+            try {
+                BustaMove.getGameInstance().getAudioManager().wallhit();
+            } catch (NullPointerException e) {
+                System.out.println("Error that should only happen in JUNIT tests");
+            }
             BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         }
     }

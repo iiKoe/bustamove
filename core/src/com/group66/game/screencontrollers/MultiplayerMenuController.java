@@ -42,7 +42,7 @@ public class MultiplayerMenuController extends AbstractMenuController {
      */
     public void performUserAction(SetDifficultyButton action) {
         if (action != null) {
-            difficultyManager.setDifficulty(action.getDifficulty());
+            DifficultyManager.setDifficulty(action.getDifficulty());
         }
     }
     
