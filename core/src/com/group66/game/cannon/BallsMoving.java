@@ -96,7 +96,10 @@ public class BallsMoving {
      * @return the last ball
      */
     public Ball getLastBall() {
-        return ballList.get(ballList.size() - 1);
+        if (ballList.size() > 0) {
+            return ballList.get(ballList.size() - 1);
+        }
+        return null;
     }
     
     /**

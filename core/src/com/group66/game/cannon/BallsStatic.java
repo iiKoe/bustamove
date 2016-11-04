@@ -110,7 +110,10 @@ public class BallsStatic {
      * @return the first dead ball
      */
     public Ball getFirstDeadBall() {
-        return ballStaticDeadList.get(0);
+        if (deadSize() > 0) {
+            return ballStaticDeadList.get(0);
+        }
+        return null;
     }
     
     /**
@@ -139,7 +142,9 @@ public class BallsStatic {
      * Removes the first dead ball.
      */
     public void removeFirstDeadBall() {
-        ballStaticDeadList.remove(0);
+        if (deadSize() > 0) {
+            ballStaticDeadList.remove(0);
+        }
     }
     
     /**
@@ -148,7 +153,10 @@ public class BallsStatic {
      * @return the last static ball
      */
     public Ball getLastStaticBall() {
-        return ballStaticList.get(ballStaticList.size() - 1);
+        if (aliveSize() > 0) {
+            return ballStaticList.get(ballStaticList.size() - 1);
+        }
+        return null;
     }
     
     /**
@@ -242,7 +250,6 @@ public class BallsStatic {
      * Move row down.
      */
     public void moveRowDown() {
-        // Move all the balls down
         for (Ball b : ballStaticList) {
             b.moveDown(Config.BALL_DIAM);
         }
@@ -255,7 +262,6 @@ public class BallsStatic {
      */
     public boolean hitsBotom() {
         for (Ball b : ballStaticList) {
-            // TODO fix the != check
             if (b.getY() - Config.BALL_DIAM <= Config.BORDER_SIZE_BOT && b.getY() != 0) {
                 return true;
             }
