@@ -103,7 +103,7 @@ public class GameManager {
         try {
             this.textDrawer = new TextDrawer();
         } catch (com.badlogic.gdx.utils.GdxRuntimeException e) {
-            // For junit testing
+            System.out.println("Error that should only happen in JUNIT tests");
         }
         this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
                 Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
@@ -125,7 +125,7 @@ public class GameManager {
             try {
                 AudioManager.shoot();
             } catch (NullPointerException e) {
-                // For junit test
+                System.out.println("Error that should only happen in JUNIT tests");
             }
             timeKeeper.shotTimeReset();
             this.ballCount++;
@@ -223,7 +223,7 @@ public class GameManager {
             textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
                     Config.SCORE_OFFSET);
         } catch (NullPointerException e) {
-            
+            System.out.println("Error that should only happen in JUNIT tests");
         }
     }
 

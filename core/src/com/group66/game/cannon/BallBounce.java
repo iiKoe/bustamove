@@ -34,7 +34,7 @@ public class BallBounce {
             try {
                 AudioManager.wallhit();
             } catch (NullPointerException e) {
-                
+                System.out.println("Error that should only happen in JUNIT tests");
             }
             BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         } else if (ball.getX() + Config.BALL_RAD >= right
@@ -44,7 +44,7 @@ public class BallBounce {
             try {
                 AudioManager.wallhit();
             } catch (NullPointerException e) {
-                
+                System.out.println("Error that should only happen in JUNIT tests");
             }
             BustaMove.getGameInstance().log(MessageType.Info, "Ball hit the wall");
         }
