@@ -256,11 +256,11 @@ public class BallsStatic {
     }
     
     /**
-     * Hits botom.
+     * Hits bottom.
      *
      * @return true, if successful
      */
-    public boolean hitsBotom() {
+    public boolean hitsBottom() {
         for (Ball b : ballStaticList) {
             if (b.getY() - Config.BALL_DIAM <= Config.BORDER_SIZE_BOT && b.getY() != 0) {
                 return true;

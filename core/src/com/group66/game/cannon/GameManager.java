@@ -189,6 +189,14 @@ public class GameManager {
     }
 
     /**
+     * Checks if the game has ended by either victory or loss
+     * @return if the game has ended
+     */
+    public boolean isGameEnded() {
+        return isGameOver() || isGameComplete();
+    }
+    
+    /**
      * Draw the Balls managed by GameManager.
      *
      * @param gameScreen the game screen

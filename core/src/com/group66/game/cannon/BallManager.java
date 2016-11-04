@@ -230,7 +230,7 @@ public class BallManager {
      * @return true, if successful
      */
     public boolean hitsBottom() {
-        return ballsStaticManager.hitsBotom();
+        return ballsStaticManager.hitsBottom();
     }
     
     /**

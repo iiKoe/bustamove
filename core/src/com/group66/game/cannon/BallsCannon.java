@@ -116,15 +116,14 @@ public class BallsCannon {
      */
     public void addRandomBallToCanon() {
         Random random = new Random();
-        int rand;
         int maxType = BallType.BOMB.ordinal();
-
         
         BustaMove.getGameInstance().log(MessageType.Info, "check if bomb balls is equal to total number of balls: " 
                 + (colorList.get(BallType.BOMB.ordinal()).get() == ballGraph.numberOfBalls()));
-        rand = random.nextInt(100);
+        int rand = random.nextInt(100);
         
-        if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())
+        if (dynamicSettings != null
+                && rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())
                 || colorList.get(BallType.BOMB.ordinal()).get() == ballGraph.numberOfBalls()) {
             BallType ballType = BallType.BOMB;
             add(ballType.newBall(cannon.getX(), cannon.getY(), 0, 0.0f));
