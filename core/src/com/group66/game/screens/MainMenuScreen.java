@@ -1,7 +1,6 @@
 package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,9 +14,6 @@ import com.group66.game.settings.Config;
  * A Class for the MainMenuScreen of the game.
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
-
-    /** The own instance. */
-    private Screen ownInstance;
     
     /**  screen buttons. */
     private TextButton levelButton;
@@ -41,8 +37,6 @@ public class MainMenuScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public MainMenuScreen() {
-        ownInstance = this;
-        System.out.println("now start create main menu screen");
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }
