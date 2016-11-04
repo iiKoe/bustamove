@@ -148,25 +148,25 @@ public class AudioStateMachine {
         /* (non-Javadoc)
          */
         public void playMusic() {
-            AudioManager.gameMusic.stop();
+            AudioManager.getGameMusic().stop();
         }
 
         /* (non-Javadoc)
          */
         public void playShoot() {
-            AudioManager.shoot.stop();
+            AudioManager.getShootSound().stop();
         }
 
         /* (non-Javadoc)
          */
         public void playWall() {
-            AudioManager.wallhit.stop();
+            AudioManager.getWallhitSound().stop();
         }
 
         /* (non-Javadoc)
          */
         public void playPop() {
-            AudioManager.ballpop.stop();
+            AudioManager.getBallPopSound().stop();
         }
     }
     
@@ -188,7 +188,7 @@ public class AudioStateMachine {
             if (state != null) {
                 state.setState(new Muted());
                 AudioManager.stopMusic();
-                AudioManager.gameMusic.stop();
+                AudioManager.getGameMusic().stop();
             }
         }
 
@@ -201,25 +201,25 @@ public class AudioStateMachine {
         /* (non-Javadoc)
          */
         public void playMusic() {
-            AudioManager.gameMusic.play();
+            AudioManager.getGameMusic().play();
         }
 
         /* (non-Javadoc)
          */
         public void playShoot() {
-            AudioManager.shoot.play();
+            AudioManager.getShootSound().play();
         }
 
         /* (non-Javadoc)
          */
         public void playWall() {
-            AudioManager.wallhit.play();
+            AudioManager.getWallhitSound().play();
         }
 
         /* (non-Javadoc)
          */
         public void playPop() {
-            AudioManager.ballpop.play();
+            AudioManager.getBallPopSound().play();
         }
     }
 }

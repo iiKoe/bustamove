@@ -6,7 +6,7 @@ package com.group66.game.helpers;
 public class DifficultyManager {
     
     /** The difficulty. */
-    public static String difficulty;
+    private static String difficulty;
     
     /**
      * Instantiates a new difficulty manager.
@@ -40,7 +40,7 @@ public class DifficultyManager {
      *
      * @param difficultyLevel the new difficulty
      */
-    public void setDifficulty(String difficultyLevel) {
+    public static void setDifficulty(String difficultyLevel) {
         difficulty = difficultyLevel;
     }
     

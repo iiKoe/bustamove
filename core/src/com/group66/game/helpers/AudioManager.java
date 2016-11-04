@@ -7,8 +7,8 @@ import com.badlogic.gdx.utils.GdxRuntimeException;
 
 public class AudioManager {
     private static AudioStateMachine audioStateMachine;
-    public static Sound shoot, wallhit, ballpop;
-    public static Music gameMusic;
+    private static Sound shoot, wallhit, ballpop;
+    private static Music gameMusic;
     
     /**
      * Load all the audioclips from files
@@ -104,5 +104,33 @@ public class AudioManager {
         wallhit.dispose();
         ballpop.dispose();
         gameMusic.dispose();
+    }
+    
+    /**
+     * Returns shooting sound
+     */
+    public static Sound getShootSound() {
+        return shoot;
+    }
+    
+    /**
+     * Returns wall hit sound
+     */
+    public static Sound getWallhitSound() {
+        return wallhit;
+    }
+    
+    /**
+     * Returns ball popping sound
+     */
+    public static Sound getBallPopSound() {
+        return ballpop;
+    }
+    
+    /**
+     * Returns the game music
+     */
+    public static Music getGameMusic() {
+        return gameMusic;
     }
 }
