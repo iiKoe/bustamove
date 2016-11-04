@@ -4,8 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import com.group66.game.BustaMove;
-
 public class DynamicSettingsTest {
     @Test
     public void creationTest() {
