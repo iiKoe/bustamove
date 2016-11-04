@@ -12,6 +12,7 @@ import com.badlogic.gdx.backends.headless.HeadlessNet;
 import com.badlogic.gdx.backends.headless.mock.graphics.MockGraphics;
 import com.badlogic.gdx.graphics.GL20;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.GameManager;
 
 public abstract class AbstractGameControllerTest {
@@ -41,6 +42,8 @@ public abstract class AbstractGameControllerTest {
         AbstractGameController controller = getGameController();
         controller.togglePause();
         controller.update(0);
+        controller.togglePause();
+        controller.update(0);
     }
     
     @Test
@@ -56,7 +59,9 @@ public abstract class AbstractGameControllerTest {
         AbstractGameController controller = getGameController();
         try {
             GameManager gameManager = controller.getGameManager1();
-            //gameManager.getBallManager().
+            for(Ball ball:gameManager.getBallManager().getBallsStaticManager().getBallStaticList()) {
+                gameManager.getBallManager().getBallsStaticManager().addDeadBall(ball);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,5 +86,25 @@ public abstract class AbstractGameControllerTest {
             e.printStackTrace();
         }
         controller.update(0);
+    }
+    
+    @Test
+    public void getGameManagers() {
+        AbstractGameController controller = getGameController();
+        try {
+            GameManager gameManager = controller.getGameManager1();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            GameManager gameManager2 = controller.getGameManager2();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            GameManager gameManager3 = controller.getGameManager3();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

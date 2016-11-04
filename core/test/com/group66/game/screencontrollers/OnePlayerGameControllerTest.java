@@ -14,4 +14,5 @@ public class OnePlayerGameControllerTest extends AbstractGameControllerTest {
     public void randomTest() {
         new OnePlayerGameController(true, 1);
     }
+    
 }

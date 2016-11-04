@@ -36,10 +36,11 @@ public class AudioManager {
             gameMusic = Gdx.audio.newMusic(Gdx.files.internal("audio/gamemusic.wav"));
             gameMusic.setVolume(0.5f);
             gameMusic.setLooping(true);
-            audioStateMachine = new AudioStateMachine();
+            
         } catch (GdxRuntimeException e) {
             e.printStackTrace();
         }
+        audioStateMachine = new AudioStateMachine();
     }
     
     /**
