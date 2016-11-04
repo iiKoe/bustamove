@@ -3,7 +3,6 @@ package com.group66.game.screens;
 import java.text.DecimalFormat;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,6 +17,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.logging.MessageType;
+import com.group66.game.screencontrollers.CareerMenuController;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
+import com.group66.game.screencontrollers.actions.PlayLevelButton;
+import com.group66.game.screencontrollers.actions.ResetButton;
+import com.group66.game.screencontrollers.actions.ShopButton;
 import com.group66.game.settings.Config;
 
 /**
@@ -28,13 +32,14 @@ public class CareerScreen extends AbstractMenuScreen {
     /** The text drawer. */
     private TextDrawer textDrawer;
 
-    private Screen ownInstance;
+    /** The controller. */
+    private CareerMenuController controller;
 
     /**
      * Instantiates a new main menu screen.
      */
     public CareerScreen() {
-        ownInstance = this;
+        controller = new CareerMenuController(this);
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the career menu screen");
     }
@@ -81,9 +86,7 @@ public class CareerScreen extends AbstractMenuScreen {
         //all magic numbers in this section are offsets values adjusted to get better looks
         int yoffset = Gdx.graphics.getHeight() / 2 + 20;
 
-        for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
-            addLevelButton(i);
-        }
+        addLevelButtons();
         
         int leftcol = (Gdx.graphics.getWidth() - Config.BUTTON_WIDTH - 250) / 2;
         TextButton shopButton = new TextButton("Shop", textButtonStyle);
@@ -104,23 +107,30 @@ public class CareerScreen extends AbstractMenuScreen {
         // Add a listener to the buttons
         shopButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new ShopScreen(ownInstance));
+                controller.performUserAction(new ShopButton());
             }
         });
         resetButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().getDynamicSettings().reset();
+                controller.performUserAction(new ResetButton());
+                addLevelButtons();
             }
         });
         mainMenuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
     }
     
+    /**
+     * Adds the level buttons.
+     */
+    private void addLevelButtons() {
+        for (int i = 1; i <= Config.NUMBER_OF_LEVELS; i++) {
+            addLevelButton(i);
+        }
+    }
     /**
      * Adds a button for the selected level
      * @param level
@@ -149,11 +159,7 @@ public class CareerScreen extends AbstractMenuScreen {
         imgButton.setPosition(xpos, ypos);
         imgButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                if (BustaMove.getGameInstance().getDynamicSettings().getLevelCleared() >= level - 1) {
-                    dispose();
-                    BustaMove.getGameInstance().getDynamicSettings().setCurrentLevel(level, false);
-                    BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(false));
-                }
+                controller.performUserAction(new PlayLevelButton(level));
             }
         });
         stage.addActor(imgButton);

@@ -18,18 +18,24 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.helpers.TextDrawer;
+import com.group66.game.screencontrollers.YouLoseCareerController;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
+import com.group66.game.screencontrollers.actions.TryAgainButton;
 import com.group66.game.settings.Config;
 
 
 
 public class YouLoseScreenCareer extends AbstractYouLoseScreen {
 
+    /** The controller. */
+    private YouLoseCareerController controller;
     /** The text drawer. */
     private TextDrawer textDrawer;
     /**
      */
     public YouLoseScreenCareer() {
         super();
+        controller = new YouLoseCareerController(this);
     }
 
     protected void createScreen() {
@@ -76,9 +82,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
             stage.addActor(tryAgainButton);
             tryAgainButton.addListener(new ChangeListener() {
                 public void changed(ChangeEvent event, Actor actor) {
-                    BustaMove.getGameInstance().getDynamicSettings().setExtraLife(false, true);
-                    dispose();
-                    BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen());
+                    controller.performUserAction(new TryAgainButton());
                 }
             });
         }
@@ -96,7 +100,7 @@ public class YouLoseScreenCareer extends AbstractYouLoseScreen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
 

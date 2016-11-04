@@ -8,12 +8,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
 import com.group66.game.logging.MessageType;
+import com.group66.game.screencontrollers.MainMenuController;
+import com.group66.game.screencontrollers.actions.ExitButton;
+import com.group66.game.screencontrollers.actions.LevelButton;
+import com.group66.game.screencontrollers.actions.RandomButton;
+import com.group66.game.screencontrollers.actions.ScoresButton;
+import com.group66.game.screencontrollers.actions.SettingsButton;
+import com.group66.game.screencontrollers.actions.SplitButton;
 import com.group66.game.settings.Config;
 
 /**
  * A Class for the MainMenuScreen of the game.
  */
 public class MainMenuScreen extends AbstractMenuScreen {  
+<<<<<<< HEAD
+=======
+
+    /** The Menu Controller. */
+    private MainMenuController controller;
+>>>>>>> refs/remotes/origin/develop
     
     /**  screen buttons. */
     private TextButton levelButton;
@@ -37,6 +50,11 @@ public class MainMenuScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public MainMenuScreen() {
+<<<<<<< HEAD
+=======
+        System.out.println("now start create main menu screen");
+        controller = new MainMenuController(this);
+>>>>>>> refs/remotes/origin/develop
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
     }
@@ -113,41 +131,32 @@ public class MainMenuScreen extends AbstractMenuScreen {
         // Also, canceling a ClickListener event won't revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new CareerScreen());
+                controller.performUserAction(new LevelButton());
             }
         });
         randomButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().getDynamicSettings().setRandomLevel(true, true);
-                BustaMove.getGameInstance().setScreen(new OnePlayerGameScreen(true));
+                controller.performUserAction(new RandomButton());
             }
         });
         scoresButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new HighScoreScreen());
+                controller.performUserAction(new ScoresButton());
             }
         });
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().log(MessageType.Default, "Exit the game");
-                Gdx.app.exit();
+                controller.performUserAction(new ExitButton());
             }
         });
         settingsButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new SettingsScreen());
+                controller.performUserAction(new SettingsButton());
             }
         });
         splitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                //BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true, dynamicSettings));
-                BustaMove.getGameInstance().setScreen(new MultiplayerMenuScreen());
+                controller.performUserAction(new SplitButton());
             }
         });
     }
