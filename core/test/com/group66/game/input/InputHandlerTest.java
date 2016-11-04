@@ -25,9 +25,18 @@ public class InputHandlerTest {
         KeyCommand comm = new KeyCommand() {
             public void runCommand() { }
         };
+        KeyCommand comm2 = new KeyCommand() {
+            public void runCommand() { }
+        };
         
         inputHandler.registerKeyPressedFunc("Jump", comm);
+        inputHandler.registerKeyPressedFunc("Jump", comm2);
+        inputHandler.registerKeyPressedFunc("Jump", null);
+        inputHandler.registerKeyPressedFunc(null, null);
         inputHandler.registerKeyJustPressedFunc("Jump", comm);
+        inputHandler.registerKeyJustPressedFunc("Jump", comm2);
+        inputHandler.registerKeyJustPressedFunc("Jump", null);
+        inputHandler.registerKeyJustPressedFunc(null, null);
     }
     
     @Test
@@ -62,5 +71,8 @@ public class InputHandlerTest {
         
         levelSelectInput.input("2");
         levelSelectInput.canceled();
+        levelSelectInput.input("0");
+        levelSelectInput.canceled();
+        
     }
 }
