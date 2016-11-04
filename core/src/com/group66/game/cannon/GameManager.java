@@ -4,9 +4,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.Ball;
-import com.group66.game.helpers.AudioManager;
+
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.helpers.TimeKeeper;
@@ -14,7 +15,6 @@ import com.group66.game.logging.MessageType;
 import com.group66.game.screens.AbstractGameScreen;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
-import com.group66.game.cannon.ballgraph.BallGraph;
 
 /**
  * A Class to manage the game rules.
@@ -25,7 +25,7 @@ public class GameManager {
     private DynamicSettings dynamicSettings;
 
     /** The cannon instance to shoot out. */
-    public Cannon cannon;
+    private Cannon cannon;
 
     /** The roof hitbox. */
     private Rectangle roofHitbox;
@@ -34,13 +34,13 @@ public class GameManager {
     private BallGraph ballGraph;
 
     /**  The score keeper. */
-    public ScoreKeeper scoreKeeper = new ScoreKeeper();
+    private ScoreKeeper scoreKeeper = new ScoreKeeper();
     
     /**  needed to draw text, draw score. */
-    private TextDrawer textDrawer = new TextDrawer();
+    private TextDrawer textDrawer;
 
     /**  The TimeKeeper. */
-    public TimeKeeper timeKeeper;
+    private TimeKeeper timeKeeper;
     
     /** The ball count. */
     private int ballCount;
@@ -63,10 +63,8 @@ public class GameManager {
      *
      * @param dynamicSettings the dynamic settings
      */
-    public GameManager(DynamicSettings dynamicSettings) {      
+    public GameManager(DynamicSettings dynamicSettings) {
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
-        this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
-                Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
         this.roofHitbox  = new Rectangle(xoffset, Config.HEIGHT - Config.BORDER_SIZE_TOP - ROOF_OFFSET,
                 Config.LEVEL_WIDTH + 2 * Config.BORDER_SIZE_SIDES, Config.LEVEL_HEIGHT);
         
@@ -96,10 +94,15 @@ public class GameManager {
      * @param xoffset the xoffset
      */
     private void reset(DynamicSettings dynamicSettings, int xoffset) {
-        this.dynamicSettings = dynamicSettings;
+        this.dynamicSettings = (dynamicSettings == null ? new DynamicSettings() : dynamicSettings);
         this.ballCount = 0;
         this.ballGraph = new BallGraph();
-        this.timeKeeper = new TimeKeeper(this);    
+        this.timeKeeper = new TimeKeeper(this);
+        try {
+            this.textDrawer = new TextDrawer();
+        } catch (com.badlogic.gdx.utils.GdxRuntimeException e) {
+            System.out.println("Error that should only happen in JUNIT tests");
+        }
         this.cannon = new Cannon(new Texture("cannon.png"), xoffset + Config.LEVEL_WIDTH / 2, Config.CANNON_Y_OFFSET,
                 Config.CANNON_WIDTH, Config.CANNON_HEIGHT, Config.CANNON_MIN_ANGLE, Config.CANNON_MAX_ANGLE);
         
@@ -117,7 +120,11 @@ public class GameManager {
     public void shootBall() {
         if (canShoot()) {
             ballManager.shootBall();
-            AudioManager.shoot();
+            try {
+                BustaMove.getGameInstance().getAudioManager().shoot();
+            } catch (NullPointerException e) {
+                System.out.println("Error that should only happen in JUNIT tests");
+            }
             timeKeeper.shotTimeReset();
             this.ballCount++;
         }
@@ -164,6 +171,9 @@ public class GameManager {
      * @return true, if is game over
      */
     public boolean isGameOver() {
+        if (ballManager == null) {
+            return true;
+        }
         return ballManager.hitsBottom();
     }
     
@@ -180,6 +190,14 @@ public class GameManager {
     }
 
     /**
+     * Checks if the game has ended by either victory or loss
+     * @return if the game has ended
+     */
+    public boolean isGameEnded() {
+        return isGameOver() || isGameComplete();
+    }
+    
+    /**
      * Draw the Balls managed by GameManager.
      *
      * @param gameScreen the game screen
@@ -187,12 +205,16 @@ public class GameManager {
      * @param delta the delta
      */
     public void draw(AbstractGameScreen gameScreen, SpriteBatch batch, float delta) {
+        if (gameScreen == null || batch == null) {
+            return;
+        }
+        
         int xoffset = Config.SINGLE_PLAYER_OFFSET;
         if (isSplit) {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset;
         }
         
-        //draw the background
+        /* Draw the background */
         batch.draw(gameScreen.getBackground(), xoffset + Config.BORDER_SIZE_SIDES, Config.BORDER_SIZE_BOT,
                 Config.LEVEL_WIDTH, Config.LEVEL_HEIGHT);
         
@@ -202,12 +224,16 @@ public class GameManager {
         /* Update the balls */
         ballManager.update(batch, delta);
         
-        //draw cannon
+        /* Draw cannon */
         cannon.draw(batch);
         
         /* Draw the score */
-        textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
-                Config.SCORE_OFFSET);
+        try {
+            textDrawer.draw(batch, "Score: " + scoreKeeper.getCurrentScore(), xoffset + Config.SCORE_OFFSET,
+                    Config.SCORE_OFFSET);
+        } catch (NullPointerException e) {
+            System.out.println("Error that should only happen in JUNIT tests");
+        }
     }
 
     /**
@@ -216,10 +242,13 @@ public class GameManager {
      * @param other the other
      */
     public void shiftClone(GameManager other) {
-        //TODO change to iterator
-        for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
-            float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
-            ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());
+
+        if (other != null && other.getBallManager() != null
+                && other.getBallManager().getBallsStaticManager() != null) {
+            for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
+                float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
+                ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());
+            }
         }
     }
     
@@ -229,7 +258,7 @@ public class GameManager {
      * @param ball the ball
      */
     public void ballCheckRoof(Ball ball) {
-        if (ball.getTopHitbox().overlaps(roofHitbox)) {
+        if (ball != null && ball.getTopHitbox().overlaps(roofHitbox)) {
             System.out.println("Attach ball to top");
             ball.setSpeed(0);
             BallSnap.snapBallToRoof(ball, roofHitbox.y + ROOF_OFFSET, this.isSplit, this.segmentOffset);
@@ -256,6 +285,10 @@ public class GameManager {
      * @param delta the delta
      */
     public void update(float delta) {
+        if (ballManager == null) {
+            return;
+        }
+        
         /* Start counting time*/
         timeKeeper.universalTimeCounter(delta);
         
@@ -265,7 +298,6 @@ public class GameManager {
         /* Check shooting balls */
         // NB. Currently only 1 ball can be shot at a time in the game nevertheless the
         // current BallList implementation is kept for versatility and to be future proof
-        // TODO change to iterator
         for (Ball ball : ballManager.getBallList()) {
             ball.update(delta);
             ballManager.ballCheckDead(ball);
@@ -326,5 +358,21 @@ public class GameManager {
      */
     public BallManager getBallManager() {
         return this.ballManager;
+    }
+    
+    /**
+     * Gets the score keeper
+     * @return the score keeper
+     */
+    public ScoreKeeper getScoreKeeper() {
+        return scoreKeeper;
+    }
+    
+    /**
+     * Gets the cannon
+     * @return the cannon object
+     */
+    public Cannon getCannon() {
+        return cannon;
     }
 }

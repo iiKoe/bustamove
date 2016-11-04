@@ -6,8 +6,8 @@ package com.group66.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -15,7 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.group66.game.BustaMove;
+import com.group66.game.screencontrollers.YouLoseRandomController;
+import com.group66.game.screencontrollers.actions.ExitButton;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
 import com.group66.game.settings.Config;
 
 /**
@@ -24,13 +26,20 @@ import com.group66.game.settings.Config;
  */
 public class YouLoseScreenRandom extends AbstractYouLoseScreen {
 
+    /** The controller. */
+    private YouLoseRandomController controller;
+    
     /**
-     * 
+     * Instantiates a new you lose screen random.
      */
     public YouLoseScreenRandom() {
         super();
+        controller = new YouLoseRandomController(this);
     }
 
+    /* (non-Javadoc)
+     * @see com.group66.game.screens.AbstractYouLoseScreen#createScreen()
+     */
     protected void createScreen() {
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
@@ -78,13 +87,13 @@ public class YouLoseScreenRandom extends AbstractYouLoseScreen {
         // revert the checked state.
         levelButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
 
         exitButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                Gdx.app.exit();
+                controller.performUserAction(new ExitButton());
             }
         });
     }

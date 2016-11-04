@@ -14,17 +14,23 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.DifficultyManager;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.logging.MessageType;
+import com.group66.game.screencontrollers.MultiplayerMenuController;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
+import com.group66.game.screencontrollers.actions.PlayLevelButton;
+import com.group66.game.screencontrollers.actions.RandomButton;
+import com.group66.game.screencontrollers.actions.SetDifficultyButton;
 import com.group66.game.settings.Config;
 
 public class MultiplayerMenuScreen extends AbstractMenuScreen {
     
-    //private DynamicSettings dynamicSettings;
+    /** The controller. */
+    private MultiplayerMenuController controller;
+    
     private TextDrawer textDrawer;
     private int numPlayers = 2;
     private int yoffset;
@@ -33,7 +39,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
      * Instantiates a new multiplayer menu screen.
      */
     public MultiplayerMenuScreen() {
-        //dynamicSettings = new DynamicSettings(); //BustaMove.getGameInstance().getDynamicSettings();
+        controller = new MultiplayerMenuController(this);
         yoffset = Gdx.graphics.getHeight() / 2 + 200;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
@@ -45,7 +51,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         Gdx.input.setInputProcessor(stage);
         // Setup the text drawer to show the amount of coins
         textDrawer = new TextDrawer();
-        textDrawer.myFont.setColor(Color.BLACK);
+        textDrawer.getFont().setColor(Color.BLACK);
         setupButtons();
     }
     
@@ -58,12 +64,11 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         /* Draw the background */
-        SpriteBatch batch = BustaMove.getGameInstance().batch;
+        SpriteBatch batch = BustaMove.getGameInstance().getBatch();
         batch.begin();
         batch.enableBlending();
         batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
         textDrawer.draw(batch, "Players", (Config.WIDTH - Config.LEVEL_WIDTH) / 2, yoffset + 20);
-        //textDrawer.draw(batch, ""+numPlayers, (Config.WIDTH) / 2, yoffset - Config.BUTTON_HEIGHT + 20);
         textDrawer.draw(batch, "Level", 
                 (Config.WIDTH - Config.LEVEL_WIDTH) / 2, yoffset - 2 * Config.BUTTON_HEIGHT + 20);
         batch.end();
@@ -75,7 +80,6 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
     @Override
     public void setupButtons() {
         loadButtonMaterials();
-        final DifficultyManager difficultyManager = new DifficultyManager();
         //all magic numbers in this section are offsets values adjusted to get better looks
 
         //players
@@ -117,7 +121,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         mainMenuButton.setPosition(centercol, yoffset - 9 * Config.BUTTON_HEIGHT);
         stage.addActor(mainMenuButton);
         
-        // Add a listener to the buttons
+        /* Add a listener to each button */
         twoPlayerButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float xpos, float ypos) {
                 numPlayers = 2;
@@ -134,41 +138,28 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         });
         easyButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                difficultyManager.setDifficulty("easy");
+                controller.performUserAction(new SetDifficultyButton("easy"));
                 BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to easy");
-                if (numPlayers == 2) {
-                    BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true));
-                } else {
-                    BustaMove.getGameInstance().setScreen(new ThreePlayerGameScreen(true));
-                }
+                controller.performUserAction(new RandomButton(numPlayers));
             }
         });
         mediumButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                difficultyManager.setDifficulty("medium");
+                controller.performUserAction(new SetDifficultyButton("medium"));
                 BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to medium");
-                if (numPlayers == 2) {
-                    BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true));
-                } else {
-                    BustaMove.getGameInstance().setScreen(new ThreePlayerGameScreen(true));
-                }
+                controller.performUserAction(new RandomButton(numPlayers));
             }
         });
         hardButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                difficultyManager.setDifficulty("hard");
+                controller.performUserAction(new SetDifficultyButton("hard"));
                 BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to hard");
-                if (numPlayers == 2) {
-                    BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(true));
-                } else {
-                    BustaMove.getGameInstance().setScreen(new ThreePlayerGameScreen(true));
-                }
+                controller.performUserAction(new RandomButton(numPlayers));
             }
         });
         mainMenuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
     }
@@ -184,6 +175,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
             textureName = "ballTextures.png";
         }
         
+        // All magic numbers are offsets used to make the looks better
         int xoffset = (Gdx.graphics.getWidth() - 500 - 4 * Config.BUTTON_SPACING) / 2;
         int xpos = xoffset + ((level - 1) % 5) * (100 + Config.BUTTON_SPACING);
         int ypos = yoffset - 5 * Config.BUTTON_HEIGHT - Config.BUTTON_SPACING - ((level - 1) / 5)
@@ -193,16 +185,12 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         TextureRegion myTextureRegion = new TextureRegion(myTexture, 100, 100);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         
+        /* Loads images for the buttons */
         ImageButton imgButton = new ImageButton(myTexRegionDrawable);
         imgButton.setPosition(xpos, ypos);
         imgButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                dispose();
-                if (numPlayers == 2) {
-                    BustaMove.getGameInstance().setScreen(new TwoPlayerGameScreen(level));
-                } else {
-                    BustaMove.getGameInstance().setScreen(new ThreePlayerGameScreen(level));
-                }
+                controller.performUserAction(new PlayLevelButton(level, numPlayers));
             }
         });
         stage.addActor(imgButton);

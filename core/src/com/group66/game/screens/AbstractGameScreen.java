@@ -5,29 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.group66.game.helpers.AudioManager;
-import com.group66.game.input.InputHandler;
+import com.group66.game.BustaMove;
+import com.group66.game.screencontrollers.AbstractGameController;
 
 public abstract class AbstractGameScreen implements Screen {
     
-    /**
-     * The Enum GameState.
-     */
-    protected enum GameState {
-        
-        /** The game is running. */
-        RUNNING,
-        
-        /** The game is paused. */
-        PAUSED
-    }
-    
-    /** The game state. */
-    protected GameState gameState;
-    
-    /** The input handler. */
-    protected InputHandler inputHandler;
-    
+    protected AbstractGameController gameController;
     
     /**
      * Initialization of all graphic related o
@@ -63,7 +46,7 @@ public abstract class AbstractGameScreen implements Screen {
      * @param delta The time in seconds since the last render.
      * @see com.badlogic.gdx.Screen#render(float)
      */
-    public void render(float delta) { }
+    public abstract void render(float delta);
     
     /**
      * Resize
@@ -93,16 +76,15 @@ public abstract class AbstractGameScreen implements Screen {
      * Dispose
      * @see com.badlogic.gdx.Screen#dispose()
      */
+
     public void dispose() {
-        
-        AudioManager.stopMusic();
+        BustaMove.getGameInstance().getAudioManager().stopMusic();
         bwTexture.dispose();
         bw.getTexture().dispose();
         bgTexture.dispose();
         bg.getTexture().dispose();
         pausebgTexture.dispose();
-        pausebg.getTexture().dispose();
-        
+        pausebg.getTexture().dispose();       
     }
     
     /**

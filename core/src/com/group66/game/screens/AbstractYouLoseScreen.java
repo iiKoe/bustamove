@@ -5,11 +5,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.group66.game.settings.Config;
 import com.group66.game.BustaMove;
+import com.group66.game.settings.Config;
 
 /**
  * A Class for the MainMenuScreen of the game.
@@ -32,7 +33,11 @@ public abstract class AbstractYouLoseScreen implements Screen {
      * Instantiates a new main menu screen.
      */
     public AbstractYouLoseScreen() {
-        createScreen();
+        try {
+            createScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void createScreen() { }
@@ -46,11 +51,11 @@ public abstract class AbstractYouLoseScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        BustaMove.getGameInstance().batch.begin();
-        BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(youlosebg, 
-                Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
-        BustaMove.getGameInstance().batch.end();
+        SpriteBatch batch = BustaMove.getGameInstance().getBatch();
+        batch.begin();
+        batch.enableBlending();
+        batch.draw(youlosebg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
+        batch.end();
         
         stage.act();
         stage.draw();

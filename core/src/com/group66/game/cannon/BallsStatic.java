@@ -6,10 +6,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.BustaMove;
+import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
 import com.group66.game.settings.DynamicSettings;
-import com.group66.game.cannon.ballgraph.BallGraph;
 
 /**
  * A Class to manage the Balls that are currently not moving in the game.
@@ -46,7 +46,9 @@ public class BallsStatic {
      * @param ball the ball
      */
     public void add(Ball ball) {
-        ballStaticList.add(ball);
+        if (ball != null) {
+            ballStaticList.add(ball);
+        }
     }
     
     /**
@@ -83,7 +85,10 @@ public class BallsStatic {
      * @return true, if successful
      */
     public boolean aliveContains(Ball ball) {
-        return ballStaticList.contains(ball);
+        if (ball != null) {
+            return ballStaticList.contains(ball);
+        }
+        return false;
     }
     
     /**
@@ -93,7 +98,10 @@ public class BallsStatic {
      * @return true, if successful
      */
     public boolean deadContains(Ball ball) {
-        return ballStaticDeadList.contains(ball);
+        if (ball != null) {
+            return ballStaticDeadList.contains(ball);
+        }
+        return false;
     }
     
     /**
@@ -102,7 +110,10 @@ public class BallsStatic {
      * @return the first dead ball
      */
     public Ball getFirstDeadBall() {
-        return ballStaticDeadList.get(0);
+        if (deadSize() > 0) {
+            return ballStaticDeadList.get(0);
+        }
+        return null;
     }
     
     /**
@@ -111,7 +122,9 @@ public class BallsStatic {
      * @param ball the ball
      */
     public void addDeadBall(Ball ball) {
-        ballStaticDeadList.add(ball);
+        if (ball != null) {
+            ballStaticDeadList.add(ball);
+        }
     }
     
     /**
@@ -120,14 +133,18 @@ public class BallsStatic {
      * @param ball the ball
      */
     public void removeStaticBall(Ball ball) {
-        ballStaticList.remove(ball);
+        if (ball != null) {
+            ballStaticList.remove(ball);
+        }
     }
     
     /**
      * Removes the first dead ball.
      */
     public void removeFirstDeadBall() {
-        ballStaticDeadList.remove(0);
+        if (deadSize() > 0) {
+            ballStaticDeadList.remove(0);
+        }
     }
     
     /**
@@ -136,7 +153,10 @@ public class BallsStatic {
      * @return the last static ball
      */
     public Ball getLastStaticBall() {
-        return ballStaticList.get(ballStaticList.size() - 1);
+        if (aliveSize() > 0) {
+            return ballStaticList.get(ballStaticList.size() - 1);
+        }
+        return null;
     }
     
     /**
@@ -146,8 +166,10 @@ public class BallsStatic {
      * @param delta the delta
      */
     public void draw(SpriteBatch batch, float delta) {
-        for (Ball ball : ballStaticList) {
-            ball.draw(batch, ball.getType().getAnimation(), delta);
+        if (batch != null) {
+            for (Ball ball : ballStaticList) {
+                ball.draw(batch, ball.getType().getAnimation(), delta);
+            }
         }
     }
     
@@ -158,10 +180,12 @@ public class BallsStatic {
      * @return the ball
      */
     public Ball hitsStaticBall(Ball ball) {
-        for (Ball t : ballStaticList) {
-            // Does the ball hit a target ball?
-            if (t.doesHit(ball.getHitbox())) {
-                return t;
+        if (ball != null) {
+            for (Ball t : ballStaticList) {
+                // Does the ball hit a target ball?
+                if (t.doesHit(ball.getHitbox())) {
+                    return t;
+                }
             }
         }
         return null;
@@ -175,8 +199,11 @@ public class BallsStatic {
      * @param ypos the y coordinate
      */
     public void addStaticBall(BallType type, float xpos, float ypos) {
-        Ball ball;
-        ball = type.newBall(xpos, ypos, 0, 0.0f);
+        if (type == null) {
+            return;
+        }
+        
+        Ball ball = type.newBall(xpos, ypos, 0, 0.0f);
         add(ball);
         colorList.get(ball.getColor()).incrementAndGet();
         ballGraph.insertBall(ball);
@@ -223,20 +250,18 @@ public class BallsStatic {
      * Move row down.
      */
     public void moveRowDown() {
-        // Move all the balls down
         for (Ball b : ballStaticList) {
             b.moveDown(Config.BALL_DIAM);
         }
     }
     
     /**
-     * Hits botom.
+     * Hits bottom.
      *
      * @return true, if successful
      */
-    public boolean hitsBotom() {
+    public boolean hitsBottom() {
         for (Ball b : ballStaticList) {
-            // TODO fix the != check
             if (b.getY() - Config.BALL_DIAM <= Config.BORDER_SIZE_BOT && b.getY() != 0) {
                 return true;
             }

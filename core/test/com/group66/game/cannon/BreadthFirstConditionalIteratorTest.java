@@ -2,8 +2,6 @@ package com.group66.game.cannon;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 import org.jgrapht.graph.SimpleGraph;

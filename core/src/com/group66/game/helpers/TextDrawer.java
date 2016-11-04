@@ -14,21 +14,24 @@ import com.group66.game.settings.Config;
 public class TextDrawer {
     
     /** The used font. */
-    public BitmapFont myFont;
+    private BitmapFont myFont;
         
     /**
      * Generates the font and its settings.
      */
     public TextDrawer() {
-        
-        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Courier.ttf"));
-        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-        parameter.size = Config.FONT_SIZE; //font size
-        parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()?:&"; 
-        //list of printable chars
-        myFont = generator.generateFont(parameter);
-        myFont.setColor(Color.WHITE);
-        generator.dispose();
+        try {
+            FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Courier.ttf"));
+            FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+            parameter.size = Config.FONT_SIZE; //font size
+            parameter.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.!'()?:&"; 
+            //list of printable chars
+            myFont = generator.generateFont(parameter);
+            myFont.setColor(Color.WHITE);
+            generator.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     
     /**
@@ -38,7 +41,9 @@ public class TextDrawer {
      * @param score the score
      */
     public void drawScore(SpriteBatch batch, int score) {
-        myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_OFFSET, Config.SCORE_OFFSET);
+        if (batch != null) {
+            myFont.draw(batch, "Score: " + Integer.toString(score), Config.SCORE_OFFSET, Config.SCORE_OFFSET);
+        }
     }
     
     /**
@@ -50,7 +55,17 @@ public class TextDrawer {
      * @param ypos the y coordinate
      */
     public void draw(SpriteBatch batch, String text, int xpos, int ypos) {
-        myFont.draw(batch, text, xpos, ypos);
+        if (batch != null) {
+            myFont.draw(batch, text, xpos, ypos);
+        }
+    }
+    
+    /**
+     * Return the font
+     * @return the font
+     */
+    public BitmapFont getFont() {
+        return myFont;
     }
 }
 

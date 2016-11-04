@@ -22,7 +22,7 @@ public class BallAnimationLoader {
     private static Texture ballPopTexture;
 
     /** The ball animations. */
-    public static Animation blueAnimation, greenAnimation, redAnimation,
+    private static Animation blueAnimation, greenAnimation, redAnimation,
         yellowAnimation, bombAnimation;
     
     /** The ball animation texture regions. */
@@ -262,10 +262,9 @@ public class BallAnimationLoader {
     }
 
     /**
-     * Dispose of the textures.
+     * Dispose of the textures after finishing
      */
     public static void dispose() {
-        // We must dispose of the texture when we are finished.
         ballTexture.dispose();
         ballPopTexture.dispose();
         blue1.getTexture().dispose();
@@ -280,14 +279,6 @@ public class BallAnimationLoader {
         yellow1.getTexture().dispose();
         yellow2.getTexture().dispose();
         yellow3.getTexture().dispose();
-        //blueAnimation.dispose();
-        //greenAnimation.dispose();
-        //redAnimation.dispose();
-        //yellowAnimation.dispose();
-        //bluePopTextureRegions.dispose();
-        //greenPopTextureRegions.dispose();
-        //redPopTextureRegions.dispose();
-        //yellowPopTextureRegions.dispose();
         bomb.dispose();
     }
 }

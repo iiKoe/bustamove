@@ -22,6 +22,7 @@ public abstract class Logger {
      * @param message the message to log
      */
     public void log(MessageType mt, String message) {
+        mt = (mt == null ? MessageType.Default : mt);
         if (this.verbosity.level <= mt.level) {
             String date = DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
             write("[" + date + "] " + mt.toString() + ": " + message);

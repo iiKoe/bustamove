@@ -3,13 +3,16 @@ package com.group66.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.group66.game.BustaMove;
-import com.group66.game.helpers.DifficultyManager;
 import com.group66.game.logging.MessageType;
+import com.group66.game.screencontrollers.SettingsMenuController;
+import com.group66.game.screencontrollers.actions.MainMenuButton;
+import com.group66.game.screencontrollers.actions.SetDifficultyButton;
 import com.group66.game.settings.Config;
 
 /**
@@ -17,8 +20,7 @@ import com.group66.game.settings.Config;
  */
 public class SettingsScreen extends AbstractMenuScreen {
 
-    private DifficultyManager difficultyManager = new DifficultyManager();
-    
+    private SettingsMenuController controller; 
     /** sets up button */
     private TextButton easyButton;
     private TextButton mediumButton;
@@ -29,6 +31,7 @@ public class SettingsScreen extends AbstractMenuScreen {
      * Instantiates a new main menu screen.
      */
     public SettingsScreen() {
+        controller = new SettingsMenuController(this);
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the settings screen");
     }
@@ -53,11 +56,11 @@ public class SettingsScreen extends AbstractMenuScreen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         /* Draw the background */
-        BustaMove.getGameInstance().batch.begin();
-        BustaMove.getGameInstance().batch.enableBlending();
-        BustaMove.getGameInstance().batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH,
-                Gdx.graphics.getHeight());
-        BustaMove.getGameInstance().batch.end();
+        SpriteBatch batch = BustaMove.getGameInstance().getBatch();
+        batch.begin();
+        batch.enableBlending();
+        batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
+        batch.end();
         
         stage.act();
         stage.draw();
@@ -94,25 +97,25 @@ public class SettingsScreen extends AbstractMenuScreen {
         // revert the checked state.
         easyButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                difficultyManager.setDifficulty("easy");
+                controller.performUserAction(new SetDifficultyButton("easy"));
                 BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to easy");
             }
         });
         mediumButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                difficultyManager.setDifficulty("medium");
+                controller.performUserAction(new SetDifficultyButton("medium"));
                 BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to medium");
             }
         });
         hardButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                difficultyManager.setDifficulty("hard");
+                controller.performUserAction(new SetDifficultyButton("hard"));
                 BustaMove.getGameInstance().log(MessageType.Default, "Difficulty set to hard");
             }
         });
         menuButton.addListener(new ChangeListener() {
             public void changed(ChangeEvent event, Actor actor) {
-                BustaMove.getGameInstance().setScreen(new MainMenuScreen());
+                controller.performUserAction(new MainMenuButton());
             }
         });
 

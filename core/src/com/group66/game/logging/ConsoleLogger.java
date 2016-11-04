@@ -7,11 +7,15 @@ public class ConsoleLogger extends Logger {
      * @param mt the message type to write
      */
     public ConsoleLogger(MessageType mt) {
-        this.verbosity = mt;
+        this.verbosity = (mt == null ? MessageType.Default : mt);
     }
 
     @Override
-    protected void write(String message) {       
-        System.out.println(message);
+    protected void write(String message) {
+        try {
+            System.out.println(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

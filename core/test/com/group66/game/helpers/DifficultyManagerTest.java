@@ -24,19 +24,19 @@ public class DifficultyManagerTest {
         int rows = difficulty.numRows();
         assertTrue(3 <= rows && rows <= 5);
         
-        difficulty.setDifficulty("easy");
+        DifficultyManager.setDifficulty("easy");
         rows = difficulty.numRows();
         assertTrue(3 <= rows && rows <= 5);
         
-        difficulty.setDifficulty("medium");
+        DifficultyManager.setDifficulty("medium");
         rows = difficulty.numRows();
         assertTrue(6 <= rows && rows <= 8);
         
-        difficulty.setDifficulty("hard");
+        DifficultyManager.setDifficulty("hard");
         rows = difficulty.numRows();
         assertTrue(9 <= rows && rows <= 11);
         
-        difficulty.setDifficulty("easy");
+        DifficultyManager.setDifficulty("easy");
         rows = difficulty.numRows();
         assertTrue(3 <= rows && rows <= 5);
     }
@@ -47,7 +47,7 @@ public class DifficultyManagerTest {
     @Test
     public void nullTest() {
         DifficultyManager difficulty = new DifficultyManager();
-        difficulty.setDifficulty(null);
+        DifficultyManager.setDifficulty(null);
         
         int rows = difficulty.numRows();
         assertTrue(3 <= rows && rows <= 5);
@@ -59,7 +59,7 @@ public class DifficultyManagerTest {
     @Test
     public void boundaryTest() {
         DifficultyManager difficulty = new DifficultyManager();
-        difficulty.setDifficulty("Meaningless string");
+        DifficultyManager.setDifficulty("Meaningless string");
         
         int rows = difficulty.numRows();
         assertTrue(3 <= rows && rows <= 5);

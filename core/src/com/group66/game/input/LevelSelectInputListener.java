@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.group66.game.input;
 
 import com.badlogic.gdx.Input.TextInputListener;
@@ -16,7 +13,7 @@ public class LevelSelectInputListener implements TextInputListener {
         this.dynamicSettings = dynamicSettings;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see com.badlogic.gdx.Input.TextInputListener#input(java.lang.String)
      */
     @Override
@@ -28,13 +25,12 @@ public class LevelSelectInputListener implements TextInputListener {
 
     }
 
-    /* (non-Javadoc)
+    /**
      * @see com.badlogic.gdx.Input.TextInputListener#canceled()
      */
     @Override
     public void canceled() {
-        // TODO Auto-generated method stub
-
+        
     }
 
 }

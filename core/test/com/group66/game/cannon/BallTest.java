@@ -9,7 +9,6 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 
 import com.badlogic.gdx.math.Circle;
-import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.ballgraph.BallGraph;
 
 /**

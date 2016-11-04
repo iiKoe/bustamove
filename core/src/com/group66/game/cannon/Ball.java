@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.BustaMove;
 import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
 import com.group66.game.cannon.ballgraph.NullBallGraphBreadthFirstConditionalIterator;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.settings.Config;
 
 /**
@@ -76,7 +76,7 @@ public abstract class Ball {
         this.time = 10;
         this.speed = speed;
         this.angle = angle;
-        this.type = type;
+        this.type = (type == null ? BallType.BLUE : type);
         this.popStatus = PopStatus.NONE;
         this.runtime = 0f;
 
@@ -245,7 +245,7 @@ public abstract class Ball {
      * @return true, if the hitboxes overlap
      */
     public boolean doesHit(Circle circle) {
-        return circle.overlaps(hitbox);
+        return hitbox.overlaps(circle);
     }
 
     /**
@@ -254,7 +254,7 @@ public abstract class Ball {
      * @return true, if the neighborBoxes overlap.
      */
     public boolean isNextTo(Circle circle) {
-        return circle.overlaps(neighborBox);
+        return neighborBox.overlaps(circle);
     }
 
     /**
@@ -282,7 +282,11 @@ public abstract class Ball {
         this.popAnimation = popAnimation;
         this.runtime = 0;
         popStatus = PopStatus.POPPING;
-        AudioManager.ballpop();
+        try {
+            BustaMove.getGameInstance().getAudioManager().ballpop();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -320,7 +324,6 @@ public abstract class Ball {
      */
     public void draw(SpriteBatch batch, Animation animation, float delta) {
         this.runtime += delta;
-        // batch.draw(ball_texture, ); // TODO calc actual x and y
 
         TextureRegion tr;
         // TODO What to draw when popping is done? Nothing?
@@ -336,7 +339,9 @@ public abstract class Ball {
             return;
         }
 
-        batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
+        if (batch != null) {
+            batch.draw(tr, hitbox.x - Config.BALL_RAD, hitbox.y - Config.BALL_RAD, Config.BALL_DIAM, Config.BALL_DIAM);
+        }
     }
 
     /**
@@ -346,7 +351,7 @@ public abstract class Ball {
      * @return Boolean whether balls are of the same type
      */
     public Boolean isEqual(Ball ball) {
-        if (ball instanceof Ball && this.getType().equals(ball.getType())) {
+        if (ball != null && this.getType().equals(ball.getType())) {
             return true;
         }
         return false;

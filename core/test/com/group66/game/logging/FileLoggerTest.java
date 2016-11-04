@@ -10,11 +10,13 @@ public class FileLoggerTest extends LoggerTest {
     @Test
     public void fileLoggerCreationTest() {
         new FileLogger(MessageType.Default);
+        new FileLogger(null);
     }
     
     @Test
     public void writeTest() {
         FileLogger fileLogger = new FileLogger(MessageType.Default);
         fileLogger.log(MessageType.Default, "String");
+        fileLogger.log(null, "String2");
     }
 }

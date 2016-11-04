@@ -4,15 +4,12 @@ import org.jgrapht.UndirectedGraph;
 import org.jgrapht.graph.DefaultEdge;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.group66.game.cannon.Ball;
 import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
 import com.group66.game.cannon.ballgraph.ColoredBallGraphBreadthFirstConditionalIterator;
 /**
  * A basic Ball class.
  */
 public class ColoredBall extends Ball {
-
-
 
     /**
      * Instantiates a new ball.
@@ -34,10 +31,7 @@ public class ColoredBall extends Ball {
      * @return Boolean value that indicates whether the types are the same
      */
     public Boolean isEqual(Ball ball) {
-        if (ball instanceof ColoredBall && this.getType().equals(ball.getType())) {
-            return true;
-        }
-        return false;
+        return ball != null && ball instanceof ColoredBall && this.getType().equals(ball.getType());
     }
     
     /**
@@ -47,7 +41,9 @@ public class ColoredBall extends Ball {
      * @param delta the delta since the last draw
      */
     public void draw(SpriteBatch batch, float delta) {
-        super.draw(batch, this.getType().getPopAnimation(), delta);
+        if (batch != null) {
+            draw(batch, this.getType().getPopAnimation(), delta);
+        }
     }
     
     /**

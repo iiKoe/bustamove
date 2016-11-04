@@ -106,8 +106,7 @@ public class Config {
     /** The Constant SCORE_CURRENCY_DIV. */
     public static final int SCORE_CURRENCY_DIV = 10;
     
-    /** The Constant CURRENCY_Xfor the text drawing the the ShopScreen. */
-    //TODO make dependent on size? But needs to fit in field in background image.
+    /** The Constant CURRENCY_X for the text drawing the the ShopScreen. */
     public static final int CURRENCY_X = 145;
     
     /** The Constant CURRENCY_Y for the text drawing the the ShopScreen. */

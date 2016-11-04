@@ -5,8 +5,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -43,7 +43,11 @@ public abstract class AbstractYouWinScreen implements Screen {
      * Instantiates a new main menu screen.
      */
     public AbstractYouWinScreen() {
-        createScreen();
+        try {
+            createScreen();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     protected void createScreen() {

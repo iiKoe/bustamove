@@ -8,7 +8,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 
 public class FileLogger extends Logger {
-    private static FileHandle handle;
+    private FileHandle handle;
 
     /**
      * Constructor for a file logger
@@ -21,7 +21,7 @@ public class FileLogger extends Logger {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.verbosity = mt;
+        this.verbosity = (mt == null ? MessageType.Default : mt);
     }
 
     @Override

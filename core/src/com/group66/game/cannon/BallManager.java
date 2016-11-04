@@ -5,9 +5,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.group66.game.BustaMove;
-import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.ballgraph.BallGraph;
-import com.group66.game.cannon.Ball;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.logging.MessageType;
 import com.group66.game.settings.Config;
@@ -73,7 +71,7 @@ public class BallManager {
      * @param ball the ball
      */
     public void ballCheckDead(Ball ball) {
-        if (ball.isDead()) {
+        if (ball != null && ball.isDead()) {
             ballsMovingManager.addDeadBall(ball);
         }
     }
@@ -163,6 +161,9 @@ public class BallManager {
      * @param segmentOffset the segment offset
      */
     public void ballHitBall(Ball ball, boolean isSplit, int segmentOffset) {
+        if (ball == null) {
+            return;
+        }
         Ball hitBall = ballsStaticManager.hitsStaticBall(ball);
         if (hitBall != null) {
             ball.setSpeed(0);
@@ -177,8 +178,11 @@ public class BallManager {
      * Shoot ball.
      */
     public void shootBall() {
-        int newSpeed = (int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier());
         Ball ball = ballsCannonManager.getFirst();
+        if (ball == null) {
+            return;
+        }
+        int newSpeed = (int) (Config.BALL_SPEED * dynamicSettings.getBallSpeedMultiplier());
         ballsMovingManager.add(ball);
         Ball lastBall = ballsMovingManager.getLastBall();
         lastBall.setAngle((float) Math.toRadians(cannon.getAngle()));
@@ -196,17 +200,19 @@ public class BallManager {
      * @param delta the delta
      */
     public void update(SpriteBatch batch, float delta) {
-        /* Draw shot ball */
-        ballsMovingManager.draw(batch, delta);
-
-        /* Draw static target balls */
-        ballsStaticManager.draw(batch, delta);
-
-        /* Draw popping balls */
-        ballsPopManager.draw(batch, delta);
-
-        /* Draw cannon balls */
-        ballsCannonManager.draw(batch, delta);
+        if (batch != null) {
+            /* Draw shot ball */
+            ballsMovingManager.draw(batch, delta);
+    
+            /* Draw static target balls */
+            ballsStaticManager.draw(batch, delta);
+    
+            /* Draw popping balls */
+            ballsPopManager.draw(batch, delta);
+    
+            /* Draw cannon balls */
+            ballsCannonManager.draw(batch, delta);
+        }
     }
     
     /**
@@ -222,7 +228,7 @@ public class BallManager {
      * @return true, if successful
      */
     public boolean hitsBottom() {
-        return ballsStaticManager.hitsBotom();
+        return ballsStaticManager.hitsBottom();
     }
     
     /**
@@ -258,7 +264,9 @@ public class BallManager {
      * @param ball the ball
      */
     public void addBallDeadlist(Ball ball) {
-        ballsMovingManager.addDeadBall(ball);
+        if (ball != null) {
+            ballsMovingManager.addDeadBall(ball);
+        }
     }
     
     /**
@@ -267,7 +275,9 @@ public class BallManager {
      * @param ball the ball
      */
     public void addStaticBallToBeAdded(Ball ball) {
-        ballToBeAdded.add(ball);
+        if (ball != null) {
+            ballToBeAdded.add(ball);
+        }
     }
     
     /**

@@ -2,6 +2,7 @@ package com.group66.game.helpers;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -11,44 +12,47 @@ import de.tomgrill.gdxtesting.GdxTestRunner;
 public class AudioManagerTest {
     @Test
     public void loadTest() {
-        AudioManager.load();
+        AudioManager audiomanager = new AudioManager();
+        audiomanager.load();
     }
     
     @Test
     public void muteTest() {
-        AudioManager.load();
-        assertTrue(AudioManager.isMuted());
+        AudioManager audiomanager = new AudioManager();
+        audiomanager.load();
+        assertTrue(audiomanager.isMuted());
         
-        AudioManager.unmute();
-        assertFalse(AudioManager.isMuted());
-        AudioManager.mute();
-        assertTrue(AudioManager.isMuted());
-        AudioManager.unmute();
-        assertFalse(AudioManager.isMuted());
-        AudioManager.toggleMute();
-        assertTrue(AudioManager.isMuted());
-        AudioManager.toggleMute();
-        assertFalse(AudioManager.isMuted());
-        AudioManager.toggleMute();
-        assertTrue(AudioManager.isMuted());
+        audiomanager.unmute();
+        assertFalse(audiomanager.isMuted());
+        audiomanager.mute();
+        assertTrue(audiomanager.isMuted());
+        audiomanager.unmute();
+        assertFalse(audiomanager.isMuted());
+        audiomanager.toggleMute();
+        assertTrue(audiomanager.isMuted());
+        audiomanager.toggleMute();
+        assertFalse(audiomanager.isMuted());
+        audiomanager.toggleMute();
+        assertTrue(audiomanager.isMuted());
         
-        AudioManager.dispose();
+        audiomanager.dispose();
     }
     
     @Test
     public void playTest() {
-        AudioManager.load();
+        AudioManager audiomanager = new AudioManager();
+        audiomanager.load();
         
-        AudioManager.shoot();
-        AudioManager.wallhit();
-        AudioManager.startMusic();
-        AudioManager.ballpop();
+        audiomanager.shoot();
+        audiomanager.wallhit();
+        audiomanager.startMusic();
+        audiomanager.ballpop();
         
-        AudioManager.toggleMute();
+        audiomanager.toggleMute();
         
-        AudioManager.shoot();
-        AudioManager.wallhit();
-        AudioManager.startMusic();
-        AudioManager.ballpop();
+        audiomanager.shoot();
+        audiomanager.wallhit();
+        audiomanager.startMusic();
+        audiomanager.ballpop();
     }
 }

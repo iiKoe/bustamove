@@ -7,7 +7,7 @@ import com.badlogic.gdx.Screen;
 public class YouLoseScreenTest extends ScreenTest {
     @Test
     public void creationTest() {
-        //new YouLoseScreen();
+        new YouLoseScreenRandom();
     }
 
     @Override

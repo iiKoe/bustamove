@@ -58,14 +58,11 @@ public class BallGraph {
             //is the ball in the top row
             if (insert.getY() >= Config.HEIGHT - Config.BORDER_SIZE_TOP - Config.BALL_RAD - roofShift) {
                 connectBalls(insert, top);
-                //System.out.println("Connected to top: "+graph.degreeOf(top));
             }
-            if (getBalls().size() > 0) {
-                for (Ball e : getBalls()) {
-                    if (e != insert && insert.isNextTo(e.getNeighborBox())) {
-                        //System.out.println("Balls connected");
-                        connectBalls(insert, e);
-                    }
+
+            for (Ball e : getBalls()) {
+                if (e != insert && insert.isNextTo(e.getNeighborBox())) {
+                    connectBalls(insert, e);
                 }
             }
         }
@@ -77,7 +74,9 @@ public class BallGraph {
      * @param remove the ball to be removed from the graph
      */
     public void removeBall(Ball remove) {
-        graph.removeVertex(remove);
+        if (remove != null) {
+            graph.removeVertex(remove);
+        }
     }
 
     /**
@@ -86,7 +85,9 @@ public class BallGraph {
      * @param ball2 ball that needs to be connected to ball1
      */
     public void connectBalls(Ball ball1, Ball ball2) {
-        graph.addEdge(ball1, ball2);
+        if (ball1 != null && ball2 != null) {
+            graph.addEdge(ball1, ball2);
+        }
     }
 
     /**
@@ -139,16 +140,17 @@ public class BallGraph {
      * @return an ArrayList<Ball> of the balls that are not connected to the top ball
      */
     public ArrayList<Ball> getFreeBalls(Ball top) {
-        ConnectivityInspector<Ball, DefaultEdge> inspector = 
-                new ConnectivityInspector<Ball, DefaultEdge>(graph);
+        ConnectivityInspector<Ball, DefaultEdge> inspector = new ConnectivityInspector<Ball, DefaultEdge>(graph);
         ArrayList<Ball> ret = new ArrayList<Ball>();
         if (inspector.connectedSets().size() == 1) {
             return ret;
         }
-        for (Set<Ball> e : inspector.connectedSets()) {
-            if (!e.contains(top)) {
-                for (Ball f : e) {
-                    ret.add(f);
+        if (top != null) {
+            for (Set<Ball> e : inspector.connectedSets()) {
+                if (!e.contains(top)) {
+                    for (Ball f : e) {
+                        ret.add(f);
+                    }
                 }
             }
         }
@@ -162,9 +164,11 @@ public class BallGraph {
      */
     public ArrayList<Ball> getBalls(Ball exclude) {
         ArrayList<Ball> ret = new ArrayList<Ball>();
-        for (Ball e : graph.vertexSet()) {
-            if (e != exclude) {
-                ret.add(e);
+        if (exclude != null) {
+            for (Ball e : graph.vertexSet()) {
+                if (e != exclude) {
+                    ret.add(e);
+                }
             }
         }
         return ret;

@@ -1,8 +1,8 @@
 package com.group66.game.helpers;
 
 public class HighScoreItem implements Comparable<HighScoreItem> {
-    public final String name, date;
-    public final int score;
+    private final String name, date;
+    private final int score;
     
     /**
      * Constructor for a high score item
@@ -21,12 +21,12 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
      */
     @Override
     public boolean equals(Object other) {
-        if (other == this) {
-            return true;
+        if (other == null || !(other instanceof HighScoreItem)) {
+            return false;
         }
 
-        if (!(other instanceof HighScoreItem)) {
-            return false;
+        if (other == this) {
+            return true;
         }
 
         HighScoreItem that = (HighScoreItem) other;
@@ -43,6 +43,10 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
      * Standard compare function, used for sorting
      */
     public int compareTo(HighScoreItem other) {
+        if (other == null) {
+            return 1;
+        }
+        
         int compa = Integer.compare(other.score, this.score);
         if (compa != 0) {
             return compa;
@@ -54,5 +58,27 @@ public class HighScoreItem implements Comparable<HighScoreItem> {
                 return this.name.compareTo(other.name);
             }
         }
+    }
+    
+    /**
+     * Returns the name
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * Returns the date
+     * @return the date
+     */
+    public String getDate() {
+        return date;
+    }
+    /**
+     * Returns the score
+     * @return the score
+     */
+    public int getScore() {
+        return score;
     }
 }

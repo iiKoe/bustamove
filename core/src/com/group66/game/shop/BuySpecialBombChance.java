@@ -25,6 +25,11 @@ public class BuySpecialBombChance extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null || dynamicSettings == null) {
+                return;
+            }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.05, true);
@@ -38,13 +43,13 @@ public class BuySpecialBombChance extends BuyStateInstance {
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+5%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return Config.BOMB_INCR_COST;
         }
     }
@@ -57,6 +62,11 @@ public class BuySpecialBombChance extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null || dynamicSettings == null) {
+                return;
+            }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.1, true);
@@ -70,13 +80,13 @@ public class BuySpecialBombChance extends BuyStateInstance {
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+10%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return Config.BOMB_INCR_COST;
         }
     }
@@ -89,6 +99,11 @@ public class BuySpecialBombChance extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null || dynamicSettings == null) {
+                return;
+            }
+            
+            //Check amount of money, if enough >> buy, if not >> don't.
             if (dynamicSettings.getCurrency() >= Config.BOMB_INCR_COST) {
                 dynamicSettings.addCurrency(-1 * Config.BOMB_INCR_COST, true);
                 dynamicSettings.setSpecialBombChanceMultiplier(1.2, true);
@@ -103,13 +118,13 @@ public class BuySpecialBombChance extends BuyStateInstance {
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+20%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return Config.BOMB_INCR_COST;
         }
     }
@@ -122,19 +137,22 @@ public class BuySpecialBombChance extends BuyStateInstance {
         /* (non-Javadoc)
          */
         public void buy(BuyStateInstance instance, DynamicSettings dynamicSettings) {
+            if (instance == null) {
+                return;
+            }
             instance.setCurrent(this);
             BustaMove.getGameInstance().log(MessageType.Info, "Stay in the top state (Chancep20)");
         }
         
         /* (non-Javadoc)
          */
-        public String getNextStateInfo(BuyStateInstance instance) {
+        public String getNextStateInfo() {
             return "+20%";
         }
         
         /* (non-Javadoc)
          */
-        public int getNextStateCost(BuyStateInstance instance) {
+        public int getNextStateCost() {
             return 0;
         }
     }
