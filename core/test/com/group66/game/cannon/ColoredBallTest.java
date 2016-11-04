@@ -7,6 +7,7 @@ import static org.mockito.Mockito.mock;
 import org.junit.Test;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.group66.game.BustaMove;
 
 public class ColoredBallTest extends BallTest {
     @Test
@@ -26,8 +27,13 @@ public class ColoredBallTest extends BallTest {
 
     @Test
     public void popTest() {
+        try {
+            BustaMove.getGameInstance().create();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         SpriteBatch batchMock = mock(SpriteBatch.class);
-        
+
         ColoredBall red = new ColoredBall(BallType.RED, 1.2f, 2.3f, 4, 5.6f);
         red.draw(batchMock, 1f);
         assertFalse(red.popDone());
