@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.Ball;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.ScoreKeeper;
 import com.group66.game.helpers.TextDrawer;
 import com.group66.game.helpers.TimeKeeper;
@@ -117,7 +116,7 @@ public class GameManager {
     public void shootBall() {
         if (canShoot()) {
             ballManager.shootBall();
-            AudioManager.shoot();
+            BustaMove.getGameInstance().getAudioManager().shoot();
             timeKeeper.shotTimeReset();
             this.ballCount++;
         }

@@ -3,7 +3,6 @@ package com.group66.game.screencontrollers;
 import com.badlogic.gdx.Input.Keys;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.GameManager;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.helpers.HighScoreManager;
 import com.group66.game.helpers.LevelLoader;
 import com.group66.game.input.InputHandler;
@@ -28,7 +27,7 @@ public class ThreePlayerGameController extends AbstractGameController {
         gameManager3 = new GameManager(1, BustaMove.getGameInstance().getDynamicSettings());
         inputHandler = new InputHandler();
         setupKeys();
-        AudioManager.startMusic();
+        BustaMove.getGameInstance().getAudioManager().startMusic();
 
         if (!randomLevel) {
             LevelLoader.loadLevel(gameManager1.getBallManager(), level, true);
@@ -225,7 +224,6 @@ public class ThreePlayerGameController extends AbstractGameController {
         inputHandler.registerKeyJustPressedFunc("Toggle mute",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
-                        AudioManager.toggleMute();
                     }
                 });
         

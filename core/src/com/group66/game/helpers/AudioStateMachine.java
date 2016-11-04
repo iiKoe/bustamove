@@ -1,60 +1,62 @@
 package com.group66.game.helpers;
 
+import com.group66.game.BustaMove;
+
 /**
  * The Class AudioStateMachine.
  */
 public class AudioStateMachine {
-    
+
     /**
      * The Interface AudioState.
      */
     interface AudioState {
-        
+
         /**
          * Toggle mute.
          *
          * @param state the state
          */
         public void toggleMute(AudioStateMachine state);
-        
+
         /**
          * Muted.
          *
          * @return the boolean
          */
         public Boolean muted();
-        
+
         /**
          * Play music.
          */
         public void playMusic();
-        
+
         /**
          * Play shoot.
          */
         public void playShoot();
-        
+
         /**
          * Play wall.
          */
         public void playWall();
-        
+
         /**
          * Play pop.
          */
         public void playPop();
     }
-    
+
     /** The state. */
     private AudioState state;
-    
+
     /**
      * Instantiates a new audio state machine.
      */
     public AudioStateMachine() {
         this.setState(new Muted());
     }
-    
+
     /**
      * Sets the state.
      *
@@ -65,7 +67,7 @@ public class AudioStateMachine {
             this.state = state;
         }
     }
-    
+
     /**
      * Gets the state.
      *
@@ -74,14 +76,14 @@ public class AudioStateMachine {
     public AudioState getState() {
         return this.state;
     }
-    
+
     /**
      * Toggle mute.
      */
     public void toggleMute() {
         this.getState().toggleMute(this);
     }
-    
+
     /**
      * Muted.
      *
@@ -90,47 +92,47 @@ public class AudioStateMachine {
     public Boolean muted() {
         return this.getState().muted();
     }
-    
+
     /**
      * Play music.
      */
     public void playMusic() {
         this.getState().playMusic();
     }
-    
+
     /**
      * Play shoot.
      */
     public void playShoot() {
         this.getState().playShoot();
     }
-    
+
     /**
      * Play wall.
      */
     public void playWall() {
         this.getState().playWall();
     }
-    
+
     /**
      * Play pop.
      */
     public void playPop() {
         this.getState().playPop();
     }
-    
+
     /**
      * The Class Muted.
      */
     static class Muted implements AudioState {
-        
+
         /**
          * Instantiates a new muted.
          */
         public Muted() {
             this.playMusic();
         }
-        
+
         /* (non-Javadoc)
          */
         public void toggleMute(AudioStateMachine state) {
@@ -148,47 +150,67 @@ public class AudioStateMachine {
         /* (non-Javadoc)
          */
         public void playMusic() {
-            AudioManager.gameMusic.stop();
+            try {
+                BustaMove.getGameInstance().getAudioManager().gameMusic.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)
          */
         public void playShoot() {
-            AudioManager.shoot.stop();
+            try {
+                BustaMove.getGameInstance().getAudioManager().shoot.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)
          */
         public void playWall() {
-            AudioManager.wallhit.stop();
+            try {
+                BustaMove.getGameInstance().getAudioManager().wallhit.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)
          */
         public void playPop() {
-            AudioManager.ballpop.stop();
+            try {
+                BustaMove.getGameInstance().getAudioManager().ballpop.stop();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
-    
+
     /**
      * The Class Active.
      */
     static class Active implements AudioState {
-        
+
         /**
          * Instantiates a new active.
          */
         public Active() {
             this.playMusic();
         }
-        
+
         /* (non-Javadoc)
          */
         public void toggleMute(AudioStateMachine state) {
             if (state != null) {
                 state.setState(new Muted());
-                AudioManager.stopMusic();
-                AudioManager.gameMusic.stop();
+                try {
+                    BustaMove.getGameInstance().getAudioManager().stopMusic();
+                    BustaMove.getGameInstance().getAudioManager().gameMusic.stop();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -201,25 +223,41 @@ public class AudioStateMachine {
         /* (non-Javadoc)
          */
         public void playMusic() {
-            AudioManager.gameMusic.play();
+            try {
+                BustaMove.getGameInstance().getAudioManager().gameMusic.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)
          */
         public void playShoot() {
-            AudioManager.shoot.play();
+            try {
+                BustaMove.getGameInstance().getAudioManager().shoot.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)
          */
         public void playWall() {
-            AudioManager.wallhit.play();
+            try {
+                BustaMove.getGameInstance().getAudioManager().wallhit.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         /* (non-Javadoc)
          */
         public void playPop() {
-            AudioManager.ballpop.play();
+            try {
+                BustaMove.getGameInstance().getAudioManager().ballpop.play();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }

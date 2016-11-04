@@ -8,10 +8,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Rectangle;
+import com.group66.game.BustaMove;
 import com.group66.game.cannon.ballgraph.BallGraph;
 import com.group66.game.cannon.ballgraph.BallGraphBreadthFirstConditionalIterator;
 import com.group66.game.cannon.ballgraph.NullBallGraphBreadthFirstConditionalIterator;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.settings.Config;
 
 /**
@@ -282,7 +282,7 @@ public abstract class Ball {
         this.popAnimation = popAnimation;
         this.runtime = 0;
         popStatus = PopStatus.POPPING;
-        AudioManager.ballpop();
+        BustaMove.getGameInstance().getAudioManager().ballpop();
     }
 
     /**

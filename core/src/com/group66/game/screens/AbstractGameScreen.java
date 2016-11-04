@@ -5,7 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.group66.game.helpers.AudioManager;
+import com.group66.game.BustaMove;
 import com.group66.game.screencontrollers.AbstractGameController;
 
 public abstract class AbstractGameScreen implements Screen {
@@ -78,7 +78,7 @@ public abstract class AbstractGameScreen implements Screen {
      */
     public void dispose() {
         
-        AudioManager.stopMusic();
+        BustaMove.getGameInstance().getAudioManager().stopMusic();
         bwTexture.dispose();
         bw.getTexture().dispose();
         bgTexture.dispose();
