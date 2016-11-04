@@ -37,7 +37,9 @@ public class StartScreen extends AbstractMenuScreen {
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the startup menu screen");
     }
 
-
+    /**
+     * Creates a screen
+     */
     private void createScreen() {
         loadRelatedGraphics();
         stage = new Stage();
@@ -122,18 +124,14 @@ public class StartScreen extends AbstractMenuScreen {
      * Setup the keys used in the game screen keys.
      */
     private void setup_keys() {
-        // Setup the game keys
-        
+        // Setup the game keys        
         inputHandler.registerKeyMap("Toggle mute", Keys.M);
-
-
         inputHandler.registerKeyJustPressedFunc("Toggle mute",
                 new InputHandler.KeyCommand() {
                     public void runCommand() {
                         AudioManager.toggleMute();
                     }
             });
-
     }
 
 }

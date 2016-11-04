@@ -93,16 +93,14 @@ public abstract class AbstractGameScreen implements Screen {
      * Dispose
      * @see com.badlogic.gdx.Screen#dispose()
      */
-    public void dispose() {
-        
+    public void dispose() {     
         AudioManager.stopMusic();
         bwTexture.dispose();
         bw.getTexture().dispose();
         bgTexture.dispose();
         bg.getTexture().dispose();
         pausebgTexture.dispose();
-        pausebg.getTexture().dispose();
-        
+        pausebg.getTexture().dispose();       
     }
     
     /**

@@ -33,7 +33,6 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
      * Instantiates a new multiplayer menu screen.
      */
     public MultiplayerMenuScreen() {
-        //dynamicSettings = new DynamicSettings(); //BustaMove.getGameInstance().getDynamicSettings();
         yoffset = Gdx.graphics.getHeight() / 2 + 200;
         createScreen();
         BustaMove.getGameInstance().log(MessageType.Info, "Loaded the main menu screen");
@@ -63,7 +62,6 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         batch.enableBlending();
         batch.draw(mmbg, Config.SINGLE_PLAYER_OFFSET, 0, Config.LEVEL_WIDTH, Gdx.graphics.getHeight());
         textDrawer.draw(batch, "Players", (Config.WIDTH - Config.LEVEL_WIDTH) / 2, yoffset + 20);
-        //textDrawer.draw(batch, ""+numPlayers, (Config.WIDTH) / 2, yoffset - Config.BUTTON_HEIGHT + 20);
         textDrawer.draw(batch, "Level", 
                 (Config.WIDTH - Config.LEVEL_WIDTH) / 2, yoffset - 2 * Config.BUTTON_HEIGHT + 20);
         batch.end();
@@ -117,7 +115,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         mainMenuButton.setPosition(centercol, yoffset - 9 * Config.BUTTON_HEIGHT);
         stage.addActor(mainMenuButton);
         
-        // Add a listener to the buttons
+        /* Add a listener to each button */
         twoPlayerButton.addListener(new ClickListener() {
             public void clicked(InputEvent event, float xpos, float ypos) {
                 numPlayers = 2;
@@ -184,6 +182,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
             textureName = "ballTextures.png";
         }
         
+        // All magic numbers are offsets used to make the looks better
         int xoffset = (Gdx.graphics.getWidth() - 500 - 4 * Config.BUTTON_SPACING) / 2;
         int xpos = xoffset + ((level - 1) % 5) * (100 + Config.BUTTON_SPACING);
         int ypos = yoffset - 5 * Config.BUTTON_HEIGHT - Config.BUTTON_SPACING - ((level - 1) / 5)
@@ -193,6 +192,7 @@ public class MultiplayerMenuScreen extends AbstractMenuScreen {
         TextureRegion myTextureRegion = new TextureRegion(myTexture, 100, 100);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         
+        /* Loads images for the buttons */
         ImageButton imgButton = new ImageButton(myTexRegionDrawable);
         imgButton.setPosition(xpos, ypos);
         imgButton.addListener(new ChangeListener() {

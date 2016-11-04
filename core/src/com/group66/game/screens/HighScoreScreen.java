@@ -54,8 +54,8 @@ public class HighScoreScreen extends AbstractMenuScreen {
             }
             count++;
             
+            /* Generating labels in a specific position */
             yoffset = Config.HEIGHT - count * labelheight;
-            
             Label name = new Label(hsi.name, labelStyle);
             name.setPosition(xoffset, yoffset);
             stage.addActor(name);

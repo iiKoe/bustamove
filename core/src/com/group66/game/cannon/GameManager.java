@@ -194,7 +194,7 @@ public class GameManager {
             xoffset = Config.SEGMENT_OFFSET * segmentOffset;
         }
         
-        //draw the background
+        /* Draw the background */
         batch.draw(gameScreen.getBackground(), xoffset + Config.BORDER_SIZE_SIDES, Config.BORDER_SIZE_BOT,
                 Config.LEVEL_WIDTH, Config.LEVEL_HEIGHT);
         
@@ -204,7 +204,7 @@ public class GameManager {
         /* Update the balls */
         ballManager.update(batch, delta);
         
-        //draw cannon
+        /* Draw cannon */
         cannon.draw(batch);
         
         /* Draw the score */
@@ -219,7 +219,6 @@ public class GameManager {
      */
     public void shiftClone(GameManager other) {
         if (other != null) {
-            //TODO change to iterator
             for (Ball b : other.getBallManager().getBallsStaticManager().getBallStaticList()) {
                 float xpos = Config.SEGMENT_OFFSET * segmentOffset + b.getX();
                 ballManager.getBallsStaticManager().addStaticBall(b.getType(), xpos, b.getY());

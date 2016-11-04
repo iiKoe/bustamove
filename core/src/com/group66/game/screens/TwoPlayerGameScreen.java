@@ -38,7 +38,8 @@ public class TwoPlayerGameScreen extends AbstractGameScreen {
         BallAnimationLoader.load();
         loadRelatedGraphics();
         AudioManager.startMusic();
-
+        
+        /* Loads a random or a premade level */
         if (!randomLevel) {
             LevelLoader.loadLevel(gameManager1.getBallManager(), level, true);
             gameManager2.shiftClone(gameManager1);

@@ -117,6 +117,8 @@ public class BallsCannon {
         
         BustaMove.getGameInstance().log(MessageType.Info, "check if bomb balls is equal to total number of balls: " 
                 + (colorList.get(BallType.BOMB.ordinal()).get() == ballGraph.numberOfBalls()));
+        
+        //Generating a random number
         rand = random.nextInt(100);
         
         if (rand <= (Config.BOMB_BALL_CHANCE * dynamicSettings.getSpecialBombChanceMultiplier())

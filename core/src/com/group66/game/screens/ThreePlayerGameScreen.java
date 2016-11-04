@@ -41,6 +41,7 @@ public class ThreePlayerGameScreen extends AbstractGameScreen {
         loadRelatedGraphics();
         AudioManager.startMusic();
 
+        /* loads a random or a premade level */
         if (!randomLevel) {
             LevelLoader.loadLevel(gameManager1.getBallManager(), level, true);
             gameManager2.shiftClone(gameManager1);

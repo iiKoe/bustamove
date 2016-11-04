@@ -135,6 +135,7 @@ public class CareerScreen extends AbstractMenuScreen {
             textureName = "ballTextures.png";
         }
         
+        //All magic numbers are offsets used to adjust the looks of the screen
         int xoffset = (Gdx.graphics.getWidth() - 500 - 4 * Config.BUTTON_SPACING) / 2;
         int xpos = xoffset + ((level - 1) % 5) * (100 + Config.BUTTON_SPACING);
         int ypos = Gdx.graphics.getHeight() / 2 - 10 - ((level - 1) / 5) * (100 + Config.BUTTON_SPACING);
@@ -143,6 +144,7 @@ public class CareerScreen extends AbstractMenuScreen {
         TextureRegion myTextureRegion = new TextureRegion(myTexture, 100, 100);
         TextureRegionDrawable myTexRegionDrawable = new TextureRegionDrawable(myTextureRegion);
         
+        /* Creating hte ImageButton */
         ImageButton imgButton = new ImageButton(myTexRegionDrawable);
         imgButton.setPosition(xpos, ypos);
         imgButton.addListener(new ChangeListener() {
