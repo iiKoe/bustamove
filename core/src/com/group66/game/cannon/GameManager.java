@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.group66.game.BustaMove;
 import com.group66.game.cannon.ballgraph.BallGraph;
-import com.group66.game.helpers.AudioManager;
 import com.group66.game.cannon.BallType;
 import com.group66.game.cannon.Ball;
 
