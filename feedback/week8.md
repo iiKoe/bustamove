@@ -7,50 +7,50 @@ For grading the sprints I will use the rubrics to grade and give feedback about 
 
 Sprint Management | Grade 
 |---|---:|
-Definition | 
-Splitting | 
-Responsibility | 
-Estimation | 
-Prioritization | 
-Reflection | 
+Definition | 10
+Splitting | 10
+Responsibility | 10
+Estimation | 9
+Prioritization | 10
+Reflection | 10
 
 
 Code Evolution Quality | Grade 
 |---|---:|
-Code change quality | 
-Formatting | 
-Naming | 
-Comments | 
-Building | 
-Testing | 
-Tooling | 
-Branching | 
-Code review | 
+Code change quality | 9
+Formatting | 9
+Naming | 10
+Comments | 10
+Building | 10
+Testing | 6
+Tooling | 10
+Branching | 10
+Code review | 10
 
 
 ### Assignments
 
 
-#### Exercise 1 (/30)
-1. /30
+#### Exercise 1 (30/30)
+1. 30/30
 
 
-#### Exercise 2 (/45)
+#### Exercise 2 (45/45)
 1. /3
 1. First flaw
-    1. /4
-    1. /10
+    1. 4/4
+    1. 10/10
 1. Second flaw
-    1. /4
-    1. /10
+    1. 4/4
+    1. 10/10
 1. Third flaw
-    1. /4
-    1. /10
+    1. 4/4
+    1. 10/10
 
 
-#### Exercise 3 (/15)
-1. /11
-1. /4
+#### Exercise 3 (15/15)
+1. 11/11
+1. 4/4
 
 
 ### General Feedback
